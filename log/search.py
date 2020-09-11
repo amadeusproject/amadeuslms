@@ -417,7 +417,7 @@ def count_daily_general_logs_access2(day):
 
 
 def user_last_interaction_in_period(userid, data_ini, data_end):
-    s = Search().extra(size=1)
+    s = Search().extra(size=0)
 
     s = s.query(
         "bool",
@@ -430,7 +430,7 @@ def user_last_interaction_in_period(userid, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_general_access_subject_period(subject, data_ini, data_end):

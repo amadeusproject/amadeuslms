@@ -919,7 +919,7 @@ def my_categories(user):
     my_categories = []
     categories = Category.objects.filter()
     for category in categories:
-        if has_category_permissions(user, category) or has:
+        if has_category_permissions(user, category):
             my_categories.append(category)
 
     return my_categories
@@ -1142,58 +1142,58 @@ def general_logs(user, data_ini, data_end):
 def active_users_qty(request_user, data_ini, data_end):
     logs = list()
     cont = 0
-    categories = my_categories(request_user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
 
-    total_students = 0
-    total_teachers = 0
-    ac_students = 0
-    ac_teachers = 0
-    id_students = []
-    id_teachers = []
-    all_students = []
-    all_teachers = []
+    studentsList = User.objects.filter(subject_student__isnull=False).distinct()
+    teachersList = User.objects.filter(professors__isnull=False).distinct()
 
-    for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
-        students = sub.students.all().values_list("id", flat=True)
-        professores = sub.professor.all().values_list("id", flat=True)
+    totalStudents = studentsList.count()
+    totalTeachers = teachersList.count()
+    activeStudents = 0
+    activeTeachers = 0
 
-        for student in students:
-            if student not in id_students:
-                all_students.append(
-                    user_last_interaction_in_period(student, data_ini, data_end)
-                )
-                id_students.append(student)
-                total_students += 1
+    searchs = []
 
-        for professor in professores:
-            if professor not in id_teachers:
-                all_teachers.append(
-                    user_last_interaction_in_period(professor, data_ini, data_end)
-                )
-                id_teachers.append(professor)
-                total_teachers += 1
+    for student in studentsList:
+        searchs.append(user_last_interaction_in_period(student.id, data_ini, data_end))
 
-    res = multi_search(all_students)
-    for i, student in enumerate(all_students):
-        entry = res[i]
-        if entry:
-            ac_students += 1
+    for teacher in teachersList:
+        searchs.append(user_last_interaction_in_period(teacher.id, data_ini, data_end))
 
-    res = multi_search(all_teachers)
-    for i, professor in enumerate(all_teachers):
-        entry = res[i]
-        if entry:
-            ac_teachers += 1
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()["hits"] for x in res]
+
+        lastIndex = 0
+
+        for i in range(0, totalStudents):
+            entry = accessess[i]
+
+            if entry:
+                interactions = entry["total"]["value"]
+
+                if interactions > 0:
+                    activeStudents += 1
+
+            lastIndex = i
+
+        if lastIndex > 0:
+            lastIndex += 1
+
+        for i in range(0, totalTeachers):
+            entry = accessess[i + lastIndex]
+
+            if entry:
+                interactions = entry["total"]["value"]
+
+                if interactions > 0:
+                    activeTeachers += 1
 
     data = {
-        "total_students": total_students,
-        "active_students": ac_students,
-        "total_teachers": total_teachers,
-        "active_teachers": ac_teachers,
+        "total_students": totalStudents,
+        "active_students": activeStudents,
+        "total_teachers": totalTeachers,
+        "active_teachers": activeTeachers,
     }
 
     return data
