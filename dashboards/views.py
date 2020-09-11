@@ -721,24 +721,20 @@ def general_heatmap_graph(request):
 
 
 def most_active_users_general(request):
-    categories = my_categories(request.user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
-
-    data = []
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
+
     if not data_ini == "":
         data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
 
-    usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
-
-    for s in usersAccessess:
-        data.append(s)
+    data = generalUsersAccess(data_ini, data_end)
 
     return JsonResponse(data, safe=False)
 

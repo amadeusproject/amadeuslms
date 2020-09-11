@@ -683,3 +683,22 @@ def count_resources_logs_period(resource, usersList, data_ini, data_end):
     )
 
     return s
+
+
+def count_user_interactions(userid, data_ini, data_end):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            # Q("terms", component.keyword=[]),
+            Q("match", user_id=userid),
+        ],
+    )
+
+    return s
+

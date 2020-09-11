@@ -925,9 +925,13 @@ def my_categories(user):
     return my_categories
 
 
-def generalUsersAccess(
-    subjects, dataIni, dataEnd,
-):
+def generalUsersAccess(dataIni, dataEnd):
+    usersList = User.objects.filter(
+        Cond(subject_student__isnull=False)
+        | Cond(professors__isnull=False)
+        | Cond(coordinators__isnull=False)
+    ).distinct()
+
     category_list = []
     students_ids = list()
     teachers_id = list()
@@ -1219,13 +1223,21 @@ def functiontable(dataIni, dataEnd):
 
     usersList = list(usersList)
 
-    categories = Category.objects.filter(visible=True).order_by("slug")
-    subjects = Subject.objects.filter(
-        visible=True, category__id__in=categories.values_list("id", flat=True)
-    ).order_by("slug")
-    resources = Resource.objects.filter(
-        visible=True, topic__subject__id__in=subjects.values_list("id", flat=True)
-    ).order_by("slug")
+    categories = Category.objects.filter(visible=True).order_by("slug").distinct()
+    subjects = (
+        Subject.objects.filter(
+            visible=True, category__id__in=categories.values_list("id", flat=True)
+        )
+        .order_by("slug")
+        .distinct()
+    )
+    resources = (
+        Resource.objects.filter(
+            visible=True, topic__subject__id__in=subjects.values_list("id", flat=True)
+        )
+        .order_by("slug")
+        .distinct()
+    )
 
     for category in categories:
         searchs.append(
