@@ -517,14 +517,23 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            Q(
-                "bool",
-                should=conds
-            ),
+            Q("bool", should=conds),
             Q("match", component="resources"),
             Q(
                 "bool",
-                should=[Q("match", resource="bulletin"),Q("match", resource="pdffile"),Q("match", resource="pdf_file"), Q("match", resource="ytvideo"),Q("match", resource="filelink"),Q("match", resource="link"),Q("match", resource="goals"),Q("match", resource="webpage"),Q("match", resource="questionary"),Q("match", resource="webconference"),Q("match", resource="my_goals")],
+                should=[
+                    Q("match", resource="bulletin"),
+                    Q("match", resource="pdffile"),
+                    Q("match", resource="pdf_file"),
+                    Q("match", resource="ytvideo"),
+                    Q("match", resource="filelink"),
+                    Q("match", resource="link"),
+                    Q("match", resource="goals"),
+                    Q("match", resource="webpage"),
+                    Q("match", resource="questionary"),
+                    Q("match", resource="webconference"),
+                    Q("match", resource="my_goals"),
+                ],
             ),
         ],
     )
@@ -548,6 +557,7 @@ def count_general_access_period(user, data_ini, data_end):
 
     return s[0:10000]
 
+
 def count_mural_comments(user, data_ini, data_end):
     s = Search().extra(size=0)
 
@@ -565,6 +575,7 @@ def count_mural_comments(user, data_ini, data_end):
 
     return s[0:10000]
 
+
 def count_chat_messages(user, data_ini, data_end):
     s = Search().extra(size=0)
 
@@ -578,16 +589,14 @@ def count_chat_messages(user, data_ini, data_end):
             Q("match", user_id=user),
             Q(
                 "bool",
-                should=[
-                    Q("match", action="send"),
-                    Q("match", action="create_post"),
-                ],
+                should=[Q("match", action="send"), Q("match", action="create_post"),],
             ),
             Q("match", component="chat"),
         ],
     )
 
     return s[0:10000]
+
 
 def count_resources(user, data_ini, data_end):
     s = Search().extra(size=0)
@@ -608,3 +617,15 @@ def count_resources(user, data_ini, data_end):
     return s[0:10000]
 
 
+def count_logs_in_day(usersList, day):
+    s = Search().extra(size=0)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day},),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
