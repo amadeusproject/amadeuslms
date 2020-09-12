@@ -694,20 +694,12 @@ def heatmap_graph(request, slug):
 
 
 def general_heatmap_graph(request):
-    # subjects = request.GET.get('subjects', '')
-
-    categories = my_categories(request.user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
-
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -715,30 +707,26 @@ def general_heatmap_graph(request):
     else:
         data_end = date.today()
 
-    data = general_monthly_users_activity(subjects, data_ini, data_end)
+    data = general_monthly_users_activity(data_ini, data_end)
 
     return JsonResponse(data, safe=False)
 
 
 def most_active_users_general(request):
-    categories = my_categories(request.user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
-
-    data = []
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
+
     if not data_ini == "":
         data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
 
-    usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
-
-    for s in usersAccessess:
-        data.append(s)
+    data = generalUsersAccess(data_ini, data_end)
 
     return JsonResponse(data, safe=False)
 
@@ -766,14 +754,9 @@ def general_logs_chart(request):
 
 
 def get_general_active_users(request):
-
-    data = {}
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
-    total_students = 0
-    total_teachers = 0
-    ac_students = 0
-    ac_teachers = 0
+
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
@@ -790,15 +773,12 @@ def get_general_active_users(request):
 
 
 def get_general_accordion_data(request,):
-    categorias = my_categories(request.user)
-    data = []
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -806,7 +786,8 @@ def get_general_accordion_data(request,):
     else:
         data_end = date.today()
 
-    data = functiontable(categorias, data_ini, data_end)
+    data = functiontable(data_ini, data_end)
+
     return JsonResponse(data, safe=False)
 
 

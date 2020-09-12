@@ -651,7 +651,7 @@ function createChart(dataset) {
   const bubbleChart = new BubbleChart(chartConfig);
 }
 
-function bubbleData(url, dataIni, dataEnd, option = 0) {
+function bubbleData(url, dataIni, dataEnd) {
   $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
     $(".bubble_users .users_cloud").html("");
     dataset = dataset.map(d => {
@@ -676,14 +676,6 @@ function bubbleData(url, dataIni, dataEnd, option = 0) {
       return d1.value < d2.value ? 1 : d1.value > d2.value ? -1 : 0;
     });
 
-    if (option == 2) {
-      dataset = dataset.filter(d => d.teacher == 1);
-    }
-
-    if (option == 1) {
-      dataset = dataset.filter(d => d.teacher == 0);
-    }
-
     createChart([...dataset]);
 
     makeTable([...dataset], 10);
@@ -692,6 +684,10 @@ function bubbleData(url, dataIni, dataEnd, option = 0) {
       e.addEventListener("click", function () {
         // const dataUrl = $(".bubble_users").data("url");
         // bubbleData(dataUrl, $("#from").val(), $("#until").val(), e.value);
+        let showStudents = $("#inlineRadio1").prop("checked"),
+          showTeachers = $("#inlineRadio2").prop("checked"),
+          showCoordinators = $("#inlineRadio3").prop("checked");
+
         $(".bubble_users .users_cloud").html("");
         const $table = $("#students_table");
         const $pagination = $("#students_pag");
@@ -701,20 +697,48 @@ function bubbleData(url, dataIni, dataEnd, option = 0) {
         $tbody.html("");
         $pagination.html("");
 
-        if (e.value == 2) {
-          reducedData_teacher = dataset.filter(d => d.teacher == 1);
-          createChart([...reducedData_teacher]);
-
-          makeTable([...reducedData_teacher], 10);
-        } else if (e.value == 1) {
-          reducedData_student = dataset.filter(d => d.teacher == 0);
-          createChart([...reducedData_student]);
-
-          makeTable([...reducedData_student], 10);
-        } else {
+        if (showStudents && showTeachers && showCoordinators) {
           createChart([...dataset]);
 
           makeTable([...dataset], 10);
+        } else if (!showStudents && !showTeachers && !showCoordinators) {
+          createChart([...dataset]);
+
+          makeTable([...dataset], 10);
+
+          $("#inlineRadio1").prop("checked", true);
+          $("#inlineRadio2").prop("checked", true);
+          $("#inlineRadio3").prop("checked", true);
+        } else if (!showStudents && showTeachers && showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher !== 2);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
+        } else if (showStudents && !showTeachers && showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher !== 0);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
+        } else if (showStudents && showTeachers && !showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher !== 1);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
+        } else if (!showStudents && !showTeachers && showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher === 1);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
+        } else if (!showStudents && showTeachers && !showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher === 0);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
+        } else if (showStudents && !showTeachers && !showCoordinators) {
+          let filteredData = dataset.filter(d => d.teacher === 2);
+          createChart([...filteredData]);
+
+          makeTable([...filteredData], 10);
         }
       });
     });
