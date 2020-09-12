@@ -18,10 +18,7 @@ class HeatMap {
     if (chartConfig.data === undefined || chartConfig.data.length === 0) {
       this.validData(chartConfig).empty();
     } else {
-      this.validData(chartConfig)
-        .create()
-        .draw()
-        .addInteractions();
+      this.validData(chartConfig).create().draw().addInteractions();
     }
   }
 
@@ -203,15 +200,9 @@ class HeatMap {
 
     this.svg = a.chartConfig.svg
       ? d3.select(a.chartConfig.parent)
-      : d3
-          .select(a.chartConfig.parent)
-          .append("svg")
-          .attr("id", `${a.chartConfig.name}-container`);
+      : d3.select(a.chartConfig.parent).append("svg").attr("id", `${a.chartConfig.name}-container`);
 
-    this.svg
-      .append("rect")
-      .attr("width", "100%")
-      .attr("fill", "#fff");
+    this.svg.append("rect").attr("width", "100%").attr("fill", "#fff");
     this.svg
       .append("text")
       .attr("x", "20%")
@@ -233,10 +224,7 @@ class HeatMap {
 
     this.svg = a.chartConfig.svg
       ? d3.select(a.chartConfig.parent)
-      : d3
-          .select(a.chartConfig.parent)
-          .append("svg")
-          .attr("id", `${a.chartConfig.name}-container`);
+      : d3.select(a.chartConfig.parent).append("svg").attr("id", `${a.chartConfig.name}-container`);
 
     if (!a.chartConfig.chart.calendar) {
       this.calendar.svg =
@@ -244,10 +232,7 @@ class HeatMap {
           ? this.svg
           : a.chartConfig.calendar.parent !== undefined
           ? d3.select(a.chartConfig.calendar.parent)
-          : d3
-              .select(a.chartConfig.calendar.parent)
-              .append("svg")
-              .attr("id", `${a.chartConfig.name}-calendar`);
+          : d3.select(a.chartConfig.calendar.parent).append("svg").attr("id", `${a.chartConfig.name}-calendar`);
 
       this.createChart(this.calendar, this.chartConfig.calendar);
     }
@@ -258,10 +243,7 @@ class HeatMap {
           ? this.svg
           : a.chartConfig.hour.parent !== undefined
           ? d3.select(a.chartConfig.hour.parent)
-          : d3
-              .select(a.chartConfig.hour.parent)
-              .append("svg")
-              .attr("id", `${a.chartConfig.name}-hour`);
+          : d3.select(a.chartConfig.hour.parent).append("svg").attr("id", `${a.chartConfig.name}-hour`);
 
       this.createChart(this.hour, this.chartConfig.hour);
 
@@ -277,21 +259,14 @@ class HeatMap {
       this.hour.totalRects.append("rect");
 
       if (a.chartConfig.centerLabel !== undefined) {
-        this.hour.totalRects
-          .append("text")
-          .attr("class", "center")
-          .attr("text-anchor", "middle");
+        this.hour.totalRects.append("text").attr("class", "center").attr("text-anchor", "middle");
       }
 
       if (a.chartConfig.cornerLabel !== undefined) {
-        this.hour.totalRects
-          .append("text")
-          .attr("class", "corner")
-          .attr("dy", "1.1em")
-          .attr("dx", "0.2em");
+        this.hour.totalRects.append("text").attr("class", "corner").attr("dy", "1.1em").attr("dx", "0.2em");
       }
     }
-    
+
     this.toolTipConstruct();
 
     return this;
@@ -312,27 +287,15 @@ class HeatMap {
     }
 
     chart.rectsContent = chart.scrol.append("g").attr("id", "rects");
-    chart.rects = chart.rectsContent
-      .selectAll(".month")
-      .data(chart.data)
-      .enter()
-      .append("g")
-      .attr("class", "month");
+    chart.rects = chart.rectsContent.selectAll(".month").data(chart.data).enter().append("g").attr("class", "month");
     chart.rects.append("rect");
 
     if (chartConfig.texts.center !== undefined) {
-      chart.rects
-        .append("text")
-        .attr("class", "center")
-        .attr("text-anchor", "middle");
+      chart.rects.append("text").attr("class", "center").attr("text-anchor", "middle");
     }
 
     if (chartConfig.texts.corner !== undefined) {
-      chart.rects
-        .append("text")
-        .attr("class", "corner")
-        .attr("dy", "1.1em")
-        .attr("dx", "0.2em");
+      chart.rects.append("text").attr("class", "corner").attr("dy", "1.1em").attr("dx", "0.2em");
     }
 
     chart.extTriangles = chart.g.append("g");
@@ -494,11 +457,7 @@ class HeatMap {
     if (!a.chartConfig.chart.hour) {
       this.drawChart(a.hour, a.chartConfig.hour);
 
-      const translatebefore = a.hour.g
-        .attr("transform")
-        .replace("translate(", "")
-        .replace(")", "")
-        .split(",");
+      const translatebefore = a.hour.g.attr("transform").replace("translate(", "").replace(")", "").split(",");
       a.hour.g.attr("transform", `translate(${translatebefore[0]}, ${parseFloat(translatebefore[1]) + a.size})`);
 
       if (!a.chartConfig.hour.axis.day.all) {
@@ -556,17 +515,13 @@ class HeatMap {
 
       a.hour.collapse
         .attr("transform", `translate(${-a.size}, ${-a.size + temp / 2})`)
-        .on("mouseover", function(d) {
-          d3.select(this)
-            .select("path")
-            .attr("stroke-width", 2);
+        .on("mouseover", function (d) {
+          d3.select(this).select("path").attr("stroke-width", 2);
         })
-        .on("mouseout", function(d) {
-          d3.select(this)
-            .select("path")
-            .attr("stroke-width", 0);
+        .on("mouseout", function (d) {
+          d3.select(this).select("path").attr("stroke-width", 0);
         })
-        .on("click", function(d) {
+        .on("click", function (d) {
           a.hourView();
         })
         .select("rect")
@@ -652,10 +607,7 @@ class HeatMap {
     const den = max - min;
     const color = value => (value === 0 ? 0 : 0.1 + (value - min) / den);
 
-    chart.rects
-      .transition()
-      .duration(200)
-      .attr("opacity", 0);
+    chart.rects.transition().duration(200).attr("opacity", 0);
 
     if (!this.chartConfig.svg) {
       chart.svg.attr("width", a.width).attr("height", a.height);
@@ -664,21 +616,11 @@ class HeatMap {
     chart.g.attr("transform", `translate(${chart.margin.left}, ${chart.margin.top})`);
 
     if (!chartConfig.axis.vertical.all) {
-      chart.verticalAxis
-        .transition()
-        .transition(500)
-        .call(d3.axisLeft(chart.vertical))
-        .attr("font-size", a.font_size);
+      chart.verticalAxis.transition().transition(500).call(d3.axisLeft(chart.vertical)).attr("font-size", a.font_size);
 
       if (!chartConfig.axis.vertical.lines) {
-        chart.verticalAxis
-          .selectAll("line")
-          .transition()
-          .remove();
-        chart.verticalAxis
-          .select("path")
-          .transition()
-          .remove();
+        chart.verticalAxis.selectAll("line").transition().remove();
+        chart.verticalAxis.select("path").transition().remove();
       }
     }
 
@@ -697,14 +639,8 @@ class HeatMap {
         );
 
       if (!chartConfig.axis.day.lines) {
-        chart.dayAxis
-          .selectAll("line")
-          .transition()
-          .remove();
-        chart.dayAxis
-          .select("path")
-          .transition()
-          .remove();
+        chart.dayAxis.selectAll("line").transition().remove();
+        chart.dayAxis.select("path").transition().remove();
       }
     }
 
@@ -794,22 +730,20 @@ class HeatMap {
             const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
             if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
-              return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-                chart.vertical.bandwidth() / 2})`;
+              return `translate(${-2 * a.day.bandwidth()}, ${
+                chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+              })`;
             }
 
-            return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-              chart.vertical.bandwidth() / 2})`;
+            return `translate(0, ${
+              chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+            })`;
           });
       }
 
       this.scrolEvents(chart, chartConfig);
     } else {
-      chart.rects
-        .transition()
-        .delay(500)
-        .duration(500)
-        .attr("opacity", 1);
+      chart.rects.transition().delay(500).duration(500).attr("opacity", 1);
     }
   }
 
@@ -824,7 +758,7 @@ class HeatMap {
     const y = chart.vertical(chart.domain[0]) + chartConfig.extrapolation * chart.size2 - 0.25 * chart.size2;
     const yu = chart.vertical(chart.vertical.domain()[0]) - chart.size2 * 0.25;
 
-    const seta = function(position) {
+    const seta = function (position) {
       let ret = [];
 
       if (position === 1) {
@@ -866,16 +800,12 @@ class HeatMap {
       .attr("stroke-width", 2)
       .attr("fill", chartConfig.colors(0.5));
 
-    chart.extTriangles
-      .select(".down")
-      .transition()
-      .duration(500)
-      .attr("opacity", 1);
+    chart.extTriangles.select(".down").transition().duration(500).attr("opacity", 1);
 
     chart.scrolposition = 0;
     chart.scrolMax = chart.domain.length - chartConfig.extrapolation;
 
-    const build = function(d) {
+    const build = function (d) {
       if (d3.event.sourceEvent === undefined || d3.event.sourceEvent.deltaY === undefined) return;
 
       const param = d3.event.sourceEvent.deltaY > 0 ? 1 : -1;
@@ -888,14 +818,14 @@ class HeatMap {
     chart.scrol.call(zoom);
 
     chart.on = false;
-    chart.g.on("mouseover", function(d) {
+    chart.g.on("mouseover", function (d) {
       chart.on = true;
     });
-    chart.g.on("mouseout", function(d) {
+    chart.g.on("mouseout", function (d) {
       chart.on = false;
     });
 
-    chart.extTriangles.selectAll("path").on("click", function(d) {
+    chart.extTriangles.selectAll("path").on("click", function (d) {
       const element = d3.select(this);
 
       if (element.attr("class") === "up") {
@@ -924,23 +854,25 @@ class HeatMap {
       chart.extTriangles.select(".up").attr("opacity", chart.scrolposition === 0 ? 0 : 1);
       chart.extTriangles.select(".down").attr("opacity", chart.scrolposition === chart.scrolMax ? 0 : 1);
 
-      chart.rects.attr("transform", function(d) {
+      chart.rects.attr("transform", function (d) {
         return `translate(${a.day(
           MyDate.weekName()[d.dayOfWeek],
         )}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
       });
 
       if (!chartConfig.axis.vertical.all) {
-        chart.verticalAxis.selectAll(".tick").attr("transform", function(d) {
+        chart.verticalAxis.selectAll(".tick").attr("transform", function (d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
-            return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-              chart.vertical.bandwidth() / 2})`;
+            return `translate(${-2 * a.day.bandwidth()}, ${
+              chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+            })`;
           }
 
-          return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-            chart.vertical.bandwidth() / 2})`;
+          return `translate(0, ${
+            chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+          })`;
         });
       }
 
@@ -953,7 +885,7 @@ class HeatMap {
           .call(d3.axisLeft(chart.vertical))
           .attr("font-size", a.font_size)
           .selectAll(".tick")
-          .attr("opacity", function(d) {
+          .attr("opacity", function (d) {
             const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
             if (temp > location || temp < 0) {
@@ -962,16 +894,18 @@ class HeatMap {
 
             return 1;
           })
-          .attr("transform", function(d) {
+          .attr("transform", function (d) {
             const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
             if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
-              return `translate(${-2 * a.day.bandwidth()}, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-                chart.vertical.bandwidth() / 2})`;
+              return `translate(${-2 * a.day.bandwidth()}, ${
+                chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+              })`;
             }
 
-            return `translate(0, ${chart.vertical(chart.verticalFunction(chart.domain, d)) +
-              chart.vertical.bandwidth() / 2})`;
+            return `translate(0, ${
+              chart.vertical(chart.verticalFunction(chart.domain, d)) + chart.vertical.bandwidth() / 2
+            })`;
           });
 
         if (!chartConfig.axis.vertical.lines) {
@@ -983,12 +917,12 @@ class HeatMap {
       chart.rects
         .transition()
         .duration(500)
-        .attr("transform", function(d, i) {
+        .attr("transform", function (d, i) {
           return `translate(${a.day(
             MyDate.weekName()[d.dayOfWeek],
           )}, ${chart.vertical(chart.verticalFunction(chart.domain, d))})`;
         })
-        .attr("opacity", function(d) {
+        .attr("opacity", function (d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location || temp < 0) {
@@ -1001,7 +935,7 @@ class HeatMap {
       chart.rects
         .transition()
         .delay(550)
-        .attr("transform", function(d) {
+        .attr("transform", function (d) {
           const temp = chart.vertical(chart.verticalFunction(chart.domain, d));
 
           if (temp > location2 || temp < -2 * chart.vertical.bandwidth()) {
@@ -1023,7 +957,7 @@ class HeatMap {
     const a = this;
 
     if (!a.chartConfig.chart.hour) {
-      const icon = function(position) {
+      const icon = function (position) {
         let ret = [];
 
         if (position) {
@@ -1045,9 +979,10 @@ class HeatMap {
           .attr(
             "transform",
             d =>
-              `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${a.hour.vertical(
-                a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0],
-              ) - a.hour.size2})`,
+              `translate(${a.day(MyDate.weekName()[d.dayOfWeek])}, ${
+                a.hour.vertical(a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0]) -
+                a.hour.size2
+              })`,
           )
           .attr("opacity", 0);
 
@@ -1060,21 +995,16 @@ class HeatMap {
             .attr(
               "transform",
               d =>
-                `translate(0, ${a.hour.vertical(
-                  a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0],
-                ) -
-                  a.hour.size2 / 2})`,
+                `translate(0, ${
+                  a.hour.vertical(a.hour.vertical.domain()[a.hour.scrolposition ? a.hour.scrolposition : 0]) -
+                  a.hour.size2 / 2
+                })`,
             )
             .attr("opacity", 0);
         }
 
         if (a.hour.extrapolation) {
-          a.hour.extTriangles
-            .selectAll("path")
-            .transition()
-            .delay(0)
-            .duration(500)
-            .attr("opacity", 0);
+          a.hour.extTriangles.selectAll("path").transition().delay(0).duration(500).attr("opacity", 0);
         }
       } else {
         const location = a.chartConfig.hour.extrapolation * a.hour.size2;
@@ -1118,14 +1048,14 @@ class HeatMap {
               const temp = a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d));
 
               if (temp > location2 || temp < -2 * a.hour.vertical.bandwidth()) {
-                return `translate(${-2 * a.day.bandwidth()}, ${a.hour.vertical(
-                  a.hour.verticalFunction(a.hour.domain, d),
-                ) +
-                  a.hour.vertical.bandwidth() / 2})`;
+                return `translate(${-2 * a.day.bandwidth()}, ${
+                  a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d)) + a.hour.vertical.bandwidth() / 2
+                })`;
               }
 
-              return `translate(0, ${a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d)) +
-                a.hour.vertical.bandwidth() / 2})`;
+              return `translate(0, ${
+                a.hour.vertical(a.hour.verticalFunction(a.hour.domain, d)) + a.hour.vertical.bandwidth() / 2
+              })`;
             });
         }
 
@@ -1169,7 +1099,7 @@ class HeatMap {
         a.hour.totalData[i].value = 0;
         a.hour.totalData[i].dayOfWeek = i;
 
-        this.hour.totalData[i].toString = function() {
+        this.hour.totalData[i].toString = function () {
           return MyDate.weekName(this.dayOfWeek);
         };
       }
@@ -1191,7 +1121,7 @@ class HeatMap {
           this.hour.data[i].hour = i % model;
         }
 
-        this.hour.data[i].toString = function() {
+        this.hour.data[i].toString = function () {
           return `${MyDate.weekName(this.dayOfWeek)},${MyDate.dayVal(MyDate.hourNames(undefined, model), this)}`;
         };
       }
@@ -1425,28 +1355,26 @@ class HeatMap {
     d3.addEvents(a.calendar.rects, a.chartConfig.interactions);
     d3.addEvents(a.hour.rects, a.chartConfig.interactions);
     d3.addEvents(a.hour.totalRects, a.chartConfig.interactions);
-    
+
     $("#panel_loading_mask5").hide();
     return this;
   }
 }
 
-$(function() {
+$(function () {
   const dataUrl = $(".heatmap").data("url");
 
   heatmapData(dataUrl, $("#from").val(), $("#until").val());
-  
-  
 });
 
-function heatmapData(url, dataIni, dataEnd, option=0) {
+function heatmapData(url, dataIni, dataEnd, option = 0) {
   $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
     let dataConfig = {};
-    if(option==5){
-      dataset = dataset.filter( d => d.teacher == 1);
+    if (option == 5) {
+      dataset = dataset.filter(d => d.teacher == 1);
     }
-    if(option==4){
-        dataset = dataset.filter( d => d.teacher == 0);
+    if (option == 4) {
+      dataset = dataset.filter(d => d.teacher == 0);
     }
     if (dataset.length > 0) {
       dataConfig = {
@@ -1477,108 +1405,68 @@ function heatmapData(url, dataIni, dataEnd, option=0) {
     };
 
     heatmap = new HeatMap(chartConfig);
-    document.getElementsByName("radio-heatmap").forEach(function(e) {   
-      e.addEventListener("click", function() {
-        
-        $(".heatmap .heatmap_chart").html("");
-        if(e.value==5){
-          data = dataset.filter( d => d.teacher == 1);
-          if (data.length > 0) {
-            dataConfig = {
-              init: {
-                year: data[0].year,
-                month: data[0].month,
-                day: data[0].day,
-              },
-              end: {
-                year: data[data.length - 1].year,
-                month: data[data.length - 1].month,
-                day: data[data.length - 1].day,
-              },
-            };
-          }
-      
-           chartConfig = {
-            parent: ".heatmap_chart",
-            data: data,
-            dataConfig: dataConfig,
-            dimensions: {
-              width: 360,
-              height: 500,
-            },
-            tooltip: {
-              text: "<value> usuários distintos\r\n Dia: <this>",
-            },
-          };
-      
-           heatmap = new HeatMap(chartConfig);
-        }
-        else if(e.value==4){
-            data = dataset.filter( d => d.teacher == 0);
+    document.getElementsByName("radio-heatmap").forEach(function (e) {
+      e.addEventListener("click", function () {
+        let showStudents = $("#studentsHeatMap").prop("checked"),
+          showTeachers = $("#teachersHeatMap").prop("checked"),
+          showCoordinators = $("#generalHeatMap").prop("checked");
 
-          if (data.length > 0) {
-            dataConfig = {
-              init: {
-                year: data[0].year,
-                month: data[0].month,
-                day: data[0].day,
-              },
-              end: {
-                year: data[data.length - 1].year,
-                month: data[data.length - 1].month,
-                day: data[data.length - 1].day,
-              },
-            };
-          }
-      
-            chartConfig = {
-            parent: ".heatmap_chart",
-            data: data,
-            dataConfig: dataConfig,
-            dimensions: {
-              width: 360,
-              height: 500,
+        $(".heatmap .heatmap_chart").html("");
+
+        let data = [];
+
+        if (showStudents && showTeachers && showCoordinators) {
+          data = dataset;
+        } else if (!showStudents && !showTeachers && !showCoordinators) {
+          data = dataset;
+
+          $("#studentsHeatMap").prop("checked", true);
+          $("#teachersHeatMap").prop("checked", true);
+          $("#generalHeatMap").prop("checked", true);
+        } else if (!showStudents && showTeachers && showCoordinators) {
+          data = dataset.filter(d => d.teacher !== 0);
+        } else if (showStudents && !showTeachers && showCoordinators) {
+          data = dataset.filter(d => d.teacher !== 1);
+        } else if (showStudents && showTeachers && !showCoordinators) {
+          data = dataset.filter(d => d.teacher !== 2);
+        } else if (!showStudents && !showTeachers && showCoordinators) {
+          data = dataset.filter(d => d.teacher === 2);
+        } else if (!showStudents && showTeachers && !showCoordinators) {
+          data = dataset.filter(d => d.teacher === 1);
+        } else if (showStudents && !showTeachers && !showCoordinators) {
+          data = dataset.filter(d => d.teacher === 0);
+        }
+
+        if (data.length > 0) {
+          dataConfig = {
+            init: {
+              year: data[0].year,
+              month: data[0].month,
+              day: data[0].day,
             },
-            tooltip: {
-              text: "<value> usuários distintos\r\n Dia: <this>",
+            end: {
+              year: data[data.length - 1].year,
+              month: data[data.length - 1].month,
+              day: data[data.length - 1].day,
             },
           };
-      
-           heatmap = new HeatMap(chartConfig);
         }
-        else{
-          if (dataset.length > 0) {
-            dataConfig = {
-              init: {
-                year: dataset[0].year,
-                month: dataset[0].month,
-                day: dataset[0].day,
-              },
-              end: {
-                year: dataset[dataset.length - 1].year,
-                month: dataset[dataset.length - 1].month,
-                day: dataset[dataset.length - 1].day,
-              },
-            };
-          }
-      
-          chartConfig = {
-            parent: ".heatmap_chart",
-            data: dataset,
-            dataConfig: dataConfig,
-            dimensions: {
-              width: 360,
-              height: 500,
-            },
-            tooltip: {
-              text: "<value> usuários distintos\r\n Dia: <this>",
-            },
-          };
-      
-          heatmap = new HeatMap(chartConfig);
-        }
+
+        chartConfig = {
+          parent: ".heatmap_chart",
+          data: data,
+          dataConfig: dataConfig,
+          dimensions: {
+            width: 360,
+            height: 500,
+          },
+          tooltip: {
+            text: "<value> usuários distintos\r\n Dia: <this>",
+          },
+        };
+
+        heatmap = new HeatMap(chartConfig);
       });
     });
-    
   });
 }

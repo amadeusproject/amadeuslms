@@ -694,20 +694,12 @@ def heatmap_graph(request, slug):
 
 
 def general_heatmap_graph(request):
-    # subjects = request.GET.get('subjects', '')
-
-    categories = my_categories(request.user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
-
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -715,7 +707,7 @@ def general_heatmap_graph(request):
     else:
         data_end = date.today()
 
-    data = general_monthly_users_activity(subjects, data_ini, data_end)
+    data = general_monthly_users_activity(data_ini, data_end)
 
     return JsonResponse(data, safe=False)
 
