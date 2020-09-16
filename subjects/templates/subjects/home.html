@@ -28,10 +28,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 
 {% if news %}
-
-
-
-
   <!-- Wrapper for slides -->
 	<div id="myCarousel" class="carousel slide " data-ride="carousel">
   <!-- Indicators -->
@@ -47,7 +43,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 <div class="carousel-inner" role="listbox">
 		{% for new in news %}
 			<div class="item {% if forloop.first %}active{% endif %}" style="text-align:center">
-				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{% if new.image %}{{ new.image.url }}{% endif %}" alt="Image"> </a></span>
+				 <span><a href="{% url 'news:view' new.slug %}"> <img src="{% if new.image %}{{ new.image.url }}{% endif %}" {% if new.image and "gif" in new.image.url %}style="width: auto"{% endif %} alt="Image"> </a></span>
 				<!-- <div class="container">-->
  					<div class="carousel-caption">
 						<span><a href="{% url 'news:view' new.slug %}"> {% if new.title %}{{new.title}}{% endif %} </a></span>
