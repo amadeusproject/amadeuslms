@@ -1214,14 +1214,43 @@ def functiontable(dataIni, dataEnd):
         else:
             lastIndex = subjectsLastIndex
 
+        dataResources = {}
+
+        names_resources = {
+            "pdffile": "Arquivo PDF",
+            "bulletin": "Boletim do Tópico",
+            "ytvideo": "Vídeo do YouTube",
+            "filelink": "Link para arquivo",
+            "link": "Link para Site",
+            "goals": "Metas do Tópico",
+            "webpage": "Página Web",
+            "questionary": "Questionário",
+            "webconference": "Web conferência",
+            "my_goals": "Metas do Tópico",
+        }
+
         for i, resource in enumerate(resources):
             total = accessess[lastIndex + i]["total"]["value"]
 
-            resources_data.append(
+            if resource._my_subclass in dataResources:
+                dataResources[resource._my_subclass] += total
+            else:
+                dataResources[resource._my_subclass] = total
+
+            """resources_data.append(
                 {
                     "name": resource.name,
                     "access": total,
                     "link": resource.access_link(),
+                }
+            )"""
+
+        for dataRes in dataResources:
+            resources_data.append(
+                {
+                    "name": names_resources[dataRes],
+                    "access": dataResources[dataRes],
+                    "link": "#",
                 }
             )
 
