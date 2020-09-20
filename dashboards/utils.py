@@ -1047,7 +1047,7 @@ def general_logs(user, data_ini, data_end):
         for i, access in enumerate(accessess):
             value = access["total"]["value"]
             time = period[i].strftime("%d/%m/%Y")
-            data.append({"x": time, "y": value})
+            data.append([time, value])
 
             minimun = min(minimun, value)
             maximun = max(maximun, value)

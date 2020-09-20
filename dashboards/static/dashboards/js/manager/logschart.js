@@ -1,21 +1,50 @@
+google.charts.load('current', {packages: ['corechart', 'bar', 'table']});
+google.charts.setOnLoadCallback(DrawGraph);
+
 function loadLogsGraph(url, dataIni, dataEnd) {
-  $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
-    console.log(dataset["data"]);
-    $(".logsgraph > .info").html("");
+  $.get(url, {data_ini: dataIni, data_end: dataEnd}, dataset => {
+    console.log(dataset['data']);
+    $('.logsgraph > .info').html('');
     //$('.logs_chart').html(dataset[ 'data' ]);
-    drawChart(dataset["data"]);
-    $(".logsgraph .info").append(
-      `<p class='text-cloudy-legend' style="margin-right:25%"> Mínimo diário: ${dataset["min"]} </p>     <p class='text-cloudy-legend' style="margin-right:25%">Máximo diário: ${dataset["max"]}</p>            <p class='text-cloudy-legend'>Total: ${dataset["total"]}</p>`,
-    );
+    drawMaterial(dataset['data']);
+    $('.logsgraph .info')
+        .append(
+            `<p class='text-cloudy-legend' style="margin-right:25%"> Mínimo diário: ${
+                dataset
+                    ['min']} </p>     <p class='text-cloudy-legend' style="margin-right:25%">Máximo diário: ${
+                dataset
+                    ['max']}</p>            <p class='text-cloudy-legend'>Total: ${
+                dataset['total']}</p>`,
+        );
   });
 }
 
-$(function () {
-  const logsGraphUrl = $(".logsgraph").data("url");
-  loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val());
-});
+function DrawGraph() {
+  const logsGraphUrl = $('.logsgraph').data('url');
+  loadLogsGraph(logsGraphUrl, $('#from').val(), $('#until').val());
+}
 
-function drawChart(dataset) {
+function drawMaterial(dataset) {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Data');
+  data.addColumn('number', 'Registros');
+
+  data.addRows(dataset);
+
+  var options = {
+    title: 'Motivation and Energy Level Throughout the Day',
+    hAxis: {
+      title: 'Dia',
+      format: 'dd/MM/yyyy',
+    },
+  };
+
+  var materialChart =
+      new google.charts.Bar(document.getElementById('logs_chart'));
+  materialChart.draw(data, options);
+}
+
+/*function drawChart(dataset) {
   var svg = d3.select("svg"),
     margin = 100,
     width = parseInt(d3.select("#logs_chart").style("width")) - margin,
@@ -26,7 +55,7 @@ function drawChart(dataset) {
 
   var xScale = d3.scale.linear().range([0, width]);*/
 
-  var xScale = d3.scaleBand().range([0, width]).padding(0.2),
+/*  var xScale = d3.scaleBand().range([0, width]).padding(0.2),
     yScale = d3.scaleLinear().range([height, 0]);
 
   var g = svg.append("g").attr("transform", "translate(" + 50 + "," + 50 + ")");
@@ -100,3 +129,4 @@ function drawChart(dataset) {
     })
     .attr("text-anchor", "middle");
 }
+*/
