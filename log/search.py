@@ -503,7 +503,7 @@ def count_general_daily_access(students, day):
 
 
 def count_general_resource_logs_period(subjects, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     conds = []
 
@@ -538,11 +538,11 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_general_access_period(user, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -555,11 +555,11 @@ def count_general_access_period(user, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_mural_comments(user, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -573,11 +573,11 @@ def count_mural_comments(user, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_chat_messages(user, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -595,11 +595,11 @@ def count_chat_messages(user, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_resources(user, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -614,11 +614,11 @@ def count_resources(user, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_logs_in_day(usersList, day):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -632,7 +632,7 @@ def count_logs_in_day(usersList, day):
 
 
 def count_categories_logs_period(category, usersList, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -650,7 +650,7 @@ def count_categories_logs_period(category, usersList, data_ini, data_end):
 
 
 def count_subject_logs_period(subject, usersList, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -668,7 +668,7 @@ def count_subject_logs_period(subject, usersList, data_ini, data_end):
 
 
 def count_resources_logs_period(resource, usersList, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -686,7 +686,7 @@ def count_resources_logs_period(resource, usersList, data_ini, data_end):
 
 
 def count_user_interactions(userid, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",

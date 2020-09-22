@@ -1482,14 +1482,16 @@ def xml_users(request_user, data_ini, data_end):
     if teachersLastInteractionQuery:
         res = multi_search(teachersLastInteractionQuery)
 
+        accessess = [x.to_dict()["hits"] for x in res]
+
         activesLine = 1
         inactivesLine = 1
 
         for i, teacher in enumerate(teachersList):
-            if i < len(res):
-                entry = res[i]
+            if i < len(accessess):
+                entry = accessess[i]["total"]["value"]
 
-                if entry:
+                if entry > 0:
                     activeTeachersWorksheet.write(activesLine, 0, teacher.fullname())
                     activeTeachersWorksheet.write(
                         activesLine,
@@ -1521,14 +1523,16 @@ def xml_users(request_user, data_ini, data_end):
     if studentsLastInteractionQuery:
         res = multi_search(studentsLastInteractionQuery)
 
+        accessess = [x.to_dict()["hits"] for x in res]
+
         activesLine = 1
         inactivesLine = 1
 
         for i, student in enumerate(studentsList):
-            if i < len(res):
-                entry = res[i]
+            if i < len(accessess):
+                entry = accessess[i]["total"]["value"]
 
-                if entry:
+                if entry > 0:
                     activeStudentsWorksheet.write(activesLine, 0, student.fullname())
                     activeStudentsWorksheet.write(
                         activesLine,
