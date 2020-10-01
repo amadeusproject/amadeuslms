@@ -93,7 +93,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 							{% csrf_token %}
 							<select name="selected_student" onchange="$('#student_quest').submit();">
 								{% for stu in sub_students %}
-									<option value="{{ stu.email }}" {% if stu.email == student %}selected.fullname{% endif %}>{{ stu.fullname }}</option>
+									<option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu.fullname }}</option>
 								{% endfor %}
 							</select>
 						</form>

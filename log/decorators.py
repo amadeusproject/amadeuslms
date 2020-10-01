@@ -20,157 +20,121 @@ from django.shortcuts import get_object_or_404
 from .models import Log
 from pendencies.models import Pendencies, PendencyDone
 
+def log_decorator(log_component = '', log_action = '', log_resource = ''):
 
-def log_decorator(log_component="", log_action="", log_resource=""):
-    def _log_decorator(view_function):
-        def _decorator(request, *args, **kwargs):
-            user = None
+	def _log_decorator(view_function):
 
-            # Get user before logout
-            if request.user.is_authenticated:
-                user = request.user
+		def _decorator(request, *args, **kwargs):
+			user = None
 
-            response = view_function(request, *args, **kwargs)
+			#Get user before logout
+			if request.user.is_authenticated:
+				user = request.user				
 
-            # Get user after login
-            if user is None and request.user.is_authenticated:
-                user = request.user
+			response = view_function(request, *args, **kwargs)
 
-            log_context = {}
+			#Get user after login
+			if user is None and request.user.is_authenticated:
+				user = request.user
 
-            if hasattr(request, "log_context"):
-                log_context = request.log_context
+			log_context = {}
 
-            if user:
-                log = Log()
-                log.user = str(user)
-                log.user_id = user.id
-                log.user_email = user.email
-                log.component = log_component
-                log.context = log_context
-                log.action = log_action
-                log.resource = log_resource
+			if hasattr(request, 'log_context'):
+				log_context = request.log_context
 
-                log.save()
+			if user:				
+				log = Log()
+				log.user = str(user)
+				log.user_id = user.id
+				log.user_email = user.email
+				log.component = log_component
+				log.context = log_context
+				log.action = log_action
+				log.resource = log_resource
 
-                if log.component == "resources" and not user.is_staff:
-                    resource = (
-                        log.context[log.resource + "_id"]
-                        if log.resource + "_id" in log.context
-                        else 0
-                    )
+				log.save()
 
-                    if not resource == 0:
-                        pendency = Pendencies.objects.filter(
-                            action=log.action,
-                            resource__id=resource,
-                            begin_date__date__lte=timezone.now(),
-                            resource__visible=True,
-                        ).order_by("-id")
+				if log.component == 'resources' and not user.is_staff:
+					resource = log.context[log.resource + '_id'] if log.resource + '_id' in log.context else 0
 
-                        if pendency.exists():
-                            pendency = pendency.first()
+					if not resource == 0:
+						pendency = Pendencies.objects.filter(action = log.action, resource__id = resource, begin_date__date__lte = timezone.now(), resource__visible = True).order_by('-id')
 
-                            if pendency.begin_date <= timezone.now() and (
-                                timezone.now() <= pendency.end_date
-                                or (
-                                    pendency.limit_date
-                                    and timezone.now() <= pendency.limit_date
-                                )
-                                or (
-                                    not pendency.limit_date
-                                    and timezone.now() > pendency.end_date
-                                )
-                            ):
-                                if user in pendency.resource.students.all() or (
-                                    pendency.resource.all_students
-                                    and user
-                                    in pendency.resource.topic.subject.students.all()
-                                ):
-                                    if not PendencyDone.objects.filter(
-                                        pendency=pendency, student=user
-                                    ).exists():
-                                        pendencyDone = PendencyDone()
-                                        pendencyDone.pendency = pendency
-                                        pendencyDone.student = user
-                                        pendencyDone.done_date = timezone.now()
+						if pendency.exists():
+							pendency = pendency.get()
 
-                                        if (
-                                            pendency.begin_date
-                                            <= timezone.now()
-                                            <= pendency.end_date
-                                        ):
-                                            pendencyDone.late = False
-                                        elif (
-                                            pendency.limit_date
-                                            and pendency.end_date
-                                            < timezone.now()
-                                            <= pendency.limit_date
-                                        ) or (
-                                            not pendency.limit_date
-                                            and pendency.end_date < timezone.now()
-                                        ):
-                                            pendencyDone.late = True
+							if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date) or (not pendency.limit_date and timezone.now() > pendency.end_date)):
+								if user in pendency.resource.students.all() or (pendency.resource.all_students and user in pendency.resource.topic.subject.students.all()):
+									if not PendencyDone.objects.filter(pendency = pendency, student = user).exists():
+										pendencyDone = PendencyDone()
+										pendencyDone.pendency = pendency
+										pendencyDone.student = user
+										pendencyDone.done_date = timezone.now()
 
-                                        pendencyDone.save()
+										if pendency.begin_date <= timezone.now() <= pendency.end_date:
+											pendencyDone.late = False
+										elif (pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date) or (not pendency.limit_date and pendency.end_date < timezone.now()):
+											pendencyDone.late = True
 
-            return response
+										pendencyDone.save()
 
-        return wraps(view_function)(_decorator)
+			return response
 
-    return _log_decorator
+		return wraps(view_function)(_decorator)
 
+	return _log_decorator
 
-def log_decorator_ajax(log_component="", log_action="", log_resource=""):
-    def _log_decorator_ajax(view_function):
-        def _decorator(request, *args, **kwargs):
-            view_action = request.GET.get("action")
+def log_decorator_ajax(log_component = '', log_action = '', log_resource = ''):
 
-            if view_action == "open":
-                if request.user.is_authenticated:
+	def _log_decorator_ajax(view_function):
 
-                    log = Log()
-                    log.user = str(request.user)
-                    log.user_id = request.user.id
-                    log.user_email = request.user.email
-                    log.component = log_component
-                    log.context = {}
-                    log.action = log_action
-                    log.resource = log_resource
+		def _decorator(request, *args, **kwargs):
+			view_action = request.GET.get("action")
 
-                    log.save()
+			if view_action == 'open':
+				if request.user.is_authenticated:
+					
+					log = Log()
+					log.user = str(request.user)
+					log.user_id = request.user.id
+					log.user_email = request.user.email
+					log.component = log_component
+					log.context = {}
+					log.action = log_action
+					log.resource = log_resource
 
-                    # response = view_function(request, *args, **kwargs)
+					log.save()
 
-                    log_context = {}
+					response = view_function(request, *args, **kwargs)
+					
+					log_context = {}
 
-                    if hasattr(request, "log_context"):
-                        log_context = request.log_context
+					if hasattr(request, 'log_context'):
+						log_context = request.log_context
 
-                    log = Log.objects.latest("id")
-                    log.context = log_context
-                    log.save()
+					log = Log.objects.latest('id')
+					log.context = log_context
+					log.save()
+					
+			elif view_action == 'close':
+				if request.user.is_authenticated:
+					log = get_object_or_404(Log, id = request.GET.get('log_id'))
 
-            elif view_action == "close":
-                if request.user.is_authenticated:
-                    log = get_object_or_404(Log, id=request.GET.get("log_id"))
+					if type(log.context) == dict:
+						log_context = log.context
+					else:
+						log_context = json.loads(log.context)
 
-                    if type(log.context) == dict:
-                        log_context = log.context
-                    else:
-                        log_context = json.loads(log.context)
+					log_context['timestamp_end'] = str(int(time.time()))
 
-                    log_context["timestamp_end"] = str(int(time.time()))
+					log.context = log_context
 
-                    log.context = log_context
+					log.save()
 
-                    log.save()
+					response = view_function(request, *args, **kwargs)
 
-            response = view_function(request, *args, **kwargs)
+			return response
 
-            return response
+		return wraps(view_function)(_decorator)
 
-        return wraps(view_function)(_decorator)
-
-    return _log_decorator_ajax
-
+	return _log_decorator_ajax

@@ -242,6 +242,8 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         if self.object.students.count() <= 0:
             self.object.all_students = True
+        else:
+            self.object.all_students = False
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False
@@ -417,6 +419,8 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
 
         if self.object.students.count() <= 0:
             self.object.all_students = True
+        else:
+            self.object.all_students = False
 
         if not self.object.topic.visible and not self.object.topic.repository:
             self.object.visible = False

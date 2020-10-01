@@ -1417,14 +1417,15 @@ h5.one span {
 
 .modal_profile_sidebar {
   text-align: center;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 .modal_profile_sidebar h4 {
   font-size: 16px;
 }
-
+.talk_header .modal_profile_sidebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .talk_header {
   padding-top: 5px !important;
   padding-left: 10px !important;
