@@ -492,7 +492,7 @@ def count_general_logs_period(resources, data_ini, data_end):
 
 
 def count_general_daily_access(students, day):
-    s = Search()
+    s = Search().extra(collapse={'field': 'user_id'})
 
     s = s.query(
         "bool",
@@ -500,7 +500,7 @@ def count_general_daily_access(students, day):
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),
             Q("terms", user_id=students),
         ],
-    )
+    ).sort("-datetime")
 
     return s[0:10000]
 
