@@ -819,7 +819,8 @@ def general_monthly_users_activity(data_ini, data_end):
             for hits in access["hits"]:
                 log = hits["_source"]
 
-                accessDate = parse_datetime(log["datetime"])
+                accessDate = timezone.localtime(parse_datetime(log["datetime"]))
+                
                 dates_set.add(accessDate.date())
 
                 utuple = (
