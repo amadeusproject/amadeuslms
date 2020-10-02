@@ -19,7 +19,10 @@ from elastic.models import ElasticSearchSettings
 
 from . import models
 
-config = ElasticSearchSettings.objects.get()
+try:
+    config = ElasticSearchSettings.objects.get()
+except Exception:
+    config = None
 
 if config:
     conn = connections.create_connection(hosts=[config.host], timeout=60)
@@ -489,7 +492,7 @@ def count_general_logs_period(resources, data_ini, data_end):
 
 
 def count_general_daily_access(students, day):
-    s = Search()
+    s = Search().extra(collapse={'field': 'user_id'})
 
     s = s.query(
         "bool",
@@ -497,7 +500,7 @@ def count_general_daily_access(students, day):
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),
             Q("terms", user_id=students),
         ],
-    )
+    ).sort("-datetime")
 
     return s[0:10000]
 
