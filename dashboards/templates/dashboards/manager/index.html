@@ -250,17 +250,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     const heatmapUrl = $(".heatmap").data("url");
 
                     $(".bubble_users .users_cloud").html("");
-                    document.getElementsByName("inlineRadioOptions").forEach(function(e) {
-                        if(e.checked)
-                            bubbleData(bubbleUrl, dataIni, dataEnd, e.value);
+                    bubbleData(bubbleUrl, dataIni, dataEnd, 0);
                     
-                    });
                     $(".heatmap .heatmap_chart").html("");
-                    document.getElementsByName("radio-heatmap").forEach(function(e) {   
-                       if(e.checked)
-                            heatmapData(heatmapUrl, $("#from").val(), $("#until").val(), e.value);
-                        });
-                    
+                    heatmapData(heatmapUrl, $("#from").val(), $("#until").val(), 0);
                 }
             });
         });
