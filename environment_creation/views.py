@@ -306,9 +306,9 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
 
                         i += 1
 
-                errorsList = validateSubjectInfo(subject)
+                errorsValidationList = validateSubjectInfo(subject)
 
-                if len(errorsList) == 0:
+                if len(errorsValidationList) == 0:
                     if subject[1].strip() != "":
                         if (
                             len(categoriesList) >= int(subject[4])
@@ -358,6 +358,7 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
                         )
                         subjectsList.append(None)
                 else:
+                    errorsList = errorsList + errorsValidationList
                     subjectsList.append(None)
 
     return subjectsList, errorsList

@@ -28,18 +28,21 @@ function makeCategoryTable(data, nrows) {
 
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
-  [...Array(pages_resources_table).keys()].forEach(i => {
-    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+  [...Array(pages_resources_table).keys()].forEach((i) => {
+    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${
+      i + 1
+    }</li>`;
 
     $pagination.append(page);
-    if (i > 9) $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
+    if (i > 9)
+      $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
   });
 
   $("#categories_pag .page-item-number[data-page=1]").addClass("active");
 
   $pagination.append("<li class='page-item next'>&gt;</li>");
 
-  $("#categories_pag .page-item-number").click(e => {
+  $("#categories_pag .page-item-number").click((e) => {
     const page = $(e.target).data("page");
     const init = page * nrows - nrows;
     const end = page * nrows;
@@ -47,7 +50,7 @@ function makeCategoryTable(data, nrows) {
     $("#categories_pag .page-item-number").removeClass("active");
     $(e.target).addClass("active");
 
-    $("#categories_pag .category_access").each((i, el) => {
+    $("#categories_table .category_access_table").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -61,12 +64,14 @@ function makeCategoryTable(data, nrows) {
 
     page = page === 1 ? 1 : page - 1;
     if (page > 10) {
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#categories_pag .page-item-number[data-page=${i + 1}]`).show();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#categories_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     } else {
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i > 9) $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i > 9)
+          $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
         else $(`#categories_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     }
@@ -74,9 +79,11 @@ function makeCategoryTable(data, nrows) {
     const end = page * nrows;
 
     $("#categories_pag .page-item-number").removeClass("active");
-    $(`#categories_pag .page-item-number[data-page=${page}]`).addClass("active");
+    $(`#categories_pag .page-item-number[data-page=${page}]`).addClass(
+      "active"
+    );
 
-    $("#categories_table .category_access").each((i, el) => {
+    $("#categories_table .category_access_table").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -90,18 +97,22 @@ function makeCategoryTable(data, nrows) {
 
     page = page === pages_resources_table ? pages_resources_table : page + 1;
     if (page > 10) {
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#categories_pag .page-item-number[data-page=${i + 1}]`).show();
-        else if (i < pages_resources_table - 9) $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#categories_pag .page-item-number[data-page=${i + 1}]`).show();
+        else if (i < pages_resources_table - 9)
+          $(`#categories_pag .page-item-number[data-page=${i + 1}]`).hide();
       });
     }
     const init = page * nrows - nrows;
     const end = page * nrows;
 
     $("#categories_pag .page-item-number").removeClass("active");
-    $(`#categories_pag .page-item-number[data-page=${page}]`).addClass("active");
+    $(`#categories_pag .page-item-number[data-page=${page}]`).addClass(
+      "active"
+    );
 
-    $("#categories_table .category_access").each((i, el) => {
+    $("#categories_table .category_access_table").each((i, el) => {
       if (i >= init && i < end) {
         $(el).show();
       } else {
@@ -110,7 +121,7 @@ function makeCategoryTable(data, nrows) {
     });
   });
   $("#categories_table th.sort").off("click");
-  $("#categories_table th.sort").on("click", el => {
+  $("#categories_table th.sort").on("click", (el) => {
     el.preventDefault();
     el.stopPropagation();
 
@@ -133,7 +144,11 @@ function makeCategoryTable(data, nrows) {
 
         makeCategoryTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0)).reverse();
+        data
+          .sort((a, b) =>
+            a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+          )
+          .reverse();
 
         makeCategoryTable(data, 10);
       }
@@ -151,7 +166,9 @@ function makeCategoryTable(data, nrows) {
 
         makeCategoryTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0));
+        data.sort((a, b) =>
+          a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+        );
 
         makeCategoryTable(data, 10);
       }
@@ -183,8 +200,10 @@ function makeSubjectsTable(data, nrows) {
 
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
-  [...Array(pages_subjects_table).keys()].forEach(i => {
-    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+  [...Array(pages_subjects_table).keys()].forEach((i) => {
+    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${
+      i + 1
+    }</li>`;
 
     $pagination.append(page);
     if (i > 9) $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).hide();
@@ -194,7 +213,7 @@ function makeSubjectsTable(data, nrows) {
 
   $pagination.append("<li class='page-item next'>&gt;</li>");
 
-  $("#subjects_pag .page-item-number").click(e => {
+  $("#subjects_pag .page-item-number").click((e) => {
     const page = $(e.target).data("page");
     const init = page * nrows - nrows;
     const end = page * nrows;
@@ -216,12 +235,14 @@ function makeSubjectsTable(data, nrows) {
 
     page = page === 1 ? 1 : page - 1;
     if (page > 10) {
-      [...Array(pages_subjects_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).show();
+      [...Array(pages_subjects_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     } else {
-      [...Array(pages_subjects_table).keys()].forEach(i => {
-        if (i > 9) $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_subjects_table).keys()].forEach((i) => {
+        if (i > 9)
+          $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).hide();
         else $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     }
@@ -245,9 +266,11 @@ function makeSubjectsTable(data, nrows) {
 
     page = page === pages_subjects_table ? pages_subjects_table : page + 1;
     if (page > 10) {
-      [...Array(pages_subjects_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).show();
-        else if (i < pages_subjects_table - 9) $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_subjects_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).show();
+        else if (i < pages_subjects_table - 9)
+          $(`#subjects_pag .page-item-number[data-page=${i + 1}]`).hide();
       });
     }
     const init = page * nrows - nrows;
@@ -265,7 +288,7 @@ function makeSubjectsTable(data, nrows) {
     });
   });
   $("#subjects_table th.sort").off("click");
-  $("#subjects_table th.sort").on("click", el => {
+  $("#subjects_table th.sort").on("click", (el) => {
     el.preventDefault();
     el.stopPropagation();
 
@@ -288,7 +311,11 @@ function makeSubjectsTable(data, nrows) {
 
         makeSubjectsTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0)).reverse();
+        data
+          .sort((a, b) =>
+            a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+          )
+          .reverse();
 
         makeSubjectsTable(data, 10);
       }
@@ -306,7 +333,9 @@ function makeSubjectsTable(data, nrows) {
 
         makeSubjectsTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0));
+        data.sort((a, b) =>
+          a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+        );
 
         makeSubjectsTable(data, 10);
       }
@@ -338,8 +367,10 @@ function makeResourceTable(data, nrows) {
 
   $pagination.append("<li class='page-item previous'>&lt;</li>");
 
-  [...Array(pages_resources_table).keys()].forEach(i => {
-    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${i + 1}</li>`;
+  [...Array(pages_resources_table).keys()].forEach((i) => {
+    const page = `<li class='page-item page-item-number' data-page=${i + 1}>${
+      i + 1
+    }</li>`;
 
     $pagination.append(page);
     if (i > 9) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
@@ -349,14 +380,16 @@ function makeResourceTable(data, nrows) {
 
   $pagination.append("<li class='page-item next'>&gt;</li>");
 
-  $("#resources_pag .page-item-number").click(e => {
+  $("#resources_pag .page-item-number").click((e) => {
     const page = $(e.target).data("page");
 
     if (page >= 10) {
       $(`#resources_pag .page-item-number`).hide();
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
-        else if (i < pages_resources_table - 9) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
+        else if (i < pages_resources_table - 9)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
       });
     }
 
@@ -381,12 +414,14 @@ function makeResourceTable(data, nrows) {
     page = page === 1 ? 1 : page - 1;
     if (page >= 10) {
       $(`#resources_pag .page-item-number`).hide();
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     } else {
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i > 9) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i > 9)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
         else $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
       });
     }
@@ -411,9 +446,11 @@ function makeResourceTable(data, nrows) {
     page = page === pages_resources_table ? pages_resources_table : page + 1;
     if (page >= 10) {
       $(`#resources_pag .page-item-number`).hide();
-      [...Array(pages_resources_table).keys()].forEach(i => {
-        if (i < page + 5 && i > page - 5) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
-        else if (i < pages_resources_table - 9) $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
+      [...Array(pages_resources_table).keys()].forEach((i) => {
+        if (i < page + 5 && i > page - 5)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).show();
+        else if (i < pages_resources_table - 9)
+          $(`#resources_pag .page-item-number[data-page=${i + 1}]`).hide();
       });
     }
     const init = page * nrows - nrows;
@@ -431,7 +468,7 @@ function makeResourceTable(data, nrows) {
     });
   });
   $("#resources_table th.sort").off("click");
-  $("#resources_table th.sort").on("click", el => {
+  $("#resources_table th.sort").on("click", (el) => {
     el.preventDefault();
     el.stopPropagation();
 
@@ -454,7 +491,11 @@ function makeResourceTable(data, nrows) {
 
         makeResourceTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0)).reverse();
+        data
+          .sort((a, b) =>
+            a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+          )
+          .reverse();
 
         makeResourceTable(data, 10);
       }
@@ -472,7 +513,9 @@ function makeResourceTable(data, nrows) {
 
         makeResourceTable(data, 10);
       } else {
-        data.sort((a, b) => (a.access > b.access ? 1 : a.access < b.access ? -1 : 0));
+        data.sort((a, b) =>
+          a.access > b.access ? 1 : a.access < b.access ? -1 : 0
+        );
 
         makeResourceTable(data, 10);
       }
@@ -482,13 +525,13 @@ function makeResourceTable(data, nrows) {
 }
 
 function loadDataResources(url, dataIni, dataEnd) {
-  $.get(url, { data_ini: dataIni, data_end: dataEnd }, dataset => {
-    dataset.categories = dataset.categories.map(d => {
+  $.get(url, { data_ini: dataIni, data_end: dataEnd }, (dataset) => {
+    dataset.categories = dataset.categories.map((d) => {
       d.value = d.access;
 
       return d;
     });
-    dataset.subjects = dataset.subjects.map(d => {
+    dataset.subjects = dataset.subjects.map((d) => {
       d.value = d.access;
       return d;
     });
