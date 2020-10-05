@@ -97,6 +97,16 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
             self.log_context,
         )
 
+        self.log_action = "watch"
+
+        super(NewWindowView, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
         self.request.session["log_id"] = Log.objects.latest("id").id
 
         return context
@@ -154,6 +164,16 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
             self.log_context,
         )
 
+        self.log_action = "watch"
+
+        super(InsideView, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
         self.request.session["log_id"] = Log.objects.latest("id").id
 
         return context
@@ -190,7 +210,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         topic = get_object_or_404(Topic, slug=slug)
 
         pendencies_form = PendenciesForm(
-            initial={"subject": topic.subject.id, "actions": [("watch", _("Watch"))],}
+            initial={"subject": topic.subject.id, "actions": [("view", _("View"))],}
         )
 
         return self.render_to_response(
@@ -208,7 +228,7 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         pendencies_form = PendenciesForm(
             self.request.POST,
-            initial={"subject": topic.subject.id, "actions": [("watch", _("Watch"))],},
+            initial={"subject": topic.subject.id, "actions": [("view", _("View"))],},
         )
 
         if form.is_valid() and pendencies_form.is_valid():
@@ -360,14 +380,14 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 instance=pend_form[0],
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("watch", _("Watch"))],
+                    "actions": [("view", _("View"))],
                 },
             )
         else:
             pendencies_form = PendenciesForm(
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("watch", _("Watch"))],
+                    "actions": [("view", _("View"))],
                 }
             )
 
@@ -392,7 +412,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 instance=pend_form[0],
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("watch", _("Watch"))],
+                    "actions": [("view", _("View"))],
                 },
             )
         else:
@@ -400,7 +420,7 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.UpdateView):
                 self.request.POST,
                 initial={
                     "subject": topic.subject.id,
-                    "actions": [("watch", _("Watch"))],
+                    "actions": [("view", _("View"))],
                 },
             )
 
