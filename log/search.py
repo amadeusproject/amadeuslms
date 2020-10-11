@@ -9,6 +9,7 @@ from elasticsearch_dsl import (
     Object,
     Search,
     MultiSearch,
+    A
 )
 from elasticsearch.helpers import bulk
 from elasticsearch import Elasticsearch
@@ -720,3 +721,60 @@ def count_user_interactions(userid, data_ini, data_end):
 
     return s
 
+def teachers_xls(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+        ],
+    )
+
+    subjects = A("terms", field="context.subject_id")
+    messages = (
+        A("terms", field="component.keyword", include=["chat"])
+        .metric("action", "terms", field="action.keyword", include=["send"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+    mural = (
+        A("terms", field="component.keyword", include=["mural"])
+        .metric("action", "terms", field="action.keyword", include=["create_post", "create_comment"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+    resources = (
+        A("terms", field="component.keyword", include=["resources"])
+        .metric("action", "terms", field="action.keyword", include=["create"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+
+    s.aggs.bucket("subjects", subjects)
+    s.aggs.bucket("messages", messages)
+    s.aggs.bucket("mural", mural)
+    s.aggs.bucket("resources", resources)
+
+    return s
+
+def students_xls(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+        ],
+    )
+
+    subjects = A("terms", field="context.subject_id")
+    
+    s.aggs.bucket("subjects", subjects)
+
+    return s
