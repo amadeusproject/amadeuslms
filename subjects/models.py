@@ -77,6 +77,7 @@ class Subject(models.Model):
 
         return data
 
+"""
 class Log_Consultas(models.Model):
 	component = models.TextField(_('Component (Module / App)'), blank=True,
     null=True)
@@ -118,3 +119,4 @@ class Log_Consultas(models.Model):
 	# 	obj.save()
 
 	# 	return obj.to_dict(include_meta=True)
+"""
