@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils.formats import get_format
 from django.utils.translation import ugettext_lazy as _
 
-from subjects.models import Tag, Subject, Log_Consultas
+from subjects.models import Tag, Subject
 from topics.models import Topic, Resource
 from log.models import Log
 from bulletin.models import Bulletin
@@ -1501,7 +1501,7 @@ def xml_users(request_user, data_ini, data_end):
 
     return response
 
-
+"""
 def load_logs():
 
     all_logs = Log.objects.all()
@@ -1827,3 +1827,4 @@ def add_daily_logs():
             if log.user_id in student_subjects.keys():
                 for a in student_subjects[log.user_id]:
                     log.student_subjects.add(a.id)
+"""
