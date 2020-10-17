@@ -4,18 +4,41 @@ services:
   db:
     restart: always
     image: postgres:latest
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
     networks:
-      - database_network
+      - amadeus_network
     ports:
       - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - db
+    networks:
+      - amadeus_network
+
   web:
     image: amadeus:latest
-    build:
-      context: .
-      args:
-        requirements: requirement_files/development_requirement.txt 
+    build: .
+    ports:
+      - 9000:8000
     environment:
-      DJANGO_MANAGEPY_MIGRATE: 'on'
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_HOST: "db"
+      POSTGRES_PORT: "5432"
     volumes:
       - .:/code
     depends_on:
@@ -23,8 +46,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - nginx_network
-      - database_network
+      - amadeus_network
+
   nginx:
     image: nginx:1.13
     ports:
@@ -34,10 +57,27 @@ services:
     depends_on:
       - web
     networks:
-      - nginx_network
+      - amadeus_network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    ports:
+      - 9200:9200
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - amadeus_network
 
 networks:
-  nginx_network:
+  amadeus_network:
     driver: bridge
-  database_network:
-    driver: bridge
+
+volumes:
+  elasticsearch:

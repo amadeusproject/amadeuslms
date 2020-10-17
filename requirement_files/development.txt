@@ -74,7 +74,7 @@ python-dateutil==2.8.1
 python-slugify==1.2.0
 pytz==2020.1
 redis==2.10.5
-requests==2.20.0
+requests==2.24.0
 requests-toolbelt==0.8.0
 shortuuid==0.4.3
 simplejson==3.11.1
@@ -92,7 +92,7 @@ Werkzeug==0.15.3
 whitenoise==3.2.2
 xlrd==1.0.0
 xlwt==1.2.0
-zope.interface==4.6.0
+zope.interface==5.1.0
 
 beautifulsoup4==4.8.2
 click==7.0
