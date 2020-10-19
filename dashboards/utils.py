@@ -1166,7 +1166,7 @@ def functiontable(dataIni, dataEnd):
         searchs.append(
             count_resources_logs_period(resource, usersList, dataIni, dataEnd)
         )
-
+    
     if searchs:
         res = multi_search(searchs)
 
@@ -1175,7 +1175,7 @@ def functiontable(dataIni, dataEnd):
         lastIndex = 0
 
         for i, category in enumerate(categories):
-            total = accessess[lastIndex + i]["total"]["value"]
+            total = accessess[i]["total"]["value"]
 
             categories_data.append(
                 {
@@ -1237,7 +1237,7 @@ def functiontable(dataIni, dataEnd):
                 dataResources[resource._my_subclass] += total
             else:
                 dataResources[resource._my_subclass] = total
-
+        
             """resources_data.append(
                 {
                     "name": resource.name,
@@ -1254,7 +1254,7 @@ def functiontable(dataIni, dataEnd):
                     "link": "#",
                 }
             )
-
+        
     data = {
         "categories": categories_data,
         "subjects": subjects_data,
