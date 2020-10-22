@@ -81,15 +81,17 @@ class QuestionaryForm(forms.ModelForm):
         data_end = cleaned_data.get("data_end", None)
         name = cleaned_data.get("name", "")
 
-        if self.topic:
+        topics = self.subject.topic_subject.all()
+
+        for topic in topics:
             if self.instance.id:
                 same_name = (
-                    self.topic.resource_topic.filter(name__unaccent__iexact=name)
+                    topic.resource_topic.filter(name__unaccent__iexact=name)
                     .exclude(id=self.instance.id)
                     .count()
                 )
             else:
-                same_name = self.topic.resource_topic.filter(
+                same_name = topic.resource_topic.filter(
                     name__unaccent__iexact=name
                 ).count()
 
@@ -97,6 +99,8 @@ class QuestionaryForm(forms.ModelForm):
                 self.add_error(
                     "name", _("This subject already has a questionary with this name")
                 )
+
+                break
 
         if data_ini:
             if not data_ini == ValueError:
