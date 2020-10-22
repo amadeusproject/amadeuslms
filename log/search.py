@@ -1,3 +1,4 @@
+import os
 from elasticsearch_dsl.connections import connections
 from elasticsearch_dsl import (
     Q,
@@ -20,15 +21,7 @@ from elastic.models import ElasticSearchSettings
 
 from . import models
 
-try:
-    config = ElasticSearchSettings.objects.get()
-except Exception:
-    config = None
-
-if config:
-    conn = connections.create_connection(hosts=[config.host], timeout=60)
-else:
-    conn = ""
+conn = connections.create_connection(hosts=[os.environ.get("ELASTICSEARCH_URL")], timeout=60)
 
 
 class LogIndex(DocType):
