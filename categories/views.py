@@ -263,7 +263,7 @@ class UpdateCategory(LogMixin, UpdateView):
         self.log_context["category_slug"] = self.object.slug
 
         # url to return
-        return_url = self.log_context["return_url"]
+        return_url = reverse_lazy("categories:index") if not "return_url" in self.log_context else self.log_context["return_url"]
         self.log_context.pop("return_url", None)
 
         super(UpdateCategory, self).createLog(
