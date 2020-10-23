@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,79 +26,79 @@ msgstr "Esse assunto já possui um repositório"
 msgid "This subject already has a topic with this name"
 msgstr "Esse assunto já possui um tópico com esse nome"
 
-#: topics/models.py:24 topics/models.py:63
+#: topics/models.py:25 topics/models.py:70
 msgid "Name"
 msgstr "Nome"
 
-#: topics/models.py:25 topics/models.py:64
+#: topics/models.py:26 topics/models.py:71
 msgid "Slug"
 msgstr "Slug"
 
-#: topics/models.py:26
+#: topics/models.py:27
 msgid "Description"
 msgstr "Descrição"
 
-#: topics/models.py:27
+#: topics/models.py:28
 msgid "Repository"
 msgstr "Repositório"
 
-#: topics/models.py:28 topics/models.py:68
+#: topics/models.py:29 topics/models.py:75
 msgid "Visible"
 msgstr "Visível"
 
-#: topics/models.py:29
+#: topics/models.py:31
 msgid "Subject"
 msgstr "Assunto"
 
-#: topics/models.py:30 topics/models.py:69
+#: topics/models.py:33 topics/models.py:76
 msgid "Order"
 msgstr "Ordem"
 
-#: topics/models.py:31 topics/models.py:74
+#: topics/models.py:34 topics/models.py:92
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: topics/models.py:32 topics/models.py:75
+#: topics/models.py:35 topics/models.py:93
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: topics/models.py:35 topics/models.py:70
+#: topics/models.py:38 topics/models.py:78
 msgid "Topic"
 msgstr "Tópico"
 
-#: topics/models.py:36
+#: topics/models.py:39
 msgid "Topics"
 msgstr "Tópicos"
 
-#: topics/models.py:65
+#: topics/models.py:72
 msgid "Brief Description"
 msgstr "Descrição Breve"
 
-#: topics/models.py:66
+#: topics/models.py:73
 msgid "Show in new window"
 msgstr "Exibir em nova janela"
 
-#: topics/models.py:67
+#: topics/models.py:74
 msgid "All Students"
 msgstr "Todos os estudantes habilitados para acessar o recurso"
 
-#: topics/models.py:71
+#: topics/models.py:81
 msgid "Students"
 msgstr "Estudantes"
 
-#: topics/models.py:72
+#: topics/models.py:85
 msgid "Groups"
 msgstr "Grupos de Estudo"
 
-#: topics/models.py:73
+#: topics/models.py:90
 msgid "Markers"
 msgstr "Marcadores"
 
-#: topics/models.py:78
+#: topics/models.py:96
 msgid "Resource"
 msgstr "Recurso"
 
-#: topics/models.py:79
+#: topics/models.py:97
 msgid "Resources"
 msgstr "Recursos"
 

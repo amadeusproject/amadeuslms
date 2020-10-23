@@ -1,14 +1,19 @@
 $(function() {
     const usersgraphUrl = $(".usersgraph").data("url");
     
-    loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
-    
-    
+    let catId = $("#categoriesSelect").val();
+
+    if (catId !== undefined) {
+        loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val(), catId);
+    } else {
+        loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
+    }
+
 });
 
-function loadBarChartData(usersgraphUrl, dataIni, dataEnd){
+function loadBarChartData(usersgraphUrl, dataIni, dataEnd, category = 0){
     
-    $.get(usersgraphUrl, { data_ini: dataIni, data_end: dataEnd }, dataset => {
+    $.get(usersgraphUrl, { data_ini: dataIni, data_end: dataEnd, category: category }, dataset => {
         drawBarChart(dataset);
     });
 

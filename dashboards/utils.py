@@ -767,14 +767,27 @@ def monthly_users_activity(subject, data_ini, data_end):
     return data
 
 
-def general_monthly_users_activity(data_ini, data_end):
+def general_monthly_users_activity(data_ini, data_end, category = 0):
     period = get_days_in_period(data_ini, data_end)
 
-    usersList = User.objects.filter(
-        Cond(subject_student__isnull=False)
-        | Cond(professors__isnull=False)
-        | Cond(coordinators__isnull=False)
-    ).distinct()
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+        )
 
     data = list()
     searchs = []
@@ -919,14 +932,27 @@ def my_categories(user):
     return my_categories
 
 
-def generalUsersAccess(dataIni, dataEnd):
+def generalUsersAccess(dataIni, dataEnd, category = 0):
     data = []
 
-    usersList = User.objects.filter(
-        Cond(subject_student__isnull=False)
-        | Cond(professors__isnull=False)
-        | Cond(coordinators__isnull=False)
-    ).distinct()
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+        )
 
     searchs = []
     userAccess = []
@@ -1006,18 +1032,29 @@ def userStatus(user, lastInteractions):
     return status, status_text
 
 
-def general_logs(user, data_ini, data_end):
+def general_logs(user, data_ini, data_end, category = 0):
     period = get_days_in_period(data_ini, data_end)
 
-    usersList = (
-        User.objects.filter(
-            Cond(subject_student__isnull=False)
-            | Cond(professors__isnull=False)
-            | Cond(coordinators__isnull=False)
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+            .values_list("id", flat=True)
         )
-        .distinct()
-        .values_list("id", flat=True)
-    )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
 
     period = sorted(period)
 
@@ -1058,12 +1095,16 @@ def general_logs(user, data_ini, data_end):
     return data, minimun, maximun, total
 
 
-def active_users_qty(request_user, data_ini, data_end):
+def active_users_qty(request_user, data_ini, data_end, category = 0):
     logs = list()
     cont = 0
 
-    studentsList = User.objects.filter(subject_student__isnull=False).distinct()
-    teachersList = User.objects.filter(professors__isnull=False).distinct()
+    if category > 0:
+        studentsList = User.objects.filter(subject_student__isnull=False, subject_student__category__id=category).distinct()
+        teachersList = User.objects.filter(professors__isnull=False, professors__category__id=category).distinct()
+    else:
+        studentsList = User.objects.filter(subject_student__isnull=False).distinct()
+        teachersList = User.objects.filter(professors__isnull=False).distinct()
 
     totalStudents = studentsList.count()
     totalTeachers = teachersList.count()
@@ -1118,7 +1159,7 @@ def active_users_qty(request_user, data_ini, data_end):
     return data
 
 
-def functiontable(dataIni, dataEnd):
+def functiontable(dataIni, dataEnd, categoryId = 0):
     data = {}
     categories_data = []
     subjects_data = []
@@ -1126,26 +1167,49 @@ def functiontable(dataIni, dataEnd):
 
     searchs = []
 
-    usersList = (
-        User.objects.filter(
-            Cond(subject_student__isnull=False)
-            | Cond(professors__isnull=False)
-            | Cond(coordinators__isnull=False)
+    categories = []
+    subjects = []
+
+    if categoryId > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=categoryId))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=categoryId))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=categoryId))
+            )
+            .distinct()
+            .values_list("id", flat=True)
         )
-        .distinct()
-        .values_list("id", flat=True)
-    )
+
+        subjects = (
+            Subject.objects.filter(
+                visible=True, category__id=categoryId
+            )
+            .order_by("slug")
+            .distinct()
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+
+        categories = Category.objects.filter(visible=True).order_by("slug").distinct()
+        subjects = (
+            Subject.objects.filter(
+                visible=True, category__id__in=categories.values_list("id", flat=True)
+            )
+            .order_by("slug")
+            .distinct()
+        )
 
     usersList = list(usersList)
-
-    categories = Category.objects.filter(visible=True).order_by("slug").distinct()
-    subjects = (
-        Subject.objects.filter(
-            visible=True, category__id__in=categories.values_list("id", flat=True)
-        )
-        .order_by("slug")
-        .distinct()
-    )
+    
     resources = (
         Resource.objects.filter(
             visible=True, topic__subject__id__in=subjects.values_list("id", flat=True)
@@ -1268,7 +1332,7 @@ def date_to_datetime(dt: date, hour=0, minute=0, second=0) -> datetime:
 
     return datetime(dt.year, dt.month, dt.day, hour, minute, second)
 
-def xml_users(request_user, data_ini, data_end):
+def xml_users(request_user, data_ini, data_end, category = 0):
     """
     categories = my_categories(request_user)
     subjects = (
@@ -1276,8 +1340,12 @@ def xml_users(request_user, data_ini, data_end):
     )
     """
 
-    studentsList = User.objects.filter(subject_student__isnull=False).order_by("username", "last_name").distinct()
-    teachersList = User.objects.filter(professors__isnull=False).order_by("username", "last_name").distinct()
+    if category > 0:
+        studentsList = User.objects.filter(subject_student__isnull=False, subject_student__category__id=category).order_by("username", "last_name").distinct()
+        teachersList = User.objects.filter(professors__isnull=False, professors__category__id=category).order_by("username", "last_name").distinct()
+    else:
+        studentsList = User.objects.filter(subject_student__isnull=False).order_by("username", "last_name").distinct()
+        teachersList = User.objects.filter(professors__isnull=False).order_by("username", "last_name").distinct()
 
     interactionQuery = []
 

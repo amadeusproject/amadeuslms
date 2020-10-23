@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgid "Line %s has no valid email"
 msgstr "A linha %s não possui um email válido"
 
 #: environment_creation/views.py:200 environment_creation/views.py:357
-#: environment_creation/views.py:426
+#: environment_creation/views.py:427
 #, python-format
 msgid "Line %s has no value for name"
 msgstr "A linha %s não possui valor para o campo nome"
@@ -149,7 +149,7 @@ msgstr "A linha %s possui uma data de encerramento anterior à data de início"
 msgid "Line %s has no valid value for course"
 msgstr "A linha %s não possui um valor válido para o campo curso"
 
-#: environment_creation/views.py:422
+#: environment_creation/views.py:423
 #, fuzzy, python-format
 msgid "Line %s has no valid value for subject"
 msgstr "A linha %s não possui um valor válido para o campo assunto"

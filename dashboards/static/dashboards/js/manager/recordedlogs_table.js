@@ -1,6 +1,13 @@
 $(function () {
   const dataResourceUrl = $(".recordedlogs").data("url");
-  loadDataResources(dataResourceUrl, $("#from").val(), $("#until").val());
+
+  let catId = $("#categoriesSelect").val();
+
+  if (catId !== undefined) {
+    loadDataResources(dataResourceUrl, $("#from").val(), $("#until").val(), catId);
+  } else {
+    loadDataResources(dataResourceUrl, $("#from").val(), $("#until").val());
+  }
 });
 
 function makeCategoryTable(data, nrows) {
@@ -524,8 +531,8 @@ function makeResourceTable(data, nrows) {
   $("#panel_loading_mask3").hide();
 }
 
-function loadDataResources(url, dataIni, dataEnd) {
-  $.get(url, { data_ini: dataIni, data_end: dataEnd }, (dataset) => {
+function loadDataResources(url, dataIni, dataEnd, category = 0) {
+  $.get(url, { data_ini: dataIni, data_end: dataEnd, category: category }, (dataset) => {
     dataset.categories = dataset.categories.map((d) => {
       d.value = d.access;
 

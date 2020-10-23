@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,31 +107,31 @@ msgstr "ElasticSearch"
 msgid "Bulk Creation"
 msgstr "Cadastros em lote"
 
-#: amadeus/templates/base.html:371 amadeus/templates/base.html:438
+#: amadeus/templates/base.html:371 amadeus/templates/base.html:442
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: amadeus/templates/base.html:376 amadeus/templates/base.html:444
+#: amadeus/templates/base.html:376 amadeus/templates/base.html:448
 msgid "Mural"
 msgstr "Mural"
 
-#: amadeus/templates/base.html:382 amadeus/templates/base.html:451
+#: amadeus/templates/base.html:382 amadeus/templates/base.html:455
 msgid "Messages"
 msgstr "Mensagens"
 
-#: amadeus/templates/base.html:388 amadeus/templates/base.html:459
+#: amadeus/templates/base.html:388 amadeus/templates/base.html:463
 msgid "Pendencies"
 msgstr "Pendências"
 
-#: amadeus/templates/base.html:397 amadeus/templates/base.html:468
+#: amadeus/templates/base.html:397 amadeus/templates/base.html:472
 msgid "Analytics"
 msgstr "Analytics"
 
-#: amadeus/templates/base.html:402 amadeus/templates/base.html:473
+#: amadeus/templates/base.html:406 amadeus/templates/base.html:477
 msgid "Support"
 msgstr "Suporte"
 
-#: amadeus/templates/base.html:403 amadeus/templates/base.html:474
+#: amadeus/templates/base.html:407 amadeus/templates/base.html:478
 msgid "The responsible for the support has not being assigned yet."
 msgstr "Ainda não foi designado o responsável pelo suporte."
 
