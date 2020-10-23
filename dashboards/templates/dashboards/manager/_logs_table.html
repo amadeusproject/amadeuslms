@@ -30,47 +30,49 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         <div class="cards-content">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-info category-panel">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-12 category-header">
-                                <h4 class="panel-title panel-title-categories">
-                                    <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#collapse1">
-                                        <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Categories' %}
-                                    </a>
-                                    
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse category-panel">
-                        <div class="panel-body">
-                            <div class="users_table">
-                                <div id="table-container" class="table-responsive">
-                                    <table id="categories_table" class="table table-hover">
-                                        <thead>
-                                            <tr id="accordion_legend">
-                                                <th class="sort" scope="col" data-sort="name">
-                                                    {% trans 'Category' %}
-                                                    <i class="fa fa-sort"></i>
-                                                </th>
-                                                <th class="sort" scope="col" data-sort="access">
-                                                    {% trans 'Recorded Logs' %}
-                                                    <i class="fa fa-sort"></i>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                {% if not selectedCategory %}
+                    <div class="panel panel-info category-panel">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12 category-header">
+                                    <h4 class="panel-title panel-title-categories">
+                                        <a class="category-course-link pull-left" data-parent="#accordion" data-toggle="collapse" href="#collapse1">
+                                            <button class="btn btn-default btn-xs text-center cat-selector"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button> {% trans 'Categories' %}
+                                        </a>
+                                        
+                                    </h4>
                                 </div>
-                                <nav aria-label="Table Navigation">
-                                    <ul id="categories_pag" class="pagination"></ul>
-                                </nav>
+                            </div>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse category-panel">
+                            <div class="panel-body">
+                                <div class="users_table">
+                                    <div id="table-container" class="table-responsive">
+                                        <table id="categories_table" class="table table-hover">
+                                            <thead>
+                                                <tr id="accordion_legend">
+                                                    <th class="sort" scope="col" data-sort="name">
+                                                        {% trans 'Category' %}
+                                                        <i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th class="sort" scope="col" data-sort="access">
+                                                        {% trans 'Recorded Logs' %}
+                                                        <i class="fa fa-sort"></i>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav aria-label="Table Navigation">
+                                        <ul id="categories_pag" class="pagination"></ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
                 <div class="panel panel-info subject-panel">
                     <div class="panel-heading">
                         <div class="row">

@@ -28,7 +28,7 @@ def has_analytics_permissions(user):
         return True
 
     if user.coordinators.count() > 0:
-        return False
+        return True
 
     return False
 

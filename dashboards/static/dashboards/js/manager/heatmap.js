@@ -1664,11 +1664,17 @@ class HeatMap {
 $(function () {
   const dataUrl = $(".heatmap").data("url");
 
-  heatmapData(dataUrl, $("#from").val(), $("#until").val());
+  let catId = $("#categoriesSelect").val();
+
+  if (catId !== undefined) {
+    heatmapData(dataUrl, $("#from").val(), $("#until").val(), 0, catId);
+  } else {
+    heatmapData(dataUrl, $("#from").val(), $("#until").val());
+  }
 });
 
-function heatmapData(url, dataIni, dataEnd, option = 0) {
-  $.get(url, { data_ini: dataIni, data_end: dataEnd }, (dataset) => {
+function heatmapData(url, dataIni, dataEnd, option = 0, category = 0) {
+  $.get(url, { data_ini: dataIni, data_end: dataEnd, category: category }, (dataset) => {
     let dataConfig = {};
     if (option == 5) {
       dataset = dataset.filter((d) => d.teacher == 1);

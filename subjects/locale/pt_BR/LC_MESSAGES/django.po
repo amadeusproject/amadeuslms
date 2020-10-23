@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,61 +42,61 @@ msgstr "Essa data deve ser depois do fim das inscrições"
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
-#: subjects/models.py:28 subjects/models.py:35
+#: subjects/models.py:29 subjects/models.py:36
 msgid "Name"
 msgstr "Nome"
 
-#: subjects/models.py:36
+#: subjects/models.py:37
 msgid "Slug"
 msgstr "Slug"
 
-#: subjects/models.py:38
+#: subjects/models.py:39
 #, fuzzy
 #| msgid "Simpler description"
 msgid "simpler description"
 msgstr "Descrição simples"
 
-#: subjects/models.py:39
+#: subjects/models.py:40
 msgid "description"
 msgstr "Descrição"
 
-#: subjects/models.py:40
+#: subjects/models.py:41
 msgid "visible"
 msgstr "Visível"
 
-#: subjects/models.py:42
+#: subjects/models.py:43
 msgid "Begin of Subject Date"
 msgstr "Data de início"
 
-#: subjects/models.py:43
+#: subjects/models.py:44
 msgid "End of Subject Date"
 msgstr "Data de encerramento"
 
-#: subjects/models.py:47
+#: subjects/models.py:48
 msgid "Creation Date"
 msgstr "Data de criação"
 
-#: subjects/models.py:48
+#: subjects/models.py:49
 msgid "Date of last update"
 msgstr "Última Atualização"
 
-#: subjects/models.py:50
+#: subjects/models.py:51
 msgid "Begin Subscribe"
 msgstr "Início de inscrição"
 
-#: subjects/models.py:51
+#: subjects/models.py:52
 msgid "End Subscribe"
 msgstr "Encerramento de inscrição"
 
-#: subjects/models.py:54 subjects/templates/subjects/_form.html:26
+#: subjects/models.py:55 subjects/templates/subjects/_form.html:26
 msgid "Students"
 msgstr "Estudantes"
 
-#: subjects/models.py:58
+#: subjects/models.py:59
 msgid "Maximum upload size"
 msgstr "Tamanho máximo de upload"
 
-#: subjects/models.py:60
+#: subjects/models.py:61
 msgid "Display avatar to students?"
 msgstr "Mostrar avatar para os estudantes?"
 
@@ -158,8 +158,8 @@ msgid "Backup"
 msgstr "Backup"
 
 #: subjects/templates/subjects/backup.html:66
-#: subjects/templates/subjects/list.html:89
-#: subjects/templates/subjects/list.html:156
+#: subjects/templates/subjects/list.html:88
+#: subjects/templates/subjects/list.html:154
 #: subjects/templates/subjects/restore.html:66
 #: subjects/templates/subjects/subject_card.html:42
 #: subjects/templates/subjects/view.html:59
@@ -167,8 +167,8 @@ msgid "Replicate"
 msgstr "Replicar"
 
 #: subjects/templates/subjects/backup.html:68
-#: subjects/templates/subjects/list.html:91
-#: subjects/templates/subjects/list.html:158
+#: subjects/templates/subjects/list.html:89
+#: subjects/templates/subjects/list.html:156
 #: subjects/templates/subjects/resource_card.html:37
 #: subjects/templates/subjects/restore.html:68
 #: subjects/templates/subjects/subject_card.html:45
@@ -194,8 +194,8 @@ msgid "Restore"
 msgstr "Restaurar"
 
 #: subjects/templates/subjects/backup.html:72
-#: subjects/templates/subjects/list.html:93
-#: subjects/templates/subjects/list.html:159
+#: subjects/templates/subjects/list.html:91
+#: subjects/templates/subjects/list.html:157
 #: subjects/templates/subjects/resource_card.html:38
 #: subjects/templates/subjects/restore.html:72
 #: subjects/templates/subjects/subject_card.html:53
@@ -229,14 +229,14 @@ msgstr "Fechar"
 msgid "DELETE"
 msgstr "Deletar"
 
-#: subjects/templates/subjects/home.html:79
+#: subjects/templates/subjects/home.html:75
 #: subjects/templates/subjects/initial.html:89 subjects/views.py:291
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
-#: subjects/templates/subjects/home.html:92
+#: subjects/templates/subjects/home.html:88
 #: subjects/templates/subjects/initial.html:102
-#: subjects/templates/subjects/list.html:199
+#: subjects/templates/subjects/list.html:197
 msgid "You still do not posses any subject in our platform"
 msgstr "Você ainda não possui assuntos em nossa plataforma"
 
@@ -254,18 +254,18 @@ msgstr "Meus assuntos"
 msgid "All subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/templates/subjects/list.html:108
-#: subjects/templates/subjects/list.html:174
+#: subjects/templates/subjects/list.html:106
+#: subjects/templates/subjects/list.html:172
 msgid "Coordinator(s) "
 msgstr "Coordenador(es) "
 
-#: subjects/templates/subjects/list.html:112
-#: subjects/templates/subjects/list.html:178
+#: subjects/templates/subjects/list.html:110
+#: subjects/templates/subjects/list.html:176
 msgid "It doesn't possess coordinators"
 msgstr "Não possui coordenadores"
 
-#: subjects/templates/subjects/list.html:118
-#: subjects/templates/subjects/list.html:184
+#: subjects/templates/subjects/list.html:116
+#: subjects/templates/subjects/list.html:182
 msgid "Create new subject"
 msgstr "Criar novo assunto"
 

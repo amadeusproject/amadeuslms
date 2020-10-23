@@ -403,7 +403,14 @@ class BubbleChart {
 $(function() {
   const dataUrl = $('.bubble_users').data('url');
 
-  bubbleData(dataUrl, $('#from').val(), $('#until').val());
+  let catId = $("#categoriesSelect").val();
+
+  if (catId !== undefined) {
+    bubbleData(dataUrl, $('#from').val(), $('#until').val(), catId);
+  } else {
+    bubbleData(dataUrl, $('#from').val(), $('#until').val());
+  }
+
 
   $('#popovers')
       .popover({
@@ -684,8 +691,8 @@ function createChart(dataset) {
   const bubbleChart = new BubbleChart(chartConfig);
 }
 
-function bubbleData(url, dataIni, dataEnd) {
-  $.get(url, {data_ini: dataIni, data_end: dataEnd}, dataset => {
+function bubbleData(url, dataIni, dataEnd, category = 0) {
+  $.get(url, {data_ini: dataIni, data_end: dataEnd, category: category}, dataset => {
     $('.bubble_users .users_cloud').html('');
     dataset = dataset.map(d => {
       d.value = d.count;
