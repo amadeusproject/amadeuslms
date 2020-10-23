@@ -189,10 +189,10 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
 
                     var items = $('#' + panel_id + '-accordion').children(":visible").length;
 
-                    if (items > 10) {
+                    if (items > 50) {
                         holder.jPages({
                             containerID : panel_id + "-accordion",
-                            perPage: 10,
+                            perPage: 50,
                             previous: "«",
                             next: "»",
                             midRange: 5
@@ -209,10 +209,10 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
         } else {
             var items = $('#' + panel_id + '-accordion').children(":visible").length;
 
-            if (items > 10) {
+            if (items > 50) {
                 holder.jPages({
                     containerID : panel_id + "-accordion",
-                    perPage: 10,
+                    perPage: 50,
                     previous: "«",
                     next: "»",
                     midRange: 5

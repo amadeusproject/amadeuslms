@@ -1,8 +1,8 @@
 google.charts.load('current', {packages: ['corechart', 'bar', 'table']});
 google.charts.setOnLoadCallback(DrawGraph);
 
-function loadLogsGraph(url, dataIni, dataEnd) {
-  $.get(url, {data_ini: dataIni, data_end: dataEnd}, dataset => {
+function loadLogsGraph(url, dataIni, dataEnd, category = 0) {
+  $.get(url, {data_ini: dataIni, data_end: dataEnd, category: category}, dataset => {
     console.log(dataset['data']);
     $('.logsgraph > .info').html('');
     //$('.logs_chart').html(dataset[ 'data' ]);
@@ -21,7 +21,14 @@ function loadLogsGraph(url, dataIni, dataEnd) {
 
 function DrawGraph() {
   const logsGraphUrl = $('.logsgraph').data('url');
-  loadLogsGraph(logsGraphUrl, $('#from').val(), $('#until').val());
+
+  let catId = $("#categoriesSelect").val();
+
+  if (catId !== undefined) {
+    loadLogsGraph(logsGraphUrl, $('#from').val(), $('#until').val(), catId);
+  } else {
+    loadLogsGraph(logsGraphUrl, $('#from').val(), $('#until').val());
+  }
 }
 
 function drawMaterial(dataset) {
