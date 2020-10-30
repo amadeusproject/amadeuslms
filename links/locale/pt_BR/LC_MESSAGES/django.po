@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 03:44+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,16 +167,16 @@ msgstr "Enviar"
 msgid "Edit: "
 msgstr "Editar: "
 
-#: links/views.py:81 links/views.py:101 links/views.py:336 links/views.py:343
-#: links/views.py:368 links/views.py:376
+#: links/views.py:81 links/views.py:101 links/views.py:338 links/views.py:345
+#: links/views.py:370 links/views.py:378
 msgid "Visualize"
 msgstr "Visualizar"
 
-#: links/views.py:176
+#: links/views.py:178
 msgid "Create Webiste Link"
 msgstr "Criar Link de Website"
 
-#: links/views.py:190
+#: links/views.py:192
 #, python-format
 msgid ""
 "The  Link \"%s\" was added to the Topic \"%s\" of the virtual environment "
@@ -185,7 +185,7 @@ msgstr ""
 "O link \"%s\" foi adicionado com sucesso ao Topico \"%s\"  do ambiente "
 "virtual \"%s\" "
 
-#: links/views.py:231
+#: links/views.py:233
 #, python-format
 msgid ""
 "The Website Link \"%s\" was removed successfully from virtual environment "
@@ -193,60 +193,60 @@ msgid ""
 msgstr ""
 "O Link do site \"%s\" foi removido com sucesso do ambiente virtual \"%s\"  "
 
-#: links/views.py:435
+#: links/views.py:439
 msgid "Update Website Link"
 msgstr "Atualizar Link do website"
 
-#: links/views.py:449
+#: links/views.py:453
 #, python-format
 msgid "The Website Link \"%s\" was updated successfully!"
 msgstr "O link do website  \"%s\" foi atualizado com sucesso! "
 
-#: links/views.py:501
+#: links/views.py:505
 msgid "Links Reports"
 msgstr "Relatórios de links"
 
-#: links/views.py:535
+#: links/views.py:539
 msgid "Realized"
 msgstr "Realizada"
 
-#: links/views.py:536
+#: links/views.py:540
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: links/views.py:537
+#: links/views.py:541
 msgid "Historic"
 msgstr "Histórico"
 
-#: links/views.py:579 links/views.py:589
+#: links/views.py:583 links/views.py:593
 msgid "View"
 msgstr "Visualizar"
 
-#: links/views.py:590
+#: links/views.py:594
 msgid "Links"
 msgstr "Links"
 
-#: links/views.py:595
+#: links/views.py:599
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: links/views.py:596
+#: links/views.py:600
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: links/views.py:651
+#: links/views.py:655
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: links/views.py:667
+#: links/views.py:671
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: links/views.py:683
+#: links/views.py:687
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: links/views.py:685
+#: links/views.py:689
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

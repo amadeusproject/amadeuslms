@@ -99,6 +99,7 @@ from amadeus.permissions import (
     has_subject_permissions,
     has_subject_view_permissions,
     has_resource_permissions,
+    has_subject_manage_permissions,
 )
 
 from log.search import user_last_interaction, multi_search
@@ -311,17 +312,34 @@ class GetSubjectList(LoginRequiredMixin, ListView):
     template_name = "subjects/_list.html"
     model = Subject
     context_object_name = "subjects"
+    paginate_by = 30
 
     def get_queryset(self):
         slug = self.kwargs.get("slug")
-        category = get_object_or_404(Category, slug=slug)
+        
+        subjects = Subject.objects.filter(category__slug=slug)
 
-        return category.subject_category.all()
+        return subjects
 
     def get_context_data(self, **kwargs):
         context = super(GetSubjectList, self).get_context_data(**kwargs)
 
+        slug = self.kwargs.get("slug")
+
         context["show_buttons"] = True  # So it shows subscribe and access buttons
+
+        if context["page_obj"].number < context["paginator"].num_pages - context["page_obj"].number:
+            leftPages = context["page_obj"].number-5
+            rightPages = context["page_obj"].number+5-leftPages
+        else:
+            rightPages = context["page_obj"].number+5
+            leftPages = context["page_obj"].number-5-(rightPages-context["paginator"].num_pages)
+
+        leftPages = max(1, leftPages)
+        rightPages = min(context["paginator"].num_pages, rightPages)+1
+        
+        context["displayPages"] = range(leftPages,rightPages)
+        context["categorySlug"] = slug
 
         if "all" in self.request.META.get("HTTP_REFERER"):
             context["all"] = True
@@ -489,7 +507,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     def dispatch(self, request, *args, **kwargs):
         self.subject = get_object_or_404(Subject, slug=kwargs.get("slug", ""))
 
-        if not has_subject_permissions(request.user, self.subject):
+        if not has_subject_manage_permissions(request.user, self.subject):
             return redirect(reverse_lazy("subjects:home"))
 
         return super(SubjectUpdateView, self).dispatch(request, *args, **kwargs)
@@ -579,7 +597,7 @@ class SubjectDeleteView(LoginRequiredMixin, LogMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         subject = get_object_or_404(Subject, slug=kwargs.get("slug", ""))
 
-        if not has_subject_permissions(request.user, subject):
+        if not has_subject_manage_permissions(request.user, subject):
             return redirect(reverse_lazy("subjects:home"))
 
         return super(SubjectDeleteView, self).dispatch(request, *args, **kwargs)

@@ -12,24 +12,29 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n %}
 
 <div class="row">
-     <div class="col-md-12 logsgraph" data-url="{% url 'dashboards:general_logs_chart' %}"> 
-        <div class="header">
-            <div class="identifier">
-                <b>
-                    {% trans 'Recorded logs in the system' %}
-                    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="{% trans 'Represents a series with the set of number of logs in the selected period.' %}"></i>
-                </b>
-            </div>
-        </div>
-        <div class="info">
-            <p class='text-cloudy-legend'> </p>       
-        </div>
-        
-        <div class="logs_chart">
-            
-        </div>
-        
+  <div class="col-md-12 logsgraph" data-url="{% url 'dashboards:general_logs_chart' %}">
+    <div class="header">
+      <div class="identifier">
+        <b>
+          {% trans 'Recorded logs in the system' %}
+          <i
+            class="fa fa-info-circle"
+            aria-hidden="true"
+            data-toggle="tooltip"
+            title="{% trans 'Represents a series with the set of number of logs in the selected period.' %}"
+          ></i>
+        </b>
+      </div>
     </div>
+    <div class="info">
+      <p class="text-cloudy-legend"></p>
+    </div>
+
+    <div id="logs_chart" class="logs_chart">
+      <svg height="300"></svg>
+    </div>
+  </div>
 </div>
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="{% static 'dashboards/js/manager/logschart.js' %}"></script>

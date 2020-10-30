@@ -1,15 +1,19 @@
 $(function() {
     const usersgraphUrl = $(".usersgraph").data("url");
     
-    loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
-    
-   
-    
+    let catId = $("#categoriesSelect").val();
+
+    if (catId !== undefined) {
+        loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val(), catId);
+    } else {
+        loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
+    }
+
 });
 
-function loadBarChartData(usersgraphUrl, dataIni, dataEnd){
+function loadBarChartData(usersgraphUrl, dataIni, dataEnd, category = 0){
     
-    $.get(usersgraphUrl, { data_ini: dataIni, data_end: dataEnd }, dataset => {
+    $.get(usersgraphUrl, { data_ini: dataIni, data_end: dataEnd, category: category }, dataset => {
         drawBarChart(dataset);
     });
 
@@ -31,10 +35,10 @@ function drawBarChart(data){
         `Estudantes (${data["total_students"]})`
     );
     $("#number-students-active").html(
-        `<p style="margin-bottom:0" data-toggle="tooltip" data-placement="bottom" title="${data["active_students"]} dos ${data["total_students"]} estudantes estão ativos no período selecionado">${data["active_students"]}</p>`
+        `<p style="margin-top:0.3em" data-toggle="tooltip" data-placement="bottom" title="${data["active_students"]} dos ${data["total_students"]} estudantes estão ativos no período selecionado">${data["active_students"]}</p>`
     );
     $("#number-teacher-active").html(
-        `<p style="margin-bottom:0" data-toggle="tooltip" data-placement="bottom" title="${data["active_teachers"]} dos ${data["total_teachers"]} professores estão ativos no período selecionado">${data["active_teachers"]}</p>`
+        `<p style="margin-top:0.3em" data-toggle="tooltip" data-placement="bottom" title="${data["active_teachers"]} dos ${data["total_teachers"]} professores estão ativos no período selecionado">${data["active_teachers"]}</p>`
     );
     $("#teacher-percent-value").html(
         `<p data-toggle="tooltip" data-placement="bottom" title="${active_teachers_percent_value}% dos  professores estão ativos no período selecionado">${active_teachers_percent_value}%</p>`
@@ -43,10 +47,10 @@ function drawBarChart(data){
         `<p data-toggle="tooltip" data-placement="bottom" title="${active_students_percent_value}% dos  estudantes estão ativos no período selecionado">${active_students_percent_value}%</p>`
     );
     $("#number-students-inactive").html(
-        `<p style="margin-bottom:0" data-toggle="tooltip" data-placement="bottom" title="${inactive_students} dos ${data["total_students"]} estudantes estão inativos no período selecionado">${inactive_students}</p>`
+        `<p style="margin-top:0.3em" data-toggle="tooltip" data-placement="bottom" title="${inactive_students} dos ${data["total_students"]} estudantes estão inativos no período selecionado">${inactive_students}</p>`
     );
     $("#number-teacher-inactive").html(
-        `<p style="margin-bottom:0" data-toggle="tooltip" data-placement="bottom" title="${inactive_teachers} dos ${data["total_teachers"]} professores estão inativos no período selecionado">${inactive_teachers}</p>`
+        `<p style="margin-top:0.3em" data-toggle="tooltip" data-placement="bottom" title="${inactive_teachers} dos ${data["total_teachers"]} professores estão inativos no período selecionado">${inactive_teachers}</p>`
     );
     $("#percent-teacher-value").html(
         `<p data-toggle="tooltip" data-placement="bottom" title="${inactive_teachers_percent_value}% dos professores estão inativos no período selecionado">${inactive_teachers_percent_value}%</p>`

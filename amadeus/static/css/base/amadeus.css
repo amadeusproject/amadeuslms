@@ -1421,10 +1421,21 @@ h5.one span {
 .modal_profile_sidebar h4 {
   font-size: 16px;
 }
-
+.talk_header .modal_profile_sidebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .talk_header {
   padding-top: 5px !important;
   padding-left: 10px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.modal-header.talk_header::before,
+.modal-header.talk_header::after {
+  content: none;
 }
 .talk_header .close {
   padding-top: 17px !important;

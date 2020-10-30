@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 03:44+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: security/models.py:17
+#: security/models.py:19
 msgid "Don't allow users to self-register"
 msgstr "Não permitir usuários a se auto-cadastrem"
 
-#: security/models.py:18
+#: security/models.py:21
 msgid "Put system in maintenance mode"
 msgstr "Colocar sistema em modo de manutenção"
 
-#: security/models.py:21
+#: security/models.py:23
+msgid "Don't allow coordinators to edit, remove or replicate categories"
+msgstr "Não permitir que coordenadores editem, removam ou repliquem categorias"
+
+#: security/models.py:27
+msgid "Don't allow professors to edit, remove or replicate subejcts"
+msgstr "Não permitir que professores editem, removam ou repliquem assuntos"
+
+#: security/models.py:30
+msgid "Don't allow users to edit access email"
+msgstr "Não permitir que usuários editem o email de acesso"
+
+#: security/models.py:33
+msgid "Don't allow users to edit social name"
+msgstr "Não permitir que usuários editem o nome social"
+
+#: security/models.py:37
 msgid "Security configuration"
 msgstr "Configuração de Securação"
 
-#: security/models.py:22
+#: security/models.py:38
 msgid "Security configurations"
 msgstr "Configurações de Segurança"
 

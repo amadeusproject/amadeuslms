@@ -395,7 +395,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </li>
                         {% if has_analytics_permissions %}
                             <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
-                                <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% if user.is_staff %}
+                                    <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% else %}
+                                    <a href="{% url 'dashboards:view_categories' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% endif %}
                             </li>
                         {% endif %}
                         {% if show_support %}
@@ -466,7 +470,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </li>
                         {% if has_analytics_permissions %}
                             <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
-                                <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% if user.is_staff %}
+                                    <a href="{% url 'dashboards:view_manager_dashboard' %}"><i class="fa fa-bar-chart" aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% else %}
+                                    <a href="{% url 'dashboards:view_categories' %}"><i class="fa fa-bar-chart"
+                                            aria-hid{% get_current_language as LANGUAGE_CODE %}den="true"></i></a>
+                                {% endif %}
                             </li>
                         {% endif %}
                         {% if show_support %}

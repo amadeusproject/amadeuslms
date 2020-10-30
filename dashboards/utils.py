@@ -31,7 +31,7 @@ from notifications.utils import get_resource_users
 
 from django.db.models import Q as Cond, Max, Count
 from django.db.models.functions import TruncDate
-
+from django.http import HttpResponse, Http404
 from collections import OrderedDict
 
 from gtts import gTTS
@@ -46,6 +46,8 @@ from amadeus.permissions import has_category_permissions
 
 from django.shortcuts import get_object_or_404
 from users.models import User
+import xlwt
+from itertools import islice
 
 
 def done_percent(pendency):
@@ -765,54 +767,73 @@ def monthly_users_activity(subject, data_ini, data_end):
     return data
 
 
-
-def general_monthly_users_activity(subjects, data_ini, data_end):
+def general_monthly_users_activity(data_ini, data_end, category = 0):
     period = get_days_in_period(data_ini, data_end)
-    students_list = list()
-    teacher_list = list()
-    coordinators_list = list()
-    subject_list = list()
+
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+        )
+
     data = list()
-    data2 = list()
     searchs = []
     days = []
-    admins = (
-        User.objects.filter(is_staff=True)
-        .values_list("id", flat=True)
-        .order_by("id")
-        .distinct()
-    )
-    for subject in subjects:
-        students = subject.students.all().values_list("id", flat=True)
-        professores = subject.professor.all().values_list("id", flat=True)
-        category = subject.category
-        coordinators = category.coordinators.all().values_list("id", flat=True)
-        coordinators_list.extend(coordinators)
-        students_list.extend(students)
-        teacher_list.extend(professores)
+
+    period = sorted(period)
 
     for day in period:
-        searchs.append(count_general_daily_access(list(students_list), day))
-        searchs.append(count_general_daily_access(list(teacher_list), day))
-        searchs.append(count_general_daily_access(list(coordinators_list), day))
-        searchs.append(count_general_daily_access(list(admins), day))
+        searchs.append(
+            count_general_daily_access(
+                list(usersList.values_list("id", flat=True)), day
+            )
+        )
 
         days.append(day)
 
     if searchs:
         res = multi_search(searchs)
 
+        studentsList = list(
+            usersList.filter(subject_student__isnull=False)
+            .distinct()
+            .values_list("id", flat=True)
+        )
+        teachersList = list(
+            usersList.filter(professors__isnull=False)
+            .distinct()
+            .values_list("id", flat=True)
+        )
+        coordinatorsList = list(
+            usersList.filter(coordinators__isnull=False)
+            .distinct()
+            .values_list("id", flat=True)
+        )
+
         accessess = [x.to_dict()["hits"] for x in res]
 
         users = set()
         dates_set = set()
-        cont = 0
-        cont2 = 0
+
         for i, access in enumerate(accessess):
             for hits in access["hits"]:
                 log = hits["_source"]
 
-                accessDate = parse_datetime(log["datetime"])
+                accessDate = timezone.localtime(parse_datetime(log["datetime"]))
+                
                 dates_set.add(accessDate.date())
 
                 utuple = (
@@ -826,8 +847,8 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                 if not utuple in users:
                     users.add(utuple)
 
-                    if log["user_id"] in students_list:
-                        if log["user_id"] not in teacher_list:
+                    if log["user_id"] in studentsList:
+                        if log["user_id"] not in teachersList:
                             data.append(
                                 {
                                     "year": accessDate.year,
@@ -840,7 +861,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                                     "teacher": 0,
                                 }
                             )
-                    if log["user_id"] in teacher_list:
+                    if log["user_id"] in teachersList:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -854,7 +875,7 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                             }
                         )
 
-                    elif log["user_id"] in coordinators_list:
+                    elif log["user_id"] in coordinatorsList:
                         data.append(
                             {
                                 "year": accessDate.year,
@@ -865,19 +886,6 @@ def general_monthly_users_activity(subjects, data_ini, data_end):
                                 "value": 1,
                                 "count": 1,
                                 "teacher": 2,
-                            }
-                        )
-                    elif log["user_id"] in admins:
-                        data.append(
-                            {
-                                "year": accessDate.year,
-                                "month": accessDate.month - 1,
-                                "day": accessDate.day,
-                                "hour": accessDate.hour,
-                                "user_id": log["user_id"],
-                                "value": 1,
-                                "count": 1,
-                                "teacher": 4,
                             }
                         )
 
@@ -918,227 +926,76 @@ def my_categories(user):
     my_categories = []
     categories = Category.objects.filter()
     for category in categories:
-        if has_category_permissions(user, category) or has:
+        if has_category_permissions(user, category):
             my_categories.append(category)
 
     return my_categories
 
 
-# def generalUsersAccess(subjects, dataIni, dataEnd,):
-#     students = []
-#     category_list = []
-#     teachers_list = []
-#     coordinators_list = []
-#     admins = admins = User.objects.filter(is_staff=True).distinct()
-#     if dataIni == "":
-#         # dataIni = "now-30d"
-#         dataIni = "now-7d"
-
-#     if dataEnd == "":
-#         dataEnd = "now"
-#     data = []
-#     for j,subject in enumerate(subjects):
-
-#         students = subject.students.all()
-#         category_list = subject.category
-#         teachers_list = subject.professor.all()
-#         coordinators_list = subject.category.coordinators.all()
-
-
-#         searchs = []
-#         cont = 0
-#         cont2=0
-#         users = []
-#         for student in students:
-#             cont+=1
-#             searchs.append(
-#                 # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
-#                 count_general_access_period(student.id, dataIni, dataEnd)
-#             )
-#         cont2=cont
-#         for professor in teachers_list:
-#             cont2+=1
-#             searchs.append(
-#                 # count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
-#                 count_general_access_period(professor.id, dataIni, dataEnd)
-#             )
-#         cont3 = cont2
-#         for coordenador in coordinators_list:
-#             cont3+=1
-#             searchs.append(
-#                 # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
-#                 count_general_access_period(coordenador.id, dataIni, dataEnd)
-#             )
-#         if j == 0:
-#             for admin in admins:
-#                 searchs.append(
-#                     # count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
-#                     count_general_access_period(admin.id, dataIni, dataEnd)
-#                 )
-#         if searchs:
-#             res = multi_search(searchs)
-
-
-#             accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-#             for i, access in enumerate(accessess):
-#                 item = {}
-#                 if i < cont:
-#                     obj = students[i]
-#                     item["teacher"] = 0
-#                 elif i < cont2:
-#                         obj = teachers_list[i-cont]
-#                         item["teacher"] = 1
-#                 elif i < cont3:
-#                     obj = coordinators_list[i-cont2]
-#                     item["teacher"] = 2
-#                 elif j == 0:
-
-#                     obj = admins[i-cont3]
-#                     item["teacher"] = 2
-#                 item["count"] = access
-#                 item["image"] = obj.image_url
-#                 item["user"] = str(obj)
-#                 item["user_id"] = obj.id
-#                 item["link_profile"] = reverse(
-#                     "chat:profile",
-#                     args=(),
-#                     kwargs={"email": obj.email},
-#                 )
-#                 item["link_chat"] = reverse(
-#                     "chat:talk",
-#                     args=(),
-#                     kwargs={"email": obj.email},
-#                 )
-
-
-#                 data.append(item)
-#         data.sort(key=lambda x: x["count"], reverse=True)
-
-#     return data
-
-
-def generalUsersAccess(
-    subjects, dataIni, dataEnd,
-):
-    students = []
-    category_list = []
-    students_ids = list()
-    teachers_id = list()
-    coordinators_id = list()
-    admins = admins = User.objects.filter(is_staff=True).distinct()
-    admins_id = []
-    if dataIni == "":
-        # dataIni = "now-30d"
-        dataIni = "now-7d"
-
-    if dataEnd == "":
-        dataEnd = "now"
+def generalUsersAccess(dataIni, dataEnd, category = 0):
     data = []
-    for j, subject in enumerate(subjects):
 
-        students = subject.students.all()
-        category_list = subject.category
-        teachers_list = subject.professor.all()
-        coordinators_list = subject.category.coordinators.all()
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+        )
 
-        searchs = []
-        cont = 0
-        cont2 = 0
-        users = []
+    searchs = []
+    userAccess = []
 
-        userAccess = []
+    for user in usersList:
+        searchs.append(count_user_interactions(user.id, dataIni, dataEnd))
+        userAccess.append(user_last_interaction(user.id))
 
-        for student in students:
-            if student.id not in students_ids:
-                if student.id not in teachers_id:
-                    students_ids.append(student.id)
-                    cont+=1
-                    searchs.append(
-                        # count_access_subject_period(subject.id, student.id, dataIni, dataEnd)
-                        count_general_access_period(student.id, dataIni, dataEnd)
-                    )
-        cont2=cont
-        for professor in teachers_list:
-            if professor.id not in teachers_id:
-                for i, student in enumerate(students_ids):
-                    if student == professor.id:
-                        del students_ids[i]
-                        del searchs[i]
-                        cont-=1
-                        cont2=-1
-                teachers_id.append(professor.id)
-                cont2 += 1
-                searchs.append(
-                    # count_access_subject_period(subject.id, professor.id, dataIni, dataEnd)
-                    count_general_access_period(professor.id, dataIni, dataEnd)
-                )
-                userAccess.append(user_last_interaction(professor.id))
-        cont3 = cont2
-        for coordenador in coordinators_list:
-            if coordenador.id not in coordinators_id:
-                if coordenador.id not in teachers_id:
-                    if coordenador.id not in admins_id:
-                        cont3+=1
-                        searchs.append(
-                            # count_access_subject_period(subject.id, coordenador.id, dataIni, dataEnd)
-                            count_general_access_period(coordenador.id, dataIni, dataEnd)
-                        )
-        if j == 0:
-            for admin in admins:
-                searchs.append(
-                    # count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
-                    count_general_access_period(admin.id, dataIni, dataEnd)
-                )
-                userAccess.append(user_last_interaction(admin.id))
-        if searchs:
-            res = multi_search(searchs)
+    if searchs:
+        res = multi_search(searchs)
 
-            userAccessRes = None
+        accessess = [x.to_dict()["hits"] for x in res]
 
-            if userAccess:
-                userAccessRes = multi_search(userAccess)
+        userAccessRes = None
 
-            accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-            for i, access in enumerate(accessess):
-                item = {}
-                if i < cont:
-                    obj = students[i]
-                    if obj.id in teachers_id:
-                        teachers_id.append(obj.id)
-                        item["teacher"] = 1
-                    else: 
-                        item["teacher"] = 0
-                elif i < cont2:
-                    obj = teachers_list[i - cont]
-                    item["teacher"] = 1
-                elif i < cont3:
-                    obj = coordinators_list[i - cont2]
-                    if obj.id in teachers_id:
-                        teachers_id.append(obj.id)
-                        item["teacher"] = 1
-                    else: 
-                        item["teacher"] = 2
-                elif j == 0:
-                    obj = admins[i-cont3]
-                    if obj.id in teachers_id:
-                        teachers_id.append(obj.id)
-                        item["teacher"] = 1
-                    else: 
-                        item["teacher"] = 2
-                    admins_id.append(obj.id)
-                item["count"] = access
-                item["image"] = obj.image_url
-                item["user"] = str(obj)
-                item["user_id"] = obj.id
-                item["link_profile"] = reverse(
-                    "chat:profile", args=(), kwargs={"email": obj.email},
-                )
-                item["link_chat"] = reverse(
-                    "chat:talk", args=(), kwargs={"email": obj.email},
-                )
-                item["status"], item["status_text"] = userStatus(obj, userAccessRes)
+        if userAccess:
+            userAccessRes = multi_search(userAccess)
 
-                data.append(item)
+        for i, user in enumerate(usersList):
+            interactions = accessess[i]["total"]["value"]
+
+            item = {}
+
+            if user.coordinators.count() > 0:
+                item["teacher"] = 1
+            elif user.professors.count() > 0:
+                item["teacher"] = 0
+            else:
+                item["teacher"] = 2
+
+            item["count"] = interactions
+            item["image"] = user.image_url
+            item["user"] = user.fullname()
+            item["user_id"] = user.id
+            item["link_profile"] = reverse(
+                "chat:profile", args=(), kwargs={"email": user.email},
+            )
+            item["link_chat"] = reverse(
+                "chat:talk", args=(), kwargs={"email": user.email},
+            )
+            item["status"], item["status_text"] = userStatus(user, userAccessRes)
+
+            data.append(item)
         data.sort(key=lambda x: x["count"], reverse=True)
 
     return data
@@ -1175,45 +1032,47 @@ def userStatus(user, lastInteractions):
     return status, status_text
 
 
-def general_logs(user, data_ini, data_end):
+def general_logs(user, data_ini, data_end, category = 0):
     period = get_days_in_period(data_ini, data_end)
-    logs_data = list()
-    logs = Log.objects.filter()
-    # subjects = []
-    # categories = my_categories(user)
-    # subs = Subject.objects.filter(category__in = categories)
 
-    # for subject in subs:
-    #     logs_data.append(logs.filter(
-    #         context__contains={"subject_id": subject.id},
-    #     ))
+    if category > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=category))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=category))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=category))
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+
+    period = sorted(period)
+
+    usersList = list(usersList)
 
     data = list()
     searchs = []
     days = []
 
     for day in period:
-        # day = day.strftime('%d/%m/%Y %H:%M')
-        # print(day)
-        searchs.append(count_daily_general_logs_access1(day))
-        searchs.append(count_daily_general_logs_access2(day))
+        datetime = date_to_datetime(day)
+        searchs.append(count_logs_in_day(usersList, str(datetime).split()[0]))
         days.append(day)
 
-    # if searchs:
-    #     res = multi_search(searchs)
+    minimun = math.inf
+    maximun = 0
+    total = 0
 
-    #     accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-    #     users = set()
-    #     dates_set = set()
-    #     accessess = list(dict.fromkeys(accessess))
-    #     period = list(dict.fromkeys(period))
-    #     print(len(accessess))
-    #     print(len(period))
-    #     for i, access in enumerate(accessess):
-    #         time = period[i].strftime('%d/%m/%Y')
-    #         print(time)
-    #         data.append({'x': time, 'y':access})
-    #         print(data[i])
     if searchs:
         res = multi_search(searchs)
 
@@ -1222,216 +1081,818 @@ def general_logs(user, data_ini, data_end):
         dates_set = set()
 
         period = list(dict.fromkeys(period))
-        sum = 0
-        a = 0
+
         for i, access in enumerate(accessess):
+            value = access["total"]["value"]
+            time = period[i].strftime("%d/%m/%Y")
+            data.append([time, value])
 
-            sum += access["total"]["value"]
-            if i % 2 == 0:
+            minimun = min(minimun, value)
+            maximun = max(maximun, value)
 
-                time = period[a].strftime("%d/%m/%Y")
-                data.append({"x": time, "y": sum})
-                sum = 0
-                a += 1
+            total += value
 
-    return data
+    return data, minimun, maximun, total
 
 
-def active_users_qty(request_user, data_ini, data_end):
+def active_users_qty(request_user, data_ini, data_end, category = 0):
     logs = list()
     cont = 0
-    categories = my_categories(request_user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
 
-    total_students = 0
-    total_teachers = 0
-    ac_students = 0
-    ac_teachers = 0
-    id_students = []
-    id_teachers = []
-    all_students = []
-    all_teachers = []
+    if category > 0:
+        studentsList = User.objects.filter(subject_student__isnull=False, subject_student__category__id=category).distinct()
+        teachersList = User.objects.filter(professors__isnull=False, professors__category__id=category).distinct()
+    else:
+        studentsList = User.objects.filter(subject_student__isnull=False).distinct()
+        teachersList = User.objects.filter(professors__isnull=False).distinct()
 
-    for sub in subjects:
-        sub = get_object_or_404(Subject, slug=sub.slug)
-        students = sub.students.all().values_list("id", flat=True)
-        professores = sub.professor.all().values_list("id", flat=True)
+    totalStudents = studentsList.count()
+    totalTeachers = teachersList.count()
+    activeStudents = 0
+    activeTeachers = 0
 
-        for student in students:
-            if student not in id_students:
-                all_students.append(
-                    user_last_interaction_in_period(student, data_ini, data_end)
-                )
-                id_students.append(student)
-                total_students += 1
+    searchs = []
 
-        for professor in professores:
-            if professor not in id_teachers:
-                all_teachers.append(
-                    user_last_interaction_in_period(professor, data_ini, data_end)
-                )
-                id_teachers.append(professor)
-                total_teachers += 1
+    for student in studentsList:
+        searchs.append(user_last_interaction_in_period(student.id, data_ini, data_end))
 
-    res = multi_search(all_students)
-    for i, student in enumerate(all_students):
-        entry = res[i]
-        if entry:
-            ac_students += 1
+    for teacher in teachersList:
+        searchs.append(user_last_interaction_in_period(teacher.id, data_ini, data_end))
 
-    res = multi_search(all_teachers)
-    for i, professor in enumerate(all_teachers):
-        entry = res[i]
-        if entry:
-            ac_teachers += 1
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()["hits"] for x in res]
+
+        lastIndex = 0
+
+        for i in range(0, totalStudents):
+            entry = accessess[i]
+
+            if entry:
+                interactions = entry["total"]["value"]
+
+                if interactions > 0:
+                    activeStudents += 1
+
+            lastIndex = i
+
+        if lastIndex > 0:
+            lastIndex += 1
+
+        for i in range(0, totalTeachers):
+            entry = accessess[i + lastIndex]
+
+            if entry:
+                interactions = entry["total"]["value"]
+
+                if interactions > 0:
+                    activeTeachers += 1
 
     data = {
-        "total_students": total_students,
-        "active_students": ac_students,
-        "total_teachers": total_teachers,
-        "active_teachers": ac_teachers,
+        "total_students": totalStudents,
+        "active_students": activeStudents,
+        "total_teachers": totalTeachers,
+        "active_teachers": activeTeachers,
     }
+
     return data
 
 
-def functiontable(categories, dataIni, dataEnd):
+def functiontable(dataIni, dataEnd, categoryId = 0):
     data = {}
     categories_data = []
     subjects_data = []
     resources_data = []
-    subs = list()
-    searchs1 = list()
-    searchs2 = list()
-    searchs3 = list()
-    searchs4 = list()
-    searchs5 = list()
-    searchs6 = list()
-    searchs7 = list()
-    searchs8 = list()
-    for category in categories:
-        res = []
-        cont = 0
+
+    searchs = []
+
+    categories = []
+    subjects = []
+
+    if categoryId > 0:
+        usersList = (
+            User.objects.filter(
+                (Cond(subject_student__isnull=False) & Cond(subject_student__category__id=categoryId))
+                | (Cond(professors__isnull=False) & Cond(professors__category__id=categoryId))
+                | (Cond(coordinators__isnull=False) & Cond(coordinators__id=categoryId))
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+
         subjects = (
-            Subject.objects.filter(category=category)
-            .filter(visible=True)
+            Subject.objects.filter(
+                visible=True, category__id=categoryId
+            )
             .order_by("slug")
             .distinct()
         )
-        searchs = list()
-        accessess = []
-        for subject in subjects:
-            searchs.append(
-                count_general_access_subject_period(subject.id, dataIni, dataEnd)
+    else:
+        usersList = (
+            User.objects.filter(
+                Cond(subject_student__isnull=False)
+                | Cond(professors__isnull=False)
+                | Cond(coordinators__isnull=False)
             )
-        subs.append(subject)
-        if searchs:
-            res = multi_search(searchs)
-
-            accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-
-            for i, access in enumerate(accessess):
-                item = {}
-                obj = subjects[i]
-                cont += access
-                subjects_data.append(
-                    {
-                        "name": obj.name,
-                        "access": access,
-                        "category": category.name,
-                        "link": reverse(
-                            "subjects:view", args=(), kwargs={"slug": obj.slug}
-                        ),
-                    }
-                )
-        categories_data.append(
-            {
-                "cat_name": category.name,
-                "access": cont,
-                "link": reverse(
-                    "subjects:cat_view", args=(), kwargs={"slug": category.slug}
-                ),
-            }
+            .distinct()
+            .values_list("id", flat=True)
         )
-    searchs1.append(count_general_resource_logs_period(subs, dataIni, dataEnd))
-    names_resources = {
-        "pdffile": "Arquivo PDF",
-        "pdf_file": "Arquivo PDF",
-        "bulletin": "Boletim do Tópico",
-        "ytvideo": "Vídeo do YouTube",
-        "filelink": "Link para arquivo",
-        "link": "Link para Site",
-        "goals": "Metas do Tópico",
-        "webpage": "Página Web",
-        "questionary": "Questionário",
-        "webconference": "Web conferência",
-        "my_goals": "Metas do Tópico",
-    }
-    if searchs1:
-        res1 = multi_search(searchs1)
-        accessess1 = [x.to_dict()["hits"] for x in res1]
-        list_resources = list()
-        for i, access in enumerate(accessess1):
-            for hits in access["hits"]:
-                log = hits["_source"]
-                item = {}
-                if log["resource"] in names_resources.keys():
-                    resources_data.append(
-                        {
-                            "name": names_resources[log["resource"]],
-                            "access": 1,
-                            "link": log,
-                        }
-                    )
 
+        categories = Category.objects.filter(visible=True).order_by("slug").distinct()
+        subjects = (
+            Subject.objects.filter(
+                visible=True, category__id__in=categories.values_list("id", flat=True)
+            )
+            .order_by("slug")
+            .distinct()
+        )
+
+    usersList = list(usersList)
+    
+    resources = (
+        Resource.objects.filter(
+            visible=True, topic__subject__id__in=subjects.values_list("id", flat=True)
+        )
+        .order_by("slug")
+        .distinct()
+    )
+
+    for category in categories:
+        searchs.append(
+            count_categories_logs_period(category, usersList, dataIni, dataEnd)
+        )
+
+    for subject in subjects:
+        searchs.append(count_subject_logs_period(subject, usersList, dataIni, dataEnd))
+
+    for resource in resources:
+        searchs.append(
+            count_resources_logs_period(resource, usersList, dataIni, dataEnd)
+        )
+    
+    if searchs:
+        res = multi_search(searchs)
+
+        accessess = [x.to_dict()["hits"] for x in res]
+
+        lastIndex = 0
+
+        for i, category in enumerate(categories):
+            total = accessess[i]["total"]["value"]
+
+            categories_data.append(
+                {
+                    "cat_name": category.name,
+                    "access": total,
+                    "link": reverse(
+                        "subjects:cat_view", args=(), kwargs={"slug": category.slug}
+                    ),
+                }
+            )
+
+            lastIndex = i
+
+        if lastIndex > 0:
+            lastIndex += 1
+
+        subjectsLastIndex = lastIndex
+
+        for i, subject in enumerate(subjects):
+            total = accessess[lastIndex + i]["total"]["value"]
+
+            subjects_data.append(
+                {
+                    "name": subject.name,
+                    "access": total,
+                    "category": subject.category.name,
+                    "link": reverse(
+                        "subjects:view", args=(), kwargs={"slug": subject.slug}
+                    ),
+                }
+            )
+
+            subjectsLastIndex = i + lastIndex
+
+        if subjectsLastIndex > 0:
+            lastIndex = subjectsLastIndex + 1
+        else:
+            lastIndex = subjectsLastIndex
+
+        dataResources = {}
+
+        names_resources = {
+            "pdffile": "Arquivo PDF",
+            "bulletin": "Boletim do Tópico",
+            "ytvideo": "Vídeo do YouTube",
+            "filelink": "Link para arquivo",
+            "link": "Link para Site",
+            "goals": "Metas do Tópico",
+            "webpage": "Página Web",
+            "questionary": "Questionário",
+            "webconference": "Web conferência",
+            "my_goals": "Metas do Tópico",
+        }
+
+        for i, resource in enumerate(resources):
+            total = accessess[lastIndex + i]["total"]["value"]
+
+            if resource._my_subclass in dataResources:
+                dataResources[resource._my_subclass] += total
+            else:
+                dataResources[resource._my_subclass] = total
+        
+            """resources_data.append(
+                {
+                    "name": resource.name,
+                    "access": total,
+                    "link": resource.access_link(),
+                }
+            )"""
+
+        for dataRes in dataResources:
+            resources_data.append(
+                {
+                    "name": names_resources[dataRes],
+                    "access": dataResources[dataRes],
+                    "link": "#",
+                }
+            )
+        
     data = {
         "categories": categories_data,
         "subjects": subjects_data,
         "resources": resources_data,
     }
+
     return data
 
 
-def generalAdminsAccess(admins, dataIni, dataEnd):
+def date_to_datetime(dt: date, hour=0, minute=0, second=0) -> datetime:
 
-    if dataIni == "":
-        dataIni = "now-30d"
+    return datetime(dt.year, dt.month, dt.day, hour, minute, second)
 
-    if dataEnd == "":
-        dataEnd = "now"
+def xml_users(request_user, data_ini, data_end, category = 0):
+    """
+    categories = my_categories(request_user)
+    subjects = (
+        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
+    )
+    """
 
-    data = []
-    searchs = []
+    if category > 0:
+        studentsList = User.objects.filter(subject_student__isnull=False, subject_student__category__id=category).order_by("username", "last_name").distinct()
+        teachersList = User.objects.filter(professors__isnull=False, professors__category__id=category).order_by("username", "last_name").distinct()
+    else:
+        studentsList = User.objects.filter(subject_student__isnull=False).order_by("username", "last_name").distinct()
+        teachersList = User.objects.filter(professors__isnull=False).order_by("username", "last_name").distinct()
 
+    interactionQuery = []
+
+    for teacher in teachersList:
+        interactionQuery.append(teachers_xls(teacher.id, data_ini, data_end))
+
+    for student in studentsList:
+        interactionQuery.append(students_xls(student.id, data_ini, data_end))
+    
+    workbook = xlwt.Workbook()
+    activeTeachersWorksheet = workbook.add_sheet(u"Professores Ativos")
+    activeTeachersWorksheet.write(0, 0, u"Professor")
+    activeTeachersWorksheet.write(0, 1, u"Número de assuntos em que é professor")
+    activeTeachersWorksheet.write(0, 2, u"Número de assuntos em que é professor e que teve registros no período")
+    activeTeachersWorksheet.write(0, 3, u"Número de assuntos em que é professor e que não teve registros no período")
+    activeTeachersWorksheet.write(0, 4, u"Nome dos assuntos em que é professor e tem registros no período")
+    activeTeachersWorksheet.write(0, 5, u"Nome dos assuntos em que é professor e que não tem registros no período")
+    activeTeachersWorksheet.write(0, 6, u"Número de mensagens em mural")
+    activeTeachersWorksheet.write(0, 7, u"Número de mensagens diretas enviadas no período")
+    activeTeachersWorksheet.write(0, 8, u"Número de recursos criados no período")
+    activeTeachersWorksheet.write(0, 9, u"Número de registros no período")
+    activeTeachersWorksheet.write(0, 10, u"Categoria")
+
+    inactiveTeachersWorksheet = workbook.add_sheet(u"Professores Inativos")
+    inactiveTeachersWorksheet.write(0, 0, u"Professor")
+    inactiveTeachersWorksheet.write(0, 1, u"Nome dos assuntos em que é professor")
+    inactiveTeachersWorksheet.write(0, 2, u"Categoria")
+
+    activeStudentsWorksheet = workbook.add_sheet(u"Estudantes Ativos")
+    activeStudentsWorksheet.write(0, 0, u"Estudante")
+    activeStudentsWorksheet.write(0, 1, u"Número de assuntos em que é estudante")
+    activeStudentsWorksheet.write(0, 2, u"Número de assuntos em que é estudante e que teve registros no período")
+    activeStudentsWorksheet.write(0, 3, u"Número de assuntos em que é estudante e que não teve registros no período")
+    activeStudentsWorksheet.write(0, 4, u"Nome dos assuntos em que é estudante e tem registros no período")
+    activeStudentsWorksheet.write(0, 5, u"Nome dos assuntos em que é estudante e que não tem registros no período")
+    activeStudentsWorksheet.write(0, 6, u"Número de tarefas para o período")
+    activeStudentsWorksheet.write(0, 7, u"Número de tarefas para o período que foi realizada pelo estudante")
+    activeStudentsWorksheet.write(0, 8, u"Número de tarefas para o período que não foram realizadas (pendentes) pelo estudante")
+    activeStudentsWorksheet.write(0, 9, u"Categoria")
+
+    inactiveStudentsWorksheet = workbook.add_sheet(u"Estudantes Inativos")
+    inactiveStudentsWorksheet.write(0, 0, u"Estudante")
+    inactiveStudentsWorksheet.write(0, 1, u"Nome dos assuntos em que é estudante")
+    inactiveStudentsWorksheet.write(0, 2, u"Categoria")
+
+    if interactionQuery:
+        res = multi_search(interactionQuery)
+
+        activesLine = 1
+        inactivesLine = 1
+
+        for i, teacher in enumerate(teachersList):
+            if i < len(res):
+                entry = res[i].to_dict()
+                access = entry["hits"]["total"]["value"]
+
+                teacherSubjects = teacher.professors.all()
+
+                categoriesNames = []
+
+                for s in teacherSubjects:
+                    if not s.category.name in categoriesNames:
+                        categoriesNames.append(s.category.name)
+                
+                teacherSubjectsIds = teacherSubjects.values_list("id", flat=True)
+
+                if access > 0:
+                    activeSubjects = []
+
+                    for x in entry["aggregations"]["subjects"]["buckets"]:
+                        if x["key"] in teacherSubjectsIds:
+                            activeSubjects.append(x["key"])
+
+                    muralMessages = sum([x["doc_count"] for x in entry["aggregations"]["mural"]["buckets"][0]["action"]["buckets"]]) if len(entry["aggregations"]["mural"]["buckets"]) > 0 else 0
+                    messagesSent = entry["aggregations"]["messages"]["buckets"][0]["action"]["buckets"][0]["doc_count"] if len(entry["aggregations"]["messages"]["buckets"]) > 0 and len(entry["aggregations"]["messages"]["buckets"][0]["action"]["buckets"]) > 0 else 0
+                    resourcesCreated = entry["aggregations"]["resources"]["buckets"][0]["action"]["buckets"][0]["doc_count"] if len(entry["aggregations"]["resources"]["buckets"]) > 0 and len(entry["aggregations"]["resources"]["buckets"][0]["action"]["buckets"]) > 0 else 0
+
+                    activeSubjectsName = []
+                    inactiveSubjectsName = []
+
+                    for s in teacherSubjects:
+                        if s.id in activeSubjects:
+                            activeSubjectsName.append(s.name)
+                        else:
+                            inactiveSubjectsName.append(s.name)
+
+                    activeTeachersWorksheet.write(activesLine, 0, teacher.fullname())
+                    activeTeachersWorksheet.write(
+                        activesLine,
+                        1,
+                        len(teacherSubjects))
+                    activeTeachersWorksheet.write(activesLine, 2, len(activeSubjects))
+                    activeTeachersWorksheet.write(activesLine, 3, len(teacherSubjects) - len(activeSubjects))
+                    activeTeachersWorksheet.write(activesLine, 4, ", ".join(activeSubjectsName))
+                    activeTeachersWorksheet.write(activesLine, 5, ", ".join(inactiveSubjectsName))
+                    activeTeachersWorksheet.write(activesLine, 6, muralMessages)
+                    activeTeachersWorksheet.write(activesLine, 7, messagesSent)
+                    activeTeachersWorksheet.write(activesLine, 8, resourcesCreated)
+                    activeTeachersWorksheet.write(activesLine, 9, access)
+                    activeTeachersWorksheet.write(activesLine, 10, ", ".join(categoriesNames))
+
+                    activesLine += 1
+                else:
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine, 0, teacher.fullname()
+                    )
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine,
+                        1,
+                        ", ".join(str(sub.name) for sub in teacherSubjects),
+                    )
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine,
+                        2,
+                        ", ".join(categoriesNames),
+                    )
+
+                    inactivesLine += 1
+
+        index = len(teachersList)
+
+        activesLine = 1
+        inactivesLine = 1
+
+        for i, student in enumerate(studentsList):
+            if index + i < len(res):
+                entry = res[index + i].to_dict()
+                access = entry["hits"]["total"]["value"]
+
+                studentSubjects = student.subject_student.distinct().all()
+
+                categoriesNames = []
+
+                for s in studentSubjects:
+                    if not s.category.name in categoriesNames:
+                        categoriesNames.append(s.category.name)
+                
+                studentSubjectsIds = studentSubjects.values_list("id", flat=True)
+
+                if access > 0:
+                    activeSubjects = []
+
+                    for x in entry["aggregations"]["subjects"]["buckets"]:
+                        if x["key"] in studentSubjectsIds:
+                            activeSubjects.append(x["key"])
+
+                    activeSubjectsName = []
+                    inactiveSubjectsName = []
+
+                    for s in studentSubjects:
+                        if s.id in activeSubjects:
+                            activeSubjectsName.append(s.name)
+                        else:
+                            inactiveSubjectsName.append(s.name)
+
+                    tasksInPeriod = Pendencies.objects.filter(resource__topic__subject__in=studentSubjectsIds, end_date__range=(data_ini, data_end)).distinct()
+                    tasksInPeriodIds = list(tasksInPeriod.values_list("id", flat=True))
+                    
+                    tasksInPeriodCount = tasksInPeriod.count()
+                    tasksDoneCount = PendencyDone.objects.filter(pendency__id__in=tasksInPeriodIds, student__id=student.id).count()
+
+                    activeStudentsWorksheet.write(activesLine, 0, student.fullname())
+                    activeStudentsWorksheet.write(
+                        activesLine,
+                        1,
+                        len(studentSubjects))
+                    activeStudentsWorksheet.write(activesLine, 2, len(activeSubjects))
+                    activeStudentsWorksheet.write(activesLine, 3, len(studentSubjects) - len(activeSubjects))
+                    activeStudentsWorksheet.write(activesLine, 4, ", ".join(activeSubjectsName))
+                    activeStudentsWorksheet.write(activesLine, 5, ", ".join(inactiveSubjectsName))
+                    activeStudentsWorksheet.write(activesLine, 6, tasksInPeriodCount)
+                    activeStudentsWorksheet.write(activesLine, 7, tasksDoneCount)
+                    activeStudentsWorksheet.write(activesLine, 8, tasksInPeriodCount - tasksDoneCount)
+                    activeStudentsWorksheet.write(activesLine, 9, ", ".join(categoriesNames))
+                
+                    activesLine += 1
+                else:
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine, 0, student.fullname()
+                    )
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine,
+                        1,
+                        ", ".join(str(sub.name) for sub in studentSubjects),
+                    )
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine,
+                        2,
+                        ", ".join(categoriesNames),
+                    )
+
+                    inactivesLine += 1
+
+    path1 = os.path.join(settings.BASE_DIR, "dashboards")
+    path2 = os.path.join(path1, "sheets")
+    path3 = os.path.join(path2, "xls")
+
+    filename = "dashboard_reports.xls"
+    folder_path = os.path.join(path3, filename)
+
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+
+    workbook.save(folder_path)
+
+    filepath = os.path.join(
+        "dashboards", os.path.join("sheets", os.path.join("xls", filename))
+    )
+
+    if not os.path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, "rb").read())
+    response["Content-Type"] = "application/force-download"
+    response["Pragma"] = "public"
+    response["Expires"] = "0"
+    response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
+    response["Content-Disposition"] = "attachment; filename=%s" % (filename)
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = str(os.path.getsize(filepath))
+
+    return response
+
+"""
+def load_logs():
+
+    all_logs = Log.objects.all()
+    categories = Category.objects.all()
+    subjects = Subject.objects.all()
+    teachersList = []
+    studentsList = []
+    coordinator_list = []
+    admins = User.objects.filter(is_staff=True)
+    admin_list = []
+    teacher_subjects = {}
+    student_subjects = {}
+
+    for subject in subjects:
+        for (
+            professor
+        ) in subject.professor.all():  ## List all subjects for teachers as a dict
+            if professor.id not in teachersList:
+                teachersList.append(professor.id)
+            if professor.id not in teacher_subjects.keys():
+                teacher_subjects[professor.id] = [subject]
+            else:
+                if subject not in teacher_subjects[professor.id]:
+                    teacher_subjects[professor.id].append(subject)
+
+        for (
+            student
+        ) in subject.students.all():  ## List all subjects for students as a dict
+            if student.id not in studentsList:
+                studentsList.append(student.id)
+            if student.id not in student_subjects.keys():
+                student_subjects[student.id] = [subject]
+            else:
+                if subject not in student_subjects[student.id]:
+                    student_subjects[student.id].append(subject)
+    for category in categories:  ## List all coordinators
+        for coordenador in category.coordinators.all():
+            if coordenador.id not in coordinator_list:
+                coordinator_list.append(coordenador.id)
+    for admin in admins:  ## List all admins
+        if admin.id not in admin_list:
+            admin_list.append(admin.id)
+    objs = list()
+
+    for logs in all_logs:
+
+        is_admin = bool()
+        is_teacher = bool()
+        is_student = bool()
+        is_coordinator = bool()
+        if logs.user_id in admin_list:
+            is_admin = True
+        else:
+            is_admin = False
+        if logs.user_id in teachersList:
+            is_teacher = True
+        else:
+            is_teacher = False
+
+        if logs.user_id in studentsList:
+            is_student = True
+        else:
+            is_student = False
+
+        if logs.user_id in coordinator_list:
+            is_coordinator = True
+        else:
+            is_coordinator = False
+
+        log = Log_Consultas()
+        log.user = logs.user
+        log.user_id = logs.user_id
+        log.user_email = logs.user_email
+        log.component = logs.component
+        log.context = logs.context
+        log.action = logs.action
+        log.resource = logs.resource
+
+        log.datetime = logs.datetime
+        log.is_admin = is_admin
+        log.is_teacher = is_teacher
+        log.is_student = is_student
+        log.is_coordinator = is_coordinator
+        if logs.context:
+            if logs.context != {}:
+                if "subject_id" in logs.context.keys():
+                    id = logs.context["subject_id"]
+                    try:
+                        sub = Subject.objects.get(id=id)
+                    except:
+                        sub = None
+
+                    if sub is not None:
+                        log.subject = sub
+
+        objs.append(log)
+
+    print("Saving...")
+    log_bulk = Log_Consultas.objects.bulk_create(objs=objs)
+    print("Saved.")
+
+    users = User.objects.all().distinct()
+    objs = list()
+    for user in users:  ## Add all users as teacher or student or coordinator or admin
+        is_admin = bool()
+        is_teacher = bool()
+        is_student = bool()
+        is_coordinator = bool()
+        if user.id in admin_list:
+            is_admin = True
+        else:
+            is_admin = False
+        if user.id in teachersList:
+            is_teacher = True
+        else:
+            is_teacher = False
+
+        if user.id in studentsList:
+            is_student = True
+        else:
+            is_student = False
+
+        if user.id in coordinator_list:
+            is_coordinator = True
+        else:
+            is_coordinator = False
+
+        log = Log_Consultas()
+        log.user = user
+        log.user_id = user.id
+        log.user_email = user.email
+        log.is_admin = is_admin
+        log.is_teacher = is_teacher
+        log.is_student = is_student
+        log.is_coordinator = is_coordinator
+
+        objs.append(log)
+
+    print("Saving2...")
+    log_bulk = Log_Consultas.objects.bulk_create(objs=objs)
+    print("Saved.")
+
+    logs = Log_Consultas.objects.filter(datetime__isnull=True)
+    if logs:
+        for log in logs:  ## Add all users and list yours subjects as teacher or student
+
+            if log.user_id in teacher_subjects.keys():
+                for a in teacher_subjects[log.user_id]:
+                    log.teacher_subjects.add(a.id)
+
+            if log.user_id in student_subjects.keys():
+                for a in student_subjects[log.user_id]:
+                    log.student_subjects.add(a.id)
+
+
+def add_daily_logs():
+
+    all_logs = Log.objects.all(
+        datetime__date__gte=timezone.now() - timedelta(days=1),
+        datetime__date__lte=timezone.now(),
+    )
+
+    categories = Category.objects.all()
+    subjects = Subject.objects.all()
+    teachersList = []
+    studentsList = []
+    coordinator_list = []
+    admins = User.objects.filter(is_staff=True)
+    admin_list = []
+    teacher_subjects = {}
+    student_subjects = {}
+
+    for subject in subjects:
+        for professor in subject.professor.all():
+            if professor.id not in teachersList:
+                teachersList.append(professor.id)
+            if professor.id not in teacher_subjects.keys():
+                teacher_subjects[professor.id] = [subject]
+            else:
+                if subject not in teacher_subjects[professor.id]:
+                    teacher_subjects[professor.id].append(subject)
+
+        for student in subject.students.all():
+            if student.id not in studentsList:
+                studentsList.append(student)
+            if student.id not in student_subjects.keys():
+                student_subjects[student.id] = [subject]
+            else:
+                if subject not in student_subjects[student.id]:
+                    student_subjects[student.id].append(subject)
+    for category in categories:
+        for coordenador in category.coordinators.all():
+            if coordenador.id not in coordinator_list:
+                coordinator_list.append(coordenador.id)
     for admin in admins:
+        if admin.id not in admin_list:
+            admin_list.append(admin.id)
+    objs = list()
 
-        searchs.append(
-            # count_access_subject_period(subject.id, admin.id, dataIni, dataEnd)
-            count_general_access_period(admin.id, dataIni, dataEnd)
+    for logs in all_logs:
+
+        is_admin = bool()
+        is_teacher = bool()
+        is_student = bool()
+        is_coordinator = bool()
+        if logs.user_id in admin_list:
+            is_admin = True
+        else:
+            is_admin = False
+        if logs.user_id in teachersList:
+            is_teacher = True
+        else:
+            is_teacher = False
+
+        if logs.user_id in studentsList:
+            is_student = True
+        else:
+            is_student = False
+
+        if logs.user_id in coordinator_list:
+            is_coordinator = True
+        else:
+            is_coordinator = False
+
+        log = Log_Consultas()
+        log.user = logs.user
+        log.user_id = logs.user_id
+        log.user_email = logs.user_email
+        log.component = logs.component
+        log.context = logs.context
+        log.action = logs.action
+        log.resource = logs.resource
+
+        log.datetime = logs.datetime
+        log.is_admin = is_admin
+        log.is_teacher = is_teacher
+        log.is_student = is_student
+        log.is_coordinator = is_coordinator
+        if logs.context:
+            if logs.context != {}:
+                if "subject_id" in logs.context.keys():
+                    id = logs.context["subject_id"]
+                    try:
+                        sub = Subject.objects.get(id=id)
+                    except:
+                        sub = None
+                    if sub is not None:
+                        log.subject = sub
+        objs.append(log)
+
+    batch_size = 10000
+
+    print("Saving...")
+    while True:
+        batch = list(islice(objs, batch_size))
+        if not batch:
+            break
+        log_bulk = Log_Consultas.objects.bulk_create(batch, batch_size)
+    print("Saved.")
+
+    users = User.objects.all().distinct()
+    objs = list()
+    new_users = list()
+    for user in users:
+        logs = (
+            Log_Consultas.objects.filter(datetime__isnull=True)
+            .filter(user_id=user.id)
+            .count()
         )
-    if searchs:
-        res = multi_search(searchs)
+        if logs < 1:
+            new_users.append(user.id)
+            is_admin = bool()
+            is_teacher = bool()
+            is_student = bool()
+            is_coordinator = bool()
+            if user.id in admin_list:
+                is_admin = True
+            else:
+                is_admin = False
+            if user.id in teachersList:
+                is_teacher = True
+            else:
+                is_teacher = False
 
-        accessess = [x.to_dict()["hits"]["total"]["value"] for x in res]
-        for i, access in enumerate(accessess):
-            item = {}
+            if user.id in studentsList:
+                is_student = True
+            else:
+                is_student = False
 
-            obj = admins[i]
-            item["teacher"] = 2
-            item["count"] = access
-            item["image"] = obj.image_url
-            item["user"] = str(obj)
-            item["user_id"] = obj.id
-            item["link_profile"] = reverse(
-                "chat:profile", args=(), kwargs={"email": obj.email},
-            )
-            item["link_chat"] = reverse(
-                "chat:talk", args=(), kwargs={"email": obj.email},
-            )
+            if user.id in coordinator_list:
+                is_coordinator = True
+            else:
+                is_coordinator = False
 
-            data.append(item)
-        data.sort(key=lambda x: x["count"], reverse=True)
+            log = Log_Consultas()
+            log.user = user
+            log.user_id = user.id
+            log.user_email = user.email
+            log.is_admin = is_admin
+            log.is_teacher = is_teacher
+            log.is_student = is_student
+            log.is_coordinator = is_coordinator
 
-    return data
+            objs.append(log)
 
+    print("Saving2...")
+    while True:
+        batch = list(islice(objs, batch_size))
+        if not batch:
+            break
+        log_bulk = Log_Consultas.objects.bulk_create(batch, batch_size)
+    print("Saved.")
+
+    logs = Log_Consultas.objects.filter(datetime__isnull=True).filter(
+        user_id__in=new_users
+    )
+    if logs:
+        for log in logs:
+            if log.user_id in teacher_subjects.keys():
+                for a in teacher_subjects[log.user_id]:
+                    log.teacher_subjects.add(a.id)
+
+            if log.user_id in student_subjects.keys():
+                for a in student_subjects[log.user_id]:
+                    log.student_subjects.add(a.id)
+"""

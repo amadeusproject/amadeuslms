@@ -22,6 +22,7 @@ from users.models import User
 from django.http import HttpResponse, JsonResponse
 from log.models import Log
 import operator
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -49,10 +50,10 @@ from .utils import (
     my_categories,
     general_monthly_users_activity,
     generalUsersAccess,
-    generalAdminsAccess,
     general_logs,
     active_users_qty,
     functiontable,
+    xml_users,
 )
 
 from log.mixins import LogMixin
@@ -60,6 +61,7 @@ from log.decorators import log_decorator_ajax
 from log.models import Log
 
 from amadeus.permissions import (
+    has_analytics_permissions,
     has_category_permissions,
     has_subject_permissions,
     has_subject_view_permissions,
@@ -85,8 +87,13 @@ import plotly.express as px
 import plotly.graph_objs as go
 from django.template.loader import get_template
 
+import xlwt
+
 
 class GeneralView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/general.html"
 
     log_component = "General_Dashboard"
@@ -157,7 +164,10 @@ class GeneralView(LogMixin, generic.TemplateView):
 
 
 class CategoryView(LogMixin, generic.TemplateView):
-    template_name = "dashboards/category.html"
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "dashboards/manager/index_category.html"
 
     log_component = "Category_Dashboard"
     log_action = "view"
@@ -165,35 +175,43 @@ class CategoryView(LogMixin, generic.TemplateView):
     log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
-        if (
-            Category.objects.filter(coordinators__id=self.request.user.id).exists()
-            or self.request.user.is_staff
-        ):
-            return super(CategoryView, self).dispatch(request, *args, **kwargs)
-        else:
-            return redirect("users:login")
+        if not has_analytics_permissions(self.request.user):
+            return redirect(reverse_lazy("subjects:home"))
 
+        return super(CategoryView, self).dispatch(request, *args, **kwargs)
+        
     def get_context_data(self, **kwargs):
         context = {}
         self.createLog(actor=self.request.user)
 
-        context["months"] = self.get_last_twelve_months()
+        context["title"] = _("Analytics")
+        context["dashboard_menu_active"] = "subjects_menu_active"
 
+        context["data_ini"] = timezone.localtime(timezone.now()) - timedelta(days=7)
+        context["data_end"] = timezone.localtime(timezone.now())
+
+        context["months"] = self.get_last_twelve_months()
+        
         context["categories"] = self.categories_associated_with_user(self.request.user)
+        context["selectedCategory"] = context["categories"][0] 
+
+        context["child_template"] = "dashboards/general_body.html"
         context["javascript_files"] = [
             "analytics/js/d3.v5.min.js",
             "analytics/js/d3.v3.min.js",
             "analytics/js/JSUtil.js",
             "analytics/js/ToolTip.js",
+            "analytics/js/d3-collection.v1.min.js",
+            "analytics/js/d3-dispatch.v1.min.js",
+            "analytics/js/d3-force.v1.min.js",
+            "analytics/js/d3-timer.v1.min.js",
+            "analytics/js/BubbleChart.js",
             "analytics/js/cloud.min.js",
             "analytics/js/charts.js",
-            "dashboards/js/behavior_categories.js",
-            "dashboards/js/charts_category.js",
+            "dashboards/js/behavior.js",
         ]
-        context["style_files"] = [
-            "dashboards/css/general.css",
-            "dashboards/css/dashboards_category.css",
-        ]
+        context["style_files"] = ["dashboards/css/general.css"]
+
         return context
 
     def get_last_twelve_months(self):
@@ -228,13 +246,16 @@ class CategoryView(LogMixin, generic.TemplateView):
 
     def categories_associated_with_user(self, user):
         if user.is_staff:
-            categories = Category.objects.all()
+            categories = Category.objects.all().order_by("name")
         else:
-            categories = Category.objects.filter(coordinators__in=[user])
+            categories = Category.objects.filter(coordinators__in=[user]).distinct().order_by("name")
         return categories
 
 
 class LogView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/general.html"
 
     log_component = "admin_log"
@@ -291,6 +312,9 @@ def parse_log_queryset_to_JSON(logs):
 
 
 class SubjectView(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/subjects.html"
 
     log_component = "subject"
@@ -487,6 +511,9 @@ def cloudy_data_period(request, subject, email=None):
 
 ###### Subjects Teacher Dashboard #######
 class SubjectTeacher(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/teacher/index.html"
 
     log_component = "subject"
@@ -540,6 +567,9 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
 
 #### General Manager Dashboard  -  Begin  ####
 class GeneralManager(LogMixin, generic.TemplateView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
     template_name = "dashboards/manager/index.html"
 
     log_component = "Manager Dashboard"
@@ -550,7 +580,8 @@ class GeneralManager(LogMixin, generic.TemplateView):
     def dispatch(self, request, *args, **kwargs):
 
         if not request.user.is_staff:
-            return redirect("dashboards:view_categories")
+            return redirect(reverse_lazy("subjects:home"))
+
         return super(GeneralManager, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -560,8 +591,8 @@ class GeneralManager(LogMixin, generic.TemplateView):
         context["dashboard_menu_active"] = "subjects_menu_active"
 
         # context["data_ini"] = datetime.now() - timedelta(days=30)
-        context["data_ini"] = datetime.now() - timedelta(days=7)
-        context["data_end"] = datetime.now()
+        context["data_ini"] = timezone.localtime(timezone.now()) - timedelta(days=7)
+        context["data_end"] = timezone.localtime(timezone.now())
         # context["categories"] = categorias
         # context["subjects"] = subjects_by_categories(categorias)
 
@@ -674,18 +705,13 @@ def heatmap_graph(request, slug):
 
 
 def general_heatmap_graph(request):
-    # subjects = request.GET.get('subjects', '')
-
-    categories = my_categories(request.user)
-    subjects = Subject.objects.filter(category__in = categories).order_by('slug').distinct()
-    
-    data_ini = request.GET.get('data_ini', '')
-    data_end = request.GET.get('data_end', '')
+    data_ini = request.GET.get("data_ini", "")
+    data_end = request.GET.get("data_end", "")
+    categoryId = int(request.GET.get("category", 0))
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -693,32 +719,28 @@ def general_heatmap_graph(request):
     else:
         data_end = date.today()
 
-    data = general_monthly_users_activity(subjects, data_ini, data_end)
-    
+    data = general_monthly_users_activity(data_ini, data_end, categoryId)
+
     return JsonResponse(data, safe=False)
 
 
 def most_active_users_general(request):
-    categories = my_categories(request.user)
-    subjects = (
-        Subject.objects.filter(category__in=categories).order_by("slug").distinct()
-    )
-
-    data = []
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
+    categoryId = int(request.GET.get("category", 0))
+
     if not data_ini == "":
         data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
         data_end = parse_date(data_end)
-    
-        
-    usersAccessess = generalUsersAccess(subjects, data_ini, data_end)
+    else:
+        data_end = date.today()
 
-    for s in usersAccessess:
-        data.append(s)
-    
+    data = generalUsersAccess(data_ini, data_end, categoryId)
+
     return JsonResponse(data, safe=False)
 
 
@@ -726,11 +748,11 @@ def general_logs_chart(request):
 
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
+    categoryId = int(request.GET.get("category", 0))
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -738,100 +760,21 @@ def general_logs_chart(request):
     else:
         data_end = date.today()
 
-    data = general_logs(request.user, data_ini, data_end)
-    
-    axis_x =[]
-    axis_y =[]
-    
-    for a in data:
-        day = datetime.strptime(a["x"], "%d/%m/%Y")
-        axis_x.append(day)
-        axis_y.append(a["y"])
-    a_x = sorted([dt for dt in axis_x])
-    
-    lista =  dict(zip(axis_x, axis_y))
-   
-    
-    axis_y = [lista[x] for x in a_x]
-    config = dict({
-    'displaylogo': False
-    }) 
-    
-    fig = px.bar( 
-        x=a_x,
-        y=axis_y,
-        
-        labels={"x": "Data", "y": "acessos"},
-        text=axis_y,
-        # nbins = len(axis_x)*2,
-        # barmode = "relative",
-        color_discrete_sequence=["#99D5CF"],
-        template="simple_white",
-        # hover_name=axis_x,
-        # hover_data=[a_x,a_y],
-
-        )
-    fig.update_xaxes(title_text="")
-    fig.update_yaxes(title_text="")
-    # fig.update_layout(hovermode="x-" )
-    fig.update_traces(hovertemplate='Data: %{x} <br><b>Acessos: %{y}</b>')
-    fig.update_layout(
-      
-        margin=dict(l=0, r=0, t=25, b=0), height=300,
-        # hovermode="x",
-        uniformtext_minsize=8, uniformtext_mode='hide'
-    )
-   
-    fig.update_layout()
-    
-    soma = 0
-    for i in axis_y:
-        soma = soma + i
-
-    plt_div = plot(fig, config= config,output_type="div" )
+    data, minimun, maximun, total = general_logs(request.user, data_ini, data_end, categoryId)
 
     return JsonResponse(
-        {"div": plt_div, "min": min(axis_y), "max": max(axis_y), "total": soma,},
-        safe=False,
+        {"data": data, "min": minimun, "max": maximun, "total": total,}, safe=False,
     )
 
 
 def get_general_active_users(request):
-    
-    data = {}
     data_ini = request.GET.get("data_ini", "")
     data_end = request.GET.get("data_end", "")
-    total_students = 0
-    total_teachers = 0
-    ac_students = 0
-    ac_teachers = 0
-    if not data_ini == "":
-        data_ini = parse_date(data_ini)
-    else:
-       data_ini = date.today() - timedelta(days=7)
-
-    if not data_end == "":
-        data_end = parse_date(data_end)
-    else:
-        data_end = date.today()
-
-
-    data = active_users_qty(request.user, data_ini, data_end)
-    
-    
-    
-    return JsonResponse(data, safe = False)
-
-def get_general_accordion_data(request,):
-    categorias = my_categories(request.user)
-    data = []
-    data_ini = request.GET.get("data_ini", "")
-    data_end = request.GET.get("data_end", "")
+    categoryId = int(request.GET.get("category", 0))
 
     if not data_ini == "":
         data_ini = parse_date(data_ini)
     else:
-        # data_ini = date.today() - timedelta(days=30)
         data_ini = date.today() - timedelta(days=7)
 
     if not data_end == "":
@@ -839,6 +782,47 @@ def get_general_accordion_data(request,):
     else:
         data_end = date.today()
 
-    data = functiontable(categorias, data_ini, data_end)
+    data = active_users_qty(request.user, data_ini, data_end, categoryId)
+
     return JsonResponse(data, safe=False)
+
+
+def get_general_accordion_data(request,):
+    data_ini = request.GET.get("data_ini", "")
+    data_end = request.GET.get("data_end", "")
+    categoryId = int(request.GET.get("category", 0))
+
+    if not data_ini == "":
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
+
+    if not data_end == "":
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+
+    data = functiontable(data_ini, data_end, categoryId)
+
+    return JsonResponse(data, safe=False)
+
+
+def get_xls_users_data(request):
+    data_ini = request.POST.get("from", "")
+    data_end = request.POST.get("until", "")
+    categoryId = int(request.POST.get("selected_category", 0))
+
+    if not data_ini == "":
+        data_ini = parse_date(data_ini)
+    else:
+        data_ini = date.today() - timedelta(days=7)
+        # data_ini = date.today() - timedelta(days=7)
+    if not data_end == "":
+        data_end = parse_date(data_end)
+    else:
+        data_end = date.today()
+
+    response = xml_users(request.user, data_ini, data_end, categoryId)
+
+    return response
 

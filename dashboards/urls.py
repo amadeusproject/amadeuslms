@@ -95,4 +95,5 @@ urlpatterns = [
         views.cloudy_data,
         name="cloudy_data",
     ),
+    url(r"^xlsusers/$", views.get_xls_users_data, name="xlsusers"),
 ]

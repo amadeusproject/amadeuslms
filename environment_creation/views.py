@@ -155,7 +155,9 @@ def addCoordinators(category, coords, usersList):
         for coord in coords:
             if len(usersList) >= int(float(coord)):
                 user = usersList[int(float(coord)) - 1]
-                if not user is None and user not in category.coordinators.all():
+                if not user is None and user.email not in category.coordinators.all().values_list(
+                    "email", flat=True
+                ):
                     category.coordinators.add(user)
 
 
@@ -256,7 +258,9 @@ def addProfessors(subject, profs, usersList):
         for prof in profs:
             if len(usersList) >= int(float(prof)):
                 user = usersList[int(float(prof)) - 1]
-                if not user is None and not user in subject.professor.all():
+                if not user is None and not user.email in subject.professor.all().values_list(
+                    "email", flat=True
+                ):
                     subject.professor.add(user)
 
 
@@ -265,7 +269,9 @@ def addStudents(subject, students, usersList):
         for student in students:
             if len(usersList) >= int(float(student)):
                 user = usersList[int(float(student)) - 1]
-                if not user is None and not user in subject.students.all():
+                if not user is None and not user.email in subject.students.all().values_list(
+                    "email", flat=True
+                ):
                     subject.students.add(user)
 
 
@@ -300,9 +306,9 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
 
                         i += 1
 
-                errorsList = validateSubjectInfo(subject)
+                errorsValidationList = validateSubjectInfo(subject)
 
-                if len(errorsList) == 0:
+                if len(errorsValidationList) == 0:
                     if subject[1].strip() != "":
                         if (
                             len(categoriesList) >= int(subject[4])
@@ -352,6 +358,7 @@ def importSubjects(subjectsSheet, usersList, categoriesList):
                         )
                         subjectsList.append(None)
                 else:
+                    errorsList = errorsList + errorsValidationList
                     subjectsList.append(None)
 
     return subjectsList, errorsList

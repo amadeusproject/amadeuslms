@@ -54,6 +54,10 @@ amadeus/uploads/
 data/
 links/static/images/
 uploads/
+static/
 
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
+
+dashboards/sheets/xls/*
+!dashboards/sheets/xls/.keep

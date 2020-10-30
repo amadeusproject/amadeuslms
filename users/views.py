@@ -364,7 +364,12 @@ class DeleteView(braces_mixins.LoginRequiredMixin, LogMixin, generic.DeleteView)
         )
 
 
-class ChangePassView(LoginRequiredMixin, generic.UpdateView):
+class ChangePassView(LoginRequiredMixin, LogMixin, generic.UpdateView):
+    log_component = "user"
+    log_action = "change_password"
+    log_resource = "user"
+    log_context = {}
+
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -394,6 +399,14 @@ class ChangePassView(LoginRequiredMixin, generic.UpdateView):
 
         messages.success(self.request, _("Password changed successfully!"))
 
+        super(ChangePassView, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
         return super(ChangePassView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -410,6 +423,19 @@ class Profile(LoginRequiredMixin, generic.DetailView):
     context_object_name = "acc"
     template_name = "users/profile.html"
 
+    def get_form_kwargs(self):
+        kwargs = super(UpdateView, self).get_form_kwargs()
+        security = Security.objects.get(id=1)
+
+        kwargs.update(
+            {
+                "change_socialname": security.deny_socialname_change,
+                "change_email": security.deny_email_change,
+            }
+        )
+
+        return kwargs
+
     def get_object(self):
         user = get_object_or_404(User, email=self.request.user.email)
 
@@ -422,7 +448,12 @@ class Profile(LoginRequiredMixin, generic.DetailView):
         return context
 
 
-class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
+class UpdateProfile(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
+    log_component = "user"
+    log_action = "edit_profile"
+    log_resource = "user"
+    log_context = {}
+
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -444,6 +475,14 @@ class UpdateProfile(LoginRequiredMixin, generic.edit.UpdateView):
     def form_valid(self, form):
         form.save()
         messages.success(self.request, _("Profile edited successfully!"))
+
+        super(UpdateProfile, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
 
         return super(UpdateProfile, self).form_valid(form)
 

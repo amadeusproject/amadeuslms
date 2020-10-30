@@ -102,7 +102,8 @@ def getToken(request):
                             ),
                             data=data,
                             auth=auth,
-                        )"""
+                        )
+                        """
 
                         uri = request.build_absolute_uri(
                             reverse("oauth2_provider:token")
@@ -119,6 +120,7 @@ def getToken(request):
                         json_r["extra"] = 0
 
                         response = json.dumps(json_r)
+
         except KeyError:
             response = "Error"
 
@@ -151,7 +153,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
 
         username = json_data["email"]
 
-        user = self.queryset.get(email=username)
+        user = self.queryset.filter(email=username).first()
         response = ""
 
         if not user is None:

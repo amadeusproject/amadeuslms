@@ -9,6 +9,7 @@ from elasticsearch_dsl import (
     Object,
     Search,
     MultiSearch,
+    A
 )
 from elasticsearch.helpers import bulk
 from elasticsearch import Elasticsearch
@@ -19,7 +20,10 @@ from elastic.models import ElasticSearchSettings
 
 from . import models
 
-config = ElasticSearchSettings.objects.get()
+try:
+    config = ElasticSearchSettings.objects.get()
+except Exception:
+    config = None
 
 if config:
     conn = connections.create_connection(hosts=[config.host], timeout=60)
@@ -417,7 +421,7 @@ def count_daily_general_logs_access2(day):
 
 
 def user_last_interaction_in_period(userid, data_ini, data_end):
-    s = Search().extra(size=1)
+    s = Search().extra(size=0)
 
     s = s.query(
         "bool",
@@ -430,7 +434,7 @@ def user_last_interaction_in_period(userid, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_general_access_subject_period(subject, data_ini, data_end):
@@ -461,7 +465,7 @@ def count_general_access_subject_period(subject, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
 def count_general_logs_period(resources, data_ini, data_end):
@@ -489,7 +493,7 @@ def count_general_logs_period(resources, data_ini, data_end):
 
 
 def count_general_daily_access(students, day):
-    s = Search()
+    s = Search().extra(collapse={'field': 'user_id'})
 
     s = s.query(
         "bool",
@@ -497,13 +501,13 @@ def count_general_daily_access(students, day):
             Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day}),
             Q("terms", user_id=students),
         ],
-    )
+    ).sort("-datetime")
 
     return s[0:10000]
 
 
 def count_general_resource_logs_period(subjects, data_ini, data_end):
-    s = Search().extra(size=0)
+    s = Search().extra(size=0, track_total_hits=True)
 
     conds = []
 
@@ -517,23 +521,176 @@ def count_general_resource_logs_period(subjects, data_ini, data_end):
                 "range",
                 datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
             ),
-            Q(
-                "bool",
-                should=conds
-            ),
+            Q("bool", should=conds),
             Q("match", component="resources"),
             Q(
                 "bool",
-                should=[Q("match", action="access"),Q("match", action="create"),Q("match", action="view_statistics"), Q("match", action="view"),Q("match", action="update"),Q("match", action="delete"),Q("match", action="finish"),Q("match", action="watch"),],
+                should=[
+                    Q("match", resource="bulletin"),
+                    Q("match", resource="pdffile"),
+                    Q("match", resource="pdf_file"),
+                    Q("match", resource="ytvideo"),
+                    Q("match", resource="filelink"),
+                    Q("match", resource="link"),
+                    Q("match", resource="goals"),
+                    Q("match", resource="webpage"),
+                    Q("match", resource="questionary"),
+                    Q("match", resource="webconference"),
+                    Q("match", resource="my_goals"),
+                ],
             ),
         ],
     )
 
-    return s[0:10000]
+    return s
 
 
-def count_general_access_period(userid, data_ini, data_end):
-    s = Search().extra(size=0)
+def count_general_access_period(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+        ],
+    )
+
+    return s
+
+
+def count_mural_comments(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q("match", action="create_comment"),
+        ],
+    )
+
+    return s
+
+
+def count_chat_messages(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q(
+                "bool",
+                should=[Q("match", action="send"), Q("match", action="create_post"),],
+            ),
+            Q("match", component="chat"),
+        ],
+    )
+
+    return s
+
+
+def count_resources(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+            Q("match", action="create"),
+            Q("match", component="resources"),
+        ],
+    )
+
+    return s
+
+
+def count_logs_in_day(usersList, day):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q("range", datetime={"time_zone": "-03:00", "gte": day, "lte": day},),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_categories_logs_period(category, usersList, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__category_id": category.id}),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_subject_logs_period(subject, usersList, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__subject_id": subject.id}),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_resources_logs_period(resource, usersList, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", **{"context__" + resource._my_subclass + "_id": resource.id}),
+            Q("terms", user_id=usersList),
+        ],
+    )
+
+    return s
+
+
+def count_user_interactions(userid, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
 
     s = s.query(
         "bool",
@@ -546,5 +703,78 @@ def count_general_access_period(userid, data_ini, data_end):
         ],
     )
 
-    return s[0:10000]
+    """Q(
+                "terms",
+                **{
+                    "component.keyword": [
+                        "category",
+                        "subejct",
+                        "topic",
+                        "resources",
+                        "chat",
+                        "mural",
+                        "pendencies",
+                        "mobile",
+                    ]
+                }
+            ),"""
 
+    return s
+
+def teachers_xls(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+        ],
+    )
+
+    subjects = A("terms", field="context.subject_id")
+    messages = (
+        A("terms", field="component.keyword", include=["chat"])
+        .metric("action", "terms", field="action.keyword", include=["send"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+    mural = (
+        A("terms", field="component.keyword", include=["mural"])
+        .metric("action", "terms", field="action.keyword", include=["create_post", "create_comment"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+    resources = (
+        A("terms", field="component.keyword", include=["resources"])
+        .metric("action", "terms", field="action.keyword", include=["create"])
+        .metric("resource", "terms", field="resource.keyword")
+    )
+
+    s.aggs.bucket("subjects", subjects)
+    s.aggs.bucket("messages", messages)
+    s.aggs.bucket("mural", mural)
+    s.aggs.bucket("resources", resources)
+
+    return s
+
+def students_xls(user, data_ini, data_end):
+    s = Search().extra(size=0, track_total_hits=True)
+
+    s = s.query(
+        "bool",
+        must=[
+            Q(
+                "range",
+                datetime={"time_zone": "-03:00", "gte": data_ini, "lte": data_end},
+            ),
+            Q("match", user_id=user),
+        ],
+    )
+
+    subjects = A("terms", field="context.subject_id")
+    
+    s.aggs.bucket("subjects", subjects)
+
+    return s

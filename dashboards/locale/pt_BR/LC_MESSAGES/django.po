@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 03:44+0000\n"
+"POT-Creation-Date: 2020-10-23 02:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,8 @@ msgstr "Destaques"
 #: dashboards/templates/dashboards/category.html:78
 #: dashboards/templates/dashboards/general_body.html:23
 #: dashboards/templates/dashboards/log.html:50
-#: dashboards/templates/dashboards/manager/index.html:98
+#: dashboards/templates/dashboards/manager/index.html:94
+#: dashboards/templates/dashboards/manager/index_category.html:87
 msgid "Log"
 msgstr "Log"
 
@@ -127,74 +128,74 @@ msgstr "Sab"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:132 dashboards/views.py:203 dashboards/views.py:592
+#: dashboards/views.py:139 dashboards/views.py:221 dashboards/views.py:623
 msgid "January"
 msgstr "Janeiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:133 dashboards/views.py:204 dashboards/views.py:593
+#: dashboards/views.py:140 dashboards/views.py:222 dashboards/views.py:624
 msgid "February"
 msgstr "Fevereiro"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:134 dashboards/views.py:205 dashboards/views.py:594
+#: dashboards/views.py:141 dashboards/views.py:223 dashboards/views.py:625
 msgid "March"
 msgstr "Março"
 
 #: dashboards/templates/dashboards/d3_translate.html:25
 #: dashboards/templates/dashboards/subjects_gantt.html:112
-#: dashboards/views.py:135 dashboards/views.py:206 dashboards/views.py:595
+#: dashboards/views.py:142 dashboards/views.py:224 dashboards/views.py:626
 msgid "April"
 msgstr "Abril"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/d3_translate.html:29
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:136 dashboards/views.py:207 dashboards/views.py:596
+#: dashboards/views.py:143 dashboards/views.py:225 dashboards/views.py:627
 msgid "May"
 msgstr "Maio"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:137 dashboards/views.py:208 dashboards/views.py:597
+#: dashboards/views.py:144 dashboards/views.py:226 dashboards/views.py:628
 msgid "June"
 msgstr "Junho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:138 dashboards/views.py:209 dashboards/views.py:598
+#: dashboards/views.py:145 dashboards/views.py:227 dashboards/views.py:629
 msgid "July"
 msgstr "Julho"
 
 #: dashboards/templates/dashboards/d3_translate.html:26
 #: dashboards/templates/dashboards/subjects_gantt.html:113
-#: dashboards/views.py:139 dashboards/views.py:210 dashboards/views.py:599
+#: dashboards/views.py:146 dashboards/views.py:228 dashboards/views.py:630
 msgid "August"
 msgstr "Agosto"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:140 dashboards/views.py:211 dashboards/views.py:600
+#: dashboards/views.py:147 dashboards/views.py:229 dashboards/views.py:631
 msgid "September"
 msgstr "Setembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:141 dashboards/views.py:212 dashboards/views.py:601
+#: dashboards/views.py:148 dashboards/views.py:230 dashboards/views.py:632
 msgid "October"
 msgstr "Outubro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:142 dashboards/views.py:213 dashboards/views.py:602
+#: dashboards/views.py:149 dashboards/views.py:231 dashboards/views.py:633
 msgid "November"
 msgstr "Novembro"
 
 #: dashboards/templates/dashboards/d3_translate.html:27
 #: dashboards/templates/dashboards/subjects_gantt.html:114
-#: dashboards/views.py:143 dashboards/views.py:214 dashboards/views.py:603
+#: dashboards/views.py:150 dashboards/views.py:232 dashboards/views.py:634
 msgid "December"
 msgstr "Dezembro"
 
@@ -264,17 +265,17 @@ msgid "Most accessed "
 msgstr "Mais acessadas"
 
 #: dashboards/templates/dashboards/left_chart.html:22
-#: dashboards/templates/dashboards/manager/_logs_table.html:39
+#: dashboards/templates/dashboards/manager/_logs_table.html:40
 msgid "Categories"
 msgstr "Categorias"
 
 #: dashboards/templates/dashboards/left_chart.html:27
-#: dashboards/templates/dashboards/manager/_logs_table.html:80
+#: dashboards/templates/dashboards/manager/_logs_table.html:82
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: dashboards/templates/dashboards/left_chart.html:32
-#: dashboards/templates/dashboards/manager/_logs_table.html:138
+#: dashboards/templates/dashboards/manager/_logs_table.html:140
 #: dashboards/templates/dashboards/teacher/_resources_table.html:33
 msgid "Resource"
 msgstr "Recursos"
@@ -287,11 +288,11 @@ msgstr "Pesquisar"
 msgid "Days with more users"
 msgstr "Dias com mais usuários"
 
-#: dashboards/templates/dashboards/manager/_heatmap.html:20
+#: dashboards/templates/dashboards/manager/_heatmap.html:24
 msgid "Compares the number of distinct users in each day"
 msgstr "Compara o número de usuários distintos em cada dia"
 
-#: dashboards/templates/dashboards/manager/_heatmap.html:26
+#: dashboards/templates/dashboards/manager/_heatmap.html:31
 msgid "Distinct users"
 msgstr "Usuários distintos"
 
@@ -299,7 +300,7 @@ msgstr "Usuários distintos"
 msgid "Recorded logs in the system"
 msgstr "Registros no sistema"
 
-#: dashboards/templates/dashboards/manager/_logs_graph.html:20
+#: dashboards/templates/dashboards/manager/_logs_graph.html:24
 msgid ""
 "Represents a series with the set of number of logs in the selected period."
 msgstr ""
@@ -317,21 +318,21 @@ msgstr "Compara o número de registros por categorias, assuntos ou recursos"
 msgid "Element x Number of recorded logs"
 msgstr "Elemento x Número de registros"
 
-#: dashboards/templates/dashboards/manager/_logs_table.html:54
+#: dashboards/templates/dashboards/manager/_logs_table.html:55
 msgid "Category"
 msgstr "Categorias"
 
-#: dashboards/templates/dashboards/manager/_logs_table.html:58
-#: dashboards/templates/dashboards/manager/_logs_table.html:99
-#: dashboards/templates/dashboards/manager/_logs_table.html:142
+#: dashboards/templates/dashboards/manager/_logs_table.html:59
+#: dashboards/templates/dashboards/manager/_logs_table.html:101
+#: dashboards/templates/dashboards/manager/_logs_table.html:144
 msgid "Recorded Logs"
 msgstr "Registros"
 
-#: dashboards/templates/dashboards/manager/_logs_table.html:95
+#: dashboards/templates/dashboards/manager/_logs_table.html:97
 msgid "Subject"
 msgstr "Assuntos"
 
-#: dashboards/templates/dashboards/manager/_logs_table.html:123
+#: dashboards/templates/dashboards/manager/_logs_table.html:125
 msgid "Resources"
 msgstr "Recursos"
 
@@ -339,43 +340,43 @@ msgstr "Recursos"
 msgid "Users that interacts the most"
 msgstr "Usuários que mais interagem"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:20
+#: dashboards/templates/dashboards/manager/_users_bubble.html:24
 msgid "Compares the the interactions number realized by system users"
 msgstr "Compara o número de interações realizadas por usuários do sistema"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:24
+#: dashboards/templates/dashboards/manager/_users_bubble.html:29
 #: dashboards/templates/dashboards/subjects_cloudy.html:34
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:24
 msgid "Cloudy"
 msgstr "Nuvem"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:36
+#: dashboards/templates/dashboards/manager/_users_bubble.html:41
 msgid "Users interactions"
 msgstr "Interações dos usuários"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:66
+#: dashboards/templates/dashboards/manager/_users_bubble.html:88
 #: dashboards/templates/dashboards/manager/_users_graph.html:20
 msgid "Users"
 msgstr "Usuários"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:70
+#: dashboards/templates/dashboards/manager/_users_bubble.html:92
 #: dashboards/templates/dashboards/teacher/_users_bubble.html:51
 msgid "Interactions"
 msgstr "Interações"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:87
+#: dashboards/templates/dashboards/manager/_users_bubble.html:108
 #, fuzzy
 #| msgid "Closed on: "
 msgid "Close"
 msgstr "Encerrado em: "
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:108
+#: dashboards/templates/dashboards/manager/_users_bubble.html:130
 msgid "See Profile"
-msgstr ""
+msgstr "Ver Perfil"
 
-#: dashboards/templates/dashboards/manager/_users_bubble.html:114
+#: dashboards/templates/dashboards/manager/_users_bubble.html:137
 msgid "Send Message"
-msgstr ""
+msgstr "Enviar Mensagem"
 
 #: dashboards/templates/dashboards/manager/_users_graph.html:21
 msgid "Compares the number of active and inactive users in the selected period"
@@ -389,53 +390,54 @@ msgstr "Ativos"
 msgid "Inactive users"
 msgstr "Inativos"
 
-#: dashboards/templates/dashboards/manager/index copy.html:34
 #: dashboards/templates/dashboards/manager/index.html:45
-#: dashboards/templates/dashboards/manager/index.html:77
+#: dashboards/templates/dashboards/manager/index.html:75
+#: dashboards/templates/dashboards/manager/index_category.html:36
+#: dashboards/templates/dashboards/manager/index_category.html:68
 msgid "General Analytics"
 msgstr "Analytics"
 
-#: dashboards/templates/dashboards/manager/index copy.html:46
-#: dashboards/templates/dashboards/manager/index.html:57
+#: dashboards/templates/dashboards/manager/index.html:56
+#: dashboards/templates/dashboards/manager/index_category.html:48
 msgid "General"
 msgstr "Geral"
 
-#: dashboards/templates/dashboards/manager/index copy.html:49
 #: dashboards/templates/dashboards/manager/index.html:61
+#: dashboards/templates/dashboards/manager/index_category.html:54
 msgid "By Category"
 msgstr "Por Categoria"
 
-#: dashboards/templates/dashboards/manager/index copy.html:52
-#: dashboards/templates/dashboards/manager/index.html:63
+#: dashboards/templates/dashboards/manager/index.html:65
+#: dashboards/templates/dashboards/manager/index_category.html:58
 msgid "By Subject"
 msgstr "Por Assunto"
 
-#: dashboards/templates/dashboards/manager/index copy.html:64
-#: dashboards/templates/dashboards/teacher/index.html:50
-msgid "Analytics / Professor"
-msgstr "Analytics / Professor"
+#: dashboards/templates/dashboards/manager/index.html:90
+#: dashboards/templates/dashboards/manager/index_category.html:83
+msgid "Highlights"
+msgstr "Destaques"
 
-#: dashboards/templates/dashboards/manager/index copy.html:83
-#: dashboards/templates/dashboards/manager/index.html:108
+#: dashboards/templates/dashboards/manager/index.html:102
+#: dashboards/templates/dashboards/manager/index_category.html:106
 #: dashboards/templates/dashboards/teacher/index.html:69
 msgid "Select the required period"
 msgstr "Selecione o período desejado"
 
-#: dashboards/templates/dashboards/manager/index copy.html:86
-#: dashboards/templates/dashboards/manager/index.html:111
+#: dashboards/templates/dashboards/manager/index.html:105
+#: dashboards/templates/dashboards/manager/index_category.html:109
 #: dashboards/templates/dashboards/teacher/index.html:72
 msgid "From"
 msgstr "De"
 
-#: dashboards/templates/dashboards/manager/index copy.html:95
-#: dashboards/templates/dashboards/manager/index.html:120
+#: dashboards/templates/dashboards/manager/index.html:114
+#: dashboards/templates/dashboards/manager/index_category.html:119
 #: dashboards/templates/dashboards/teacher/index.html:81
 msgid "Until"
 msgstr "Até"
 
-#: dashboards/templates/dashboards/manager/index.html:94
-msgid "Highlights"
-msgstr "Destaques"
+#: dashboards/templates/dashboards/manager/index_category.html:97
+msgid "Select the category"
+msgstr "Selecione a categoria"
 
 #: dashboards/templates/dashboards/middle_chart.html:17
 msgid "Most active users"
@@ -443,7 +445,8 @@ msgstr "Usuários mais ativos"
 
 #: dashboards/templates/dashboards/subjects.html:39
 #: dashboards/templates/dashboards/teacher/index.html:38
-#: dashboards/views.py:322 dashboards/views.py:517 dashboards/views.py:559
+#: dashboards/views.py:187 dashboards/views.py:346 dashboards/views.py:544
+#: dashboards/views.py:590
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -707,15 +710,19 @@ msgstr "Interações do estudante"
 msgid "Professor"
 msgstr "Professor"
 
+#: dashboards/templates/dashboards/teacher/index.html:50
+msgid "Analytics / Professor"
+msgstr "Analytics / Professor"
+
 #: dashboards/templatetags/analytics_tag.py:31
 msgid "Other indicator"
 msgstr "Outro indicador"
 
-#: dashboards/utils.py:1139
+#: dashboards/utils.py:1008
 msgid "Offline"
 msgstr ""
 
-#: dashboards/utils.py:1161
+#: dashboards/utils.py:1030
 msgid "Online"
 msgstr ""
 

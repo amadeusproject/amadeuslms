@@ -15,28 +15,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n pagination %}
 {% load django_bootstrap_breadcrumbs %}
 
-
 {% block style %}
-   
     <link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general_analytics.css' %}" />
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
-        
 {% endblock %}
 
 {% block javascript %}
-     {% include "dashboards/d3_translate.html" %}
-    
+{% include "dashboards/d3_translate.html" %}
     <script type="text/javascript" src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/ToolTip.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/JSUtil.js' %}"></script>
     <script type="text/javascript" src="{% static 'analytics/js/brush_zoom.js' %}"></script>
-    
-    
-    
-    
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -51,17 +42,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% block content %}
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options mural-tabs">
-            <a href="{% url 'dashboards:view_manager_dashboard' %}">
-                <li data-mural="general" class="active">
-                    {% trans "General" %}
-                </li>
-            </a>
+            {% if user.is_staff %}
+                <a href="{% url 'dashboards:view_manager_dashboard' %}">
+                    <li>
+                        {% trans "General" %}
+                    </li>
+                </a>
+            {% endif %}
             <a href="{% url 'dashboards:view_categories' %}">
-                <li data-mural="category"> 
+                <li class="active">
                     {% trans "By Category" %}
                 </li>
-            </a>
-            <li data-mural="general" >
+            </a> 
+            <li>
                 {% trans "By Subject" %}
             </li>
         </ul>
@@ -74,37 +67,49 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
                         <span> {% trans 'General Analytics' %}</span>
                     </h4>
-
+    
                     <div class="col-md-5 pull-right category-card-items">
                     </div>
                 </div>
             </div>
         </div>
-        
+    
         <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
             <div class="row">
                 <div class="core-subjects-options-div">
-                        <ul class="core-subjects-options mural-tabs">
-                            <a href="">
-                                <li class="active">
-                                    {% trans "Highlights" %}
-                                </li>
-                            </a>
-                                <li>
-                                        {% trans "Log" %}
-                                </li>
-                        </ul>
-                    </div>
+                    <ul class="core-subjects-options mural-tabs">
+                        <a href="">
+                            <li class="active">
+                                {% trans "Highlights" %}
+                            </li>
+                        </a>
+                        <li>
+                            {% trans "Log" %}
+                        </li>
+                    </ul>
+                </div>
                 <div class="col-md-12">
                     <form id="period" class="form-inline" action="{% url 'dashboards:xlsusers' %}" method="POST">
                         {% csrf_token %}
+                        
                         <div class="period-title">
+                            <div class="form-group">
+                                <span>{% trans "Select the category" %}:</span>
+                                <select id="categoriesSelect" name="selected_category" class="form-control">
+                                    {% for cat in categories %}
+                                        <option value="{{ cat.id }}" {% if cat.id == selectedCategory.id %} selected {% endif %}>{{ cat }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <br clear="all" />
+
                             <span> {% trans 'Select the required period' %}:</span>
                         
                             <div class="form-group">
                                 <label for="from">{% trans 'From' %}:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control date-picker" id="from" name="from" value="{{ data_ini|date:'SHORT_DATE_FORMAT' }}" />
+                                    <input type="text" class="form-control date-picker" id="from" name="from"
+                                        value="{{ data_ini|date:'SHORT_DATE_FORMAT' }}" />
                                     <div class="input-group-addon" onclick="$('#from').focus()">
                                         <i class="fa fa-calendar"></i>
                                     </div>
@@ -113,7 +118,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             <div class="form-group">
                                 <label for="until">{% trans 'Until' %}:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control date-picker" id="until" name="until" value="{{ data_end|date:'SHORT_DATE_FORMAT' }}" />
+                                    <input type="text" class="form-control date-picker" id="until" name="until"
+                                        value="{{ data_end|date:'SHORT_DATE_FORMAT' }}" />
                                     <div class="input-group-addon" onclick="$('#until').focus()">
                                         <i class="fa fa-calendar"></i>
                                     </div>
@@ -126,7 +132,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     </form>
                 </div>
             </div>
-            
+        
             <div class="container" style="max-width: 100%">
                 <div class="row nopadding">
                     <div class="col-md-12 nopadding">
@@ -148,7 +154,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 </div>
                                 <!-- logs graph -->
                                 {% include "dashboards/manager/_logs_graph.html" %}
-                                
                             </div>
                         </div>
                         <br />
@@ -186,13 +191,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
     </div>
-
-    
 {% endblock %}
-
- {% block addtional_scripts %} 
+    
+{% block addtional_scripts %}
     <script type="text/javascript" src="{% static 'js/category.js' %}"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'dashboards/js/manager/script.js' %}"></script> {% endcomment %}
+    
     <script type="text/javascript">
         $("#panel_loading_mask1").show();
         $("#panel_loading_mask2").show();
@@ -204,47 +207,56 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         $(function () {
             $(".date-picker").on('dp.change', () => {
-                const dataIni = $("#from").val()
-                const dataEnd = $("#until").val()
-                
-                const d1 = dataIni.split("/");
-                const data_in = new Date(d1[2], d1[1], d1[0]-1);
-                const d2 = dataEnd.split("/");
-                const data_end = new Date(d2[2], d2[1], d2[0]-1);
-            
-                if (data_in > data_end) {
-                    $(".data-error").css("display", "block");
-                } else { 
-                    $('input[name=inlineRadioOptions][value=0]').prop("checked",true);
-                    $('input[name=radio-heatmap][value=3]').prop("checked",true);
-                    $("#panel_loading_mask1").show();
-                    $("#panel_loading_mask2").show();
-                    $("#panel_loading_mask3").show();
-                    $("#panel_loading_mask4").show();
-                    $("#panel_loading_mask5").show();
-                    $(".data-error").css("display", "none");
-                   
-                    const usersgraphUrl = $(".usersgraph").data("url");
-    
-                    loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
-                    
-                    const logsGraphUrl = $(".logsgraph").data("url");
-                    $(".logs_chart").html();
-                    loadLogsGraph(logsGraphUrl, $("#from").val(), $("#until").val());
-                    
-                    const dataRecourseUrl = $(".recordedlogs").data("url");
-                    loadDataResources(dataRecourseUrl, $("#from").val(), $("#until").val());
-                    
-                    const bubbleUrl = $(".bubble_users").data("url");
-                    const heatmapUrl = $(".heatmap").data("url");
+                ReloadGraphs();
+            });
 
-                    $(".bubble_users .users_cloud").html("");
-                    bubbleData(bubbleUrl, dataIni, dataEnd, 0);
-                    
-                    $(".heatmap .heatmap_chart").html("");
-                    heatmapData(heatmapUrl, $("#from").val(), $("#until").val(), 0);
-                }
+            $("#categoriesSelect").on("change", () => {
+                ReloadGraphs();
             });
         });
+
+        function ReloadGraphs() {
+            const dataIni = $("#from").val()
+            const dataEnd = $("#until").val()
+
+            const d1 = dataIni.split("/");
+            const data_in = new Date(d1[2], d1[1], d1[0] - 1);
+            const d2 = dataEnd.split("/");
+            const data_end = new Date(d2[2], d2[1], d2[0] - 1);
+
+            let catId = $("#categoriesSelect").val();
+
+            if (data_in > data_end) {
+                $(".data-error").css("display", "block");
+            } else {
+                $('input[name=inlineRadioOptions][value=0]').prop("checked", true);
+                $('input[name=radio-heatmap][value=3]').prop("checked", true);
+                $("#panel_loading_mask1").show();
+                $("#panel_loading_mask2").show();
+                $("#panel_loading_mask3").show();
+                $("#panel_loading_mask4").show();
+                $("#panel_loading_mask5").show();
+                $(".data-error").css("display", "none");
+
+                const usersgraphUrl = $(".usersgraph").data("url");
+                loadBarChartData(usersgraphUrl, dataIni, dataEnd, catId);
+
+                const logsGraphUrl = $(".logsgraph").data("url");
+                //$(".logs_chart").html();
+                loadLogsGraph(logsGraphUrl, dataIni, dataEnd, catId);
+
+                const dataRecourseUrl = $(".recordedlogs").data("url");
+                loadDataResources(dataRecourseUrl, dataIni, dataEnd, catId);
+
+                const bubbleUrl = $(".bubble_users").data("url");
+                const heatmapUrl = $(".heatmap").data("url");
+
+                $(".bubble_users .users_cloud").html("");
+                bubbleData(bubbleUrl, dataIni, dataEnd, catId);
+
+                $(".heatmap .heatmap_chart").html("");
+                heatmapData(heatmapUrl, dataIni, dataEnd, 0, catId);
+            }
+        }
     </script>
 {% endblock %}

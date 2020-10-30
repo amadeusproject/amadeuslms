@@ -13,131 +13,134 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n %}
 
 <script type="text/javascript">
-    function normalizeString (string) {
-        return string.split('').map(function (letter) {
-            let i = this.accents.indexOf(letter)
-            return (i !== -1) ? this.out[i] : letter
-            }.bind({
-            accents: 'ÀÁÂÃÄÅĄàáâãäåąßÒÓÔÕÕÖØÓòóôõöøóÈÉÊËĘèéêëęðÇĆçćÐÌÍÎÏìíîïÙÚÛÜùúûüÑŃñńŠŚšśŸÿýŽŻŹžżź',
-            out: 'AAAAAAAaaaaaaaBOOOOOOOOoooooooEEEEEeeeeeeCCccDIIIIiiiiUUUUuuuuNNnnSSssYyyZZZzzz'
-            })
-        ).join('');
-    }
+  function normalizeString (string) {
+      return string.split('').map(function (letter) {
+          let i = this.accents.indexOf(letter)
+          return (i !== -1) ? this.out[i] : letter
+          }.bind({
+          accents: 'ÀÁÂÃÄÅĄàáâãäåąßÒÓÔÕÕÖØÓòóôõöøóÈÉÊËĘèéêëęðÇĆçćÐÌÍÎÏìíîïÙÚÛÜùúûüÑŃñńŠŚšśŸÿýŽŻŹžżź',
+          out: 'AAAAAAAaaaaaaaBOOOOOOOOoooooooEEEEEeeeeeeCCccDIIIIiiiiUUUUuuuuNNnnSSssYyyZZZzzz'
+          })
+      ).join('');
+  }
 
-    google.charts.load('current', {'packages':['corechart',"table"]});
-    google.charts.setOnLoadCallback(drawTable);
+  google.charts.load('current', {'packages':['corechart',"table"]});
+  google.charts.setOnLoadCallback(drawTable);
 
-    let filteredData = [];
+  let filteredData = [];
 
-    let arrayData = [
-        [
-            {label: "{% trans 'Student' %}", id: 'student'},
-            {label: "{% trans 'Total questions' %}", id: 'questions', type: 'number'},
-            {label: "{% trans 'Total answered' %}", id: 'answered', type: 'number'},
-            {label: "{% trans 'Total correct' %}", id: 'correct', type: 'number'},
-            {label: "{% trans '% Correct' %}", id: 'percentage'},
-        ]
-    ];
+  let arrayData = [
+      [
+          {label: "{% trans 'Student' %}", id: 'student'},
+          {label: "{% trans 'Total questions' %}", id: 'questions', type: 'number'},
+          {label: "{% trans 'Total answered' %}", id: 'answered', type: 'number'},
+          {label: "{% trans 'Total correct' %}", id: 'correct', type: 'number'},
+          {label: "{% trans '% Correct' %}", id: 'percentage'},
+      ]
+  ];
 
-    let percentage = null;
+  let percentage = null;
 
-    {% for json_data in data %}
-        percentage = "{{json_data.percentage}}";
-        percentage = percentage.replace(",", ".");
-        percentage = parseFloat(percentage); 
+  {% for json_data in data %}
+      percentage = "{{json_data.percentage}}";
+      percentage = percentage.replace(",", ".");
+      percentage = parseFloat(percentage);
 
-        arrayData.push([
-            {v: normalizeString("{{json_data.student}}").toLowerCase(), f:"{{json_data.student}}"}, 
-            {v: {% if json_data.total_questions != "-" %}{{json_data.total_questions}}{% else %}''{% endif %} , f: "{{json_data.total_questions}}"}, 
-            {v: {% if json_data.total_answered != "-" %}{{json_data.total_answered}}{% else %}''{% endif %} , f: "{{json_data.total_answered}}"}, 
-            {v: {% if json_data.total_correct != "-" %}{{json_data.total_correct}}{% else %}''{% endif %} , f: "{{json_data.total_correct}}"}, 
-            {v: percentage, f: percentage.toFixed(2) + "%"}
-        ]);
-    {% endfor %}
+      arrayData.push([
+          {v: normalizeString("{{json_data.student}}").toLowerCase(), f:"{{json_data.student}}"},
+          {v: {% if json_data.total_questions != "-" %}{{json_data.total_questions}}{% else %}''{% endif %} , f: "{{json_data.total_questions}}"},
+          {v: {% if json_data.total_answered != "-" %}{{json_data.total_answered}}{% else %}''{% endif %} , f: "{{json_data.total_answered}}"},
+          {v: {% if json_data.total_correct != "-" %}{{json_data.total_correct}}{% else %}''{% endif %} , f: "{{json_data.total_correct}}"},
+          {v: percentage, f: percentage.toFixed(2) + "%"}
+      ]);
+  {% endfor %}
 
-    filteredData = arrayData;
+  filteredData = arrayData;
 
-    function drawTable(data = arrayData, paginated = false) {
-        let sortAscending = {0:false,1:false,2:false,3:false,4:false};
-        let tableData = google.visualization.arrayToDataTable(data);
+  function drawTable(data = arrayData, paginated = false) {
+      let sortAscending = {0:false,1:false,2:false,3:false,4:false};
+      let tableData = google.visualization.arrayToDataTable(data);
 
-        let options = {
-            sort: "enable",
-            allowHtml: true,
-            cssClassNames : {
-                tableRow: 'text-center',
-                tableCell: 'text-center',
-                headerCell: 'text-center'
-            },
-            showRowNumber: true,
-            width: '100%',
-            height: '100%',
-            page: 'enable',
-            pageSize: 20
-        }
+      let options = {
+          sort: "enable",
+          allowHtml: true,
+          cssClassNames : {
+              tableRow: 'text-center',
+              tableCell: 'text-center',
+              headerCell: 'text-center'
+          },
+          showRowNumber: true,
+          width: '100%',
+          height: '100%',
+          page: 'enable',
+          pageSize: 20
+      }
 
-        let table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(tableData, options);
+      let table = new google.visualization.Table(document.getElementById('table_div'));
+      table.draw(tableData, options);
 
-        $("#title-table").text((data.length - 1) + " {% trans 'results(s)' %}");
-    }
+      $("#title-table").text((data.length - 1) + " {% trans 'results(s)' %}");
+  }
 </script>
 
 <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="text-center">
-            <ul class="list-inline nav-justified">
-                <li>
-                    <ul class="list-inline text-left">
-                        <a href="{% url 'questionary:results_sheet' questionary.slug %}"><i class="fa fa-download"></i>{% trans 'Download .xls file' %}</a>
-                    </ul>
-                </li>
-                <li>
-                    <ul id="view-table" class="list-inline text-left">
-                        <li><h3 id="title-table"></h3></li>
-                    </ul>
-                </li>
-                <li>
-                    <ul class="list-inline text-right">
-                        <li><p>{% trans "Filter: " %}</p></li>
-                        <li><input id="search-input" class="form-control" type="text" name="search" value=""></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <form id="google-chart-checkbox" action="" method="get">
-            <div id="table_div"></div>
-        </form>
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
-            <ul class="pagination">
-
-            </ul>
-        </div>
+  <div class="col-md-10 col-md-offset-1">
+    <div class="text-center">
+      <ul class="list-inline nav-justified">
+        <li>
+          <ul class="list-inline text-left">
+            <a href="{% url 'questionary:results_sheet' questionary.slug %}">
+              <i class="fa fa-download"></i>
+              {% trans 'Download .xls file' %}
+            </a>
+          </ul>
+        </li>
+        <li>
+          <ul id="view-table" class="list-inline text-left">
+            <li><h3 id="title-table"></h3></li>
+          </ul>
+        </li>
+        <li>
+          <ul class="list-inline text-right">
+            <li><p>{% trans "Filter: " %}</p></li>
+            <li><input id="search-input" class="form-control" type="text" name="search" value="" /></li>
+          </ul>
+        </li>
+      </ul>
     </div>
+    <form id="google-chart-checkbox" action="" method="get">
+      <div id="table_div"></div>
+    </form>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+      <ul class="pagination"></ul>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
-    $("#search-input").on("keyup",function(){
-        filteredData = [];
+  $("#search-input").on("keyup", function () {
+    filteredData = [];
 
-        let text = $("#search-input").val();
-        
-        searcher(text.toLowerCase());
-    });
+    let text = $("#search-input").val();
 
-    function searcher(text){
-        filteredData.push(arrayData[0]);
+    searcher(text.toLowerCase());
+  });
 
-        for (let i = 1; i < arrayData.length; i++) {
-            if (arrayData[i][0]["f"].toLowerCase().includes(text)
-            || arrayData[i][1]["f"].toLowerCase().includes(text)
-            || arrayData[i][2]["f"].toLowerCase().includes(text)
-            || arrayData[i][3]["f"].toLowerCase().includes(text)
-            || arrayData[i][4]["f"].toLowerCase().includes(text)) {
-                filteredData.push(arrayData[i]);
-            }
-        }
+  function searcher(text) {
+    filteredData.push(arrayData[0]);
 
-        drawTable(filteredData);
+    for (let i = 1; i < arrayData.length; i++) {
+      if (
+        arrayData[i][0]["f"].toLowerCase().includes(text) ||
+        arrayData[i][1]["f"].toLowerCase().includes(text) ||
+        arrayData[i][2]["f"].toLowerCase().includes(text) ||
+        arrayData[i][3]["f"].toLowerCase().includes(text) ||
+        arrayData[i][4]["f"].toLowerCase().includes(text)
+      ) {
+        filteredData.push(arrayData[i]);
+      }
     }
+
+    drawTable(filteredData);
+  }
 </script>

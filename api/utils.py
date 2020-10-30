@@ -20,41 +20,66 @@ from fcm_django.fcm import fcm_send_message
 
 from chat.serializers import ChatSerializer
 
+
 def sendChatPushNotification(user, message):
-	device = FCMDevice.objects.filter(user = user, active = True).first()
+    device = FCMDevice.objects.filter(user__id=user.id).first()
 
-	if not device is None:
-		serializer = ChatSerializer(message)
+    if not device is None:
+        serializer = ChatSerializer(message)
 
-		json_r = json.dumps(serializer.data)
-		json_r = json.loads(json_r)
-		
-		info = {}
+        json_r = json.dumps(serializer.data)
+        json_r = json.loads(json_r)
 
-		info["data"] = {}
-		info["data"]["messages"] = []
-		info["data"]["message_sent"] = json_r
+        info = {}
 
-		info["message"] = ""
-		info["type"] = ""
-		info["title"] = ""
-		info["success"] = True
-		info["number"] = 1
-		info['extra'] = 0
+        info["data"] = {}
+        info["data"]["messages"] = []
+        info["data"]["message_sent"] = json_r
 
-		response = json.dumps(info)
+        info["message"] = ""
+        info["type"] = ""
+        info["title"] = ""
+        info["success"] = True
+        info["number"] = 1
+        info["extra"] = 0
 
-		title = str(message.user).join(_(" sent a message"))
+        response = json.dumps(info)
 
-		simple_notify = textwrap.shorten(strip_tags(message.text), width = 30, placeholder = "...")
+        title = str(message.user).join(_(" sent a message"))
 
-		if message.image:
-			simple_notify += " ".join(_("[Photo]"))
+        simple_notify = textwrap.shorten(
+            strip_tags(message.text), width=30, placeholder="..."
+        )
 
-		device.send_message(title = str(message.user), body = simple_notify, data = {"response": response, "title": title, "body": simple_notify, "user_from": message.user.email, "user_name": str(message.user), "user_img": message.user.image_url, "type": 'chat', "click_action": 'FLUTTER_NOTIFICATION_CLICK'})
+        if message.image:
+            simple_notify += " ".join(_("[Photo]"))
+
+        device.send_message(
+            title=str(message.user),
+            body=simple_notify,
+            data={
+                "response": response,
+                "title": title,
+                "body": simple_notify,
+                "user_from": message.user.email,
+                "user_name": str(message.user),
+                "user_img": message.user.image_url,
+                "type": "chat",
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+            },
+        )
+
 
 def sendMuralPushNotification(user, user_action, message):
-	device = FCMDevice.objects.filter(user = user, active = True).first()
+    device = FCMDevice.objects.filter(user__id=user.id).first()
 
-	if not device is None:
-		device.send_message(data = {"title": "Mural", "body": message, "user_img": user_action.image_url, "type": "mural"})
+    if not device is None:
+        device.send_message(
+            data={
+                "title": "Mural",
+                "body": message,
+                "user_img": user_action.image_url,
+                "type": "mural",
+            }
+        )
+

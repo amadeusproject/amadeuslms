@@ -15,6 +15,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from categories.models import Category
 from subjects.models import Subject
 from topics.models import Resource
+from security.models import Security
 
 """
 	Function to know if a user has permission to:
@@ -27,7 +28,7 @@ def has_analytics_permissions(user):
         return True
 
     if user.coordinators.count() > 0:
-        return False
+        return True
 
     return False
 
@@ -51,6 +52,19 @@ def has_category_permissions(user, category):
     return False
 
 
+def has_category_manage_permissiosn(user, category):
+    if user.is_staff:
+        return True
+
+    if category and category.coordinators.filter(id=user.id).exists():
+        security = Security.objects.get(id=1)
+
+        if not security.deny_category_edition:
+            return True
+
+    return False
+
+
 """
 	Function to know if a user has permission to:
 		- Edit Subject
@@ -65,6 +79,22 @@ def has_subject_permissions(user, subject):
 
     if subject.professor and subject.professor.filter(id=user.id).exists():
         return True
+
+    if subject.category and subject.category.coordinators.filter(id=user.id).exists():
+        return True
+
+    return False
+
+
+def has_subject_manage_permissions(user, subject):
+    if user and user.is_staff:
+        return True
+
+    if subject.professor and subject.professor.filter(id=user.id).exists():
+        security = Security.objects.get(id=1)
+
+        if not security.deny_subject_edition:
+            return True
 
     if subject.category and subject.category.coordinators.filter(id=user.id).exists():
         return True

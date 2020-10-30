@@ -64,9 +64,19 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </p>
                     </div>
                     <div class="col-md-3">
-                        <div align="right">
-                            <a href="{% url 'users:update' acc.email %}" class="btn btn-success btn-raised btn-sm"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
-                            <a href="{% url 'users:delete' acc.email %}" class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                        <div class="row">
+                            <a href="#" onclick="getModalInfo($(this), '0', 'general'); return false;"
+                                data-url='{% url "chat:profile" acc.email %}' class="btn btn-default btn-raised btn-sm btn-block">
+                                {% trans 'See Profile' %}
+                            </a>
+                        </div>
+                        <div class="row text-center">
+                            <div class="btn-group btn-group-justified">
+                                <a href="{% url 'users:update' acc.email %}" class="btn btn-success btn-raised btn-sm"><i
+                                        class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                                <a href="javascript:delete_subject.get('{% url 'users:delete' acc.email %}','#users','#modal_remove')"
+                                    class="btn btn-default btn-raised btn-sm"><i class="fa fa-trash"></i> {% trans 'Delete' %}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,4 +90,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
     {% endif %}
+
+    <div id="modal_remove">
+    
+    </div>
+    
+    <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+    
+    <script src="{% static 'js/crop.js' %}"></script> <!-- Js for cropper-->
+    
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 {% endblock %}

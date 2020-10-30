@@ -1,13 +1,13 @@
 @charset "UTF-8";
-/*  Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- *  Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- *  O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- *  Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- *  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
+/* Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
 /* === Variables === */
 /* === End Variables === */
 a, a:focus, a:hover {
-  color: #D32F2F;
+  color: #333333;
 }
 
 body .container .jumbotron-inverse,
@@ -34,12 +34,12 @@ body .container-fluid .well-inverse {
 }
 
 .access-subject {
-  background-color: #03A9F4 !important;
+  background-color: #f4891f !important;
   color: #FFFFFF;
 }
 
 .outside-title {
-  color: #D32F2F;
+  color: #333333;
 }
 
 .category-course-link {
@@ -68,7 +68,7 @@ body .container-fluid .well-inverse {
 }
 
 #analytics-panel {
-  background-color: #616161 !important;
+  background-color: #424242 !important;
 }
 
 #search-results-title {
@@ -111,7 +111,7 @@ body .container-fluid .well-inverse {
 }
 
 .login_subcommands a, .login_subcommands a:hover {
-  color: #D32F2F;
+  color: #333333;
 }
 
 .carousel-caption {
@@ -137,7 +137,7 @@ body .container-fluid .well-inverse {
 .btn-group-raised .input-group-btn .btn.btn-success,
 .btn.btn-fab.btn-success, .btn.btn-raised.btn-success,
 .input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success {
-  background-color: #03A9F4;
+  background-color: #f4891f;
 }
 
 .btn-group-raised .btn:not(.btn-link).active.btn-success,
@@ -156,7 +156,8 @@ body .container-fluid .well-inverse {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success {
-  background-color: #0277BD;
+  background-color: #f4891f;
+  opacity: 0.8;
 }
 
 /* === End Buttons === */
@@ -394,11 +395,11 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Sidebar === */
 /* === Breadcrumbs === */
 .breadcrumb > li > span.divider {
-  color: #D32F2F;
+  color: #333333;
 }
 
 .breadcrumb > li > a {
-  color: #D32F2F;
+  color: #333333;
 }
 
 .breadcrumb > li {
@@ -443,7 +444,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Panel === */
 /* === Category Panel === */
 .category-panel > .panel-heading {
-  background-color: #424242 !important;
+  background-color: #333333 !important;
 }
 
 .category-panel .category-header .category-card-items i {
@@ -465,7 +466,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Category Panel === */
 /* === Subject Panel === */
 .subject-panel > .panel-heading {
-  background-color: #616161 !important;
+  background-color: #424242 !important;
 }
 
 .subject-panel .category-header .category-card-items i {
@@ -486,7 +487,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Subject Panel === */
 /* === Topic Panel === */
 .topic-panel > .panel-heading {
-  background-color: #757575 !important;
+  background-color: #616161 !important;
 }
 
 .topic-panel .category-header .category-card-items i,
@@ -589,15 +590,15 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 #participants {
-  box-shadow: -1px 1px 8px #616161;
+  box-shadow: -1px 1px 8px #424242;
 }
 
 #participants i {
-  color: #616161;
+  color: #424242;
 }
 
 .participants-list {
-  box-shadow: -1px 2px 1px #616161;
+  box-shadow: -1px 2px 1px #424242;
 }
 
 .subject-participants .sub-user:hover {
@@ -640,7 +641,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 a.add-row {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  background-color: #03A9F4;
+  background-color: #f4891f;
   color: rgba(255, 255, 255, 0.84);
 }
 
@@ -926,6 +927,34 @@ a.add-row {
   .mobile_menu_navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
     color: #FFFFFF !important;
   }
+}
+/* === Pagination === */
+.page-item.active, .page-item:hover {
+  background: #D32F2F;
+  border-color: #D32F2F;
+}
+
+.pagination > li > a, .pagination > li > span, .pagination > li > a:hover {
+  color: #333333;
+}
+
+#table_div .google-visualization-table-page-number.current {
+  background: #D32F2F;
+  border-color: #D32F2F;
+}
+
+#table_div .google-visualization-table-page-number, #table_div .google-visualization-table-page-number:hover, #table_div .google-visualization-table-div-page .goog-custom-button {
+  color: #333333;
+}
+
+/* === Checkboxes === */
+.checkbox input[type=checkbox]:checked + .checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check {
+  color: #D32F2F;
+  border-color: #D32F2F;
+}
+
+.checkbox input[type=checkbox]:checked + .checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check:before {
+  color: #D32F2F;
 }
 
 /*# sourceMappingURL=red.css.map */

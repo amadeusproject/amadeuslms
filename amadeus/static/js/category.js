@@ -176,7 +176,6 @@ function bindCollapse() {
 $('.category-panel-content').on('shown.bs.collapse', function(e) {
     if($(this).is(e.target)){
         var panel_id = $(this).attr('id');
-        var holder = $(this).find('.holder');
 
         if ($('#' + panel_id + '-accordion').children().length == 0) {
             var load_sub_url = $(this).find('.load_sub_url').val();
@@ -187,18 +186,6 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
                     $("#" + panel_id + "_loading").hide();
                     $('#' + panel_id + '-accordion').html(data);
 
-                    var items = $('#' + panel_id + '-accordion').children(":visible").length;
-
-                    if (items > 10) {
-                        holder.jPages({
-                            containerID : panel_id + "-accordion",
-                            perPage: 10,
-                            previous: "«",
-                            next: "»",
-                            midRange: 5
-                        });
-                    }
-
                     $('[data-toggle="tooltip"]').tooltip({
                         trigger: 'hover'
                     });
@@ -206,21 +193,7 @@ $('.category-panel-content').on('shown.bs.collapse', function(e) {
                     bindCollapse();
                 }
             });
-        } else {
-            var items = $('#' + panel_id + '-accordion').children(":visible").length;
-
-            if (items > 10) {
-                holder.jPages({
-                    containerID : panel_id + "-accordion",
-                    perPage: 10,
-                    previous: "«",
-                    next: "»",
-                    midRange: 5
-                });
-            }
         }
-
-
     }
 });
 
@@ -247,5 +220,16 @@ function delete_group(url) {
         $("#group-accordion").after(modal);
 
         $('.modal').modal('show');
+    });
+}
+
+function passPage(url, page, containerID) {
+    $.ajax({
+        url: url,
+        data: {page: page},
+        success: function (data) {
+            console.log(data);
+            $("#" + containerID).html(data);
+        }
     });
 }
