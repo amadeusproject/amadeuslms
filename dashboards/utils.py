@@ -1543,7 +1543,7 @@ def xml_users(request_user, data_ini, data_end, category = 0):
     path2 = os.path.join(path1, "sheets")
     path3 = os.path.join(path2, "xls")
 
-    filename = request_user.fullname().replace(" ", "_") + ".xls"
+    filename = "dashboard_reports.xls"
     folder_path = os.path.join(path3, filename)
 
     if not os.path.isdir(path3):

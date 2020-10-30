@@ -12,10 +12,32 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% load permissions_tags %}
 
-{% for subject in subjects %}
+{% for subject in page_obj %}
 	{% subject_view_permissions request.user subject as has_subject_view_permissions %}
     
     {% if all or has_subject_view_permissions %}
         {% include "subjects/subject_card.html" with subject=subject %}
     {% endif %}
 {% endfor %}
+
+<div class="holder text-center">
+    {% if page_obj.has_previous %}
+        <a class="jp-previous" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.previous_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">«</a>
+    {% else %}
+        <a class="jp-previous jp-disabled" href="#" style="margin-right: -5px;">«</a>
+    {% endif %}
+    
+    {% for i in displayPages %}
+        {% if i == page_obj.number %}
+            <a class="jp-current" style="margin-right: -5px;">{{ i }}</a>
+        {% else %}
+            <a class="" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ i }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.has_next %}
+        <a class="jp-next" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.next_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">»</a>
+    {% else %}
+        <a class="jp-next jp-disabled" href="#" style="margin-right: -5px;">»</a>
+    {% endif %}
+</div>
