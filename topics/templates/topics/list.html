@@ -21,7 +21,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 	{% for topic in subject.topic_subject.all %}
 		{% if not topic.repository and topic.visible or has_subject_permissions %}
-			<div class="panel panel-info {% if not topic.visible or topic.repository %} topic-panel-invisible {% else %} topic-panel {% endif %}">
+			<div class="panel panel-info {% if not topic.visible or topic.repository %} topic-panel-invisible student-view-hide {% else %} topic-panel {% endif %}" {% if not topic.visible or topic.repository %}{% if studentView %}style="display:none"{% endif %}{% endif %}>
 		        <div class="panel-heading">
 		            <div class="row">
 		                <div class="col-md-12 category-header">
@@ -32,7 +32,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		                    </h4>
 
 	                        {% if has_subject_permissions %}
-		                    	<div class="col-md-5 pull-right category-card-items">
+		                    	<div class="col-md-5 pull-right category-card-items student-view-hide" {% if studentView %}style="display:none"{% endif %}>
 		                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 		                            </a>
@@ -58,7 +58,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 					{% endautoescape %}
 
 					{% if has_subject_permissions %}
-						<div class="row text-center">
+						<div class="row text-center student-view-hide" {% if studentView %}style="display: none"{% endif %}>
 							<div class="btn-group add_resource">
 						  		<button type="button" class="btn btn-success btn-raised dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						  			<i class="fa fa-angle-right"></i> {% trans 'Add Resource' %}
