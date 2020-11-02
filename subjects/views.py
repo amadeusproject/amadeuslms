@@ -340,6 +340,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         
         context["displayPages"] = range(leftPages,rightPages)
         context["categorySlug"] = slug
+        context["hideCounters"] = True
 
         if "all" in self.request.META.get("HTTP_REFERER"):
             context["all"] = True
