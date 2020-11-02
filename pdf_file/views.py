@@ -73,6 +73,8 @@ class ViewPDFFile(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context["absolute_url"] = self.request.build_absolute_uri(pdf_file.file.url)
         context["subject"] = pdf_file.topic.subject
 
+        context['studentView'] = self.request.session.get(pdf_file.topic.subject.slug, False)
+
         self.log_context["category_id"] = pdf_file.topic.subject.category.id
         self.log_context["category_name"] = pdf_file.topic.subject.category.name
         self.log_context["category_slug"] = pdf_file.topic.subject.category.slug
