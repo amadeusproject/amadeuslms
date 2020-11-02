@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-23 02:44+0000\n"
+"POT-Creation-Date: 2020-11-02 14:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,7 +153,7 @@ msgstr "Enviar Mensagem"
 #: subjects/templates/subjects/backup.html:116
 #: subjects/templates/subjects/restore.html:70
 #: subjects/templates/subjects/subject_card.html:49
-#: subjects/templates/subjects/view.html:66
+#: subjects/templates/subjects/view.html:71
 msgid "Backup"
 msgstr "Backup"
 
@@ -162,7 +162,7 @@ msgstr "Backup"
 #: subjects/templates/subjects/list.html:154
 #: subjects/templates/subjects/restore.html:66
 #: subjects/templates/subjects/subject_card.html:42
-#: subjects/templates/subjects/view.html:59
+#: subjects/templates/subjects/view.html:64
 msgid "Replicate"
 msgstr "Replicar"
 
@@ -172,14 +172,14 @@ msgstr "Replicar"
 #: subjects/templates/subjects/resource_card.html:37
 #: subjects/templates/subjects/restore.html:68
 #: subjects/templates/subjects/subject_card.html:45
-#: subjects/templates/subjects/view.html:62
+#: subjects/templates/subjects/view.html:67
 msgid "Edit"
 msgstr "Editar"
 
 #: subjects/templates/subjects/backup.html:69
 #: subjects/templates/subjects/restore.html:69
 #: subjects/templates/subjects/subject_card.html:47
-#: subjects/templates/subjects/view.html:64
+#: subjects/templates/subjects/view.html:69
 msgid "Groups"
 msgstr "Grupos"
 
@@ -189,7 +189,7 @@ msgstr "Grupos"
 #: subjects/templates/subjects/restore.html:71
 #: subjects/templates/subjects/restore.html:114
 #: subjects/templates/subjects/subject_card.html:50
-#: subjects/templates/subjects/view.html:67
+#: subjects/templates/subjects/view.html:72
 msgid "Restore"
 msgstr "Restaurar"
 
@@ -199,7 +199,7 @@ msgstr "Restaurar"
 #: subjects/templates/subjects/resource_card.html:38
 #: subjects/templates/subjects/restore.html:72
 #: subjects/templates/subjects/subject_card.html:53
-#: subjects/templates/subjects/view.html:70
+#: subjects/templates/subjects/view.html:75
 msgid "Remove"
 msgstr "Remover"
 
@@ -283,22 +283,22 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:59
-#: subjects/templates/subjects/list_search.html:62 subjects/views.py:864
+#: subjects/templates/subjects/list_search.html:62 subjects/views.py:884
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:60
-#: subjects/templates/subjects/list_search.html:63 subjects/views.py:872
+#: subjects/templates/subjects/list_search.html:63 subjects/views.py:892
 msgid "Resources"
 msgstr "Recursos"
 
 #: subjects/templates/subjects/resource_card.html:54
-#: subjects/templates/subjects/subject_card.html:93
+#: subjects/templates/subjects/subject_card.html:94
 msgid "Professor(s) "
 msgstr "Professor(es) "
 
 #: subjects/templates/subjects/resource_card.html:58
-#: subjects/templates/subjects/subject_card.html:97
+#: subjects/templates/subjects/subject_card.html:98
 msgid "It doesn't possess professors"
 msgstr "Não possui professores"
 
@@ -332,58 +332,56 @@ msgid "File not supported."
 msgstr ""
 
 #: subjects/templates/subjects/subject_card.html:48
-#: subjects/templates/subjects/view.html:65
+#: subjects/templates/subjects/view.html:70
 #, fuzzy
 #| msgid "Creation Date"
 msgid "Questions Database"
 msgstr "Data de criação"
 
 #: subjects/templates/subjects/subject_card.html:51
-#: subjects/templates/subjects/view.html:68
-#, fuzzy
-#| msgid "Creation Date"
+#: subjects/templates/subjects/view.html:73
 msgid "Interaction Data"
-msgstr "Data de criação"
+msgstr "Dados de Interação"
 
 #: subjects/templates/subjects/subject_card.html:59
 #: subjects/templates/subjects/subject_card.html:64
-#: subjects/templates/subjects/view.html:76
 #: subjects/templates/subjects/view.html:81
+#: subjects/templates/subjects/view.html:86
 msgid "Analytics"
 msgstr "Analytics"
 
 #: subjects/templates/subjects/subject_card.html:70
-#: subjects/templates/subjects/view.html:87
+#: subjects/templates/subjects/view.html:92
 msgid "Pendencies"
 msgstr "Pendências"
 
 #: subjects/templates/subjects/subject_card.html:74
-#: subjects/templates/subjects/view.html:91
+#: subjects/templates/subjects/view.html:96
 msgid "Messages"
 msgstr "Mensagens"
 
 #: subjects/templates/subjects/subject_card.html:78
-#: subjects/templates/subjects/view.html:95
+#: subjects/templates/subjects/view.html:100
 msgid "Mural"
 msgstr "Mural"
 
-#: subjects/templates/subjects/subject_card.html:101
+#: subjects/templates/subjects/subject_card.html:102
 msgid "Beginning"
 msgstr "Início"
 
-#: subjects/templates/subjects/subject_card.html:104
+#: subjects/templates/subjects/subject_card.html:105
 msgid "End"
 msgstr "Fim"
 
-#: subjects/templates/subjects/subject_card.html:116
+#: subjects/templates/subjects/subject_card.html:117
 msgid "Access Subject"
 msgstr "Acessar Assunto"
 
-#: subjects/templates/subjects/subject_card.html:120
+#: subjects/templates/subjects/subject_card.html:121
 msgid "Subscribe to Subject"
 msgstr "Inscrever-se no Assunto"
 
-#: subjects/templates/subjects/subject_card.html:124
+#: subjects/templates/subjects/subject_card.html:125
 msgid "This subject doesn't allow new subscriptions"
 msgstr "Esse assunto não permite novas inscrições"
 
@@ -399,11 +397,15 @@ msgstr "Ok"
 msgid "Update: "
 msgstr "Editar: "
 
-#: subjects/templates/subjects/view.html:107
+#: subjects/templates/subjects/view.html:116
+msgid "View as student"
+msgstr "Ver como estudante"
+
+#: subjects/templates/subjects/view.html:120
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
-#: subjects/templates/subjects/view.html:112
+#: subjects/templates/subjects/view.html:125
 msgid "Participants"
 msgstr "Participantes"
 
@@ -425,34 +427,34 @@ msgstr "Página inválida (%(page_number)s): %(message)s"
 msgid "All Subjects"
 msgstr "Todos os assuntos"
 
-#: subjects/views.py:395
+#: subjects/views.py:413
 msgid "Create Subject"
 msgstr "Criar Assunto"
 
-#: subjects/views.py:421
+#: subjects/views.py:439
 msgid "Replicate Subject"
 msgstr "Replicar Assunto"
 
-#: subjects/views.py:471
+#: subjects/views.py:489
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:523
+#: subjects/views.py:541
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: subjects/views.py:562
+#: subjects/views.py:580
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:614 subjects/views.py:680
+#: subjects/views.py:632 subjects/views.py:698
 #, python-format
 msgid "Subject \"%s\" removed successfully!"
 msgstr "Assunto \"%s\" removido com sucesso!"
 
-#: subjects/views.py:626 subjects/views.py:637
+#: subjects/views.py:644 subjects/views.py:655
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -460,24 +462,24 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:764
+#: subjects/views.py:784
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:783
+#: subjects/views.py:803
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:1007
+#: subjects/views.py:1035
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:1198
+#: subjects/views.py:1226
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
 
-#: subjects/views.py:1393
+#: subjects/views.py:1421
 msgid "Backup restored successfully!"
 msgstr "Backup restaurado com sucesso!"
