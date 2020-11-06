@@ -75,6 +75,8 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         context["title"] = _("%s - Video") % (self.object.name)
 
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
+
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
         self.log_context["category_slug"] = self.object.topic.subject.category.slug
@@ -141,6 +143,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         context["topic"] = self.object.topic
         context["subject"] = self.object.topic.subject
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
