@@ -71,6 +71,8 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(NewWindowView, self).get_context_data(**kwargs)
 
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
+
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
         self.log_context["category_slug"] = self.object.topic.subject.category.slug
@@ -127,6 +129,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         context["topic"] = self.object.topic
         context["subject"] = self.object.topic.subject
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name

@@ -15,6 +15,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n pagination permissions_tags subject_counter chat_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
+{% block style %}
+    {{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}">
+{% endblock %}
+
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb subject.category 'subjects:cat_view' subject.category.slug %}
@@ -51,7 +56,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     <div class="col-md-5 pull-right category-card-items">
                         {% if has_subject_permissions %}
-                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="student-view-hide" {% if studentView %}style="display: none"{% endif %}>
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu pull-right" aria-labelledby="moreActions">
@@ -104,7 +109,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <p>{{subject.description|safe}}</p>
 
             {% if has_subject_permissions %}
-                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block">{% trans "Create new topic" %}</a>
+                <label class="switch">
+                    <input id="studentView" type="checkbox" name="percentOn" {% if studentView %}checked{% endif %} onclick="toggleView($(this), '{% url "subjects:toggle_student_visualization" subject.slug %}')" />
+                    <span class="slider round"></span>
+                </label>
+                {% trans 'View as student' %}
+            {% endif %}
+
+            {% if has_subject_permissions %}
+                <a href="{% url 'topics:create' subject.slug %}" class="btn btn-sm btn-success btn-raised btn-block student-view-hide" {% if studentView %}style="display:none"{% endif %}>{% trans "Create new topic" %}</a>
             {% endif %}
 
             {% include 'topics/list.html' with subject=subject %}
@@ -126,6 +139,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
 
     <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+    <script type="text/javascript" src="{% static 'subjects/js/subjects_card.js' %}"></script>
 
     <script type="text/javascript">
         {% if resource_new_page %}
