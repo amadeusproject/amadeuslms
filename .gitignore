@@ -49,7 +49,7 @@ coverage.xml
 .vscode/
 angular_api
 logs/
-amadeus/uploads/
+amadeus/uploads/*
 data/
 links/static/images/
 
@@ -60,7 +60,9 @@ dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
 static
 
-# keep default news photos
+# Keep only pictures to default news
+!amadeus/uploads/news
+amadeus/uploads/news/*
 !amadeus/uploads/news/intro.jpg
 !amadeus/uploads/news/caracteristicas.jpg
 !amadeus/uploads/news/tecnologias.jpg
