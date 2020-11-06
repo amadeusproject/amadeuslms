@@ -52,7 +52,6 @@ logs/
 amadeus/uploads/
 data/
 links/static/images/
-uploads/
 
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
@@ -60,3 +59,10 @@ questionary/sheets/xls/*
 dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
 static
+
+# keep default news photos
+!amadeus/uploads/news/intro.jpg
+!amadeus/uploads/news/caracteristicas.jpg
+!amadeus/uploads/news/tecnologias.jpg
+!amadeus/uploads/news/codigo.jpg
+!amadeus/uploads/news/equipe.jpg
