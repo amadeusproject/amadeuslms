@@ -30,7 +30,6 @@ if config:
 else:
     conn = ""
 
-
 class LogIndex(DocType):
     component = Text()
     action = Text()
