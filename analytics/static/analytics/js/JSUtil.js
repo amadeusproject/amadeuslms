@@ -532,6 +532,10 @@ class MyDate {
 			ret.day -= nday;
 			ret.month++;
 			nday = MyDate.nDays(ret);
+
+			if (ret.day === (d2.day + 1)) {
+				ret.day -= 1;
+			}
 		}
 
 		return ret.valid();

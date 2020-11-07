@@ -22,6 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
+from django.utils import timezone
 
 from channels import Group
 import json
@@ -181,11 +182,11 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
                 .count()
             )
 
-            general_visualizations.update(viewed=True, date_viewed=datetime.now())
+            general_visualizations.update(viewed=True, date_viewed=timezone.now())
 
             MuralVisualizations.objects.filter(
                 user=user, viewed=False, comment__post__generalpost__isnull=False
-            ).update(viewed=True, date_viewed=datetime.now())
+            ).update(viewed=True, date_viewed=timezone.now())
 
         return general.order_by("-most_recent")
 
@@ -500,7 +501,7 @@ def load_category_posts(request, category):
             )
         )
         n_views = views.count()
-        views.update(viewed=True, date_viewed=datetime.now())
+        views.update(viewed=True, date_viewed=timezone.now())
 
     paginator = Paginator(posts.order_by("-most_recent"), 10)
 
@@ -921,7 +922,7 @@ def load_subject_posts(request, subject):
             )
         )
         n_views = views.count()
-        views.update(viewed=True, date_viewed=datetime.now())
+        views.update(viewed=True, date_viewed=timezone.now())
 
     paginator = Paginator(posts.order_by("-most_recent"), 10)
 
@@ -1411,7 +1412,7 @@ class SubjectView(LoginRequiredMixin, LogMixin, generic.ListView):
                     Q(post__subjectpost__space=subject)
                     | Q(comment__post__subjectpost__space=subject)
                 )
-            ).update(viewed=True, date_viewed=datetime.now())
+            ).update(viewed=True, date_viewed=timezone.now())
 
         return posts.order_by("-most_recent")
 
