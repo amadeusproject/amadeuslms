@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-11-02 14:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,35 +30,35 @@ msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
 msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
-#: news/models.py:27 news/templates/news/_form.html:85
+#: news/models.py:35 news/templates/news/_form.html:85
 msgid "File not supported."
 msgstr "Arquivo não suportado"
 
-#: news/models.py:30
+#: news/models.py:39
 msgid "Title"
 msgstr "Título"
 
-#: news/models.py:31
+#: news/models.py:40
 msgid "Slug"
 msgstr ""
 
-#: news/models.py:32
+#: news/models.py:42
 msgid "News Image"
 msgstr "Imagem de apresentação da notícia"
 
-#: news/models.py:33
+#: news/models.py:47
 msgid "News Content"
 msgstr "Conteúdo da notícia"
 
-#: news/models.py:34
+#: news/models.py:48
 msgid "Create Date"
 msgstr "Data de criação"
 
-#: news/models.py:35
+#: news/models.py:50
 msgid "Creator"
 msgstr "Autor"
 
-#: news/models.py:38 news/models.py:39 news/templates/news/list.html:23
+#: news/models.py:54 news/models.py:55 news/templates/news/list.html:23
 msgid "News"
 msgstr "Notícia"
 

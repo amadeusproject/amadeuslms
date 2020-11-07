@@ -23,10 +23,8 @@ from chat.serializers import ChatSerializer
 
 def sendChatPushNotification(user, message):
     device = FCMDevice.objects.filter(user__id=user.id).first()
-    print(user)
-    print(device)
+
     if not device is None:
-        print(message)
         serializer = ChatSerializer(message)
 
         json_r = json.dumps(serializer.data)
@@ -73,7 +71,7 @@ def sendChatPushNotification(user, message):
 
 
 def sendMuralPushNotification(user, user_action, message):
-    device = FCMDevice.objects.filter(user=user, active=True).first()
+    device = FCMDevice.objects.filter(user__id=user.id).first()
 
     if not device is None:
         device.send_message(

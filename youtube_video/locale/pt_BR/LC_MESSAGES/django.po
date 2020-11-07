@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-23 17:13+0000\n"
+"POT-Creation-Date: 2020-11-02 14:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,18 +181,18 @@ msgstr "Mural do recurso"
 msgid "%s - Video"
 msgstr "%s - Vídeo"
 
-#: youtube_video/views.py:193 youtube_video/views.py:211
-#: youtube_video/views.py:361 youtube_video/views.py:368
-#: youtube_video/views.py:393 youtube_video/views.py:401
-#: youtube_video/views.py:711
-msgid "Watch"
-msgstr "Assistir"
+#: youtube_video/views.py:216 youtube_video/views.py:234
+#: youtube_video/views.py:386 youtube_video/views.py:393
+#: youtube_video/views.py:418 youtube_video/views.py:426
+#: youtube_video/views.py:737
+msgid "View"
+msgstr "Visualizar"
 
-#: youtube_video/views.py:283
+#: youtube_video/views.py:308
 msgid "Create Youtube Video"
 msgstr "Adicionar Vídeo do YouTube"
 
-#: youtube_video/views.py:297
+#: youtube_video/views.py:322
 #, python-format
 msgid ""
 "The Youtube Video \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -201,16 +201,16 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi adicionado ao tópico \"%s\" do ambiente "
 "virtual \"%s\" com sucesso!"
 
-#: youtube_video/views.py:458
+#: youtube_video/views.py:485
 msgid "Update YouTube Video"
 msgstr "Atualizar Vídeo do YouTube"
 
-#: youtube_video/views.py:474
+#: youtube_video/views.py:501
 #, python-format
 msgid "The YouTube Video \"%s\" was updated successfully!"
 msgstr "O Vídeo do YouTube \"%s\" foi atualizado com sucesso!"
 
-#: youtube_video/views.py:519
+#: youtube_video/views.py:546
 #, python-format
 msgid ""
 "The YouTube Video \"%s\" was removed successfully from virtual environment "
@@ -219,56 +219,56 @@ msgstr ""
 "O Vídeo do YouTube \"%s\" foi removido do ambiente virtual \"%s\" com "
 "sucesso!"
 
-#: youtube_video/views.py:649
+#: youtube_video/views.py:676
 msgid "Youtube Video Reports"
 msgstr "Relatórios de Vídeo do YouTube"
 
-#: youtube_video/views.py:682
+#: youtube_video/views.py:709
 msgid "Realized"
 msgstr "Realizada"
 
-#: youtube_video/views.py:683
+#: youtube_video/views.py:710
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: youtube_video/views.py:684
+#: youtube_video/views.py:711
 msgid "Historic"
 msgstr "Histórico"
 
-#: youtube_video/views.py:710
-msgid "View"
-msgstr "Visualizar"
+#: youtube_video/views.py:738
+msgid "Watch"
+msgstr "Assistir"
 
-#: youtube_video/views.py:712
+#: youtube_video/views.py:739
 msgid "Finish"
 msgstr "Finalizar"
 
-#: youtube_video/views.py:798
+#: youtube_video/views.py:825
 msgid "Youtube Video"
 msgstr "Vídeo do YouTube"
 
-#: youtube_video/views.py:811
+#: youtube_video/views.py:838
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: youtube_video/views.py:812
+#: youtube_video/views.py:839
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: youtube_video/views.py:867
+#: youtube_video/views.py:894
 msgid "[Photo]"
 msgstr "[Imagem]"
 
-#: youtube_video/views.py:883
+#: youtube_video/views.py:910
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: youtube_video/views.py:898
+#: youtube_video/views.py:925
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: youtube_video/views.py:900
+#: youtube_video/views.py:927
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

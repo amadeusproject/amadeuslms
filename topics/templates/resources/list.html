@@ -32,7 +32,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				</h4>
 
 				{% if has_subject_permissions %}
-					<div class="pull-right category-card-items">
+					<div class="pull-right category-card-items student-view-hide" {% if studentView %}style="display:none"{% endif %}>
 		                <a><i class="fa fa-arrows" aria-hidden="true"></i></a>
 		                <span class="btn-group pull-right">
 			                <button class="btn btn-sm btn_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

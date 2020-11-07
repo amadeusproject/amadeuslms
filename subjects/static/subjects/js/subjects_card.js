@@ -28,4 +28,12 @@ var open_modal = {
 	}
 }
 
-
+function toggleView($toggle, url) {
+	$.get(url, function (data) {
+		if ($toggle.prop("checked")) {
+			$('.student-view-hide').hide();
+		} else {
+			$('.student-view-hide').show();
+		}
+	});
+}

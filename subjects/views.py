@@ -312,17 +312,35 @@ class GetSubjectList(LoginRequiredMixin, ListView):
     template_name = "subjects/_list.html"
     model = Subject
     context_object_name = "subjects"
+    paginate_by = 30
 
     def get_queryset(self):
         slug = self.kwargs.get("slug")
-        category = get_object_or_404(Category, slug=slug)
+        
+        subjects = Subject.objects.filter(category__slug=slug)
 
-        return category.subject_category.all()
+        return subjects
 
     def get_context_data(self, **kwargs):
         context = super(GetSubjectList, self).get_context_data(**kwargs)
 
+        slug = self.kwargs.get("slug")
+
         context["show_buttons"] = True  # So it shows subscribe and access buttons
+
+        if context["page_obj"].number < context["paginator"].num_pages - context["page_obj"].number:
+            leftPages = context["page_obj"].number-5
+            rightPages = context["page_obj"].number+5-leftPages
+        else:
+            rightPages = context["page_obj"].number+5
+            leftPages = context["page_obj"].number-5-(rightPages-context["paginator"].num_pages)
+
+        leftPages = max(1, leftPages)
+        rightPages = min(context["paginator"].num_pages, rightPages)+1
+        
+        context["displayPages"] = range(leftPages,rightPages)
+        context["categorySlug"] = slug
+        context["hideCounters"] = True
 
         if "all" in self.request.META.get("HTTP_REFERER"):
             context["all"] = True
@@ -710,6 +728,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
 
         resources = self.request.session.get("resources", None)
 
+        context['studentView'] = self.request.session.get(self.object.slug, False)
+
         if resources:
             context["resource_new_page"] = resources["new_page"]
             context["resource_new_page_url"] = resources["new_page_url"]
@@ -974,6 +994,14 @@ def get_participants(request, subject):
 
     return render(request, "subjects/_participants.html", context)
 
+@login_required
+def toggleVisualization(request, subject):
+    if not subject in request.session:
+        request.session[subject] = True
+    else:
+        del request.session[subject]
+
+    return JsonResponse({"message": "ok"})
 
 class Backup(LoginRequiredMixin, ListView):
     """ BACKUP / RESTORE SECTION  """
