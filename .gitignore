@@ -7,7 +7,6 @@ staticfiles/
 
 # C extensions
 *.so
-Makefile
 
 # Distribution / packaging
 bin/
@@ -50,14 +49,22 @@ coverage.xml
 .vscode/
 angular_api
 logs/
-amadeus/uploads/
+amadeus/uploads/*
 data/
 links/static/images/
-uploads/
-static/
 
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
 
 dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
+static
+
+# Keep only pictures to default news
+!amadeus/uploads/news
+amadeus/uploads/news/*
+!amadeus/uploads/news/intro.jpg
+!amadeus/uploads/news/caracteristicas.jpg
+!amadeus/uploads/news/tecnologias.jpg
+!amadeus/uploads/news/codigo.jpg
+!amadeus/uploads/news/equipe.jpg

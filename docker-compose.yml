@@ -4,18 +4,40 @@ services:
   db:
     restart: always
     image: postgres:latest
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD}"
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
     networks:
-      - database_network
+      - amadeus_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
     ports:
-      - 5432:5432
+      - "${PGADMIN_PORT}:80"
+    depends_on:
+      - db
+    networks:
+      - amadeus_network
+
   web:
     image: amadeus:latest
-    build:
-      context: .
-      args:
-        requirements: requirement_files/development_requirement.txt 
+    build: .
+    ports:
+      - "${AMADEUS_PORT}:8000"
     environment:
-      DJANGO_MANAGEPY_MIGRATE: 'on'
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      ELASTICSEARCH_URL: "${ELASTICSEARCH_URL}"
     volumes:
       - .:/code
     depends_on:
@@ -23,21 +45,35 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - nginx_network
-      - database_network
-  nginx:
-    image: nginx:1.13
-    ports:
-      - 8000:80
+      - amadeus_network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - web
+      - elasticsearch:/usr/share/elasticsearch/data
     networks:
-      - nginx_network
+      - amadeus_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.1
+    ports:
+      - "${KIBANA_PORT}:5601"
+    environment:
+      ELASTICSEARCH_URL: "${ELASTICSEARCH_URL}"
+      ELASTICSEARCH_HOSTS: "${ELASTICSEARCH_URL}"
+    networks:
+      - amadeus_network
 
 networks:
-  nginx_network:
+  amadeus_network:
     driver: bridge
-  database_network:
-    driver: bridge
+
+volumes:
+  elasticsearch:

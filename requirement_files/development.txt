@@ -92,7 +92,7 @@ Werkzeug==0.15.3
 whitenoise==3.2.2
 xlrd==1.0.0
 xlwt==1.2.0
-zope.interface==4.6.0
+zope.interface==5.1.0
 
 beautifulsoup4==4.9.3
 click==7.1.2
