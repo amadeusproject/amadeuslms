@@ -5,6 +5,7 @@ Amadeus is a LMS (Learning Management System) with a focus on analytics, usabili
 
 1. Architecture Overview
 2. Configuration
+    - How to run locally with docker and docker compose [pt-br](https://github.com/amadeusproject/amadeuslms/wiki/Executar-projeto-com-docker-compose)
     - How to develop locally using Docker [en-us]() / [pt-br](https://github.com/amadeusproject/amadeuslms/wiki/Guia-Docker-Desenvolvimento)
     - How to deploy using Heroku (in construction)
     - How to deploy using AWS (in construction)

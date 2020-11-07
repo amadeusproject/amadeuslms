@@ -730,7 +730,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         user = self.request.user
         subject = self.webpage.topic.subject
 
-        if users[0] is not "":
+        if users[0] != "":
             for u in users:
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(
@@ -744,7 +744,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
                     strip_tags(message), width=30, placeholder="..."
                 )
 
-                if image is not "":
+                if image != "":
                     simple_notify += " ".join(_("[Photo]"))
 
                 notification = {
