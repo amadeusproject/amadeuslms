@@ -4,7 +4,7 @@ asn1crypto==0.24.0
 attrs==19.2.0
 autobahn==19.9.3
 Automat==0.7.0
-certifi==2019.6.16
+certifi==2020.6.20
 cffi==1.14.2
 channels==1.0.3
 constantly==15.1.0
@@ -47,7 +47,7 @@ fcm-django==0.2.11
 gunicorn==19.6.0
 httplib2==0.18.0
 hyperlink==19.0.0
-idna==2.8
+idna==2.10
 incremental==17.5.0
 itypes==1.1.0
 jdcal==1.4.1
@@ -74,18 +74,18 @@ python-dateutil==2.8.1
 python-slugify==1.2.0
 pytz==2020.1
 redis==2.10.5
-requests==2.20.0
+requests==2.24.0
 requests-toolbelt==0.8.0
 shortuuid==0.4.3
 simplejson==3.11.1
-six==1.14.0
+six==1.15.0
 slugify==0.0.1
 sqlparse==0.3.0
 Twisted==20.3.0
 txaio==18.8.1
 Unidecode==0.4.19
 uritemplate==3.0.0
-urllib3==1.25.9
+urllib3==1.25.11
 validators==0.11.0
 virtualenv==15.0.3
 Werkzeug==0.15.3
@@ -94,10 +94,10 @@ xlrd==1.0.0
 xlwt==1.2.0
 zope.interface==4.6.0
 
-beautifulsoup4==4.8.2
-click==7.0
+beautifulsoup4==4.9.3
+click==7.1.2
 gTTS==2.1.1
-soupsieve==2.0
+soupsieve==2.0.1
 mutagen==1.44.0
 
 lml==0.0.9
