@@ -340,6 +340,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         
         context["displayPages"] = range(leftPages,rightPages)
         context["categorySlug"] = slug
+        context["hideCounters"] = True
 
         if "all" in self.request.META.get("HTTP_REFERER"):
             context["all"] = True
@@ -727,6 +728,8 @@ class SubjectDetailView(LoginRequiredMixin, LogMixin, DetailView):
 
         resources = self.request.session.get("resources", None)
 
+        context['studentView'] = self.request.session.get(self.object.slug, False)
+
         if resources:
             context["resource_new_page"] = resources["new_page"]
             context["resource_new_page_url"] = resources["new_page_url"]
@@ -991,6 +994,14 @@ def get_participants(request, subject):
 
     return render(request, "subjects/_participants.html", context)
 
+@login_required
+def toggleVisualization(request, subject):
+    if not subject in request.session:
+        request.session[subject] = True
+    else:
+        del request.session[subject]
+
+    return JsonResponse({"message": "ok"})
 
 class Backup(LoginRequiredMixin, ListView):
     """ BACKUP / RESTORE SECTION  """

@@ -54,31 +54,32 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             {% endif %}
                             </ul>
                         {% endif %}
+                        {% if not hideCounters %}
+                            {% if has_subject_permissions %}
+                                <a href="{% url 'dashboards:view_teacher' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                    {% dashboard_view subject request.user %}
+                                </a>
+                            {% else %}
+                                <a href="{% url 'dashboards:view_subject' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                    {% dashboard_view subject request.user %}
+                                </a>
+                            {% endif %}
 
-                        {% if has_subject_permissions %}
-                            <a href="{% url 'dashboards:view_teacher' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
-                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                                {% dashboard_view subject request.user %}
+                            <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Pendencies' %}">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                {% notifies_number subject request.user %}
                             </a>
-                        {% else %}
-                            <a href="{% url 'dashboards:view_subject' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Analytics' %}">
-                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                                {% dashboard_view subject request.user %}
+                            <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                {% chat_number subject request.user %}
+                            </a>
+                            <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                {% mural_number subject request.user %}
                             </a>
                         {% endif %}
-
-                        <a href="{% url 'notifications:view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Pendencies' %}">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {% notifies_number subject request.user %}
-                        </a>
-                        <a href="{% url 'chat:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Messages' %}">
-                            <i class="fa fa-comments-o" aria-hidden="true"></i>
-                            {% chat_number subject request.user %}
-                        </a>
-                        <a href="{% url 'mural:subject_view' subject.slug %}" class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Mural' %}">
-                            <i class="fa fa-list" aria-hidden="true"></i>
-                            {% mural_number subject request.user %}
-                        </a>
                     </div>
                 </div>
             </div>

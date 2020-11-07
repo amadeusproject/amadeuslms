@@ -74,24 +74,69 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         questionary = get_object_or_404(Questionary, slug=slug)
 
         if has_subject_permissions(self.request.user, questionary.topic.subject):
-            if questionary.all_students:
-                self.students = User.objects.filter(
-                    subject_student=questionary.topic.subject
-                ).order_by("username", "last_name")
+            viewAsStudent = self.request.session.get(questionary.topic.subject.slug, False)
+            
+            if viewAsStudent:
+                q_ids = [0]
+                entries = []
+
+                for specs in questionary.spec_questionary.all():
+                    cats = list(specs.categories.values_list("id", flat=True))
+                    n_questions = specs.n_questions
+
+                    with connection.cursor() as cursor:
+                        cursor.execute(
+                            "SELECT DISTINCT question_id FROM banco_questoes_question_categories AS a JOIN banco_questoes_question AS b ON a.question_id = b.id WHERE %s <@ (SELECT array_agg(tag_id) FROM public.banco_questoes_question_categories AS c WHERE c.question_id = a.question_id) AND NOT a.question_id = any(%s) AND b.subject_id = %s",
+                            [cats, q_ids, questionary.topic.subject.id],
+                        )
+                        rows = cursor.fetchall()
+
+                        list_q = []
+
+                        for row in rows:
+                            list_q.append(row[0])
+
+                        random.shuffle(list_q)
+
+                        q_ids = q_ids + (list_q[0:n_questions])
+
+                questions = Question.objects.filter(pk__in=q_ids)
+
+                orders = list(range(1, questions.count() + 1))
+                random.shuffle(orders)
+
+                for question in questions.all():
+                    entries.append(
+                        UserAnswer(
+                            user_quest=self.userquest,
+                            question=question,
+                            order=orders[0],
+                        )
+                    )
+
+                    orders.pop(0)
+
+                self.userquestions = entries
+                self.userquest = UserQuest(student=self.request.user, questionary=questionary, data_ini=timezone.localtime(timezone.now()), last_update=timezone.localtime(timezone.now()))
             else:
-                self.students = User.objects.filter(
-                    resource_students=questionary
-                ).order_by("username", "last_name")
+                if questionary.all_students:
+                    self.students = User.objects.filter(
+                        subject_student=questionary.topic.subject
+                    ).order_by("username", "last_name")
+                else:
+                    self.students = User.objects.filter(
+                        resource_students=questionary
+                    ).order_by("username", "last_name")
 
-            self.userquest = UserQuest.objects.filter(
-                student=self.students.first(), questionary=questionary
-            )
+                self.userquest = UserQuest.objects.filter(
+                    student=self.students.first(), questionary=questionary
+                )
 
-            if self.userquest:
-                self.userquest = self.userquest.get()
-                self.userquestions = UserAnswer.objects.filter(
-                    user_quest=self.userquest
-                ).order_by("order")
+                if self.userquest:
+                    self.userquest = self.userquest.get()
+                    self.userquestions = UserAnswer.objects.filter(
+                        user_quest=self.userquest
+                    ).order_by("order")
         else:
             self.userquest = UserQuest.objects.filter(
                 student=self.request.user, questionary=questionary
@@ -251,11 +296,17 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
         context["userquest"] = self.userquest
         context["userquestions"] = self.userquestions
 
+        context['studentView'] = self.request.session.get(questionary.topic.subject.slug, False)
+
         if self.userquestions:
-            context["useranswered"] = self.userquestions.filter(
-                answer__isnull=False
-            ).count()
-            context["usercorrect"] = self.userquestions.filter(is_correct=True).count()
+            if context['studentView']:
+                context["useranswered"] = 0    
+                context["usercorrect"] = 0
+            else:
+                context["useranswered"] = self.userquestions.filter(
+                    answer__isnull=False
+                ).count()
+                context["usercorrect"] = self.userquestions.filter(is_correct=True).count()
 
         if not self.students is None:
             context["sub_students"] = self.students
@@ -1094,7 +1145,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         user = self.request.user
         subject = self.questionary.topic.subject
 
-        if users[0] is not "":
+        if users[0] != "":
             for u in users:
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(
@@ -1108,7 +1159,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
                     strip_tags(message), width=30, placeholder="..."
                 )
 
-                if image is not "":
+                if image != "":
                     simple_notify += " ".join(_("[Photo]"))
 
                 notification = {

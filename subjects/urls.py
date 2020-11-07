@@ -33,6 +33,7 @@ urlpatterns = [
 	url(r'^load_subs/(?P<slug>[\w_-]+)/$', views.GetSubjectList.as_view(), name='load_view'),
 	url(r'^view_log/(?P<subject>[\w_-]+)/$', views.subject_view_log, name = 'view_log'),
 	url(r'^participants/(?P<subject>[\w_-]+)/$', views.get_participants, name = 'get_participants'),
+	url(r'^student_view/(?P<subject>[\w_-]+)/$', views.toggleVisualization, name = 'toggle_student_visualization'),
 	url(r'^report/', include('reports.urls', namespace='reports')),
 	url(r'^(?P<option>[\w_-]+)/$', views.IndexView.as_view(), name='index'),
 

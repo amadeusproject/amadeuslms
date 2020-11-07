@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-23 02:44+0000\n"
+"POT-Creation-Date: 2020-11-02 14:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,11 +127,11 @@ msgstr "Pendências"
 msgid "Analytics"
 msgstr "Analytics"
 
-#: amadeus/templates/base.html:406 amadeus/templates/base.html:477
+#: amadeus/templates/base.html:406 amadeus/templates/base.html:482
 msgid "Support"
 msgstr "Suporte"
 
-#: amadeus/templates/base.html:407 amadeus/templates/base.html:478
+#: amadeus/templates/base.html:407 amadeus/templates/base.html:483
 msgid "The responsible for the support has not being assigned yet."
 msgstr "Ainda não foi designado o responsável pelo suporte."
 

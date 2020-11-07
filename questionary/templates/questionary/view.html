@@ -60,7 +60,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 						<div class="col-md-5 pull-right category-card-items">
 							{% if has_subject_permissions %}
-								<a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {% if studentView %}style="display:none"{% endif %}>
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</a>
 								<ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
@@ -78,8 +78,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				</div>
 			</div>
 			<div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+				<input type="hidden" id="teacherStudentView" value="{{studentView}}" />
 				{% if has_subject_permissions %}
-					<div id="core-subjects-options-div">
+					<div id="core-subjects-options-div" {% if studentView %}style="display:none"{% endif %}>
 						<ul class="core-subjects-options mural-tabs">
 							<a onclick="ShowTab($(this), '.single_student')" style="cursor: pointer"><li class="active">{% trans "Individual Result" %}</li></a>
 							<a onclick="ShowTab($(this), '.all_students')" data-url="{% url 'questionary:results' questionary.slug %}" style="cursor: pointer"><li>{% trans "Class Results" %}</li></a>
@@ -89,7 +90,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 				<div class="result_tab single_student">
 					{% if has_subject_permissions %}
-						<form id="student_quest" action="" method="POST">
+						<form id="student_quest" action="" method="POST" {% if studentView %}style="display:none"{% endif %}>
 							{% csrf_token %}
 							<select name="selected_student" onchange="$('#student_quest').submit();">
 								{% for stu in sub_students %}
@@ -124,10 +125,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 									<div class="col-md-6">
 										{% trans 'Questions answered' %}: <span class="q_answered">{{ useranswered }}</span> {% trans 'of' %} {{ userquestions|length }}
 									</div>
-									{% if questionary.data_end|view_results:has_subject_permissions %}
-										<div class="col-md-6">
-											{% trans 'Corrected questions' %}: {{ usercorrect }} {% trans 'of' %} {{ userquestions|length }}
-										</div>
+									{% if not studentView %}
+										{% if questionary.data_end|view_results:has_subject_permissions %}
+											<div class="col-md-6">
+												{% trans 'Corrected questions' %}: {{ usercorrect }} {% trans 'of' %} {{ userquestions|length }}
+											</div>
+										{% endif %}
 									{% endif %}
 								</div>
 							</div>
@@ -142,18 +145,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 											<img src="{{ question.question.question_img.url }}" class="img-responsive center-block" />
 										{% endif %}
 										
-										<div class="alternatives" data-question="{{ question.id }}">
+										<div class="alternatives" data-question="{% if not studentView %}{{ question.id }}{% else %}{{ question.order }}{% endif %}">
 											{% with question.question.alt_question.all|shuffle as alternatives %}
 												{% for alt in alternatives %}
 													<div>
 														<div style="width: 20px; display: inline-block">
-															{% if questionary.data_end|view_results:has_subject_permissions %}
-																<i class="fa {{ alt|veredict:question.answer }}"></i>
+															{% if not studentView %}
+																{% if questionary.data_end|view_results:has_subject_permissions %}
+																	<i class="fa {{ alt|veredict:question.answer }}"></i>
+																{% endif %}
 															{% endif %}
 														</div>
 														<div class="radio" style="display: inline-block">
 															<label>
-																<input type="radio" name="q{{ question.order }}" value="{{ alt.id }}" {{ alt.id|is_answer:question.answer }} {{ questionary.data_end|disabled:has_subject_permissions }}>
+																<input type="radio" name="q{{ question.order }}" value="{{ alt.id }}" {{ alt.id|is_answer:question.answer }} {% if not studentView %}{{ questionary.data_end|disabled:has_subject_permissions }}{% endif %}>
 																{{ alt.content|safe }}
 
 																{% if alt.alt_img %}
@@ -224,25 +229,35 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 		sessionSecurity.confirmFormDiscard = undefined;
 
 		$(function () {
+			let questionsAnswered = [];
+
 			$('input[type="radio"]').on('change', function () {
 				var $radio = $(this),
 					question = $radio.parent().parent().parent().parent().data('question');
 				
-				$.ajax({
-            		method: 'POST',
-            		url: '{% url "questionary:answer" %}',
-            		data: {'csrfmiddlewaretoken': '{{ csrf_token }}', 'question': question, 'answer': $radio.val()},
-            		success: function (data) {
-						var last_update = data.last_update,
-							answered = data.answered;
+				if (!$('#teacherStudentView').val()) {
+					$.ajax({
+						method: 'POST',
+						url: '{% url "questionary:answer" %}',
+						data: {'csrfmiddlewaretoken': '{{ csrf_token }}', 'question': question, 'answer': $radio.val()},
+						success: function (data) {
+							var last_update = data.last_update,
+								answered = data.answered;
 
-						$(".last_update").text(last_update);
-						$(".q_answered").text(answered);
-            		},
-					error: function (data) {
-						alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+							$(".last_update").text(last_update);
+							$(".q_answered").text(answered);
+						},
+						error: function (data) {
+							alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+						}
+					});
+				} else {
+					if (!questionsAnswered.includes(question)) {
+						questionsAnswered.push(question);
 					}
-        		});
+
+					$(".q_answered").text(questionsAnswered.length);
+				}
 			});
 		});
 	</script>

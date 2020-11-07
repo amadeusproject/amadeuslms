@@ -75,6 +75,8 @@ class NewWindowView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         context["title"] = _("%s - Video") % (self.object.name)
 
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
+
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
         self.log_context["category_slug"] = self.object.topic.subject.category.slug
@@ -141,6 +143,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
         context["topic"] = self.object.topic
         context["subject"] = self.object.topic.subject
+        context['studentView'] = self.request.session.get(self.object.topic.subject.slug, False)
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
@@ -873,7 +876,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
         user = self.request.user
         subject = self.ytvideo.topic.subject
 
-        if users[0] is not "":
+        if users[0] != "":
             for u in users:
                 to_user = User.objects.get(email=u)
                 talk, create = Conversation.objects.get_or_create(
@@ -887,7 +890,7 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
                     strip_tags(message), width=30, placeholder="..."
                 )
 
-                if image is not "":
+                if image != "":
                     simple_notify += " ".join(_("[Photo]"))
 
                 notification = {
