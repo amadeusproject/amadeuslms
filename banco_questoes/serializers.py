@@ -107,31 +107,36 @@ class QuestionDatabaseSerializer(serializers.ModelSerializer):
     def create(self, data):
         question_data = data
 
+        subject = self.context.get("subject", None)
+
         alternatives = question_data["alt_question"]
         del question_data["alt_question"]
 
-        question = Question()
-        question.enunciado = question_data["enunciado"]
-        question.question_img = question_data["question_img"]
-        question.subject = self.context.get("subject", None)
+        question = None
 
-        question.save()
+        if not Question.objects.filter(enunciado=question_data["enunciado"], subject=subject).exists():
+            question = Question()
+            question.enunciado = question_data["enunciado"]
+            question.question_img = question_data["question_img"]
+            question.subject = subject
 
-        tags = data["categories"]
+            question.save()
 
-        for tag in tags:
-            if not tag["name"] == "":
-                if tag["id"] == "":
-                    if Tag.objects.filter(name = tag["name"]).exists():
-                        tag = get_object_or_404(Tag, name = tag["name"])
+            tags = data["categories"]
+
+            for tag in tags:
+                if not tag["name"] == "":
+                    if tag["id"] == "":
+                        if Tag.objects.filter(name = tag["name"]).exists():
+                            tag = get_object_or_404(Tag, name = tag["name"])
+                        else:
+                            tag = Tag.objects.create(name = tag["name"])
                     else:
-                        tag = Tag.objects.create(name = tag["name"])
-                else:
-                    tag = get_object_or_404(Tag, id = tag["id"])
+                        tag = get_object_or_404(Tag, id = tag["id"])
 
-                question.categories.add(tag)
+                    question.categories.add(tag)
 
-        for alt in alternatives:
-            Alternative.objects.create(question = question, **alt)
+            for alt in alternatives:
+                Alternative.objects.create(question = question, **alt)
 
         return question
