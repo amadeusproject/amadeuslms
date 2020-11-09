@@ -60,6 +60,8 @@ dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
 static
 
+backup.json
+
 # Keep only pictures to default news
 !amadeus/uploads/news
 amadeus/uploads/news/*
