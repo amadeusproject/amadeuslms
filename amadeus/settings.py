@@ -210,7 +210,7 @@ CRONJOBS = [
 ]
 
 FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY": "AAAAzBv8SPs:APA91bFzJ8M1wkndpWWmR3QZAgSAWgS_nAD2xHA2YF8TEam9itnrPIR7thfQcQK1B9rVNoVamO2XA3ZTL7Xp8iSkzS9Qn4WyjQse417T0Ikb2CLDhXEN51BEfO3P3Ei5uSYTZV8IlQRl",
+    "FCM_SERVER_KEY": "AAAACBXA7N8:APA91bGjd6zfg7bQAVsS8ujALx1EJuN3Z14tIxQGWLanSZLxlqfsvNODq-wvsePW9a7LF0L8oix6DH-bo_tLPX1BQP9LuNwuPg2e4gjQyqjRU9jRNff_QPD0bCNaUtlMl4w5XbOt1a7m",
     # true if you want to have only one active device per registered user at a time
     # default: False
     "ONE_DEVICE_PER_USER": False,
