@@ -26,12 +26,14 @@ from .models import Pendencies
 
 class PendenciesForm(forms.ModelForm):
     subject = forms.CharField(widget=forms.HiddenInput())
+    is_required = False
 
     def __init__(self, *args, **kwargs):
         super(PendenciesForm, self).__init__(*args, **kwargs)
 
         if kwargs.get("initial", None):
             self.fields["action"].choices = kwargs["initial"].get("actions", [])
+            self.is_required = kwargs["initial"].get("is_required", False)
 
         datetime_formats = get_format("DATETIME_INPUT_FORMATS")
 
@@ -57,7 +59,9 @@ class PendenciesForm(forms.ModelForm):
         end_check = cleaned_data.get("end_date_check", False)
         subject_id = cleaned_data.get("subject", None)
 
-        if action:
+        print(self.is_required)
+
+        if action and self.is_required:
             if not begin_check:
                 self.add_error("begin_date", _("This field is required."))
 

@@ -103,7 +103,7 @@ class InsideView(LoginRequiredMixin, LogMixin, generic.ListView):
                 questions = Question.objects.filter(pk__in=q_ids)
 
                 orders = list(range(1, questions.count() + 1))
-                random.shuffle(orders)
+                #random.shuffle(orders)
 
                 for question in questions.all():
                     entries.append(
