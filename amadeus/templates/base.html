@@ -121,7 +121,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         var $zoom = null;
         
         $(function () {
-            $zoom = new Zooming().listen('img');
+            $zoom = new Zooming().listen('img:not(.no_zoom)');
         });
     </script>
 </head>
@@ -135,7 +135,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{% url 'subjects:home' %}">
-                    <img class="logo pull-left" src="{{ theme.small_logo_url }}" alt="Logo" />
+                    <img class="logo pull-left no_zoom" src="{{ theme.small_logo_url }}" alt="Logo" />
                     <span class="pull-right project_name">{{ theme.title }}</span>
                 </a>
             </div>
@@ -187,7 +187,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 					</li>
                     <li id="profile-menu" class="dropdown" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ user }}">
                         <a href="" data-toggle="dropdown" class="dropdown-toggle profile">
-                            <img src="{{ user.image_url }}" class="hidden-xs" style="width:50px;height:50px" />
+                            <img src="{{ user.image_url }}" class="hidden-xs no_zoom" style="width:50px;height:50px" />
                             <span class="visible-xs-inline">{{ user }}</span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -256,7 +256,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     <div class="mobile_menu_navbar navbar-collapse navbar-responsive-collapse">
                         <ul class="nav navbar-nav navbar-right notifications" style="margin-top: 50px;">
                             <li style="width: auto; text-align: center;">
-                                <img src="{{ user.image_url }}" class="mobile_menu_img" style="margin:10px;"/>
+                                <img src="{{ user.image_url }}" class="mobile_menu_img no_zoom" style="margin:10px;"/>
                             </li>
                             <li><a href="{% url 'users:profile' %}">{% trans 'Profile' %}</a></li>
                             <li><a href="{% url 'users:edit_profile' %}">{% trans 'Edit Profile' %}</a></li>
