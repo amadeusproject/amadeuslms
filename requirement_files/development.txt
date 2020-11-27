@@ -107,3 +107,5 @@ pyexcel-xlsx==0.5.8
 
 
 plotly==4.9.0
+
+django-datatable-view==0.9.0

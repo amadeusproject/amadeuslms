@@ -54,7 +54,9 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
                     		more.show();
                     	} else {
                     		more.hide();
-                    	}
+						}
+						
+						$zoom.listen('img');
 
                     	$('.mural_badge').each(function () {
 							var actual = $(this).text();
@@ -123,7 +125,9 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
 		    		post_section.append(data.posts);
 
                 	mural.data('pages', data.num_pages);
-                	mural.data('page', data.num_page);
+					mural.data('page', data.num_page);
+					
+					$zoom.listen('img');
 
                 	setUserDataPopover();
                 	setTimeout(function () { postHeightLimits(); }, 100);
@@ -180,7 +184,9 @@ $('.mural-ungeneral').on('shown.bs.collapse', function(e) {
                     		more.show();
                     	} else {
                     		more.hide();
-                    	}
+						}
+						
+						$zoom.listen('img');
 
                     	setUserDataPopover();
                     	setTimeout(function () { postHeightLimits(); }, 100);

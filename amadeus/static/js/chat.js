@@ -93,6 +93,8 @@ function getModalInfo(btn, space, space_type) {
 
       $('#chat-modal-info').html(response);
 
+      $zoom.listen('img');
+
       $('#chat-modal-info').modal('show');
 
       $.material.init();
@@ -293,6 +295,8 @@ function setChatFormSubmit() {
       success: function(data) {
         $('.messages-list').append(data.view);
 
+        $zoom.listen('img');
+
         $('.messages-container').each(function() {
           var height = $(this)[0].scrollHeight;
 
@@ -350,6 +354,8 @@ function setShortChatFormSubmit() {
         async: false,
         success: function(data) {
           $('.messages-list').append(data.view);
+
+          $zoom.listen('img');
 
           $('.messages-container').each(function() {
             var height = $(this)[0].scrollHeight;
@@ -434,6 +440,8 @@ function setFiltersSubmitAndPagination() {
         if (data.count > 0) {
           msg_section.html(data.messages);
 
+          $zoom.listen('img');
+
           messages.data('pages', data.num_pages);
           messages.data('page', data.num_page);
 
@@ -501,6 +509,8 @@ function setFiltersSubmitAndPagination() {
         loading.hide();
 
         msg_section.prepend(data.messages);
+
+        $zoom.listen('img');
 
         messages.data('pages', data.num_pages);
         messages.data('page', data.num_page);
@@ -585,6 +595,8 @@ function setSearchSubmit() {
       success: function(response) {
         content_section.html(response);
 
+        $zoom.listen('img');
+
         var items = $('#content-list').children(':visible').length;
         var holder = content_section.find('.holder');
 
@@ -649,6 +661,8 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
       url: url,
       success: function(response) {
         content_section.html(response);
+
+        $zoom.listen('img');
 
         var items = $('#content-list').children(':visible').length;
         var holder = content_section.find('.holder');
