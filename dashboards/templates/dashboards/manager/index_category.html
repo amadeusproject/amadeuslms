@@ -78,14 +78,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <div class="row">
                 <div class="core-subjects-options-div">
                     <ul class="core-subjects-options mural-tabs">
-                        <a href="">
+                        <a href="{% url 'dashboards:view_categories' %}">
                             <li class="active">
                                 {% trans "Highlights" %}
                             </li>
                         </a>
-                        <li>
-                            {% trans "Log" %}
-                        </li>
+                        <a href="{% url 'dashboards:view_category_log' %}">
+                            <li>
+                                {% trans "Log" %}
+                            </li>
+                        </a>
                     </ul>
                 </div>
                 <div class="col-md-12">

@@ -16,9 +16,10 @@ from . import views
 
 urlpatterns = [
     url(r"^analytics/$", views.GeneralView.as_view(), name="view_general"),
-    url(r"^general/log/$", views.LogView.as_view(), name="view_general_log"),
+    url(r"^general/log/$", views.LogDatatableView.as_view(), name="view_general_log"),
     url(r"^general/$", views.GeneralManager.as_view(), name="view_manager_dashboard"),
     url(r"^categories/$", views.CategoryView.as_view(), name="view_categories"),
+    url(r"^categories/log/$", views.CategoryLogDatatableView.as_view(), name="view_category_log"),
     url(r"^get_log_data/$", views.load_log_data, name="load_log_data"),
     url(
         r"^metrics/([\w_-]+)/([\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$",
