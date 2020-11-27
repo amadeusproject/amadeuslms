@@ -48,7 +48,7 @@ var loadPosts = function() {
 
                 $('.mural').data('page', pageNum);
 
-                $zoom.listen('img');
+                $zoom.listen('img:not(.no_zoom)');
 
                 setTimeout(function () { postHeightLimits() }, 10);
             },
