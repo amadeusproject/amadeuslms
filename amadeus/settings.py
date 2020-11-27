@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     "questionary",
     "elastic",
     "environment_creation",
+    'datatableview',
 ]
 
 MIDDLEWARE_CLASSES = [
