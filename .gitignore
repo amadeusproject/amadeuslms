@@ -58,7 +58,8 @@ questionary/sheets/xls/*
 
 dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
-static
+static/
+!amadeus/static/
 
 backup.json
 
