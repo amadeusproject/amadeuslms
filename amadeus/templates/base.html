@@ -114,6 +114,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         }
 
     </script>
+
+    <script src="{% static 'js/zooming.min.js' %}"></script>
+
+    <script type="text/javascript">
+        var $zoom = null;
+        
+        $(function () {
+            $zoom = new Zooming().listen('img');
+        });
+    </script>
 </head>
 <body data-lang="{{ LANGUAGE_CODE }}">
     {% block nav %}
@@ -497,6 +507,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     <script type="text/javascript">$.material.init()</script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/socket.js' %}"></script>
+    
 
     <!-- Language selector code -->
 
@@ -509,6 +520,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
       });
     </script>
+
+    
 
     {% block addtional_scripts %}
     {% endblock %}

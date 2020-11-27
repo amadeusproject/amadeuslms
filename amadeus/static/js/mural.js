@@ -152,6 +152,8 @@ function setPostFormSubmit(post = '') {
 
           $('.no-subjects:visible').attr('style', 'display:none');
         }
+        
+        $zoom.listen('img');
 
         setUserDataPopover();
         setTimeout(function() {
@@ -321,6 +323,8 @@ function setCommentFormSubmit(post, comment = '') {
           new_comments[post].push(data.new_id);
         }
 
+        $zoom.listen('img');
+
         $('.modal_mural_loading').hide();
         $('#post-modal-form').modal('hide');
 
@@ -409,6 +413,8 @@ function loadComments(btn) {
       btn.show();
 
       btn.after(response.loaded);
+
+      $zoom.listen('img');
 
       setUserDataPopover();
     }
