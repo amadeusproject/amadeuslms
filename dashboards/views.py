@@ -473,8 +473,8 @@ def other_metrics(request, subject, email):
     user = User.objects.get(email=email)
 
     indicatorsData = getOtherIndicators(sub, user)
-    infoAudios = indicatorsInfo()
-    tipAudios = indicatorsTips(sub, indicatorsData)
+    infoAudios = [] #indicatorsInfo()
+    tipAudios = [] #indicatorsTips(sub, indicatorsData)
 
     return JsonResponse(
         {"indicators": indicatorsData, "info": infoAudios, "tips": tipAudios},
@@ -487,8 +487,8 @@ def cloudy_data(request, subject, email=None):
     user = User.objects.get(email=email)
 
     cloudData = getAccessedTags(sub, user)
-    infoAudios = cloudInfo(cloudData)
-    tipAudios = cloudTips(cloudData)
+    infoAudios = [] #cloudInfo(cloudData)
+    tipAudios = [] #cloudTips(cloudData)
 
     return JsonResponse(
         {"cloud": cloudData, "info": infoAudios, "tips": tipAudios}, safe=False
