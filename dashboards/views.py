@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.shortcuts import render
 
 from django.views import generic
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from subjects.models import Tag, Subject
@@ -830,6 +830,107 @@ def get_xls_users_data(request):
 
     return response
 
+class UserColumn(columns.TextColumn):
+    def search(self, model, term):
+        return Q(user__icontains=term)
+
+class ActionColumn(columns.TextColumn):
+    def search(self, model, term):
+        actions = [
+            ["access", _("Access")],
+            ["view", _("View")],
+            ["create", _("Create")],
+            ["update", _("Update")],
+            ["start", _("Start")],
+            ["answer", _("Answer")],
+            ["delete", _("Delete")],
+            ["create_post", _("Create Post")],
+            ["create_comment", _("Create Comment")],
+            ["watch", _("Watch")],
+            ["logout", _("Logout")],
+            ["view_new", _("View New")],
+            ["view_list_of_news", _("View List of News")]
+        ]
+
+        results = (
+            [
+                y[0] for y in actions
+                if term.lower() in y[1].lower()
+            ]
+        )
+
+        return Q(action__in=results)
+
+class AreaColumn(columns.TextColumn):
+    def search(self, model, term):
+        elements = [
+            ["general_participants", _("General Participants")],
+            ["subject_participants", _("Subejct Participants")],
+            ["subject/resources", _("Subject/Resources")],
+            ["mural", _("Mural")],
+            ["post_comments", _("Post Comments")],
+            ["filelink", _("File link")],
+            ["pdffile", _("PDF File")],
+            ["webconference", _("Webconference")],
+            ["profile", _("Profile")],
+            ["user", _("Users")],
+            ["students_group", _("Students Group")],
+            ["pendencies", _("Pendencies")],
+            ["my_goals", _("My Goals")],
+            ["category", _("Category")],
+            ["subject", _("Subject")],
+            ["goals", _("Goals")],
+            ["news", _("News")],
+            ["system", _("System")],
+            ["ytvideo", _("Youtube Video")],
+            ["questionary", _("Questionary")],
+            ["Category_Dashboard", _("Category Analytics")],
+            ["Manager Dashboard", _("General Analytics")],
+            ["topic", _("Topic")],
+            ["questions_database", _("Questions Database")],
+            ["talk", _("Talk")],
+            ["chat", _("Chat")],
+            ["webpage", _("Webpage")],
+            ["links", _("Links")],
+            ["link", _("Links")],
+            ["analytics", _("Analytics")]
+        ]
+
+        results = (
+            [
+                y[0] for y in elements
+                if term.lower() in y[1].lower()
+            ]
+        )
+
+        return Q(resource__in=results)
+
+class ContextSubjectColumn(columns.TextColumn):
+    def search(self, model, term):
+        return Q(context__subject_name=term)
+
+class ContextResourceColumn(columns.TextColumn):
+    def search(self, model, term):
+        names_resources = [
+            "pdffile_name",
+            "bulletin_name",
+            "ytvideo_name",
+            "filelink_name",
+            "link_name",
+            "goals_name",
+            "webpage_name",
+            "questionary_name",
+            "webconference_name",
+            "my_goals_name",
+        ]
+
+        conds = Q()
+
+        for resource_name in names_resources:
+            conds |= Q(context__contains={resource_name: term})
+
+        return conds
+
 class LogDatatableView(LoginRequiredMixin, DatatableView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
@@ -884,10 +985,13 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
         context["data_end"] = data_end
 
         return context
-
+    
     class datatable_class(Datatable):
-        log_subject = columns.TextColumn(_("Subject"), sources=None, processor='get_subject_name')
-        log_resource = columns.TextColumn(_("Resource"), sources=None, processor='get_resource_name')
+        action = ActionColumn(_("Action"), sources=['action'], processor='get_action_name', sortable=False)
+        resource = AreaColumn(_("Area"), sources=['resource'], processor='get_area_name', sortable=False)
+        user = UserColumn(_("User"), sources=['user'], processor='format_user', sortable=True)
+        log_subject = ContextSubjectColumn(_("Subject"), sources=['context'], processor='get_subject_name', sortable=False)
+        log_resource = ContextResourceColumn(_("Resource"), sources=['context'], processor='get_resource_name', sortable=False)
 
         class Meta:
             model = Log
@@ -895,13 +999,10 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
             ordering = ['-datetime']
             labels = {
                 'user': _('User'),
-                'resource': _('Area'),
                 'datetime': _('Date/Time')
             }
             processors = {
-                #'resource': 'format_resource',
                 'user': 'format_user',
-                'action': 'format_action',
                 'datetime': 'format_datetime'
             }
             structure_template = "datatableview/bootstrap_structure.html"
@@ -915,7 +1016,7 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
 
             return fieldValue
 
-        def format_action(self, instance, **kwargs):
+        def get_action_name(self, instance, **kwargs):
             actions = {
                 "access": _("Access"),
                 "view": _("View"),
@@ -927,21 +1028,54 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
                 "create_post": _("Create Post"),
                 "create_comment": _("Create Comment"),
                 "watch": _("Watch"),
-                "logout": _("Logout")
+                "logout": _("Logout"),
+                "view_new": _("View New"),
+                "view_list_of_news": _("View List of News")
             }
 
             return actions.get(instance.action, instance.action)
 
-        def format_resource(self, instance, **kwargs):
+        def get_area_name(self, instance, **kwargs):
+            common = ['general', 'category', 'subject', 'message']
+
             elements = {
+                "general_participants": _("General Participants"),
+                "subject_participants": _("Subejct Participants"),
+                "subject/resources": _("Subject/Resources"),
+                "mural": _("Mural"),
+                "post_comments": _("Post Comments"),
+                "filelink": _("File link"),
+                "pdffile": _("PDF File"),
+                "webconference": _("Webconference"),
+                "profile": _("Profile"),
+                "user": _("Users"),
+                "students_group": _("Students Group"),
+                "pendencies": _("Pendencies"),
+                "my_goals": _("My Goals"),
+                "category": _("Category"),
+                "subject": _("Subject"),
+                "goals": _("Goals"),
+                "news": _("News"),
                 "system": _("System"),
                 "ytvideo": _("Youtube Video"),
                 "questionary": _("Questionary"),
+                "Category_Dashboard": _("Category Analytics"),
                 "Manager Dashboard": _("General Analytics"),
                 "topic": _("Topic"),
                 "questions_database": _("Questions Database"),
-                "talk": _("Talk")
+                "talk": _("Talk"),
+                "chat": _("Chat"),
+                "webpage": _("Webpage"),
+                "links": _("Links"),
+                "link": _("Links"),
+                "analytics": _("Analytics")
             }
+
+            if instance.resource in common:
+                if instance.component == "mobile":
+                    return elements.get("chat", None)
+
+                return elements.get(instance.component, None)
 
             return elements.get(instance.resource, None)
 
@@ -1051,8 +1185,11 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
         return categories
 
     class datatable_class(Datatable):
-        log_subject = columns.TextColumn(_("Subject"), sources=None, processor='get_subject_name')
-        log_resource = columns.TextColumn(_("Resource"), sources=None, processor='get_resource_name')
+        action = ActionColumn(_("Action"), sources=['action'], processor='get_action_name', sortable=False)
+        resource = AreaColumn(_("Area"), sources=['resource'], processor='get_area_name', sortable=False)
+        user = UserColumn(_("User"), sources=['user'], processor='format_user', sortable=True)
+        log_subject = ContextSubjectColumn(_("Subject"), sources=['context'], processor='get_subject_name', sortable=False)
+        log_resource = ContextResourceColumn(_("Resource"), sources=['context'], processor='get_resource_name', sortable=False)
 
         class Meta:
             model = Log
@@ -1060,13 +1197,10 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
             ordering = ['-datetime']
             labels = {
                 'user': _('User'),
-                'resource': _('Area'),
                 'datetime': _('Date/Time')
             }
             processors = {
-                #'resource': 'format_resource',
                 'user': 'format_user',
-                'action': 'format_action',
                 'datetime': 'format_datetime'
             }
             structure_template = "datatableview/bootstrap_structure.html"
@@ -1080,7 +1214,7 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
 
             return fieldValue
 
-        def format_action(self, instance, **kwargs):
+        def get_action_name(self, instance, **kwargs):
             actions = {
                 "access": _("Access"),
                 "view": _("View"),
@@ -1092,21 +1226,54 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
                 "create_post": _("Create Post"),
                 "create_comment": _("Create Comment"),
                 "watch": _("Watch"),
-                "logout": _("Logout")
+                "logout": _("Logout"),
+                "view_new": _("View New"),
+                "view_list_of_news": _("View List of News")
             }
 
             return actions.get(instance.action, instance.action)
 
-        def format_resource(self, instance, **kwargs):
+        def get_area_name(self, instance, **kwargs):
+            common = ['general', 'category', 'subject', 'message']
+
             elements = {
+                "general_participants": _("General Participants"),
+                "subject_participants": _("Subejct Participants"),
+                "subject/resources": _("Subject/Resources"),
+                "mural": _("Mural"),
+                "post_comments": _("Post Comments"),
+                "filelink": _("File link"),
+                "pdffile": _("PDF File"),
+                "webconference": _("Webconference"),
+                "profile": _("Profile"),
+                "user": _("Users"),
+                "students_group": _("Students Group"),
+                "pendencies": _("Pendencies"),
+                "my_goals": _("My Goals"),
+                "category": _("Category"),
+                "subject": _("Subject"),
+                "goals": _("Goals"),
+                "news": _("News"),
                 "system": _("System"),
                 "ytvideo": _("Youtube Video"),
                 "questionary": _("Questionary"),
+                "Category_Dashboard": _("Category Analytics"),
                 "Manager Dashboard": _("General Analytics"),
                 "topic": _("Topic"),
                 "questions_database": _("Questions Database"),
-                "talk": _("Talk")
+                "talk": _("Talk"),
+                "chat": _("Chat"),
+                "webpage": _("Webpage"),
+                "links": _("Links"),
+                "link": _("Links"),
+                "analytics": _("Analytics")
             }
+
+            if instance.resource in common:
+                if instance.component == "mobile":
+                    return elements.get("chat", None)
+
+                return elements.get(instance.component, None)
 
             return elements.get(instance.resource, None)
 
