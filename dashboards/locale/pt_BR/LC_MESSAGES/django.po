@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-27 04:41+0000\n"
+"POT-Creation-Date: 2020-12-04 23:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -279,7 +279,7 @@ msgstr "Assuntos"
 #: dashboards/templates/dashboards/left_chart.html:32
 #: dashboards/templates/dashboards/manager/_logs_table.html:140
 #: dashboards/templates/dashboards/teacher/_resources_table.html:33
-#: dashboards/views.py:890 dashboards/views.py:1055
+#: dashboards/views.py:989 dashboards/views.py:1186
 msgid "Resource"
 msgstr "Recursos"
 
@@ -322,6 +322,7 @@ msgid "Element x Number of recorded logs"
 msgstr "Elemento x Número de registros"
 
 #: dashboards/templates/dashboards/manager/_logs_table.html:55
+#: dashboards/views.py:876 dashboards/views.py:1050 dashboards/views.py:1247
 msgid "Category"
 msgstr "Categorias"
 
@@ -332,7 +333,8 @@ msgid "Recorded Logs"
 msgstr "Registros"
 
 #: dashboards/templates/dashboards/manager/_logs_table.html:97
-#: dashboards/views.py:889 dashboards/views.py:1054
+#: dashboards/views.py:877 dashboards/views.py:988 dashboards/views.py:1051
+#: dashboards/views.py:1185 dashboards/views.py:1248
 msgid "Subject"
 msgstr "Assuntos"
 
@@ -360,6 +362,7 @@ msgstr "Interações dos usuários"
 
 #: dashboards/templates/dashboards/manager/_users_bubble.html:88
 #: dashboards/templates/dashboards/manager/_users_graph.html:20
+#: dashboards/views.py:872 dashboards/views.py:1046 dashboards/views.py:1243
 msgid "Users"
 msgstr "Usuários"
 
@@ -369,10 +372,8 @@ msgid "Interactions"
 msgstr "Interações"
 
 #: dashboards/templates/dashboards/manager/_users_bubble.html:108
-#, fuzzy
-#| msgid "Closed on: "
 msgid "Close"
-msgstr "Encerrado em: "
+msgstr "Fechar"
 
 #: dashboards/templates/dashboards/manager/_users_bubble.html:130
 msgid "See Profile"
@@ -402,7 +403,7 @@ msgstr "Inativos"
 #: dashboards/templates/dashboards/manager/log_datatable.html:75
 #: dashboards/templates/dashboards/manager/log_datatable_category.html:45
 #: dashboards/templates/dashboards/manager/log_datatable_category.html:77
-#: dashboards/views.py:940 dashboards/views.py:1105
+#: dashboards/views.py:884 dashboards/views.py:1058 dashboards/views.py:1255
 msgid "General Analytics"
 msgstr "Analytics"
 
@@ -463,43 +464,53 @@ msgstr "Até"
 msgid "Select the category"
 msgstr "Selecione a categoria"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:184
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:184
+#: dashboards/templates/dashboards/manager/log_datatable.html:136
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:149
+msgid ""
+"If multiple words separated by spaces are passed, the table will search for "
+"each one individually. In case you want to search for multiple words as one "
+"sentence, wrap the words with quotes. Ex.: \"one two\""
+msgstr "Se múltiplas palavras separadas por espaço em branco forem passadas, a tabela irá "
+"pesquisar cada uma individualmente. Caso queira pesquisar as múltiplas palavras como uma "
+"única sentença, envolva a frase com aspas. Ex.: \"Assunto Teste\"."
+
+#: dashboards/templates/dashboards/manager/log_datatable.html:187
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:189
 msgid "Display _MENU_ records per page"
 msgstr "Mostrar _MENU_ resultados por página"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:185
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:185
+#: dashboards/templates/dashboards/manager/log_datatable.html:188
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:190
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Mostrando de _START_ até _END_ de _TOTAL_ resultados"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:186
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:186
+#: dashboards/templates/dashboards/manager/log_datatable.html:189
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:191
 msgid "Nothing found - sorry"
 msgstr "Nenhum registro encontrado"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:187
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:187
+#: dashboards/templates/dashboards/manager/log_datatable.html:190
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:192
 msgid "No records available"
 msgstr "Nenhum resultado disponível"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:188
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:188
+#: dashboards/templates/dashboards/manager/log_datatable.html:191
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:193
 msgid "(filtered from _MAX_ total records)"
 msgstr "(filtrado de _MAX_ resultados)"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:189
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:189
+#: dashboards/templates/dashboards/manager/log_datatable.html:192
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:194
 msgid "Search"
 msgstr "Pesquisar"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:191
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:191
+#: dashboards/templates/dashboards/manager/log_datatable.html:194
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:196
 msgid "Previous"
 msgstr "Anterior"
 
-#: dashboards/templates/dashboards/manager/log_datatable.html:192
-#: dashboards/templates/dashboards/manager/log_datatable_category.html:192
+#: dashboards/templates/dashboards/manager/log_datatable.html:195
+#: dashboards/templates/dashboards/manager/log_datatable_category.html:197
 msgid "Next"
 msgstr "Próximo"
 
@@ -510,7 +521,8 @@ msgstr "Usuários mais ativos"
 #: dashboards/templates/dashboards/subjects.html:39
 #: dashboards/templates/dashboards/teacher/index.html:38
 #: dashboards/views.py:192 dashboards/views.py:351 dashboards/views.py:549
-#: dashboards/views.py:594 dashboards/views.py:868 dashboards/views.py:1022
+#: dashboards/views.py:594 dashboards/views.py:892 dashboards/views.py:965
+#: dashboards/views.py:1066 dashboards/views.py:1151 dashboards/views.py:1263
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -790,85 +802,170 @@ msgstr ""
 msgid "Online"
 msgstr ""
 
-#: dashboards/views.py:897 dashboards/views.py:1062
-msgid "User"
-msgstr "Usuários"
-
-#: dashboards/views.py:898 dashboards/views.py:1063
-msgid "Area"
-msgstr "Área"
-
-#: dashboards/views.py:899 dashboards/views.py:1064
-msgid "Date/Time"
-msgstr "Data/Hora"
-
-#: dashboards/views.py:920 dashboards/views.py:1085
+#: dashboards/views.py:836 dashboards/views.py:1016 dashboards/views.py:1213
 msgid "Access"
 msgstr "Acessar"
 
-#: dashboards/views.py:921 dashboards/views.py:1086
+#: dashboards/views.py:837 dashboards/views.py:1017 dashboards/views.py:1214
 msgid "View"
 msgstr "Visualizar"
 
-#: dashboards/views.py:922 dashboards/views.py:1087
+#: dashboards/views.py:838 dashboards/views.py:1018 dashboards/views.py:1215
 msgid "Create"
 msgstr "Criar"
 
-#: dashboards/views.py:923 dashboards/views.py:1088
+#: dashboards/views.py:839 dashboards/views.py:1019 dashboards/views.py:1216
 msgid "Update"
 msgstr "Atualizar"
 
-#: dashboards/views.py:924 dashboards/views.py:1089
+#: dashboards/views.py:840 dashboards/views.py:1020 dashboards/views.py:1217
 msgid "Start"
 msgstr "Iniciar"
 
-#: dashboards/views.py:925 dashboards/views.py:1090
+#: dashboards/views.py:841 dashboards/views.py:1021 dashboards/views.py:1218
 msgid "Answer"
 msgstr "Responder"
 
-#: dashboards/views.py:926 dashboards/views.py:1091
+#: dashboards/views.py:842 dashboards/views.py:1022 dashboards/views.py:1219
 msgid "Delete"
 msgstr "Remover"
 
-#: dashboards/views.py:927 dashboards/views.py:1092
+#: dashboards/views.py:843 dashboards/views.py:1023 dashboards/views.py:1220
 msgid "Create Post"
 msgstr "Criar postagem"
 
-#: dashboards/views.py:928 dashboards/views.py:1093
+#: dashboards/views.py:844 dashboards/views.py:1024 dashboards/views.py:1221
 msgid "Create Comment"
 msgstr "Criar comentário"
 
-#: dashboards/views.py:929 dashboards/views.py:1094
+#: dashboards/views.py:845 dashboards/views.py:1025 dashboards/views.py:1222
 msgid "Watch"
 msgstr "Assistir"
 
-#: dashboards/views.py:930 dashboards/views.py:1095
+#: dashboards/views.py:846 dashboards/views.py:1026 dashboards/views.py:1223
 msgid "Logout"
 msgstr "Sair"
 
-#: dashboards/views.py:937 dashboards/views.py:1102
+#: dashboards/views.py:847 dashboards/views.py:1027 dashboards/views.py:1224
+msgid "View New"
+msgstr "Visualizar Notícia"
+
+#: dashboards/views.py:848 dashboards/views.py:1028 dashboards/views.py:1225
+msgid "View List of News"
+msgstr "Visualizar Lista de Notícias"
+
+#: dashboards/views.py:863 dashboards/views.py:1037 dashboards/views.py:1234
+msgid "General Participants"
+msgstr "Participantes Gerais"
+
+#: dashboards/views.py:864 dashboards/views.py:1038 dashboards/views.py:1235
+msgid "Subejct Participants"
+msgstr "Participantes do Assunto"
+
+#: dashboards/views.py:865 dashboards/views.py:1039 dashboards/views.py:1236
+msgid "Subject/Resources"
+msgstr "Assunto/Recurso"
+
+#: dashboards/views.py:866 dashboards/views.py:1040 dashboards/views.py:1237
+msgid "Mural"
+msgstr "Mural"
+
+#: dashboards/views.py:867 dashboards/views.py:1041 dashboards/views.py:1238
+msgid "Post Comments"
+msgstr "Comentários da Postagem"
+
+#: dashboards/views.py:868 dashboards/views.py:1042 dashboards/views.py:1239
+msgid "File link"
+msgstr "Link para Arquivo"
+
+#: dashboards/views.py:869 dashboards/views.py:1043 dashboards/views.py:1240
+msgid "PDF File"
+msgstr "Arquivo PDF"
+
+#: dashboards/views.py:870 dashboards/views.py:1044 dashboards/views.py:1241
+msgid "Webconference"
+msgstr "Video Conferência"
+
+#: dashboards/views.py:871 dashboards/views.py:1045 dashboards/views.py:1242
+msgid "Profile"
+msgstr "Perfil"
+
+#: dashboards/views.py:873 dashboards/views.py:1047 dashboards/views.py:1244
+msgid "Students Group"
+msgstr "Grupos de Estudo"
+
+#: dashboards/views.py:874 dashboards/views.py:1048 dashboards/views.py:1245
+msgid "Pendencies"
+msgstr "Pendências"
+
+#: dashboards/views.py:875 dashboards/views.py:1049 dashboards/views.py:1246
+msgid "My Goals"
+msgstr "Minhas Metas"
+
+#: dashboards/views.py:878 dashboards/views.py:1052 dashboards/views.py:1249
+msgid "Goals"
+msgstr "Metas"
+
+#: dashboards/views.py:879 dashboards/views.py:1053 dashboards/views.py:1250
+msgid "News"
+msgstr "Notícias"
+
+#: dashboards/views.py:880 dashboards/views.py:1054 dashboards/views.py:1251
 msgid "System"
 msgstr "Sistema"
 
-#: dashboards/views.py:938 dashboards/views.py:1103
+#: dashboards/views.py:881 dashboards/views.py:1055 dashboards/views.py:1252
 msgid "Youtube Video"
 msgstr "Vídeo do Youtube"
 
-#: dashboards/views.py:939 dashboards/views.py:1104
+#: dashboards/views.py:882 dashboards/views.py:1056 dashboards/views.py:1253
 msgid "Questionary"
 msgstr "Questionário"
 
-#: dashboards/views.py:941 dashboards/views.py:1106
+#: dashboards/views.py:883 dashboards/views.py:1057 dashboards/views.py:1254
+msgid "Category Analytics"
+msgstr "Analytics"
+
+#: dashboards/views.py:885 dashboards/views.py:1059 dashboards/views.py:1256
 msgid "Topic"
 msgstr "Tópico"
 
-#: dashboards/views.py:942 dashboards/views.py:1107
+#: dashboards/views.py:886 dashboards/views.py:1060 dashboards/views.py:1257
 msgid "Questions Database"
 msgstr "Banco de Questões"
 
-#: dashboards/views.py:943 dashboards/views.py:1108
+#: dashboards/views.py:887 dashboards/views.py:1061 dashboards/views.py:1258
 msgid "Talk"
 msgstr "Conversa"
+
+#: dashboards/views.py:888 dashboards/views.py:1062 dashboards/views.py:1259
+msgid "Chat"
+msgstr "Chat"
+
+#: dashboards/views.py:889 dashboards/views.py:1063 dashboards/views.py:1260
+msgid "Webpage"
+msgstr "Página da Web"
+
+#: dashboards/views.py:890 dashboards/views.py:891 dashboards/views.py:1064
+#: dashboards/views.py:1065 dashboards/views.py:1261 dashboards/views.py:1262
+msgid "Links"
+msgstr "Links"
+
+#: dashboards/views.py:986 dashboards/views.py:1183
+msgid "Action"
+msgstr "Ação"
+
+#: dashboards/views.py:987 dashboards/views.py:1184
+msgid "Area"
+msgstr "Área"
+
+#: dashboards/views.py:996 dashboards/views.py:1193
+msgid "User"
+msgstr "Usuários"
+
+#: dashboards/views.py:997 dashboards/views.py:1194
+msgid "Date/Time"
+msgstr "Data/Hora"
 
 #~ msgid ""
 #~ "Compares the interactions number realized by the users subscribed in the "

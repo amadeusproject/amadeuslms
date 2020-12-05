@@ -131,6 +131,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 </form>
             </div>
         </div>
+        
+        <br clear="all" />
+        <p class="text-info small">{% trans 'If multiple words separated by spaces are passed, the table will search for each one individually. In case you want to search for multiple words as one sentence, wrap the words with quotes. Ex.: "one two"' %}</p>
 
         <div class="container" style="max-width: 100%">
             <div id="log_table" data-url="{% url 'dashboards:view_general_log' %}" class="row nopadding">
