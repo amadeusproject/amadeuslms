@@ -22,11 +22,9 @@ from chat.serializers import ChatSerializer
 
 
 def sendChatPushNotification(user, message):
-    device = FCMDevice.objects.filter(user__id=user.id).first()
-    print(user)
-    print(device)
-    if not device is None:
-        print(message)
+    device = FCMDevice.objects.filter(user__id=user.id, active=True).all() # TODO: Question -> Porque não estava filtrando apenas pelos ativos?
+
+    if device.first():
         serializer = ChatSerializer(message)
 
         json_r = json.dumps(serializer.data)
@@ -56,6 +54,21 @@ def sendChatPushNotification(user, message):
         if message.image:
             simple_notify += " ".join(_("[Photo]"))
 
+        message_object = {
+            "title": str(message.user),
+            "body": simple_notify,
+            "data": {
+                "response": response,
+                "title": title,
+                "body": simple_notify,
+                "user_from": message.user.email,
+                "user_name": str(message.user),
+                "user_img": message.user.image_url,
+                "type": "chat",
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+            }
+        }
+
         device.send_message(
             title=str(message.user),
             body=simple_notify,
@@ -73,9 +86,13 @@ def sendChatPushNotification(user, message):
 
 
 def sendMuralPushNotification(user, user_action, message):
-    device = FCMDevice.objects.filter(user=user, active=True).first()
+    print("dentro do sendMuralPushNotification")
+    device = FCMDevice.objects.filter(user__id=user.id, active=True).all()
 
-    if not device is None:
+    print(f"devices para enviar notificação - {device.first()}")
+
+    if device.first():
+        print("message sent")
         device.send_message(
             data={
                 "title": "Mural",
