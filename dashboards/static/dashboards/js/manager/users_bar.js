@@ -8,7 +8,6 @@ $(function() {
     } else {
         loadBarChartData(usersgraphUrl, $("#from").val(), $("#until").val());
     }
-
 });
 
 function loadBarChartData(usersgraphUrl, dataIni, dataEnd, category = 0){
@@ -16,9 +15,7 @@ function loadBarChartData(usersgraphUrl, dataIni, dataEnd, category = 0){
     $.get(usersgraphUrl, { data_ini: dataIni, data_end: dataEnd, category: category }, dataset => {
         drawBarChart(dataset);
     });
-
 }
-      
 
 function drawBarChart(data){
     let active_teachers_percent_value = (data["active_teachers"]/data["total_teachers"]*100).toFixed(0)
@@ -66,7 +63,6 @@ function drawBarChart(data){
         "height", `${6*active_teachers_percent_value/100}em`
     );
     
-    
     $("#percent-teacher-inactive-2").css(
         "height", `${6*inactive_teachers_percent_value/100}em`
     ).css("margin-bottom", "15");
@@ -78,32 +74,24 @@ function drawBarChart(data){
         $("#students-percent-value").html(
             `<p style="margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${active_students_percent_value}% dos estudantes estão ativos no período selecionado">${active_students_percent_value}%</p>`
         );
-
-        
-        
-  
     }
     
     if(active_teachers_percent_value < 25){
         $("#teacher-percent-value").html(
             `<p style="margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${active_teachers_percent_value}% dos professores estão ativos no período selecionado">${active_teachers_percent_value}%</p>`
         );
-        
     }
 
     if(inactive_students_percent_value < 25){
-        $("#percent-students-inactive-2").html(
+        $("#percent-students-value").html(
             `<p style="margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${inactive_students_percent_value}% dos estudantes estão inativos no período selecionado">${active_students_percent_value}%</p>`
         );
-        
-  
     }
     
     if(inactive_teachers_percent_value < 25){
-        $("#percent-teacher-inactive-2").html(
+        $("#percent-teacher-value").html(
             `<p style=margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${inactive_teachers_percent_value}% dos professores estão inativos no período selecionado">${inactive_teachers_percent_value}%</p>`
         );
-        
     }
 
     $("#panel_loading_mask1").hide();
