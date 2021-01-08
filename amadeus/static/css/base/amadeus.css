@@ -1822,3 +1822,11 @@ h5.one span {
   .goog-custom-button-inner-box {
   padding: 0px;
 }
+
+#log_table .dataTables_wrapper .dataTables_processing {
+  top: 35px;
+  height: 93%;
+  margin-top: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+}
