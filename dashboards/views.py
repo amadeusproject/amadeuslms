@@ -839,17 +839,35 @@ class ActionColumn(columns.TextColumn):
         actions = [
             ["access", _("Access")],
             ["view", _("View")],
+            ["send", _("Send")],
             ["create", _("Create")],
             ["update", _("Update")],
             ["start", _("Start")],
+            ["finish", _("Finish")],
             ["answer", _("Answer")],
             ["delete", _("Delete")],
             ["create_post", _("Create Post")],
             ["create_comment", _("Create Comment")],
+            ["edit_post", _("Edit Post")],
+            ["edit_comment", _("Edit Comment")],
+            ["set_goal", _("Set Goal")],
+            ["participate", _("Participate")],
+            ["remoe_account", _("Remove Account")],
             ["watch", _("Watch")],
             ["logout", _("Logout")],
+            ["view_statistics", _("View Statistics")],
             ["view_new", _("View New")],
-            ["view_list_of_news", _("View List of News")]
+            ["view_list_of_news", _("View List of News")],
+            ["view_history", _("View History")],
+            ["delete_post", _("Delete Post")],
+            ["delete_comment", _("Delete Comment")],
+            ["search", _("Search")],
+            ["change_password", _("Change Password")],
+            ["submit", _("Submit")],
+            ["click", _("Click")],
+            ["initwebconference", _("Init Webconference")],
+            ["participating", _("Participating")],
+            ["replicate", _("Replicate")]
         ]
 
         results = (
@@ -1020,17 +1038,35 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
             actions = {
                 "access": _("Access"),
                 "view": _("View"),
+                "send": _("Send"),
                 "create": _("Create"),
                 "update": _("Update"),
                 "start": _("Start"),
+                "finish": _("Finish"),
                 "answer": _("Answer"),
                 "delete": _("Delete"),
                 "create_post": _("Create Post"),
                 "create_comment": _("Create Comment"),
+                "edit_post": _("Edit Post"),
+                "edit_comment": _("Edit Comment"),
+                "set_goal": _("Set Goal"),
+                "participate": _("Participate"),
+                "remoe_account": _("Remove Account"),
                 "watch": _("Watch"),
                 "logout": _("Logout"),
+                "view_statistics": _("View Statistics"),
                 "view_new": _("View New"),
-                "view_list_of_news": _("View List of News")
+                "view_list_of_news": _("View List of News"),
+                "view_history": _("View History"),
+                "delete_post": _("Delete Post"),
+                "delete_comment": _("Delete Comment"),
+                "search": _("Search"),
+                "change_password": _("Change Password"),
+                "submit": _("Submit"),
+                "click": _("Click"),
+                "initwebconference": _("Init Webconference"),
+                "participating": _("Participating"),
+                "replicate": _("Replicate")
             }
 
             return actions.get(instance.action, instance.action)
@@ -1106,8 +1142,10 @@ class LogDatatableView(LoginRequiredMixin, DatatableView):
 
             columnText = ''
 
-            if not resource is None and instance.component == "resources":
-                resourceObj = Resource.objects.get(pk=resource_id)
+            resQueryset = Resource.objects.filter(pk=resource_id)
+
+            if not resource is None and instance.component == "resources" and resQueryset.exists():
+                resourceObj = resQueryset.get()
             
                 columnText = "<a href='%s' target='blank'>%s</a>"%(resourceObj.access_link(), resource)
 
@@ -1218,17 +1256,35 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
             actions = {
                 "access": _("Access"),
                 "view": _("View"),
+                "send": _("Send"),
                 "create": _("Create"),
                 "update": _("Update"),
                 "start": _("Start"),
+                "finish": _("Finish"),
                 "answer": _("Answer"),
                 "delete": _("Delete"),
                 "create_post": _("Create Post"),
                 "create_comment": _("Create Comment"),
+                "edit_post": _("Edit Post"),
+                "edit_comment": _("Edit Comment"),
+                "set_goal": _("Set Goal"),
+                "participate": _("Participate"),
+                "remoe_account": _("Remove Account"),
                 "watch": _("Watch"),
                 "logout": _("Logout"),
+                "view_statistics": _("View Statistics"),
                 "view_new": _("View New"),
-                "view_list_of_news": _("View List of News")
+                "view_list_of_news": _("View List of News"),
+                "view_history": _("View History"),
+                "delete_post": _("Delete Post"),
+                "delete_comment": _("Delete Comment"),
+                "search": _("Search"),
+                "change_password": _("Change Password"),
+                "submit": _("Submit"),
+                "click": _("Click"),
+                "initwebconference": _("Init Webconference"),
+                "participating": _("Participating"),
+                "replicate": _("Replicate")
             }
 
             return actions.get(instance.action, instance.action)
@@ -1304,8 +1360,10 @@ class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
 
             columnText = ''
 
-            if not resource is None and instance.component == "resources":
-                resourceObj = Resource.objects.get(pk=resource_id)
+            resQueryset = Resource.objects.filter(pk=resource_id)
+
+            if not resource is None and instance.component == "resources" and resQueryset.exists():
+                resourceObj = resQueryset.get()
             
                 columnText = "<a href='%s' target='blank'>%s</a>"%(resourceObj.access_link(), resource)
 
