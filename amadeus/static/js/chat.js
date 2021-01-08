@@ -93,7 +93,7 @@ function getModalInfo(btn, space, space_type) {
 
       $('#chat-modal-info').html(response);
 
-      $zoom.listen('img:not(.no_zoom)');
+      AttachImgZoomCallback();
 
       $('#chat-modal-info').modal('show');
 
@@ -295,7 +295,7 @@ function setChatFormSubmit() {
       success: function(data) {
         $('.messages-list').append(data.view);
 
-        $zoom.listen('img:not(.no_zoom)');
+        AttachImgZoomCallback();
 
         $('.messages-container').each(function() {
           var height = $(this)[0].scrollHeight;
@@ -355,7 +355,7 @@ function setShortChatFormSubmit() {
         success: function(data) {
           $('.messages-list').append(data.view);
 
-          $zoom.listen('img:not(.no_zoom)');
+          AttachImgZoomCallback();
 
           $('.messages-container').each(function() {
             var height = $(this)[0].scrollHeight;
@@ -440,7 +440,7 @@ function setFiltersSubmitAndPagination() {
         if (data.count > 0) {
           msg_section.html(data.messages);
 
-          $zoom.listen('img:not(.no_zoom)');
+          AttachImgZoomCallback();
 
           messages.data('pages', data.num_pages);
           messages.data('page', data.num_page);
@@ -510,7 +510,7 @@ function setFiltersSubmitAndPagination() {
 
         msg_section.prepend(data.messages);
 
-        $zoom.listen('img:not(.no_zoom)');
+        AttachImgZoomCallback();
 
         messages.data('pages', data.num_pages);
         messages.data('page', data.num_page);
@@ -595,7 +595,7 @@ function setSearchSubmit() {
       success: function(response) {
         content_section.html(response);
 
-        $zoom.listen('img:not(.no_zoom)');
+        AttachImgZoomCallback();
 
         var items = $('#content-list').children(':visible').length;
         var holder = content_section.find('.holder');
@@ -662,7 +662,7 @@ $('.chat-collapse').on('shown.bs.collapse', function(e) {
       success: function(response) {
         content_section.html(response);
 
-        $zoom.listen('img:not(.no_zoom)');
+        AttachImgZoomCallback();
 
         var items = $('#content-list').children(':visible').length;
         var holder = content_section.find('.holder');
