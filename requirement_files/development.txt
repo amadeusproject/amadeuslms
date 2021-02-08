@@ -45,7 +45,7 @@ entrypoints==0.2.2
 et-xmlfile==1.0.1
 fcm-django==0.2.11
 gunicorn==19.6.0
-httplib2==0.18.0
+httplib2==0.19.0
 hyperlink==19.0.0
 idna==2.10
 incremental==17.5.0
