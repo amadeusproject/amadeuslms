@@ -48,6 +48,8 @@ var loadPosts = function() {
 
                 $('.mural').data('page', pageNum);
 
+                AttachImgZoomCallback();
+
                 setTimeout(function () { postHeightLimits() }, 10);
             },
             complete: function(data, textStatus){

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 14:47+0000\n"
+"POT-Creation-Date: 2021-01-08 20:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -311,7 +311,7 @@ msgstr "Grupos"
 #: mural/templates/mural/resource_view.html:24
 #: mural/templates/mural/resource_view.html:41
 #: mural/templates/mural/subject_view.html:21
-#: mural/templates/mural/subject_view.html:39 mural/views.py:212
+#: mural/templates/mural/subject_view.html:39 mural/views.py:213
 msgid "Mural"
 msgstr "Mural"
 
@@ -323,11 +323,11 @@ msgstr ""
 msgid "(Edited)"
 msgstr "(Editado)"
 
-#: mural/templatetags/mural_filters.py:47 mural/views.py:1892
+#: mural/templatetags/mural_filters.py:47 mural/views.py:1893
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: mural/templatetags/mural_filters.py:49 mural/views.py:1896
+#: mural/templatetags/mural_filters.py:49 mural/views.py:1897
 msgid "Favorite"
 msgstr "Favoritar"
 
@@ -347,63 +347,63 @@ msgstr "Ausente"
 msgid "Offline"
 msgstr ""
 
-#: mural/views.py:261
+#: mural/views.py:262
 #, python-format
 msgid "%s has made a post in General"
 msgstr "%s postou em Geral"
 
-#: mural/views.py:401 mural/views.py:830 mural/views.py:1314
+#: mural/views.py:402 mural/views.py:831 mural/views.py:1315
 msgid "Are you sure you want to delete this post?"
 msgstr "Você tem certeza que deseja deletar essa postagem?"
 
-#: mural/views.py:635
+#: mural/views.py:636
 msgid "Mural - Per Category"
 msgstr "Mural - Por Categoria"
 
-#: mural/views.py:676 mural/views.py:1122 mural/views.py:1783
+#: mural/views.py:677 mural/views.py:1123 mural/views.py:1784
 #, python-format
 msgid "%s has made a post in %s"
 msgstr "%s postou em %s"
 
-#: mural/views.py:1056
+#: mural/views.py:1057
 msgid "Mural - Per Subject"
 msgstr "Mural - Por Assunto"
 
-#: mural/views.py:1444 mural/views.py:1712
+#: mural/views.py:1445 mural/views.py:1713
 #, python-format
 msgid "%s - Mural"
 msgstr "%s - Mural"
 
-#: mural/views.py:1871
+#: mural/views.py:1872
 msgid "Your post was published successfully!"
 msgstr "Sua postagem foi publicada com sucesso!"
 
-#: mural/views.py:1873
+#: mural/views.py:1874
 msgid "Your post was edited successfully!"
 msgstr "Sua postagem foi editada com sucesso!"
 
-#: mural/views.py:1881
+#: mural/views.py:1882
 msgid "Post deleted successfully!"
 msgstr "Postagem deletada com sucesso!"
 
-#: mural/views.py:1960
+#: mural/views.py:1961
 #, python-format
 msgid "%s has commented in a post"
 msgstr "%s comentou em um postagem"
 
-#: mural/views.py:2171
+#: mural/views.py:2172
 msgid "Are you sure you want to delete this comment?"
 msgstr "Você tem certeza que deseja deletar esse comentário?"
 
-#: mural/views.py:2263
+#: mural/views.py:2264
 msgid "Your comment was published successfully!"
 msgstr "Seu comentário foi publicado com sucesso!"
 
-#: mural/views.py:2265
+#: mural/views.py:2266
 msgid "Your comment was edited successfully!"
 msgstr "Seu comentário foi editado com sucesso!"
 
-#: mural/views.py:2273
+#: mural/views.py:2274
 msgid "Comment deleted successfully!"
 msgstr "Comentário deletado com sucesso!"
 

@@ -104,3 +104,5 @@ lml==0.0.9
 pyexcel-io==0.5.20
 pyexcel-xls==0.5.8
 pyexcel-xlsx==0.5.8
+
+django-datatable-view==0.9.0

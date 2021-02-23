@@ -1,0 +1,228 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'base.html' %}
+
+{% load static i18n pagination %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block style %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'analytics/css/brush_zoom.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'dashboards/css/general_analytics.css' %}" />
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+
+{% endblock %}
+
+{% block javascript %}
+{% include "dashboards/d3_translate.html" %}
+
+<script type="text/javascript" src="{% static 'analytics/js/d3.v5.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'analytics/js/ToolTip.js' %}"></script>
+<script type="text/javascript" src="{% static 'analytics/js/d3.v3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'analytics/js/JSUtil.js' %}"></script>
+<script type="text/javascript" src="{% static 'analytics/js/brush_zoom.js' %}"></script>
+
+
+
+
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+
+{% trans 'General Analytics' as analytics %}
+
+{% breadcrumb analytics 'dashboard:view_manager_dashboard' %}
+{% endblock %}
+
+
+{% block content %}
+<div id="core-subjects-options-div">
+    <ul class="core-subjects-options mural-tabs">
+        {% if user.is_staff %}
+        <a href="{% url 'dashboards:view_manager_dashboard' %}">
+            <li>
+                {% trans "General" %}
+            </li>
+        </a>
+        {% endif %}
+        <a href="{% url 'dashboards:view_categories' %}">
+            <li class="active">
+                {% trans "By Category" %}
+            </li>
+        </a>
+        <li>
+            {% trans "By Subject" %}
+        </li>
+    </ul>
+</div>
+
+<div class="panel panel-info subject-panel" id="subject_{{subject.slug}}">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 category-header">
+                <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                    <span> {% trans 'General Analytics' %}</span>
+                </h4>
+
+                <div class="col-md-5 pull-right category-card-items">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="{{subject.slug}}" class="panel-collapse panel-body in collapse analytics-ungeneral">
+        <div class="row">
+            <div class="core-subjects-options-div">
+                <ul class="core-subjects-options mural-tabs">
+                    <a href="{% url 'dashboards:view_categories' %}">
+                        <li>
+                            {% trans "Highlights" %}
+                        </li>
+                    </a>
+                    <a href="{% url 'dashboards:view_category_log' %}">
+                        <li class="active">
+                            {% trans "Log" %}
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <form id="period" class="form-inline" action="{% url 'dashboards:xlsusers' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="period-title">
+                        <div class="form-group">
+                            <span>{% trans "Select the category" %}:</span>
+                            <select id="categoriesSelect" name="selected_category" class="form-control">
+                                {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == selectedCategory.id %} selected {% endif %}>{{ cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <br clear="all" />
+
+                        <span> {% trans 'Select the required period' %}:</span>
+
+                        <div class="form-group">
+                            <label for="from">{% trans 'From' %}:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date-picker" id="from" name="from"
+                                    value="{{ data_ini|date:'SHORT_DATE_FORMAT' }}" />
+                                <div class="input-group-addon" onclick="$('#from').focus()">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="until">{% trans 'Until' %}:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date-picker" id="until" name="until"
+                                    value="{{ data_end|date:'SHORT_DATE_FORMAT' }}" />
+                                <div class="input-group-addon" onclick="$('#until').focus()">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger data-error" style="display: none;" role="alert">
+                            Data/Período inválido. Por favor, selecione uma data inicial igual ou anterior à data do
+                            final.
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <br clear="all" />
+        <p class="text-default small">
+            <i class="fa fa-info-circle"></i> {% trans 'If multiple words separated by spaces are passed, the table will search for each one individually. In case you want to search for multiple words as one sentence, wrap the words with quotes. Ex.: "one two"' %}
+        </p>
+
+        <div class="container" style="max-width: 100%">
+            <div id="log_table" data-url="{% url 'dashboards:view_general_log' %}" class="row nopadding">
+                {{ datatable }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+<script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
+
+{% block addtional_scripts %}
+
+<script type="text/javascript" src="{% static 'js/category.js' %}"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<!-- Load js for initializing tables via their server-side options -->
+<script type="text/javascript" charset="utf8" src="{% static 'js/datatableview.js' %}"></script>
+<script type="text/javascript">
+    sessionSecurity.confirmFormDiscard = undefined;
+
+    $(function () {
+        $(".date-picker").on('dp.change', () => {
+            reloadTable();
+        });
+
+        $("#categoriesSelect").on('change', function () {
+            reloadTable();
+        });
+
+        var options = {
+            "processing": true,
+            "language": {
+                "lengthMenu": "{% trans 'Display _MENU_ records per page' %}",
+                "info": "{% trans 'Showing _START_ to _END_ of _TOTAL_ entries' %}",
+                "zeroRecords": "{% trans 'Nothing found - sorry' %}",
+                "infoEmpty": "{% trans 'No records available' %}",
+                "infoFiltered": "{% trans '(filtered from _MAX_ total records)' %}",
+                "search": "{% trans 'Search' %}:",
+                "paginate": {
+                    "previous": "{% trans 'Previous' %}",
+                    "next": "{% trans 'Next' %}"
+                },
+                "processing": '<i class="fa fa-spinner fa-spin fa-3x fa-fw text-primary"></i>',
+            }
+        };
+
+        datatableview.initialize($('.datatable'), options);
+    });
+
+    function reloadTable() {
+        const dataIni = $("#from").val();
+        const dataEnd = $("#until").val();
+        const category = $("#categoriesSelect").val();
+
+        const d1 = dataIni.split("/");
+        const data_ini = new Date(d1[2], d1[1], d1[0] - 1);
+        const d2 = dataEnd.split("/");
+        const data_end = new Date(d2[2], d2[1], d2[0] - 1);
+
+        if (data_ini > data_end) {
+            $(".data-error").css("display", "block");
+        } else {
+            const url = $("#log_table").data('url');
+
+            let api = new $.fn.dataTable.Api('.datatable');
+
+            api.ajax.url(`${url}?data_ini=${dataIni}&data_end=${dataEnd}&category=${category}`).load().draw();
+        }
+    }
+</script>
+{% endblock %}

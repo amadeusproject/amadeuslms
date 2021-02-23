@@ -74,39 +74,21 @@ def set_notifications():
 					notify_type = 2
 			
 			if not PendencyDone.objects.filter(pendency = pendency, student = user).exists():
-				has_action = Log.objects.filter(user_id = user.id, action = pend_action, resource = resource_type, context__contains = {resource_key: resource_id}, datetime__date__gte = subject_begin_date)
+				if pendency.end_date:
+					if timezone.now() > pendency.end_date:
+						notify_type = 3
 
-				if not has_action.exists():
-					if pendency.end_date:
-						if timezone.now() > pendency.end_date:
-							notify_type = 3
+				if pendency.limit_date:
+					if timezone.now() > pendency.limit_date:
+						notify_type = 4
+				
+				notification = Notification()
+				notification.user = user
+				notification.level = notify_type
+				notification.task = pendency
+				notification.meta = meta
 
-					if pendency.limit_date:
-						if timezone.now() > pendency.limit_date:
-							notify_type = 4
-					
-					notification = Notification()
-					notification.user = user
-					notification.level = notify_type
-					notification.task = pendency
-					notification.meta = meta
-
-					notification.save()
-				else:
-					has_action = has_action.order_by('datetime').first()
-					done = PendencyDone()
-
-					if pendency.begin_date <= has_action.datetime and (has_action.datetime <= pendency.end_date or (pendency.limit_date and has_action.datetime <= pendency.limit_date)):
-						done.pendency = pendency
-						done.student = user
-						done.done_date = has_action.datetime
-
-						if pendency.limit_date and pendency.end_date < has_action.datetime <= pendency.limit_date:
-							done.late = True
-						else:
-							done.late = False
-
-						done.save()
+				notification.save()
 
 	notificate()
 

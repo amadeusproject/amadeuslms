@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.shortcuts import render
 
 from django.views import generic
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from subjects.models import Tag, Subject
@@ -25,6 +25,7 @@ import operator
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import HttpResponseForbidden
 
@@ -87,10 +88,14 @@ import plotly.express as px
 import plotly.graph_objs as go
 from django.template.loader import get_template
 
+from django.utils.formats import get_format
+from datatableview import Datatable, columns
+from datatableview.views import DatatableView
+
 import xlwt
 
 
-class GeneralView(LogMixin, generic.TemplateView):
+class GeneralView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -163,7 +168,7 @@ class GeneralView(LogMixin, generic.TemplateView):
         return months
 
 
-class CategoryView(LogMixin, generic.TemplateView):
+class CategoryView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -252,7 +257,7 @@ class CategoryView(LogMixin, generic.TemplateView):
         return categories
 
 
-class LogView(LogMixin, generic.TemplateView):
+class LogView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -311,7 +316,7 @@ def parse_log_queryset_to_JSON(logs):
     return data
 
 
-class SubjectView(LogMixin, generic.TemplateView):
+class SubjectView(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -468,8 +473,8 @@ def other_metrics(request, subject, email):
     user = User.objects.get(email=email)
 
     indicatorsData = getOtherIndicators(sub, user)
-    infoAudios = indicatorsInfo()
-    tipAudios = indicatorsTips(sub, indicatorsData)
+    infoAudios = [] #indicatorsInfo()
+    tipAudios = [] #indicatorsTips(sub, indicatorsData)
 
     return JsonResponse(
         {"indicators": indicatorsData, "info": infoAudios, "tips": tipAudios},
@@ -482,8 +487,8 @@ def cloudy_data(request, subject, email=None):
     user = User.objects.get(email=email)
 
     cloudData = getAccessedTags(sub, user)
-    infoAudios = cloudInfo(cloudData)
-    tipAudios = cloudTips(cloudData)
+    infoAudios = [] #cloudInfo(cloudData)
+    tipAudios = [] #cloudTips(cloudData)
 
     return JsonResponse(
         {"cloud": cloudData, "info": infoAudios, "tips": tipAudios}, safe=False
@@ -510,7 +515,7 @@ def cloudy_data_period(request, subject, email=None):
 
 
 ###### Subjects Teacher Dashboard #######
-class SubjectTeacher(LogMixin, generic.TemplateView):
+class SubjectTeacher(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -566,7 +571,7 @@ class SubjectTeacher(LogMixin, generic.TemplateView):
 
 
 #### General Manager Dashboard  -  Begin  ####
-class GeneralManager(LogMixin, generic.TemplateView):
+class GeneralManager(LoginRequiredMixin, LogMixin, generic.TemplateView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
 
@@ -578,7 +583,6 @@ class GeneralManager(LogMixin, generic.TemplateView):
     log_context = {}
 
     def dispatch(self, request, *args, **kwargs):
-
         if not request.user.is_staff:
             return redirect(reverse_lazy("subjects:home"))
 
@@ -826,3 +830,541 @@ def get_xls_users_data(request):
 
     return response
 
+class UserColumn(columns.TextColumn):
+    def search(self, model, term):
+        return Q(user__icontains=term)
+
+class ActionColumn(columns.TextColumn):
+    def search(self, model, term):
+        actions = [
+            ["access", _("Access")],
+            ["view", _("View")],
+            ["send", _("Send")],
+            ["create", _("Create")],
+            ["update", _("Update")],
+            ["start", _("Start")],
+            ["finish", _("Finish")],
+            ["answer", _("Answer")],
+            ["delete", _("Delete")],
+            ["create_post", _("Create Post")],
+            ["create_comment", _("Create Comment")],
+            ["edit_post", _("Edit Post")],
+            ["edit_comment", _("Edit Comment")],
+            ["set_goal", _("Set Goal")],
+            ["participate", _("Participate")],
+            ["remoe_account", _("Remove Account")],
+            ["watch", _("Watch")],
+            ["logout", _("Logout")],
+            ["view_statistics", _("View Statistics")],
+            ["view_new", _("View New")],
+            ["view_list_of_news", _("View List of News")],
+            ["view_history", _("View History")],
+            ["delete_post", _("Delete Post")],
+            ["delete_comment", _("Delete Comment")],
+            ["search", _("Search")],
+            ["change_password", _("Change Password")],
+            ["submit", _("Submit")],
+            ["click", _("Click")],
+            ["initwebconference", _("Init Webconference")],
+            ["participating", _("Participating")],
+            ["replicate", _("Replicate")]
+        ]
+
+        results = (
+            [
+                y[0] for y in actions
+                if term.lower() in y[1].lower()
+            ]
+        )
+
+        return Q(action__in=results)
+
+class AreaColumn(columns.TextColumn):
+    def search(self, model, term):
+        elements = [
+            ["general_participants", _("General Participants")],
+            ["subject_participants", _("Subejct Participants")],
+            ["subject/resources", _("Subject/Resources")],
+            ["mural", _("Mural")],
+            ["post_comments", _("Post Comments")],
+            ["filelink", _("File link")],
+            ["pdffile", _("PDF File")],
+            ["webconference", _("Webconference")],
+            ["profile", _("Profile")],
+            ["user", _("Users")],
+            ["students_group", _("Students Group")],
+            ["pendencies", _("Pendencies")],
+            ["my_goals", _("My Goals")],
+            ["category", _("Category")],
+            ["subject", _("Subject")],
+            ["goals", _("Goals")],
+            ["news", _("News")],
+            ["system", _("System")],
+            ["ytvideo", _("Youtube Video")],
+            ["questionary", _("Questionary")],
+            ["Category_Dashboard", _("Category Analytics")],
+            ["Manager Dashboard", _("General Analytics")],
+            ["topic", _("Topic")],
+            ["questions_database", _("Questions Database")],
+            ["talk", _("Talk")],
+            ["chat", _("Chat")],
+            ["webpage", _("Webpage")],
+            ["links", _("Links")],
+            ["link", _("Links")],
+            ["analytics", _("Analytics")]
+        ]
+
+        results = (
+            [
+                y[0] for y in elements
+                if term.lower() in y[1].lower()
+            ]
+        )
+
+        return Q(resource__in=results)
+
+class ContextSubjectColumn(columns.TextColumn):
+    def search(self, model, term):
+        return Q(context__subject_name=term)
+
+class ContextResourceColumn(columns.TextColumn):
+    def search(self, model, term):
+        names_resources = [
+            "pdffile_name",
+            "bulletin_name",
+            "ytvideo_name",
+            "filelink_name",
+            "link_name",
+            "goals_name",
+            "webpage_name",
+            "questionary_name",
+            "webconference_name",
+            "my_goals_name",
+        ]
+
+        conds = Q()
+
+        for resource_name in names_resources:
+            conds |= Q(context__contains={resource_name: term})
+
+        return conds
+
+class LogDatatableView(LoginRequiredMixin, DatatableView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "dashboards/manager/log_datatable.html"
+
+    model = Log
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy("subjects:home"))
+
+        return super(LogDatatableView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        data_ini = self.request.GET.get('data_ini', '')
+        data_end = self.request.GET.get('data_end', '')
+
+        if not data_ini == "":
+            data_ini = parse_date(data_ini)
+        else:
+            data_ini = (timezone.localtime(timezone.now()) - timedelta(days=7)).date()
+
+        if not data_end == "":
+            data_end = parse_date(data_end)
+        else:
+            data_end = timezone.localtime(timezone.now()).date()
+
+        logs = Log.objects.filter(datetime__date__gte=data_ini, datetime__date__lte=data_end)
+
+        return logs
+
+    def get_context_data(self, **kwargs):
+        context = super(LogDatatableView, self).get_context_data(**kwargs)
+
+        context["title"] = _("Analytics")
+        context["dashboard_menu_active"] = "subjects_menu_active"
+
+        data_ini = self.request.GET.get('data_ini', '')
+        data_end = self.request.GET.get('data_end', '')
+
+        if not data_ini == "":
+            data_ini = parse_date(data_ini)
+        else:
+            data_ini = timezone.localtime(timezone.now()) - timedelta(days=7)
+        if not data_end == "":
+            data_end = parse_date(data_end)
+        else:
+            data_end = timezone.localtime(timezone.now())
+
+        context["data_ini"] = data_ini
+        context["data_end"] = data_end
+
+        return context
+    
+    class datatable_class(Datatable):
+        action = ActionColumn(_("Action"), sources=['action'], processor='get_action_name', sortable=False)
+        resource = AreaColumn(_("Area"), sources=['resource'], processor='get_area_name', sortable=False)
+        user = UserColumn(_("User"), sources=['user'], processor='format_user', sortable=True)
+        log_subject = ContextSubjectColumn(_("Subject"), sources=['context'], processor='get_subject_name', sortable=False)
+        log_resource = ContextResourceColumn(_("Resource"), sources=['context'], processor='get_resource_name', sortable=False)
+
+        class Meta:
+            model = Log
+            exclude = ['component', 'id', 'context', 'user_id', 'user_email']
+            ordering = ['-datetime']
+            labels = {
+                'user': _('User'),
+                'datetime': _('Date/Time')
+            }
+            processors = {
+                'user': 'format_user',
+                'datetime': 'format_datetime'
+            }
+            structure_template = "datatableview/bootstrap_structure.html"
+
+        def format_user(self, instance, **kwargs):
+            url = reverse_lazy("chat:profile", kwargs={'email': instance.user_email})
+            fieldValue = "<a href=\"#\" onclick=\"getModalInfo($(this), '0', 'general'); return false;\""
+            fieldValue += "data-url='%s'>"%(url)
+            fieldValue += instance.user
+            fieldValue += "</a>"
+
+            return fieldValue
+
+        def get_action_name(self, instance, **kwargs):
+            actions = {
+                "access": _("Access"),
+                "view": _("View"),
+                "send": _("Send"),
+                "create": _("Create"),
+                "update": _("Update"),
+                "start": _("Start"),
+                "finish": _("Finish"),
+                "answer": _("Answer"),
+                "delete": _("Delete"),
+                "create_post": _("Create Post"),
+                "create_comment": _("Create Comment"),
+                "edit_post": _("Edit Post"),
+                "edit_comment": _("Edit Comment"),
+                "set_goal": _("Set Goal"),
+                "participate": _("Participate"),
+                "remoe_account": _("Remove Account"),
+                "watch": _("Watch"),
+                "logout": _("Logout"),
+                "view_statistics": _("View Statistics"),
+                "view_new": _("View New"),
+                "view_list_of_news": _("View List of News"),
+                "view_history": _("View History"),
+                "delete_post": _("Delete Post"),
+                "delete_comment": _("Delete Comment"),
+                "search": _("Search"),
+                "change_password": _("Change Password"),
+                "submit": _("Submit"),
+                "click": _("Click"),
+                "initwebconference": _("Init Webconference"),
+                "participating": _("Participating"),
+                "replicate": _("Replicate")
+            }
+
+            return actions.get(instance.action, instance.action)
+
+        def get_area_name(self, instance, **kwargs):
+            common = ['general', 'category', 'subject', 'message']
+
+            elements = {
+                "general_participants": _("General Participants"),
+                "subject_participants": _("Subejct Participants"),
+                "subject/resources": _("Subject/Resources"),
+                "mural": _("Mural"),
+                "post_comments": _("Post Comments"),
+                "filelink": _("File link"),
+                "pdffile": _("PDF File"),
+                "webconference": _("Webconference"),
+                "profile": _("Profile"),
+                "user": _("Users"),
+                "students_group": _("Students Group"),
+                "pendencies": _("Pendencies"),
+                "my_goals": _("My Goals"),
+                "category": _("Category"),
+                "subject": _("Subject"),
+                "goals": _("Goals"),
+                "news": _("News"),
+                "system": _("System"),
+                "ytvideo": _("Youtube Video"),
+                "questionary": _("Questionary"),
+                "Category_Dashboard": _("Category Analytics"),
+                "Manager Dashboard": _("General Analytics"),
+                "topic": _("Topic"),
+                "questions_database": _("Questions Database"),
+                "talk": _("Talk"),
+                "chat": _("Chat"),
+                "webpage": _("Webpage"),
+                "links": _("Links"),
+                "link": _("Links"),
+                "analytics": _("Analytics")
+            }
+
+            if instance.resource in common:
+                if instance.component == "mobile":
+                    return elements.get("chat", None)
+
+                return elements.get(instance.component, None)
+
+            return elements.get(instance.resource, None)
+
+        def format_datetime(self, instance, **kwargs):
+            formatItem = get_format("DATETIME_INPUT_FORMATS")
+
+            return timezone.localtime(instance.datetime).strftime(formatItem[0])
+
+        def get_subject_name(self, instance, **kwargs):
+            subject = instance.context.get("subject_name", None)
+            subject_slug = instance.context.get("subject_slug", None)
+
+            columnText = ''
+
+            if not subject is None:
+                url = reverse_lazy('subjects:view', kwargs={'slug': subject_slug})
+
+                columnText = "<a href='%s' target='blank'>%s</a>"%(url, subject)
+
+            return columnText
+
+        def get_resource_name(self, instance, **kwargs):
+            resourceTag = "%s_name"%(instance.resource)
+            resourceIdTag = "%s_id"%(instance.resource)
+
+            resource = instance.context.get(resourceTag, None)
+            resource_id = instance.context.get(resourceIdTag, None)
+
+            columnText = ''
+
+            resQueryset = Resource.objects.filter(pk=resource_id)
+
+            if not resource is None and instance.component == "resources" and resQueryset.exists():
+                resourceObj = resQueryset.get()
+            
+                columnText = "<a href='%s' target='blank'>%s</a>"%(resourceObj.access_link(), resource)
+
+            return columnText
+
+class CategoryLogDatatableView(LoginRequiredMixin, DatatableView):
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "dashboards/manager/log_datatable_category.html"
+
+    model = Log
+
+    def dispatch(self, request, *args, **kwargs):
+        if not has_analytics_permissions(self.request.user):
+            return redirect(reverse_lazy("subjects:home"))
+
+        return super(CategoryLogDatatableView, self).dispatch(request, *args, **kwargs)
+        
+    def get_queryset(self):
+        data_ini = self.request.GET.get('data_ini', '')
+        data_end = self.request.GET.get('data_end', '')
+        category = self.request.GET.get('category', None)
+
+        if not data_ini == "":
+            data_ini = parse_date(data_ini)
+        else:
+            data_ini = (timezone.localtime(timezone.now()) - timedelta(days=7)).date()
+
+        if not data_end == "":
+            data_end = parse_date(data_end)
+        else:
+            data_end = timezone.localtime(timezone.now()).date()
+
+        if category is None:
+            category = self.categories_associated_with_user(self.request.user)[0]
+            category = category.id
+
+        logs = Log.objects.filter(datetime__date__gte=data_ini, datetime__date__lte=data_end, context__category_id=category)
+
+        return logs
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryLogDatatableView, self).get_context_data(**kwargs)
+
+        context["title"] = _("Analytics")
+        context["dashboard_menu_active"] = "subjects_menu_active"
+
+        data_ini = self.request.GET.get('data_ini', '')
+        data_end = self.request.GET.get('data_end', '')
+
+        if not data_ini == "":
+            data_ini = parse_date(data_ini)
+        else:
+            data_ini = timezone.localtime(timezone.now()) - timedelta(days=7)
+        if not data_end == "":
+            data_end = parse_date(data_end)
+        else:
+            data_end = timezone.localtime(timezone.now())
+
+        context["data_ini"] = data_ini
+        context["data_end"] = data_end
+
+        context["categories"] = self.categories_associated_with_user(self.request.user)
+        context["selectedCategory"] = context["categories"][0] 
+
+        return context
+
+    def categories_associated_with_user(self, user):
+        if user.is_staff:
+            categories = Category.objects.all().order_by("name")
+        else:
+            categories = Category.objects.filter(coordinators__in=[user]).distinct().order_by("name")
+        
+        return categories
+
+    class datatable_class(Datatable):
+        action = ActionColumn(_("Action"), sources=['action'], processor='get_action_name', sortable=False)
+        resource = AreaColumn(_("Area"), sources=['resource'], processor='get_area_name', sortable=False)
+        user = UserColumn(_("User"), sources=['user'], processor='format_user', sortable=True)
+        log_subject = ContextSubjectColumn(_("Subject"), sources=['context'], processor='get_subject_name', sortable=False)
+        log_resource = ContextResourceColumn(_("Resource"), sources=['context'], processor='get_resource_name', sortable=False)
+
+        class Meta:
+            model = Log
+            exclude = ['component', 'id', 'context', 'user_id', 'user_email']
+            ordering = ['-datetime']
+            labels = {
+                'user': _('User'),
+                'datetime': _('Date/Time')
+            }
+            processors = {
+                'user': 'format_user',
+                'datetime': 'format_datetime'
+            }
+            structure_template = "datatableview/bootstrap_structure.html"
+
+        def format_user(self, instance, **kwargs):
+            url = reverse_lazy("chat:profile", kwargs={'email': instance.user_email})
+            fieldValue = "<a href=\"#\" onclick=\"getModalInfo($(this), '0', 'general'); return false;\""
+            fieldValue += "data-url='%s'>"%(url)
+            fieldValue += instance.user
+            fieldValue += "</a>"
+
+            return fieldValue
+
+        def get_action_name(self, instance, **kwargs):
+            actions = {
+                "access": _("Access"),
+                "view": _("View"),
+                "send": _("Send"),
+                "create": _("Create"),
+                "update": _("Update"),
+                "start": _("Start"),
+                "finish": _("Finish"),
+                "answer": _("Answer"),
+                "delete": _("Delete"),
+                "create_post": _("Create Post"),
+                "create_comment": _("Create Comment"),
+                "edit_post": _("Edit Post"),
+                "edit_comment": _("Edit Comment"),
+                "set_goal": _("Set Goal"),
+                "participate": _("Participate"),
+                "remoe_account": _("Remove Account"),
+                "watch": _("Watch"),
+                "logout": _("Logout"),
+                "view_statistics": _("View Statistics"),
+                "view_new": _("View New"),
+                "view_list_of_news": _("View List of News"),
+                "view_history": _("View History"),
+                "delete_post": _("Delete Post"),
+                "delete_comment": _("Delete Comment"),
+                "search": _("Search"),
+                "change_password": _("Change Password"),
+                "submit": _("Submit"),
+                "click": _("Click"),
+                "initwebconference": _("Init Webconference"),
+                "participating": _("Participating"),
+                "replicate": _("Replicate")
+            }
+
+            return actions.get(instance.action, instance.action)
+
+        def get_area_name(self, instance, **kwargs):
+            common = ['general', 'category', 'subject', 'message']
+
+            elements = {
+                "general_participants": _("General Participants"),
+                "subject_participants": _("Subejct Participants"),
+                "subject/resources": _("Subject/Resources"),
+                "mural": _("Mural"),
+                "post_comments": _("Post Comments"),
+                "filelink": _("File link"),
+                "pdffile": _("PDF File"),
+                "webconference": _("Webconference"),
+                "profile": _("Profile"),
+                "user": _("Users"),
+                "students_group": _("Students Group"),
+                "pendencies": _("Pendencies"),
+                "my_goals": _("My Goals"),
+                "category": _("Category"),
+                "subject": _("Subject"),
+                "goals": _("Goals"),
+                "news": _("News"),
+                "system": _("System"),
+                "ytvideo": _("Youtube Video"),
+                "questionary": _("Questionary"),
+                "Category_Dashboard": _("Category Analytics"),
+                "Manager Dashboard": _("General Analytics"),
+                "topic": _("Topic"),
+                "questions_database": _("Questions Database"),
+                "talk": _("Talk"),
+                "chat": _("Chat"),
+                "webpage": _("Webpage"),
+                "links": _("Links"),
+                "link": _("Links"),
+                "analytics": _("Analytics")
+            }
+
+            if instance.resource in common:
+                if instance.component == "mobile":
+                    return elements.get("chat", None)
+
+                return elements.get(instance.component, None)
+
+            return elements.get(instance.resource, None)
+
+        def format_datetime(self, instance, **kwargs):
+            formatItem = get_format("DATETIME_INPUT_FORMATS")
+
+            return timezone.localtime(instance.datetime).strftime(formatItem[0])
+
+        def get_subject_name(self, instance, **kwargs):
+            subject = instance.context.get("subject_name", None)
+            subject_slug = instance.context.get("subject_slug", None)
+
+            columnText = ''
+
+            if not subject is None:
+                url = reverse_lazy('subjects:view', kwargs={'slug': subject_slug})
+
+                columnText = "<a href='%s' target='blank'>%s</a>"%(url, subject)
+
+            return columnText
+
+        def get_resource_name(self, instance, **kwargs):
+            resourceTag = "%s_name"%(instance.resource)
+            resourceIdTag = "%s_id"%(instance.resource)
+
+            resource = instance.context.get(resourceTag, None)
+            resource_id = instance.context.get(resourceIdTag, None)
+
+            columnText = ''
+
+            resQueryset = Resource.objects.filter(pk=resource_id)
+
+            if not resource is None and instance.component == "resources" and resQueryset.exists():
+                resourceObj = resQueryset.get()
+            
+                columnText = "<a href='%s' target='blank'>%s</a>"%(resourceObj.access_link(), resource)
+
+            return columnText
