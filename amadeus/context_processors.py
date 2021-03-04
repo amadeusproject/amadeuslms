@@ -17,6 +17,8 @@ from notifications.models import Notification
 from mural.models import MuralVisualizations
 from chat.models import ChatVisualizations
 
+from .permissions import has_analytics_permissions
+
 def theme(request):
 	context = {}
 
@@ -48,7 +50,10 @@ def mural_notifies(request):
 	notifications = 0
 
 	if request.user.is_authenticated:
-		notifications = MuralVisualizations.objects.filter(viewed = False, user = request.user).count()
+		if has_analytics_permissions(request.user):
+			notifications = MuralVisualizations.objects.filter(viewed = False, user = request.user).count()
+		else:
+			notifications = MuralVisualizations.objects.filter(post__subjectpost__isnull = True, viewed = False, user = request.user).count()
 
 	context['mural_notifications_count'] = notifications
 
