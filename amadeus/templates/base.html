@@ -416,14 +416,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 <span class="badge notify_badge chat_badge" {% if chat_notifications_count == 0 %} style="display:none" {% endif %}>{% if chat_notifications_count > 99 %} +99 {% else %} {{ chat_notifications_count }} {% endif %}</span>
                             </a>
                         </li>
-                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencies" %}">
+                        <!-- <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="right" title="{% trans "Pendencies" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}
                                     <span class="badge notify_badge">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
                                 {% endif %}
                             </a>
-                        </li>
+                        </li> -->
                         {% if has_analytics_permissions %}
                             <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="right" title="{% trans "Analytics" %}">
                                 {% if user.is_staff %}
@@ -509,14 +509,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </li>
 
 
-                        <li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencies" %}">
+                        <!--<li class="item {{ pendencies_menu_active }} action_icon" data-toggle="tooltip" data-placement="top" title="{% trans "Pendencies" %}">
                             <a href="{% url 'notifications:manage' %}">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                 {% if notifications_count > 0 %}
                                     <span class="badge notify_badge">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
                                 {% endif %}
                             </a>
-                        </li>
+                        </li>-->
                         {% if has_analytics_permissions %}
                             <li class="item {{ dashboard_menu_active }}" data-toggle="tooltip" data-placement="top" title="{% trans "Analytics" %}">
                                 {% if user.is_staff %}
