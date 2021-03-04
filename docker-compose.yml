@@ -38,6 +38,11 @@ services:
       POSTGRES_HOST: "${POSTGRES_HOST}"
       POSTGRES_PORT: "${POSTGRES_PORT}"
       ELASTICSEARCH_URL: "${ELASTICSEARCH_URL}"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4000M
     volumes:
       - .:/code
     depends_on:

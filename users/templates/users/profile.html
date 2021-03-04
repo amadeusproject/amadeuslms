@@ -46,6 +46,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 						</span>
 						<h4><b>{{ user }}</b></h4>
 						<p>{{ user.email }}</p>
+						<a href="{% url 'notifications:manage' %}" class="btn btn-raised btn-primary" style="padding: 7px 10px 7px 10px; color: #FFFFFF">
+							<i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+							{% if notifications_count > 0 %}
+								<span class="badge notify_badge" style="position: absolute; right: -5px; top: -5px; color: #FFFFFF">{% if notifications_count > 99 %} +99 {% else %} {{ notifications_count }} {% endif %}</span>
+							{% endif %}
+						</a>
 					</div>
 					<div class="col-md-9">
 						<div class="form-group">
