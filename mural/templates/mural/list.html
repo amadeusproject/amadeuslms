@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% extends 'base.html' %}
 
-{% load static i18n pagination %}
+{% load static i18n pagination permissions_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -24,11 +24,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
 {% block content %}
+    {% analytics_permissions request.user as has_analytics_permissions %}
 	<div id="core-subjects-options-div">
         <ul class="core-subjects-options mural-tabs">
             <a href="{% url 'mural:manage_general' %}"><li data-mural="general" class="active">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
             <a href="{% url 'mural:manage_category' %}"><li data-mural="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
-            <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+            {% if has_analytics_permissions %}
+                <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects">{% trans "Per Subject" %} (<span>{{ totals.subject }}</span>)</li></a>
+            {% endif %}
         </ul>
     </div>
 

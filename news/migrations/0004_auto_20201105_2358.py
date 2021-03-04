@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('news', '0003_auto_20170610_1512'),
+        ('users', '0006_auto_20201001_2032'),
     ]
 
     operations = [

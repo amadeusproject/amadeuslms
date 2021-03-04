@@ -24,12 +24,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
 {% block content %}
+    {% analytics_permissions request.user as has_analytics_permissions %}
     <input type="hidden" value="{% url 'mural:manage_subject' %}" class="mural_url" />
 
     <div id="core-subjects-options-div">
         <ul class="core-subjects-options mural-tabs">
-            <a href="{% url 'mural:manage_general' %}"><li data-mural="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
-            <a href="{% url 'mural:manage_category' %}"><li data-mural="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            {% if has_analytics_permissions %}
+                <a href="{% url 'mural:manage_general' %}"><li data-mural="general">{% trans "General" %} (<span>{{ totals.general }}</span>)</li></a>
+                <a href="{% url 'mural:manage_category' %}"><li data-mural="categories">{% trans "Per Category" %} (<span>{{ totals.category }}</span>)</li></a>
+            {% endif %}
             <a href="{% url 'mural:manage_subject' %}"><li data-mural="subjects" class="active">{% trans "Per Subject" %} (<span class="ung_badge">{{ totals.subject }}</span>)</li></a>
         </ul>
     </div>
