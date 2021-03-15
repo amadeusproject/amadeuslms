@@ -1358,38 +1358,42 @@ def xml_users(request_user, data_ini, data_end, category = 0):
     workbook = xlwt.Workbook()
     activeTeachersWorksheet = workbook.add_sheet(u"Professores Ativos")
     activeTeachersWorksheet.write(0, 0, u"Professor")
-    activeTeachersWorksheet.write(0, 1, u"Número de assuntos em que é professor")
-    activeTeachersWorksheet.write(0, 2, u"Número de assuntos em que é professor e que teve registros no período")
-    activeTeachersWorksheet.write(0, 3, u"Número de assuntos em que é professor e que não teve registros no período")
-    activeTeachersWorksheet.write(0, 4, u"Nome dos assuntos em que é professor e tem registros no período")
-    activeTeachersWorksheet.write(0, 5, u"Nome dos assuntos em que é professor e que não tem registros no período")
-    activeTeachersWorksheet.write(0, 6, u"Número de mensagens em mural")
-    activeTeachersWorksheet.write(0, 7, u"Número de mensagens diretas enviadas no período")
-    activeTeachersWorksheet.write(0, 8, u"Número de recursos criados no período")
-    activeTeachersWorksheet.write(0, 9, u"Número de registros no período")
-    activeTeachersWorksheet.write(0, 10, u"Categoria")
+    activeTeachersWorksheet.write(0, 1, u"E-mail do Professor")
+    activeTeachersWorksheet.write(0, 2, u"Número de assuntos em que é professor")
+    activeTeachersWorksheet.write(0, 3, u"Número de assuntos em que é professor e que teve registros no período")
+    activeTeachersWorksheet.write(0, 4, u"Número de assuntos em que é professor e que não teve registros no período")
+    activeTeachersWorksheet.write(0, 5, u"Nome dos assuntos em que é professor e tem registros no período")
+    activeTeachersWorksheet.write(0, 6, u"Nome dos assuntos em que é professor e que não tem registros no período")
+    activeTeachersWorksheet.write(0, 7, u"Número de mensagens em mural")
+    activeTeachersWorksheet.write(0, 8, u"Número de mensagens diretas enviadas no período")
+    activeTeachersWorksheet.write(0, 9, u"Número de recursos criados no período")
+    activeTeachersWorksheet.write(0, 10, u"Número de registros no período")
+    activeTeachersWorksheet.write(0, 11, u"Categoria")
 
     inactiveTeachersWorksheet = workbook.add_sheet(u"Professores Inativos")
     inactiveTeachersWorksheet.write(0, 0, u"Professor")
-    inactiveTeachersWorksheet.write(0, 1, u"Nome dos assuntos em que é professor")
-    inactiveTeachersWorksheet.write(0, 2, u"Categoria")
+    inactiveTeachersWorksheet.write(0, 1, u"E-mail do Professor")
+    inactiveTeachersWorksheet.write(0, 2, u"Nome dos assuntos em que é professor")
+    inactiveTeachersWorksheet.write(0, 3, u"Categoria")
 
     activeStudentsWorksheet = workbook.add_sheet(u"Estudantes Ativos")
     activeStudentsWorksheet.write(0, 0, u"Estudante")
-    activeStudentsWorksheet.write(0, 1, u"Número de assuntos em que é estudante")
-    activeStudentsWorksheet.write(0, 2, u"Número de assuntos em que é estudante e que teve registros no período")
-    activeStudentsWorksheet.write(0, 3, u"Número de assuntos em que é estudante e que não teve registros no período")
-    activeStudentsWorksheet.write(0, 4, u"Nome dos assuntos em que é estudante e tem registros no período")
-    activeStudentsWorksheet.write(0, 5, u"Nome dos assuntos em que é estudante e que não tem registros no período")
-    activeStudentsWorksheet.write(0, 6, u"Número de tarefas para o período")
-    activeStudentsWorksheet.write(0, 7, u"Número de tarefas para o período que foi realizada pelo estudante")
-    activeStudentsWorksheet.write(0, 8, u"Número de tarefas para o período que não foram realizadas (pendentes) pelo estudante")
-    activeStudentsWorksheet.write(0, 9, u"Categoria")
+    activeStudentsWorksheet.write(0, 1, u"E-mail do Estudante")
+    activeStudentsWorksheet.write(0, 2, u"Número de assuntos em que é estudante")
+    activeStudentsWorksheet.write(0, 3, u"Número de assuntos em que é estudante e que teve registros no período")
+    activeStudentsWorksheet.write(0, 4, u"Número de assuntos em que é estudante e que não teve registros no período")
+    activeStudentsWorksheet.write(0, 5, u"Nome dos assuntos em que é estudante e tem registros no período")
+    activeStudentsWorksheet.write(0, 6, u"Nome dos assuntos em que é estudante e que não tem registros no período")
+    activeStudentsWorksheet.write(0, 7, u"Número de tarefas para o período")
+    activeStudentsWorksheet.write(0, 8, u"Número de tarefas para o período que foi realizada pelo estudante")
+    activeStudentsWorksheet.write(0, 9, u"Número de tarefas para o período que não foram realizadas (pendentes) pelo estudante")
+    activeStudentsWorksheet.write(0, 10, u"Categoria")
 
     inactiveStudentsWorksheet = workbook.add_sheet(u"Estudantes Inativos")
     inactiveStudentsWorksheet.write(0, 0, u"Estudante")
-    inactiveStudentsWorksheet.write(0, 1, u"Nome dos assuntos em que é estudante")
-    inactiveStudentsWorksheet.write(0, 2, u"Categoria")
+    inactiveStudentsWorksheet.write(0, 1, u"E-mail do Estudante")
+    inactiveStudentsWorksheet.write(0, 2, u"Nome dos assuntos em que é estudante")
+    inactiveStudentsWorksheet.write(0, 3, u"Categoria")
 
     if interactionQuery:
         res = multi_search(interactionQuery)
@@ -1433,19 +1437,20 @@ def xml_users(request_user, data_ini, data_end, category = 0):
                             inactiveSubjectsName.append(s.name)
 
                     activeTeachersWorksheet.write(activesLine, 0, teacher.fullname())
+                    activeTeachersWorksheet.write(activesLine, 1, teacher.email)
                     activeTeachersWorksheet.write(
                         activesLine,
-                        1,
+                        2,
                         len(teacherSubjects))
-                    activeTeachersWorksheet.write(activesLine, 2, len(activeSubjects))
-                    activeTeachersWorksheet.write(activesLine, 3, len(teacherSubjects) - len(activeSubjects))
-                    activeTeachersWorksheet.write(activesLine, 4, ", ".join(activeSubjectsName))
-                    activeTeachersWorksheet.write(activesLine, 5, ", ".join(inactiveSubjectsName))
-                    activeTeachersWorksheet.write(activesLine, 6, muralMessages)
-                    activeTeachersWorksheet.write(activesLine, 7, messagesSent)
-                    activeTeachersWorksheet.write(activesLine, 8, resourcesCreated)
-                    activeTeachersWorksheet.write(activesLine, 9, access)
-                    activeTeachersWorksheet.write(activesLine, 10, ", ".join(categoriesNames))
+                    activeTeachersWorksheet.write(activesLine, 3, len(activeSubjects))
+                    activeTeachersWorksheet.write(activesLine, 4, len(teacherSubjects) - len(activeSubjects))
+                    activeTeachersWorksheet.write(activesLine, 5, ", ".join(activeSubjectsName))
+                    activeTeachersWorksheet.write(activesLine, 6, ", ".join(inactiveSubjectsName))
+                    activeTeachersWorksheet.write(activesLine, 7, muralMessages)
+                    activeTeachersWorksheet.write(activesLine, 8, messagesSent)
+                    activeTeachersWorksheet.write(activesLine, 9, resourcesCreated)
+                    activeTeachersWorksheet.write(activesLine, 10, access)
+                    activeTeachersWorksheet.write(activesLine, 11, ", ".join(categoriesNames))
 
                     activesLine += 1
                 else:
@@ -1453,13 +1458,16 @@ def xml_users(request_user, data_ini, data_end, category = 0):
                         inactivesLine, 0, teacher.fullname()
                     )
                     inactiveTeachersWorksheet.write(
-                        inactivesLine,
-                        1,
-                        ", ".join(str(sub.name) for sub in teacherSubjects),
+                        inactivesLine, 1, teacher.email
                     )
                     inactiveTeachersWorksheet.write(
                         inactivesLine,
                         2,
+                        ", ".join(str(sub.name) for sub in teacherSubjects),
+                    )
+                    inactiveTeachersWorksheet.write(
+                        inactivesLine,
+                        3,
                         ", ".join(categoriesNames),
                     )
 
@@ -1508,18 +1516,19 @@ def xml_users(request_user, data_ini, data_end, category = 0):
                     tasksDoneCount = PendencyDone.objects.filter(pendency__id__in=tasksInPeriodIds, student__id=student.id).count()
 
                     activeStudentsWorksheet.write(activesLine, 0, student.fullname())
+                    activeStudentsWorksheet.write(activesLine, 1, student.email)
                     activeStudentsWorksheet.write(
                         activesLine,
-                        1,
+                        2,
                         len(studentSubjects))
-                    activeStudentsWorksheet.write(activesLine, 2, len(activeSubjects))
-                    activeStudentsWorksheet.write(activesLine, 3, len(studentSubjects) - len(activeSubjects))
-                    activeStudentsWorksheet.write(activesLine, 4, ", ".join(activeSubjectsName))
-                    activeStudentsWorksheet.write(activesLine, 5, ", ".join(inactiveSubjectsName))
-                    activeStudentsWorksheet.write(activesLine, 6, tasksInPeriodCount)
-                    activeStudentsWorksheet.write(activesLine, 7, tasksDoneCount)
-                    activeStudentsWorksheet.write(activesLine, 8, tasksInPeriodCount - tasksDoneCount)
-                    activeStudentsWorksheet.write(activesLine, 9, ", ".join(categoriesNames))
+                    activeStudentsWorksheet.write(activesLine, 3, len(activeSubjects))
+                    activeStudentsWorksheet.write(activesLine, 4, len(studentSubjects) - len(activeSubjects))
+                    activeStudentsWorksheet.write(activesLine, 5, ", ".join(activeSubjectsName))
+                    activeStudentsWorksheet.write(activesLine, 6, ", ".join(inactiveSubjectsName))
+                    activeStudentsWorksheet.write(activesLine, 7, tasksInPeriodCount)
+                    activeStudentsWorksheet.write(activesLine, 8, tasksDoneCount)
+                    activeStudentsWorksheet.write(activesLine, 9, tasksInPeriodCount - tasksDoneCount)
+                    activeStudentsWorksheet.write(activesLine, 10, ", ".join(categoriesNames))
                 
                     activesLine += 1
                 else:
@@ -1527,13 +1536,16 @@ def xml_users(request_user, data_ini, data_end, category = 0):
                         inactivesLine, 0, student.fullname()
                     )
                     inactiveStudentsWorksheet.write(
-                        inactivesLine,
-                        1,
-                        ", ".join(str(sub.name) for sub in studentSubjects),
+                        inactivesLine, 1, student.email
                     )
                     inactiveStudentsWorksheet.write(
                         inactivesLine,
                         2,
+                        ", ".join(str(sub.name) for sub in studentSubjects),
+                    )
+                    inactiveStudentsWorksheet.write(
+                        inactivesLine,
+                        3,
                         ", ".join(categoriesNames),
                     )
 
