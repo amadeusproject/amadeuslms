@@ -73,3 +73,5 @@ amadeus/uploads/news/*
 !amadeus/uploads/news/equipe.jpg
 
 certbot
+backup
+cron.log
