@@ -41,12 +41,12 @@ echo "### Starting nginx ..."
 docker-compose up --force-recreate -d nginx
 echo
 
-# echo "### Deleting dummy certificate for $domains ..."
-# docker-compose run --rm --entrypoint "\
-#   rm -Rf /etc/letsencrypt/live/$domains && \
-#   rm -Rf /etc/letsencrypt/archive/$domains && \
-#   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
-# echo
+echo "### Deleting dummy certificate for $domains ..."
+docker-compose run --rm --entrypoint "\
+  rm -Rf /etc/letsencrypt/live/$domains && \
+  rm -Rf /etc/letsencrypt/archive/$domains && \
+  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+echo
 
 
 echo "### Requesting Let's Encrypt certificate for $domains ..."
