@@ -1,6 +1,30 @@
 version: '3'
 
 services:
+  nginx:
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx_app.conf:/etc/nginx/conf.d/app.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - amadeus_network
+
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - amadeus_network
+
   db:
     restart: always
     image: postgres:latest
@@ -13,6 +37,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
     networks:
       - amadeus_network
+    volumes:
+        - pgdata:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -29,8 +55,6 @@ services:
   web:
     image: amadeus:latest
     build: .
-    ports:
-      - "${AMADEUS_PORT}:8000"
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"
@@ -82,3 +106,4 @@ networks:
 
 volumes:
   elasticsearch:
+  pgdata:

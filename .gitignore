@@ -71,3 +71,5 @@ amadeus/uploads/news/*
 !amadeus/uploads/news/tecnologias.jpg
 !amadeus/uploads/news/codigo.jpg
 !amadeus/uploads/news/equipe.jpg
+
+certbot
