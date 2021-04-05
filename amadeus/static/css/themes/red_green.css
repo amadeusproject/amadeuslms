@@ -26,7 +26,7 @@ body .container-fluid .well-inverse {
 }
 
 .my-subjects-title {
-  color: #02A8F2,;
+  color: #0277BD;
 }
 
 .notify_badge {
@@ -34,7 +34,7 @@ body .container-fluid .well-inverse {
 }
 
 .access-subject {
-  background-color: #015E96 !important;
+  background-color: #0277BD !important;
   color: #FFFFFF;
 }
 
@@ -466,7 +466,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Category Panel === */
 /* === Subject Panel === */
 .subject-panel > .panel-heading {
-  background-color: #0090E9 !important;
+  background-color: #0277BD !important;
 }
 
 .subject-panel .category-header .category-card-items i {
@@ -487,7 +487,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 /* === End Subject Panel === */
 /* === Topic Panel === */
 .topic-panel > .panel-heading {
-  background-color: #82B1FF !important;
+  background-color: #1d8fe0 !important;
 }
 
 .topic-panel .category-header .category-card-items i,

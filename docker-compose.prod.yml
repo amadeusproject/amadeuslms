@@ -43,8 +43,6 @@ services:
   web:
     image: amadeus:latest
     build: .
-    ports:
-      - 8000:8000
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"
@@ -57,6 +55,8 @@ services:
         limits:
           cpus: '4'
           memory: 4000M
+    volumes:
+      - ./amadeus/uploads:/code/amadeus/uploads
     depends_on:
       - db
     stdin_open: true
