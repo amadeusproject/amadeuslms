@@ -448,7 +448,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 .category-panel .category-header .category-card-items i {
-  color: #014e7d;
+  color: #a4cce4;
 }
 
 .category-panel .category-header .category-card-items i:hover {
@@ -470,7 +470,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 .subject-panel .category-header .category-card-items i {
-  color: #0267a4;
+  color: #a4cce4;
 }
 
 .subject-panel .category-header .category-card-items i:hover,
@@ -492,7 +492,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 
 .topic-panel .category-header .category-card-items i,
 .topic-panel-invisible .category-header .category-card-items i {
-  color: #82B1FF;
+  color: #a4cce4;
 }
 
 .topic-panel .category-header .category-card-items i:hover,
