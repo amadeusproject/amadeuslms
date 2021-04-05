@@ -48,7 +48,7 @@ body .container-fluid .well-inverse {
 
 .footer {
   color: #FFFFFF;
-  background: #0090E9,;
+  background: #0090E9;
 }
 
 .bootstrap-datetimepicker-widget {
@@ -68,7 +68,7 @@ body .container-fluid .well-inverse {
 }
 
 #analytics-panel {
-  background-color: #0090E9, !important;
+  background-color: #0090E9 !important;
 }
 
 #search-results-title {
@@ -590,20 +590,19 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 #participants {
-  box-shadow: -1px 1px 8px #0090E9,;
+  box-shadow: -1px 1px 8px #0090E9;
 }
 
 #participants i {
-  color: #0090E9,;
+  color: #0090E9 !important;
 }
 
 .participants-list {
-  box-shadow: -1px 2px 1px #0090E9,;
+  box-shadow: -1px 2px 1px #0090E9;
 }
 
 .subject-participants .sub-user:hover {
-  background-color: #D32F30;
-  color: #FFFFFF;
+  background-color: #EEEEEE;
 }
 
 /* === End Participants === */
@@ -734,7 +733,7 @@ a.add-row {
 }
 
 .post .post-user, .comment .comment-user, .marked_user, .post_resource {
-  color: #0090E9,;
+  color: #0090E9;
 }
 
 .post .post-user .user-action {
@@ -781,7 +780,7 @@ a.add-row {
 }
 
 .post-filter h4, .talk-filter h4 {
-  color: #0090E9,;
+  color: #0090E9;
 }
 
 .post-filter label, .talk-filter label {
@@ -807,11 +806,11 @@ a.add-row {
 /* === End Mural === */
 /* === Chat === */
 .participant .user-info h4 {
-  color: #0090E9,;
+  color: #0090E9;
 }
 
 .modal_profile_sidebar h4, .message-view .message-user {
-  color: #0090E9,;
+  color: #0090E9;
 }
 
 .participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status {
