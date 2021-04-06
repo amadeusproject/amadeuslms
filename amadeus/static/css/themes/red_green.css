@@ -26,7 +26,7 @@ body .container-fluid .well-inverse {
 }
 
 .my-subjects-title {
-  color: #0277BD;
+  color: #333333;
 }
 
 .notify_badge {
@@ -729,11 +729,11 @@ a.add-row {
 }
 
 .post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i {
-  color: #1d8fe0;
+  color: #333333;
 }
 
 .post .post-user, .comment .comment-user, .marked_user, .post_resource {
-  color: #0090E9;
+  color: #333333;
 }
 
 .post .post-user .user-action {
@@ -780,7 +780,7 @@ a.add-row {
 }
 
 .post-filter h4, .talk-filter h4 {
-  color: #0090E9;
+  color: #333333;
 }
 
 .post-filter label, .talk-filter label {
@@ -806,11 +806,11 @@ a.add-row {
 /* === End Mural === */
 /* === Chat === */
 .participant .user-info h4 {
-  color: #0090E9;
+  color: #333333;
 }
 
 .modal_profile_sidebar h4, .message-view .message-user {
-  color: #0090E9;
+  color: #333333;
 }
 
 .participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status {
