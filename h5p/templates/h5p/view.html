@@ -1,0 +1,121 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% extends 'subjects/view.html' %}
+
+{% load static i18n pagination permissions_tags subject_counter %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block javascript%}
+    {{ block.super }}
+    <script src="{% static 'h5p/js/h5p-integration.js' %}" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/jquery.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-event-dispatcher.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-x-api-event.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-x-api.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-content-type.js" charset="UTF-8"></script>
+    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
+{% endblock%}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb topic 'subjects:topic_view' subject.slug topic.slug %}
+    {% breadcrumb h5p 'h5p:view' h5p.slug %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% resource_permissions request.user h5p as has_resource_permissions %}
+    {% subject_permissions request.user topic.subject as has_subject_permissions %}
+
+    {% if h5p.visible %}
+        <div id="resource-panel" class="panel panel-info topic-panel">
+            <div class="panel-heading">
+    {% elif has_resource_permissions %}
+        <div id="resource-panel" class="panel panel-info topic-panel-invisible">
+            <div class="panel-heading panel-invisible">
+    {% endif %}
+                <div class="row">
+                    <div class="col-md-12 category-header">
+                        <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                            <span>{{ h5p }}</span>
+                        </h4>
+
+                        <div class="col-md-5 pull-right category-card-items">
+                            {% if has_subject_permissions %}
+                                <a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {% if studentView %}style="display:none"{% endif %}>
+                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
+                                    <li><a href="{% url h5p.update_link topic.slug h5p.slug %}" class="edit"><i
+                                                class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                    
+                                    <li><a href="javascript:delete_resource('{% url h5p.delete_link h5p.slug %}')" class="delete"><i
+                                                class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+                                </ul>
+                            {% endif %}
+                            <a href="{% url 'mural:resource_view' h5p.slug %}" class="pull-right action_icon" data-toggle="tooltip"
+                                data-placement="bottom" title="{% trans 'Resource Mural' %}">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                {% resource_mural_number h5p request.user %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content"
+                style="padding: 0px; overflow: hidden;">
+                <input type="hidden" id="log_finish_url" value="" />
+                <input type="hidden" id="log_url" value="" />
+                <input type="hidden" id="log_id" value="" />
+                <div class="h5p-content" data-content-id="57017"></div>
+                
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function delete_resource(url) {
+                $('.modal').remove();
+
+                $.get(url, function (modal) {
+                    $("#resource-panel").after(modal);
+
+                    $('.modal').modal('show');
+                });
+            }
+
+            $(function () {
+                $('#h5p').css({ width: $("#{{subject.slug}}").innerWidth()-10 + 'px', height: ($(window).innerHeight() - $("#{{subject.slug}}").offset().top) + 'px' });
+
+                // If you want to keep full screen on window resize
+                $(window).resize(function () {
+                    $('#h5p').css({ width: $("#{{subject.slug}}").innerWidth()-10 + 'px', height: ($(window).innerHeight() - $("#{{subject.slug}}").offset().top) + 'px' });
+                });
+
+                H5P.externalDispatcher.on('xAPI', function (event) {
+                    console.log(event.data.statement);
+                });
+            });
+        </script>
+{% endblock %}
+
