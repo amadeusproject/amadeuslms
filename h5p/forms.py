@@ -15,18 +15,41 @@ from datetime import datetime
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+import os
+import json
+from django.conf import settings
+from .base_plugin.classes import H5PDjango
+from .base_plugin.module import h5pInsert, h5pGetContent
+from .base_plugin.editor.editormodule import createContent
+
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
 
 from .models import H5P
 
+def handleUploadedFile(files, filename):
+    tmpdir = os.path.join(settings.MEDIA_ROOT, 'h5pp', 'tmp')
+
+    if not os.path.exists(tmpdir):
+        os.makedirs(tmpdir)
+
+    with open(os.path.join(tmpdir, filename), 'wb+') as destination:
+        for chunk in files.chunks():
+            destination.write(chunk)
+
+    return {'folderPath': tmpdir, 'path': os.path.join(tmpdir, filename)}
+
 class H5PForm(forms.ModelForm):
     subject = None
     control_subject = forms.CharField(widget=forms.HiddenInput())
     students = ParticipantsMultipleChoiceField(queryset=None, required=False)
+    h5p = forms.FileField(label=_('HTML 5 Package'), required=False)
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request")
+
         super(H5PForm, self).__init__(*args, **kwargs)
+
 
         self.subject = kwargs["initial"].get("subject", None)
 
@@ -47,7 +70,6 @@ class H5PForm(forms.ModelForm):
         model = H5P
         fields = [
             "name",
-            "url",
             "data_ini",
             "data_end",
             "brief_description",
@@ -56,6 +78,7 @@ class H5PForm(forms.ModelForm):
             "groups",
             "show_window",
             "visible",
+            "h5p",
         ]
         widgets = {
             "brief_description": forms.Textarea,
@@ -65,6 +88,32 @@ class H5PForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(H5PForm, self).clean()
+
+        h5pfile = cleaned_data.get('h5p')
+        
+        if h5pfile:
+            interface = H5PDjango(self.request.user)
+            paths = handleUploadedFile(h5pfile, h5pfile.name)
+            validator = interface.h5pGetInstance(
+                'validator', paths['folderPath'], paths['path'])
+
+            if not validator.isValidPackage(False, False):
+                raise forms.ValidationError(_('The uploaded file was not a valid h5p package.'))
+
+            _mutable = self.request.POST._mutable
+
+            self.request.POST._mutable = True
+
+            self.request.POST['file_uploaded'] = True
+            self.request.POST['disable'] = 0
+            self.request.POST['author'] = self.request.user.username
+            self.request.POST['h5p_upload'] = paths['path']
+            self.request.POST['h5p_upload_folder'] = paths['folderPath']
+
+            self.request.POST._mutable = _mutable
+
+            if not h5pInsert(self.request, interface):
+                raise forms.ValidationError('Error during saving the content.')
 
         data_ini = cleaned_data.get("data_ini", None)
         data_end = cleaned_data.get("data_end", None)

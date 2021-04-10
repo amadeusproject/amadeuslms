@@ -20,4 +20,16 @@ urlpatterns = [
     url(r"^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$", views.UpdateView.as_view(), name="update"),
     url(r"^delete/(?P<slug>[\w_-]+)/$", views.DeleteView.as_view(), name="delete"),
     url(r"^view/(?P<slug>[\w_-]+)/$", views.DetailView.as_view(), name="view"),
+    url(r"^finishContent/$", views.contentFinish, name="finish"),
+    url(r"^startContent/(?P<slug>[\w_-]+)/$", views.contentStart, name="start"),
+    url(r"^results/(?P<slug>[\w_-]+)/$", views.class_results, name="results"),
+    url(r"^download/(?P<slug>[\w_-]+)/$", views.results_sheet, name="results_sheet"),
+    url(
+        r"^chart/(?P<slug>[\w_-]+)/$", views.StatisticsView.as_view(), name="get_chart"
+    ),
+    url(
+        r"^send-message/(?P<slug>[\w_-]+)/$",
+        views.SendMessage.as_view(),
+        name="send_message",
+    ),
 ]

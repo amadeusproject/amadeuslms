@@ -15,16 +15,36 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% load static i18n pagination permissions_tags subject_counter %}
 {% load django_bootstrap_breadcrumbs %}
 
+{% block style %}
+    {{ block.super }}
+    <style type="text/css" media="all">
+        {% for style in data.assets.css %}
+
+        @import url("{% static style %}");
+
+        {% endfor %}
+
+        {% for style in data.filesAssets.css %}
+
+        @import url("{{ style }}");
+
+        {% endfor %}
+    </style>
+{% endblock %}
+
 {% block javascript%}
     {{ block.super }}
-    <script src="{% static 'h5p/js/h5p-integration.js' %}" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/jquery.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-event-dispatcher.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-x-api-event.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-x-api.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-content-type.js" charset="UTF-8"></script>
-    <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
+    {% for script in data.assets.js %}
+    <script type="text/javascript" src="{% static script %}"></script>
+    {% endfor %}
+    {% for script in data.filesAssets.js %}
+    <script type="text/javascript" src="{{ script }}"></script>
+    {% endfor %}
+    <script type="text/javascript">
+        H5PIntegration = {% autoescape off %} {{ data.integration }} {% endautoescape %}
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -69,7 +89,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
                                     <li><a href="{% url h5p.update_link topic.slug h5p.slug %}" class="edit"><i
                                                 class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
-                                    
+                                    <li><a href="{% url 'h5p:get_chart' h5p.slug %}" class="edit"><i class="fa fa-line-chart fa-fw"
+                                                aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
                                     <li><a href="javascript:delete_resource('{% url h5p.delete_link h5p.slug %}')" class="delete"><i
                                                 class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
                                 </ul>
@@ -83,13 +104,30 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     </div>
                 </div>
             </div>
-            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content"
-                style="padding: 0px; overflow: hidden;">
-                <input type="hidden" id="log_finish_url" value="" />
-                <input type="hidden" id="log_url" value="" />
-                <input type="hidden" id="log_id" value="" />
-                <div class="h5p-content" data-content-id="57017"></div>
+            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content" style="overflow: hidden;">
+                <input type="hidden" id="log_url" value="{% url 'h5p:start' h5p.slug %}" />
+
+                {% if has_subject_permissions %}
+                    <div id="core-subjects-options-div" {% if studentView %}style="display:none" {% endif %}>
+                        <ul class="core-subjects-options mural-tabs">
+                            <a onclick="ShowTab($(this), '.activity_panel')" style="cursor: pointer">
+                                <li class="active">{% trans "Activity" %}</li>
+                            </a>
+                            <a onclick="ShowTab($(this), '.all_students')" data-url="{% url 'h5p:results' h5p.slug %}"
+                                style="cursor: pointer">
+                                <li>{% trans "Class Results" %}</li>
+                            </a>
+                        </ul>
+                    </div>
+                {% endif %}
                 
+                <div class="result_tab activity_panel">
+                    {% autoescape off %}
+                        {{ h5p_html }}
+                    {% endautoescape %}
+                </div>
+
+                <div class="result_tab all_students" style="display:none"></div>
             </div>
         </div>
 
@@ -105,6 +143,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             }
 
             $(function () {
+                let startedContent = false;
+
                 $('#h5p').css({ width: $("#{{subject.slug}}").innerWidth()-10 + 'px', height: ($(window).innerHeight() - $("#{{subject.slug}}").offset().top) + 'px' });
 
                 // If you want to keep full screen on window resize
@@ -113,9 +153,46 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 });
 
                 H5P.externalDispatcher.on('xAPI', function (event) {
-                    console.log(event.data.statement);
+                    if (event.getVerb(false) === "interacted" && !startedContent) {
+                        const logUrl = $("#log_url").val();
+
+                        $.ajax({
+                            method: "GET",
+                            url: logUrl,
+                            success: function(response) {
+                                if (response.registered) {
+                                    startedContent = true;
+                                }
+                            }
+                        });
+                    }
                 });
             });
+
+            function ShowTab($btn, target) {
+                $btn.parent().find('li').removeClass('active');
+                $('.result_tab').hide();
+
+                let url = $btn.data('url');
+
+                if (typeof (url) !== 'undefined') {
+                    if ($(target).html() === '') {
+                        $.ajax({
+                            method: 'GET',
+                            url: url,
+                            success: function (response) {
+                                $(target).html(response.result)
+                            },
+                            error: function (data) {
+                                alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+                            }
+                        })
+                    }
+                }
+
+                $btn.find('li').addClass('active');
+                $(target).show();
+            }
         </script>
 {% endblock %}
 

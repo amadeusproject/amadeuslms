@@ -53,6 +53,9 @@ amadeus/uploads/*
 data/
 links/static/images/
 
+h5p/sheets/xls/*
+!h5p/sheets/xls/.keep
+
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
 
@@ -60,6 +63,7 @@ dashboards/sheets/xls/*
 !dashboards/sheets/xls/.keep
 static/
 !amadeus/static/
+!h5p/static/
 
 backup.json
 
