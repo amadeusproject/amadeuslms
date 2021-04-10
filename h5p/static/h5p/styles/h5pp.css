@@ -1,0 +1,212 @@
+/* base.html */
+.content {
+	border-radius: 25px;
+	padding-top: 70px;
+	max-width: 1000px;
+	margin: auto;
+}
+.loader {
+	width: 40px;
+	height: 40px;
+	background-color: #333;
+	margin: 25px auto;
+	display: none;
+	-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+	animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-rotateplane {
+	0% { -webkit-transform: perspective(120px) }
+	50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+	100% { -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg) }
+}
+@keyframes sk-rotateplane {
+    0% { transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    	 -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+    }
+    50% { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    	  -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  	} 
+  	100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    	   -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  	}
+}
+.page-title {
+	background-color: #333;
+	color: #25AA2E;
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-radius: 5px;
+}
+.section-title {
+	text-align: center;
+}
+.user {
+	margin-right: 10px;
+}
+
+#user-info {
+	margin-right: 10px;
+}
+
+/* Libraries (h5p/libraries.html) */
+.file-return:not(:empty) {
+	margin: 1em 0;
+}
+.file-return:not(:empty):before {
+	content: "Selected file: ";
+	font-style: normal;
+	font-weight: normal;
+}
+.file-container .editor {
+	margin-top: -5%;
+}
+.file-return {
+	margin: 0;
+	font-style: italic;
+	font-size: .9em;
+	font-weight: bold;
+	text-align: center;
+}
+.list {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 10px;
+}
+#h5p-library-form {
+	text-align: center;
+}
+#id_h5p {
+	opacity: 0;
+}
+#libraries {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #ddd;
+	font-size: 18px;
+}
+#libraries th, #libraries td {
+	text-align: left;
+	padding: 12px;
+}
+#libraries tr {
+	border-bottom: 1px solid #ddd;
+}
+#libraries tr.header, #libraries tr:hover {
+	background-color: #f1f1f1;
+}
+#searchbar {
+	background-image: url('../../h5p/images/search.png');
+	background-size: 30px 30px;
+	background-position: 8px 5px;
+	background-repeat: no-repeat;
+	width: 50%;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
+
+/* Editor (h5p/create.html) */
+#h5p-content-form {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 10px;
+	display: grid;
+}
+#id_title {
+	width: 178px;
+	margin-bottom: 10px;
+	-webkit-transition: width 0.4s ease-in-out;
+	transition: width 0.4s ease-in-out;
+}
+#id_title:focus {
+	width: 50%;
+}
+label[for='id_title'] {
+	display: block;
+}
+.upload-h5p {
+	display: none;
+}
+.info ul {
+	margin: 5px;
+}
+#submit_editor {
+	text-align: center;
+	margin-left: 40%;
+	margin-right: 40%;
+}
+
+/* List contents (h5p/listContents.html) */
+.content-options {
+	width: 65px;
+	padding: 2px;
+	margin: 2px;
+}
+.table>tbody>tr>td {
+	border: none;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #ddd;
+}
+.options {
+	display: inline-flex;
+}
+.scores-hidden {
+	display: none;
+}
+.scores {
+	display: table-row;
+}
+#delete.btn.btn-link {
+	color: red;
+}
+
+/* Users score (h5p/score.html) */
+.score-options {
+	margin-top: 10px;
+}
+#resetall.btn.btn-link {
+	color: red;
+}
+
+/* Content (h5p/content.html) */
+.edit-button {
+	text-align: center;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+.score {
+	background : rgba(255,255,255, .4);
+	border-radius: 25px;
+	padding-left: 15px;
+	padding-bottom: 2px;
+	margin: auto;
+}
+.content-options {
+	display: inline-flex;
+}
+
+/* Login (h5p/login.html) */
+#form_login {
+	width: 50px;
+	margin: 0;
+	padding: 0;
+}
+
+/* bootstrap override (all) */
+.btn:focus, .btn:active {
+	outline-color: #25AA2E !important;
+}
+.navbar .navbar-brand {
+	color: #25AA2E;
+}
+.navbar .navbar-brand:hover {
+	color: #3ab242;
+}
+
+/* h5p override (video player) */
+.h5p-video-wrapper .h5p-video .hardware-accelerated {
+	margin-top: 0px;
+}

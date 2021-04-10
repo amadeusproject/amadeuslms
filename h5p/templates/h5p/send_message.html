@@ -1,0 +1,124 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+ 
+{% load widget_tweaks i18n %}
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="send-message-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <div class="modal-dialog" role="document">
+   <div class="modal-content">
+           <!-- Modal Body -->
+       <div class="modal-body">
+       <form id="text_chat_form" action="" method="POST" enctype="multipart/form-data">
+           {% csrf_token %}
+           {% comment %}Area para o Texto{% endcomment %}
+           <div class="form-group{% if form.has_error %} has-error {% endif %}">
+               <label for="{{ form.comment.auto_id }}">{{ form.comment.label }}: <span>*</span></label>
+               {% render_field form.comment class='form-control text_simple_wysiwyg' %}
+
+               <span id="helpBlock" class="help-block">{{ form.comment.help_text }}</span>
+
+               {% if form.comment.errors %}
+                   <div class="alert alert-danger alert-dismissible" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       <ul>
+                           {% for error in form.comment.errors %}
+                               <li>{{ error }}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               {% endif %}
+           </div>
+           {% comment %}Area para anexar a imagem {% endcomment %}
+           <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+               {% render_field form.image %}
+
+               <div class="filedrag">
+                   {% trans 'Click or drop the picture here' %}<br />
+
+                   <small>{% trans 'The picture could not exceed 5MB.' %}</small>
+               </div>
+
+               {% if form.image.errors %}
+                   <div class="alert alert-danger alert-dismissible" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       <ul>
+                           {% for error in form.image.errors %}
+                               <li>{{ error }}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               {% endif %}
+
+           </div>
+       </form>
+       </div>
+       <!-- Modal Footer -->
+       <div id="delete-category-footer"class="modal-footer">
+       <!-- Don't remove that!!!  -->
+       <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Close" %}</button>
+       <a href="javascript:void(0)" onclick="return sendMessage()" form="text_chat_form" class="btn btn-success btn-raised erase-button">{% trans "Send" %}</a>
+       </div>
+   </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+
+   $('.text_simple_wysiwyg').summernote({
+       dialogsInBody: true,
+       disableDragAndDrop: true,
+       height: 150,
+       toolbar: [
+           // [groupName, [list of button]]
+           ['style', ['bold', 'italic']],
+           ['insert', ['link']]
+       ]
+   });
+
+   if (window.File && window.FileList && window.FileReader) {
+       Init();
+   }
+   
+   function Init() {
+       var small = $("#id_image"),
+           filedrag = $(".filedrag"),
+           common = $(".common-file-input");
+
+       // file select
+       small.on("change", FileSelectHandler);
+
+       // is XHR2 available?
+       var xhr = new XMLHttpRequest();
+       if (xhr.upload) {
+           // file drop
+           filedrag.on("drop", FileSelectHandler);
+           filedrag.attr('style', 'display:block');
+           common.attr('style', 'display:none');
+       }
+   }
+
+   // file selection
+   function FileSelectHandler(e) {
+       var files = e.target.files || e.dataTransfer.files,
+           parent = $(e.target.offsetParent);
+
+       // process all File objects
+       for (var i = 0, f; f = files[i]; i++) {
+           parent.find('.filedrag').html(f.name);
+       }
+   }
+</script>

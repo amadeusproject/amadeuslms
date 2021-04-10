@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "bulletin",
     "banco_questoes",
     "questionary",
+    "h5p",
     "elastic",
     "environment_creation",
     'datatableview',
