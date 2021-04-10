@@ -213,7 +213,7 @@ function FileSelectHandler(e) {
       }
     }
 
-    if (!mimeTypes.includes(f.type)) {
+    if (typeof (mimeTypes) !== "undefined" && !mimeTypes.includes(f.type)) {
       $(submit_btn).prop('disable', true);
       $(submit_btn).prop('disabled', true);
 

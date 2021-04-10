@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "bulletin",
     "banco_questoes",
     "questionary",
+    "h5p",
     "elastic",
     "environment_creation",
     'datatableview',
@@ -206,20 +207,9 @@ STATICFILES_DIRS = [
 CRON_CLASSES = ["notifications.cron.Notify", "goals.cron.SetGoals"]
 
 CRONJOBS = [
-    ("0 5 * * *", "notifications.cron.notification_cron"),
+    ("30 5 * * *", "notifications.cron.notification_cron"),
     ("0 0 * * *", "goals.cron.setgoals_cron"),
 ]
-
-FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY": "AAAA2T9eGTk:APA91bEki45hwNqN-K7-Fkpjt1Ea0HECg8Ul34AZoM2F1I8MqhxiX8_Dz34xmNRU9O4lT1vvZHenSnXNc0g-UGvGonxy41PgCXdRAtS7V6nYBOnMQ7Pr1iHiz27doSdqK_KwqdPc7OiT",
-    #true if you want to have only one active device per registered user at a time
-    # default: False
-    "ONE_DEVICE_PER_USER": False,
-    # devices to which notifications cannot be sent,
-    # are deleted upon receiving error response from FCM
-    # default: False
-    "DELETE_INACTIVE_DEVICES": False,
-}
 
 # SECURITY
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

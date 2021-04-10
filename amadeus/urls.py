@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^links/', include('links.urls', namespace='links')),
     url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
     url(r'^questionary/', include('questionary.urls', namespace='questionary')),
+    url(r'^h5p/', include('h5p.urls', namespace='h5p')),
     url(r'^webconferences/', include('webconference.urls', namespace = 'webconferences')),
     url(r'^news/', include('news.urls', namespace='news')),
     url(r'^i18n/', include('django.conf.urls.i18n')),
