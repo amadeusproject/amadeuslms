@@ -207,20 +207,9 @@ STATICFILES_DIRS = [
 CRON_CLASSES = ["notifications.cron.Notify", "goals.cron.SetGoals"]
 
 CRONJOBS = [
-    ("0 5 * * *", "notifications.cron.notification_cron"),
+    ("30 5 * * *", "notifications.cron.notification_cron"),
     ("0 0 * * *", "goals.cron.setgoals_cron"),
 ]
-
-FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY": "AAAAzBv8SPs:APA91bFzJ8M1wkndpWWmR3QZAgSAWgS_nAD2xHA2YF8TEam9itnrPIR7thfQcQK1B9rVNoVamO2XA3ZTL7Xp8iSkzS9Qn4WyjQse417T0Ikb2CLDhXEN51BEfO3P3Ei5uSYTZV8IlQRl",
-    # true if you want to have only one active device per registered user at a time
-    # default: False
-    "ONE_DEVICE_PER_USER": False,
-    # devices to which notifications cannot be sent,
-    # are deleted upon receiving error response from FCM
-    # default: False
-    "DELETE_INACTIVE_DEVICES": False,
-}
 
 # SECURITY
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
