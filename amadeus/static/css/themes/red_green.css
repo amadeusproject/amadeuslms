@@ -30,6 +30,10 @@ body .container-fluid .well-inverse {
 }
 
 .notify_badge {
+  background-color: #0277BD !important;
+}
+
+.category-card-items .notify_badge {
   background-color: #D32F30 !important;
 }
 
@@ -178,8 +182,8 @@ body .container-fluid .well-inverse {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: #D32F30;
-  border-color: #D32F30;
+  background-color: #015E96;
+  border-color: #015E96;
   color: #FFFFFF;
 }
 
@@ -204,8 +208,8 @@ body .container-fluid .well-inverse {
 }
 
 .holder a.jp-current, a.jp-current:hover {
-  background-color: #D32F30;
-  border-color: #D32F30;
+  background-color: #015E96;
+  border-color: #015E96;
   color: #FFFFFF;
 }
 
@@ -929,8 +933,8 @@ a.add-row {
 }
 /* === Pagination === */
 .page-item.active, .page-item:hover {
-  background: #D32F30;
-  border-color: #D32F30;
+  background: #015E96;
+  border-color: #015E96;
 }
 
 .pagination > li > a, .pagination > li > span, .pagination > li > a:hover {
