@@ -30,7 +30,7 @@ class Themes(models.Model):
 	large_logo = models.ImageField(verbose_name = _("Large Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	high_contrast_logo = models.ImageField(verbose_name = _("High Contrast Logo"), blank = True, null = True, upload_to = 'themes/', validators = [validate_img_extension])
 	footer_note = models.TextField(_("Footer Note"), blank = True)
-	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green", choices = (("green", _('Green')),("contrast",_('Contrast')),("red", _('Red')), ("red_green", _('Red/Green')), ("black", _('Black'))))
+	css_style = models.CharField(_("Css Style"), max_length = 50, default = "green", choices = (("green", _('Green')),("contrast",_('Contrast')),("red", _('Red')), ("red_green", _('Red/Green')), ("black", _('Black')), ("blue", _("Blue"))))
 
 	class Meta:
 		verbose_name = _("Theme")
