@@ -10,7 +10,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 -->
 
-{% if paginator.count > 0 %}
+{% if paginator.count > paginator.per_page %}
 	<div class="row">
 		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
 		  	<ul class="pagination">
@@ -19,13 +19,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			    {% else %}
 			      	<li class="disabled"><span>&laquo;</span></li>
 			    {% endif %}
-		    	
+
 		    	{% for page_number in page_numbers %}
 		    		<li{% if page_obj.number == page_number %} class="active"{% endif %}>
 		        		<a href="?page={{ page_number }}{{ getvars }}">{{ page_number }}</a>
 		    		</li>
 		    	{% endfor %}
-		    	
+
 		    	{% if page_obj.has_next %}
 			      	<li><a href="?page={{ page_obj.next_page_number }}{{ getvars }}">&raquo;</a></li>
 			    {% else %}

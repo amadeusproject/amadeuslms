@@ -1,12 +1,12 @@
-<!-- 
+<!--
 Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
- 
+
 Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
- 
+
 O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
- 
+
 Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- 
+
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 -->
 
@@ -14,30 +14,32 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% for subject in page_obj %}
 	{% subject_view_permissions request.user subject as has_subject_view_permissions %}
-    
+
     {% if all or has_subject_view_permissions %}
         {% include "subjects/subject_card.html" with subject=subject %}
     {% endif %}
 {% endfor %}
 
-<div class="holder text-center">
-    {% if page_obj.has_previous %}
-        <a class="jp-previous" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.previous_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">«</a>
-    {% else %}
-        <a class="jp-previous jp-disabled" href="#" style="margin-right: -5px;">«</a>
-    {% endif %}
-    
-    {% for i in displayPages %}
-        {% if i == page_obj.number %}
-            <a class="jp-current" style="margin-right: -5px;">{{ i }}</a>
+{% if paginator.count > paginator.per_page %}
+    <div class="holder text-center">
+        {% if page_obj.has_previous %}
+            <a class="jp-previous" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.previous_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">«</a>
         {% else %}
-            <a class="" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ i }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">{{ i }}</a>
+            <a class="jp-previous jp-disabled" href="#" style="margin-right: -5px;">«</a>
         {% endif %}
-    {% endfor %}
-    
-    {% if page_obj.has_next %}
-        <a class="jp-next" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.next_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">»</a>
-    {% else %}
-        <a class="jp-next jp-disabled" href="#" style="margin-right: -5px;">»</a>
-    {% endif %}
-</div>
+
+        {% for i in displayPages %}
+            {% if i == page_obj.number %}
+                <a class="jp-current" style="margin-right: -5px;">{{ i }}</a>
+            {% else %}
+                <a class="" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ i }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="jp-next" href="javascript: passPage('{% url 'subjects:load_view' categorySlug %}', {{ page_obj.next_page_number }}, '{{ categorySlug }}_category-accordion');" style="margin-right: -5px;">»</a>
+        {% else %}
+            <a class="jp-next jp-disabled" href="#" style="margin-right: -5px;">»</a>
+        {% endif %}
+    </div>
+{% endif %}

@@ -1,0 +1,963 @@
+@charset "UTF-8";
+/* Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ * Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ * O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.*/
+/* === Variables === */
+/* === End Variables === */
+a, a:focus, a:hover {
+  color: #333333;
+}
+
+body .container .jumbotron-inverse,
+body .container .well-inverse,
+body .container-fluid .jumbotron-inverse,
+body .container-fluid .well-inverse {
+  background-color: #FFFFFF;
+}
+
+.radio input[type=radio]:checked ~ .check, label.radio-inline input[type=radio]:checked ~ .check {
+  background-color: #D32F30;
+}
+
+.radio input[type=radio]:checked ~ .circle, label.radio-inline input[type=radio]:checked ~ .circle {
+  border-color: #D32F30;
+}
+
+.my-subjects-title {
+  color: #333333;
+}
+
+.notify_badge {
+  background-color: #0277BD !important;
+}
+
+.category-card-items .notify_badge {
+  background-color: #D32F30 !important;
+}
+
+.access-subject {
+  background-color: #0277BD !important;
+  color: #FFFFFF;
+}
+
+.outside-title {
+  color: #333333;
+}
+
+.category-course-link {
+  color: #FFFFFF !important;
+}
+
+.footer {
+  color: #FFFFFF;
+  background: #0090E9;
+}
+
+.bootstrap-datetimepicker-widget {
+  background-color: #FFFFFF !important;
+}
+
+.popover {
+  background: #FFFFFF;
+  color: #333;
+}
+
+.btn:not(.btn-raised):not(.btn-link):focus,
+.btn:not(.btn-raised):not(.btn-link):hover,
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):focus,
+.input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
+  background-color: initial;
+}
+
+#analytics-panel {
+  background-color: #0090E9 !important;
+}
+
+#search-results-title {
+  color: #BDBDBD;
+}
+
+.profile_function {
+  border-bottom: 1px solid #D2D2D2;
+}
+
+.page_selector h4 {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.subscribe-subject {
+  background-color: #33cc33 !important;
+  color: white;
+}
+
+.filedrag {
+  color: #555;
+  border: 2px dashed #555;
+}
+
+.no-subjects {
+  color: #999999;
+}
+
+.resource-link {
+  color: #000000 !important;
+}
+
+.no-subscribe-btn {
+  background-color: #BDBDBD !important;
+  color: #F5F5F5 !important;
+}
+
+.semi-check {
+  border-color: #D32F30 !important;
+}
+
+.login_subcommands a, .login_subcommands a:hover {
+  color: #333333;
+}
+
+.carousel-caption {
+  background: #F5F5F5;
+}
+
+/* === Forms === */
+.form-group.is-focused label,
+.form-group.is-focused label.control-label {
+  color: #D32F2F;
+}
+
+.form-group.is-focused .form-control {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#D32F2F), to(#D32F2F)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
+  background-image: -webkit-linear-gradient(#D32F2F, #D32F2F), -webkit-linear-gradient(#D2D2D2, #D2D2D2);
+  background-image: -o-linear-gradient(#D32F2F, #D32F2F), -o-linear-gradient(#D2D2D2, #D2D2D2);
+  background-image: linear-gradient(#D32F2F, #D32F2F), linear-gradient(#D2D2D2, #D2D2D2);
+}
+
+/* === End Forms === */
+/* === Buttons === */
+.btn-group-raised .btn.btn-success,
+.btn-group-raised .input-group-btn .btn.btn-success,
+.btn.btn-fab.btn-success, .btn.btn-raised.btn-success,
+.input-group-btn .btn.btn-fab.btn-success, .input-group-btn .btn.btn-raised.btn-success {
+  background-color: #015E96;
+}
+
+.btn-group-raised .btn:not(.btn-link).active.btn-success,
+.btn-group-raised .btn:not(.btn-link):active.btn-success,
+.btn-group-raised .btn:not(.btn-link):focus.btn-success,
+.btn-group-raised .btn:not(.btn-link):hover.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-success,
+.btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-success,
+.btn.btn-raised:not(.btn-link).active.btn-success,
+.btn.btn-raised:not(.btn-link):active.btn-success,
+.btn.btn-raised:not(.btn-link):focus.btn-success,
+.btn.btn-raised:not(.btn-link):hover.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link).active.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-success,
+.input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-success {
+  background-color: #0090E9;
+  opacity: 0.8;
+}
+
+/* === End Buttons === */
+/* === Modal === */
+.modal-header {
+  border-bottom: 1px solid #E6E7E8 !important;
+}
+
+.modal-footer {
+  border-top: 1px solid #E6E7E8 !important;
+}
+
+/* === End Modal === */
+/* === Pagination Controls === */
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #015E96;
+  border-color: #015E96;
+  color: #FFFFFF;
+}
+
+.holder a.jp-disabled, a.jp-disabled:hover {
+  background: none !important;
+  color: #bbb !important;
+}
+
+.holder a.jp-current, a.jp-current:hover {
+  background: none;
+}
+
+.holder a, .holder span {
+  border: 1px solid #ddd;
+  color: #337ab7;
+}
+
+.holder a:hover {
+  color: #23527c;
+  background-color: #eee;
+  border-color: #ddd;
+}
+
+.holder a.jp-current, a.jp-current:hover {
+  background-color: #015E96;
+  border-color: #015E96;
+  color: #FFFFFF;
+}
+
+/* === End Pagination Controls === */
+/* === Language Selector */
+.language-selector .dropdown-menu > .active > a {
+  background: #9A0008;
+  color: #9A0008;
+}
+
+.language-selector .dropdown-menu > .active > a:hover {
+  color: #D32F30;
+}
+
+/* === End Language Selector */
+/* === Topbar === */
+#btn-search {
+  color: #FFFFFF;
+}
+
+#btn-search:hover {
+  background: #D32F30;
+}
+
+.navbar, .navbar.navbar-default {
+  background-color: #9A0008;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.top-search {
+  color: #F5F5F5;
+}
+
+.navbar-header {
+  background-color: #9A0008;
+}
+
+.navbar-brand:hover {
+  background: #D32F30 !important;
+}
+
+.navbar .project_name {
+  color: #FFFFFF;
+}
+
+.navbar-nav li.open {
+  background: #9A0007;
+}
+
+.navbar-nav li > a:hover {
+  background: #D32F30 !important;
+}
+
+.navbar-nav li.settings_menu_active {
+  background: #9A0007;
+}
+
+.navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a {
+  background-color: #9A0007;
+}
+
+.dropdown-menu {
+  background: #F5F5F5;
+}
+
+.dropdown-menu li > a {
+  background: #F5F5F5;
+  color: #333333;
+}
+
+.dropdown-menu li > a:hover {
+  background: #D32F30 !important;
+  color: #FFFFFF !important;
+}
+
+#system_accordion > .panel > .panel-heading {
+  background: #F5F5F5;
+}
+
+#system_accordion > .panel > .panel-heading:hover {
+  background: #D32F30;
+  color: #FFFFFF;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title {
+  color: #333333;
+}
+
+#system_accordion > .panel > .panel-heading > a > .panel-title:hover {
+  color: #FFFFFF;
+}
+
+#system_accordion > .panel > .panel-heading > a:hover {
+  color: #FFFFFF;
+}
+
+#system_menu {
+  background: #F5F5F5;
+}
+
+/* --- Minor Screens --- */
+.search-responsive-collapse,
+.search-responsive-collapse .search {
+  background: #F5F5F5;
+}
+
+.search-responsive-collapse #btn-search,
+.search-responsive-collapse .top-search {
+  color: #9A0008;
+}
+
+.search-responsive-collapse .search_mask {
+  background: #000000;
+}
+
+/* --- End Minor Screens --- */
+/* === End Topbar === */
+/* === Mobile Menu === */
+.navbar-menu-btn {
+  color: #FFFFFF;
+}
+
+.mobile_menu_navbar {
+  background: #EDEDEE;
+  color: #000000;
+}
+
+input#mobile_menu_btn:checked + .navbar-menu-btn {
+  color: #000;
+}
+
+.mobile_menu_navbar .navbar-nav > .open > a,
+.mobile_menu_navbar .navbar-nav > .open > a:focus,
+.mobile_menu_navbar .navbar-nav > .open > a:hover,
+.mobile_menu_navbar .navbar-nav > .open > a:active,
+.mobile_menu_navbar .navbar-nav > li > a:focus,
+.mobile_menu_navbar .navbar-nav > li > a:hover {
+  color: #FFFFFF;
+}
+
+.menu_mask {
+  background: #000000;
+}
+
+/* === End Mobile Menu === */
+/* === Sidebar === */
+#sidebar-menu .item {
+  background-color: #9A0008;
+  color: #FFFFFF;
+}
+
+#sidebar-menu .item a {
+  color: #FFFFFF;
+}
+
+#sidebar-menu > .subjects_menu_active {
+  background-color: #9A0008;
+}
+
+#sidebar-menu > .item:hover {
+  background-color: #D32F30;
+}
+
+/* --- Minor Screens --- */
+.bottom-menu {
+  background: #9A0008;
+}
+
+.mobile-menu .item {
+  color: #FFFFFF;
+  background: #9A0008;
+}
+
+.mobile-menu .item a {
+  color: #FFFFFF;
+}
+
+.mobile-menu > .subjects_menu_active {
+  background-color: #9A0008;
+}
+
+.mobile-menu > .item:hover {
+  background-color: #D32F30;
+}
+
+/* --- End Minor Screens --- */
+/* === End Sidebar === */
+/* === Breadcrumbs === */
+.breadcrumb > li > span.divider {
+  color: #333333;
+}
+
+.breadcrumb > li > a {
+  color: #333333;
+}
+
+.breadcrumb > li {
+  color: #BDBDBD;
+}
+
+.breadcrumb > li + li:last-child::before {
+  color: #BDBDBD;
+}
+
+.bread_mask {
+  background: #000000;
+}
+
+/* === End Breadcrumbs === */
+/* === Panel === */
+.category-header i {
+  color: #FFFFFF;
+}
+
+.category-header .dropdown-menu i {
+  color: inherit !important;
+}
+
+.panel-title a:hover {
+  color: #FFFFFF;
+}
+
+.panel-invisible {
+  background-color: #BDBDBD !important;
+  color: #F5F5F5 !important;
+}
+
+.panel-invisible .category-header .category-card-items i {
+  color: #E0E0E0;
+}
+
+.panel-invisible .category-header .category-card-items i:hover {
+  color: #FFFFFF;
+}
+
+/* === End Panel === */
+/* === Category Panel === */
+.category-panel > .panel-heading {
+  background-color: #015E96 !important;
+}
+
+.category-panel .category-header .category-card-items i {
+  color: #a4cce4;
+}
+
+.category-panel .category-header .category-card-items i:hover {
+  color: #FFFFFF;
+}
+
+.category-panel-content {
+  background: #F5F5F5;
+}
+
+.category-header > h4.panel-title span {
+  color: #FFFFFF;
+}
+
+/* === End Category Panel === */
+/* === Subject Panel === */
+.subject-panel > .panel-heading {
+  background-color: #0277BD !important;
+}
+
+.subject-panel .category-header .category-card-items i {
+  color: #a4cce4;
+}
+
+.subject-panel .category-header .category-card-items i:hover,
+.subject-panel-invisible .category-header .category-card-items i:hover {
+  color: #FFFFFF;
+}
+
+/* --- Invisible --- */
+.subject-panel-invisible .category-header .category-card-items i {
+  color: #E0E0E0;
+}
+
+/* --- End Invisible --- */
+/* === End Subject Panel === */
+/* === Topic Panel === */
+.topic-panel > .panel-heading {
+  background-color: #1d8fe0 !important;
+}
+
+.topic-panel .category-header .category-card-items i,
+.topic-panel-invisible .category-header .category-card-items i {
+  color: #a4cce4;
+}
+
+.topic-panel .category-header .category-card-items i:hover,
+.topic-panel-invisible .category-header .category-card-items i:hover {
+  color: #FFFFFF;
+}
+
+.topic-panel > .category-panel-content, .topic-panel-invisible > .category-panel-content {
+  background: #FFFFFF;
+}
+
+/* --- Invisible --- */
+.topic-panel-invisible > .panel-heading {
+  background-color: #82B1FF !important;
+  color: #F5F5F5;
+}
+
+.topic-panel-invisible .category-header .category-card-items i {
+  color: #E0E0E0;
+}
+
+/* --- End Invisible --- */
+/* === End Topic Panel === */
+/* === Group Panel === */
+.group-panel > .panel-heading {
+  background-color: #FFFFFF !important;
+}
+
+.group-panel .panel-title, .group-panel .category-header i, .group-panel .category-course-link {
+  color: #000000 !important;
+}
+
+.group-panel-body {
+  background: #FFFFFF !important;
+  border-top: 1px solid #CCCCCC;
+}
+
+/* === End Group Panel === */
+/* === Resources List === */
+.resource_list > .list-group-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.resource_list > .disabled {
+  background-color: #eee;
+}
+
+.resource_list > .disabled:hover {
+  background-color: #eee !important;
+}
+
+.resource_list > .disabled a.resource_link {
+  color: #BDBDBD;
+}
+
+.resource_list > .list-group-item:hover {
+  background: #F5F5F5;
+}
+
+.resource_list > .list-group-item:last-child {
+  border-bottom: 1px solid #ddd !important;
+}
+
+.resource_list .category-card-items i {
+  color: #e5e5e5;
+}
+
+.resource_list .category-card-items i:hover {
+  color: #7f7f7f;
+}
+
+.resource_list .category-card-items .dropdown-menu i {
+  color: #333;
+}
+
+.resource_list a {
+  color: inherit;
+}
+
+.resource_list .category-card-items .dropdown-menu a:hover,
+.resource_list .category-card-items .dropdown-menu a:hover i {
+  color: #FFFFFF !important;
+}
+
+.resource_list .btn-group button:active,
+.resource_list .btn-group button:focus, .resource_list .btn-group button:hover {
+  background-color: initial !important;
+}
+
+/* === End Resources List === */
+/* === Participants === */
+#participants, .participants-list {
+  background-color: #FFFFFF;
+}
+
+#participants {
+  box-shadow: -1px 1px 8px #0090E9;
+}
+
+#participants i {
+  color: #0090E9 !important;
+}
+
+.participants-list {
+  box-shadow: -1px 2px 1px #0090E9;
+}
+
+.subject-participants .sub-user:hover {
+  background-color: #EEEEEE;
+}
+
+/* === End Participants === */
+/* === Accordions === */
+#coordinators_accordion .panel-heading, #professors_accordion .panel-heading {
+  background: #FFFFFF;
+}
+
+/* === End Accordions === */
+/* === Tabs === */
+.core-subjects-options li {
+  background-color: #FFFFFF;
+  border-bottom-color: #D2D2D2;
+  color: #A0A0A0;
+}
+
+.core-subjects-options li.active {
+  color: inherit;
+  border-bottom-color: #9A0007;
+}
+
+/* === End Tabs === */
+/* === Notifies === */
+.notifies, .goalitems {
+  border: 1px solid #EEEEEE;
+}
+
+.notifies a.delete-row, .goalitems a.delete-row {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background-color: #EEE;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+a.add-row {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background-color: #0090E9;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+/* === End Notifies === */
+/* === Goals === */
+.goalitems .slider, .goal_item .slider {
+  background-color: initial;
+}
+
+.goal_divider {
+  border-top-color: #888;
+}
+
+/* === End Goals === */
+/* === Bulletin === */
+.bulletin-warning h4 {
+  color: #555555;
+}
+
+.bulletin-warning p {
+  color: #888888;
+}
+
+.bulletin-warning a {
+  color: #4caf50;
+}
+
+/* === End Bulletin === */
+/* === Backup === */
+.backup_container .more_items {
+  background: #D32F2F;
+  color: #FFFFFF;
+}
+
+.backup_container .backup_item label, .backup_container .resources_list label {
+  color: #333333;
+}
+
+/* === End Backup === */
+/* === Pendencies === */
+.pendencies-content {
+  background: #F5F5F5;
+}
+
+.pendency {
+  border-color: #CCCCCC;
+}
+
+.pendency .breadcrumb {
+  background-color: #FFFFFF;
+}
+
+.pendency .meta {
+  color: #FF0000;
+}
+
+.alert-low {
+  background-color: #dfbd31;
+}
+
+.alert-medium {
+  background-color: #FF9000;
+}
+
+.alert-low, .alert-medium, .alert-danger {
+  color: #FFFFFF !important;
+  text-shadow: 0px 0px 1px #000000;
+}
+
+.no_button:hover, .no_button:focus, .no_button:active {
+  background-color: initial !important;
+}
+
+/* === End Pendencies === */
+/* === Mural === */
+.mural .post_make {
+  background: #FFFFFF;
+}
+
+.mural .post_make .post-field div {
+  border-color: #CCCCCC;
+}
+
+.mural .post_make .post-field h4 {
+  color: #CCCCCC;
+}
+
+.post_action i, .post .post-user .user-action i, .comment .comment-user .user-action i {
+  color: #333333;
+}
+
+.post .post-user, .comment .comment-user, .marked_user, .post_resource {
+  color: #333333;
+}
+
+.post .post-user .user-action {
+  color: #BBBBBB;
+}
+
+.post .time {
+  color: #ABABAB;
+}
+
+.post .post-comment {
+  border-top-color: #888888;
+  background: #e5e5e5;
+}
+
+.post .post-comment .comment-field div {
+  border-color: #888888;
+  background: #FFFFFF;
+}
+
+.comment-section {
+  background: #F5F5F5;
+  border-top-color: #AAAAAA;
+}
+
+.comment .comment-user .user-action {
+  color: #999999;
+}
+
+.comment-time {
+  color: #9A9A9A;
+}
+
+.btn_unfav {
+  color: #FF0000 !important;
+}
+
+.btn_fav {
+  color: #BBBBBB !important;
+}
+
+.post-filter, .talk-filter {
+  background: #F5F5F5;
+}
+
+.post-filter h4, .talk-filter h4 {
+  color: #333333;
+}
+
+.post-filter label, .talk-filter label {
+  color: #333333;
+}
+
+.post-filter i, .talk-filter i {
+  color: #FF0000;
+}
+
+.suggestions {
+  background: #FFFFFF;
+}
+
+.subject-related-panel {
+  background: #F5F5F5 !important;
+}
+
+.mural-ungeneral {
+  background: #EEE;
+}
+
+/* === End Mural === */
+/* === Chat === */
+.participant .user-info h4 {
+  color: #333333;
+}
+
+.modal_profile_sidebar h4, .message-view .message-user {
+  color: #333333;
+}
+
+.participant .user-info .status, .modal_profile_sidebar .status, .subject-participants .status {
+  border-color: #888;
+  background-color: #F5F5F5;
+}
+
+.participant .user-info .status.active, .modal_profile_sidebar .status.active, .subject-participants .status.active {
+  background-color: #59b75c;
+}
+
+.participant .user-info .status.away, .modal_profile_sidebar .status.away, .subject-participants .status.away {
+  background-color: #DAA520;
+}
+
+.messages-container {
+  border-top-color: #cacaca;
+  background-color: #f5f5f5;
+}
+
+.message-sender {
+  border-top-color: #888888 !important;
+}
+
+.message-sender-container {
+  background-color: #e5e5e5;
+}
+
+.message-sender-container .message-field div {
+  background-color: #FFFFFF;
+  border-color: #888888;
+}
+
+.talk-last_msg {
+  color: #888;
+}
+
+.message-view {
+  border-top-color: #cacaca;
+}
+
+.message-view .message-user .message-date {
+  color: #888;
+}
+
+.messages_new {
+  color: #FFFFFF;
+  background-color: #59b75c;
+}
+
+.chat-panel .chat-collapse {
+  background: #EEE;
+}
+
+/* === End Chat === */
+ *
+ *  /* === Questions Database === */
+.question-panel.panel-info > .panel-heading {
+  background-color: #EEE;
+  color: #888;
+}
+
+.question-panel .category-header i {
+  color: #555;
+}
+.question-panel .category-header i:hover {
+  color: #999;
+}
+
+.alternative-panel.panel-info {
+  box-shadow: none;
+}
+.alternative-panel.panel-info > .panel-heading {
+  background-color: #FFF;
+  color: #AAA;
+}
+.alternative-panel.panel-info > .panel-heading h4:after {
+  background-color: #CCC;
+}
+.alternative-panel.panel-info > .panel-heading h4 a:hover, .alternative-panel.panel-info > .panel-heading h4 a:focus, .alternative-panel.panel-info > .panel-heading h4 a:active {
+  color: #AAA;
+}
+.alternative-panel.panel-info > .panel-heading h4 a i {
+  color: #AAA;
+}
+.alternative-panel.panel-info .panel-body {
+  background-color: #fff;
+}
+.alternative-panel.panel-info .panel-body .correct_answer {
+  color: green;
+}
+
+/* === Questionary === */
+.questionary .header_info {
+  color: #999;
+}
+.questionary .correct_answer {
+  color: green;
+}
+.questionary .wrong_answer {
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .navbar .navbar-nav .dropdown .dropdown-menu li > a {
+    color: #333333 !important;
+  }
+
+  .navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
+    color: #D32F30 !important;
+  }
+
+  .mobile_menu_navbar .navbar-nav .dropdown .dropdown-menu li > a:hover {
+    color: #FFFFFF !important;
+  }
+}
+/* === Pagination === */
+.page-item.active, .page-item:hover {
+  background: #015E96;
+  border-color: #015E96;
+}
+
+.pagination > li > a, .pagination > li > span, .pagination > li > a:hover {
+  color: #333333;
+}
+
+#table_div .google-visualization-table-page-number.current {
+  background: #D32F2F;
+  border-color: #D32F2F;
+}
+
+#table_div .google-visualization-table-page-number, #table_div .google-visualization-table-page-number:hover, #table_div .google-visualization-table-div-page .goog-custom-button {
+  color: #333333;
+}
+
+/* === Checkboxes === */
+.checkbox input[type=checkbox]:checked + .checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check {
+  color: #D32F2F;
+  border-color: #D32F2F;
+}
+
+.checkbox input[type=checkbox]:checked + .checkbox-material .check:before, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check:before {
+  color: #D32F2F;
+}
+
+/*# sourceMappingURL=red.css.map */
