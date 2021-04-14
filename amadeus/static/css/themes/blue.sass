@@ -12,7 +12,7 @@
 /* === Variables === */
 
 $primary-color: #020873
-$secondary-color: #ED1D4A
+$secondary-color: #3d4191
 
 $primary-title: #424242
 $secondary-title: #333333
@@ -22,7 +22,7 @@ $secondary-badge: #F34336
 
 $primary-menu-bg: #ED1D4A
 $primary-menu-color: #333333
-$menu-bg-active: rgba(237, 29, 74, .8)
+$menu-bg-active: #ee476b
 
 $primary-white: #F5F5F5
 $secondary-white: #FFFFFF
@@ -225,7 +225,7 @@ body .container-fluid .well-inverse
 /* === Language Selector */
 
 .language-selector .dropdown-menu > .active > a
-    background: $primary-menu-bg
+    background: $secondary-color
     color: $primary-white
 
 .language-selector .dropdown-menu > .active > a:hover
@@ -277,14 +277,14 @@ body .container-fluid .well-inverse
     color: $primary-menu-color
 
 .dropdown-menu li > a:hover
-    background: $primary-menu-bg !important
+    background: $secondary-color !important
     color: $secondary-white !important
 
 #system_accordion > .panel > .panel-heading
     background: $primary-white
 
 #system_accordion > .panel > .panel-heading:hover
-    background: $primary-menu-bg
+    background: $secondary-color
     color: $secondary-white
 
 #system_accordion > .panel > .panel-heading > a > .panel-title
@@ -355,20 +355,20 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
 /* --- Minor Screens --- */
 
 .bottom-menu
-    background: $primary-color
+    background: $primary-menu-bg
 
 .mobile-menu .item
     color: $secondary-white
-    background: $primary-color
+    background: $primary-menu-bg
 
 .mobile-menu .item a
     color: $secondary-white
 
 .mobile-menu > .subjects_menu_active
-    background-color: $secondary-color
+    background: $menu-bg-active
 
 .mobile-menu > .item:hover
-    background-color: $secondary-color
+    background: $menu-bg-active
 
 /* --- End Minor Screens --- */
 
@@ -556,7 +556,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn
     box-shadow: -1px 2px 1px $primary-subject
 
 .subject-participants .sub-user:hover
-    background-color: $primary-menu-bg
+    background-color: $secondary-color
     color: $secondary-white
 
 /* === End Participants === */

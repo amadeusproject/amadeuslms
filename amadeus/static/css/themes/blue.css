@@ -215,7 +215,7 @@ body .container-fluid .well-inverse {
 /* === End Pagination Controls === */
 /* === Language Selector */
 .language-selector .dropdown-menu > .active > a {
-  background: #ED1D4A;
+  background: #3d4191;
   color: #F5F5F5;
 }
 
@@ -230,7 +230,7 @@ body .container-fluid .well-inverse {
 }
 
 #btn-search:hover {
-  background: #ED1D4A;
+  background: #3d4191;
 }
 
 .navbar, .navbar.navbar-default {
@@ -247,7 +247,7 @@ body .container-fluid .well-inverse {
 }
 
 .navbar-brand:hover {
-  background: #ED1D4A !important;
+  background: #3d4191 !important;
 }
 
 .navbar .project_name {
@@ -255,19 +255,19 @@ body .container-fluid .well-inverse {
 }
 
 .navbar-nav li.open {
-  background: #ED1D4A;
+  background: #3d4191;
 }
 
 .navbar-nav li > a:hover {
-  background: #ED1D4A !important;
+  background: #3d4191 !important;
 }
 
 .navbar-nav li.settings_menu_active {
-  background: #ED1D4A;
+  background: #3d4191;
 }
 
 .navbar .dropdown-menu .active > a, .navbar.navbar-default .dropdown-menu .active > a {
-  background-color: #ED1D4A;
+  background-color: #3d4191;
 }
 
 .dropdown-menu {
@@ -280,7 +280,7 @@ body .container-fluid .well-inverse {
 }
 
 .dropdown-menu li > a:hover {
-  background: #ED1D4A !important;
+  background: #3d4191 !important;
   color: #FFFFFF !important;
 }
 
@@ -289,7 +289,7 @@ body .container-fluid .well-inverse {
 }
 
 #system_accordion > .panel > .panel-heading:hover {
-  background: #ED1D4A;
+  background: #3d4191;
   color: #FFFFFF;
 }
 
@@ -365,21 +365,21 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 #sidebar-menu > .subjects_menu_active {
-  background-color: rgba(237, 29, 74, 0.8);
+  background-color: #ee476b;
 }
 
 #sidebar-menu > .item:hover {
-  background-color: rgba(237, 29, 74, 0.8);
+  background-color: #ee476b;
 }
 
 /* --- Minor Screens --- */
 .bottom-menu {
-  background: #020873;
+  background: #ED1D4A;
 }
 
 .mobile-menu .item {
   color: #FFFFFF;
-  background: #020873;
+  background: #ED1D4A;
 }
 
 .mobile-menu .item a {
@@ -387,11 +387,11 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 .mobile-menu > .subjects_menu_active {
-  background-color: #ED1D4A;
+  background: #ee476b;
 }
 
 .mobile-menu > .item:hover {
-  background-color: #ED1D4A;
+  background: #ee476b;
 }
 
 /* --- End Minor Screens --- */
@@ -605,7 +605,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 }
 
 .subject-participants .sub-user:hover {
-  background-color: #ED1D4A;
+  background-color: #3d4191;
   color: #FFFFFF;
 }
 
@@ -625,7 +625,7 @@ input#mobile_menu_btn:checked + .navbar-menu-btn {
 
 .core-subjects-options li.active {
   color: inherit;
-  border-bottom-color: #ED1D4A;
+  border-bottom-color: #3d4191;
 }
 
 /* === End Tabs === */
