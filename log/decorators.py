@@ -63,15 +63,17 @@ def log_decorator(log_component = '', log_action = '', log_resource = ''):
 						if pendency.exists():
 							pendency = pendency.get()
 
-							if pendency.begin_date <= timezone.now() and (timezone.now() <= pendency.end_date or (pendency.limit_date and timezone.now() <= pendency.limit_date) or (not pendency.limit_date and timezone.now() > pendency.end_date)):
-								if user in pendency.resource.students.all() or (pendency.resource.all_students and user in pendency.resource.topic.subject.students.all()):
-									if not PendencyDone.objects.filter(pendency = pendency, student = user).exists():
+							if (not pendency.begin_date or pendency.begin_date <= timezone.now()) and ((not pendency.end_date or timezone.now() <= pendency.end_date) or (pendency.limit_date and timezone.now() <= pendency.limit_date) or (not pendency.end_date or (not pendency.limit_date and timezone.now() > pendency.end_date))):
+								if actor in pendency.resource.students.all() or (pendency.resource.all_students and actor in pendency.resource.topic.subject.students.all()):
+									if not PendencyDone.objects.filter(pendency = pendency, student = actor).exists():
 										pendencyDone = PendencyDone()
 										pendencyDone.pendency = pendency
-										pendencyDone.student = user
+										pendencyDone.student = actor
 										pendencyDone.done_date = timezone.now()
 
-										if pendency.begin_date <= timezone.now() <= pendency.end_date:
+										if not pendency.begin_date or not pendency.end_date:
+											pendencyDone.late = False
+										elif pendency.begin_date <= timezone.now() <= pendency.end_date:
 											pendencyDone.late = False
 										elif (pendency.limit_date and pendency.end_date < timezone.now() <= pendency.limit_date) or (not pendency.limit_date and pendency.end_date < timezone.now()):
 											pendencyDone.late = True

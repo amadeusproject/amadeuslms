@@ -1292,6 +1292,7 @@ def functiontable(dataIni, dataEnd, categoryId = 0):
             "questionary": "Questionário",
             "webconference": "Web conferência",
             "my_goals": "Metas do Tópico",
+            "h5p": "H5P",
         }
 
         for i, resource in enumerate(resources):
