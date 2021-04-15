@@ -59,8 +59,6 @@ class PendenciesForm(forms.ModelForm):
         end_check = cleaned_data.get("end_date_check", False)
         subject_id = cleaned_data.get("subject", None)
 
-        print(self.is_required)
-
         if action and self.is_required:
             if not begin_check:
                 self.add_error("begin_date", _("This field is required."))
@@ -77,6 +75,12 @@ class PendenciesForm(forms.ModelForm):
 
         if not end_date and end_check:
             self.add_error("end_date", _("This field is required."))
+
+        if begin_date and not end_date:
+            self.add_error("end_date", _("This field is required."))
+
+        if not begin_date and end_date:
+            self.add_error("begin_date", _("This field is required."))
 
         if begin_date and end_date:
             if not begin_date == ValueError and not end_date == ValueError:
@@ -219,6 +223,12 @@ class PendenciesLimitedForm(forms.ModelForm):
 
         if not limit_date and limit_check:
             self.add_error("limit_date", _("This field is required."))
+
+        if begin_date and not end_date:
+            self.add_error("end_date", _("This field is required."))
+
+        if not begin_date and end_date:
+            self.add_error("begin_date", _("This field is required."))
 
         if begin_date and end_date:
             if not begin_date == ValueError and not end_date == ValueError:

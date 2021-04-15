@@ -32,7 +32,7 @@ class H5PDjango:
     global path, dirpath, h5pWhitelist, h5pWhitelistExtras
     path = None
     dirpath = None
-    h5pWhitelist = 'json png jpg jpeg gif bmp tif tiff svg eot ttf woff woff2 otf webm mp4 ogg mp3 txt pdf rtf doc docx xls xlsx ppt pptx odt ods odp xml csv diff patch swf md textile'
+    h5pWhitelist = 'json png jpg jpeg gif bmp tif tiff svg eot ttf woff woff2 otf webm mp4 ogg mp3 wav txt pdf rtf doc docx xls xlsx ppt pptx odt ods odp xml csv diff patch swf md textile'
     h5pWhitelistExtras = ' js css'
 
     def __init__(self, user):
@@ -159,6 +159,7 @@ class H5PDjango:
             libraryId = h5p_libraries.objects.filter(
                 machine_name=machineName).values('library_id')
         else:
+            print(machineName + " " + str(majorVersion) + " " + str(minorVersion))
             libraryId = h5p_libraries.objects.filter(
                 machine_name=machineName, major_version=majorVersion, minor_version=minorVersion).values('library_id')
 
@@ -399,6 +400,7 @@ class H5PDjango:
     ##
     def insertContent(self, content, contentMainId=None):
         # Insert
+        print(content)
         result = h5p_contents.objects.create(
             title=content['title'],
             json_contents=content['params'],

@@ -84,7 +84,7 @@ function drawBarChart(data){
 
     if(inactive_students_percent_value < 25){
         $("#percent-students-value").html(
-            `<p style="margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${inactive_students_percent_value}% dos estudantes estão inativos no período selecionado">${active_students_percent_value}%</p>`
+            `<p style="margin-bottom:1.5em;" data-toggle="tooltip" data-placement="bottom" title="${inactive_students_percent_value}% dos estudantes estão inativos no período selecionado">${inactive_students_percent_value}%</p>`
         );
     }
     
