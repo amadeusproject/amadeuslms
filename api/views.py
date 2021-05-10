@@ -107,7 +107,7 @@ def getToken(request):
 
                         uri = request.build_absolute_uri(
                             reverse("oauth2_provider:token")
-                        ).replace("http", "https")
+                        ).replace("http://", "https://")
                         response = requests.post(uri, data=data, auth=auth)
 
                         json_r = json.loads(response.content.decode("utf-8"))
