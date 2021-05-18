@@ -21,6 +21,7 @@ import uuid
 import shutil
 import hashlib
 import collections
+from nested_lookup import nested_lookup
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -360,11 +361,18 @@ def h5pAddFilesAndSettings(request, embedType):
     files = core.getDependenciesFiles(preloadedDependencies)
     libraryList = h5pDependenciesToLibraryList(preloadedDependencies)
 
+    missingLibraries = nested_lookup("library", json.loads(integration['contents'][str('cid-' + content['id'])]['jsonContent']))
+    missingLibraries = list(dict.fromkeys(missingLibraries))
+    missingLibsFiles = h5pUnloadedDependencies(interface, core, missingLibraries)
+
+    files['scripts'] = files['scripts'] + missingLibsFiles['scripts']
+    files['styles'] = files['styles'] + missingLibsFiles['styles']
+
     filesAssets = {
         'js': list(),
         'css': list()
     }
-    print(embedType)
+
     if embedType == 'div':
         for script in files['scripts']:
             url = settings.MEDIA_URL + 'h5pp/' + \
@@ -384,9 +392,28 @@ def h5pAddFilesAndSettings(request, embedType):
 
     elif embedType == 'iframe':
         h5pAddIframeAssets(request, integration, content['id'], files)
-    print(filesAssets['js'])
+
     return {'integration': json.dumps(integration), 'assets': assets, 'filesAssets': filesAssets}
 
+def h5pUnloadedDependencies(interface, core, libraries):
+    libs = collections.OrderedDict()
+
+    files = {
+        "scripts": [],
+        "styles": []
+    }
+
+    if len(libraries) > 0:
+        for lib in libraries:
+            library = core.libraryFromString(lib)
+
+            loadedLib = interface.loadLibrary(library['machineName'], library['majorVersion'], library['minorVersion'])
+
+            libs[loadedLib['library_id']] = loadedLib
+    
+        files = core.getDependenciesFiles(libs)
+
+    return files
 ##
 # Get a content by request
 ##
@@ -413,7 +440,7 @@ def h5pGetContentSettings(user, content):
     interface = H5PDjango(user)
     core = interface.h5pGetInstance('core')
     filtered = core.filterParameters(content)
-
+    print("Content settings: " + str(filtered) + "\n")
     # Get preloaded user data
     results = h5p_content_user_data.objects.filter(user_id=user.id, content_main_id=content[
                                                 'id'], preloaded=1).values('sub_content_id', 'data_id', 'data')
