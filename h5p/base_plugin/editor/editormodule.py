@@ -25,7 +25,7 @@ from h5p.models import h5p_content_user_data, h5p_libraries, h5p_points
 
 STYLES = ["libs/darkroom.css", "styles/css/application.css"]
 
-OVERRIDE_STYLES = '/static/h5p/styles/h5pp.css'
+# OVERRIDE_STYLES = '/static/h5p/styles/h5pp.css'
 
 SCRIPTS = [
     "scripts/h5peditor.js",
