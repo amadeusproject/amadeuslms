@@ -1,6 +1,7 @@
 import os
 import re
 import cgi
+import html
 import json
 import glob
 import math
@@ -1684,7 +1685,7 @@ class H5PContentValidator:
 
             text = self.filterXss(text, tags, stylePatterns)
         else:
-            text = cgi.escape(text, True)
+            text = html.escape(text, True)
 
         if 'maxLength' in semantics:
             text = text[0:semantics['maxLength']]
