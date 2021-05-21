@@ -47,7 +47,6 @@ class H5PForm(forms.ModelForm):
     subject = None
     control_subject = forms.CharField(widget=forms.HiddenInput())
     students = ParticipantsMultipleChoiceField(queryset=None, required=False)
-    h5p = forms.FileField(label=_('HTML 5 Package'), required=False)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
@@ -140,7 +139,7 @@ class H5PForm(forms.ModelForm):
 
             if same_name > 0:
                 self.add_error(
-                    "name", _("This subject already has a questionary with this name")
+                    "name", _("This subject already has a h5p resource with this name")
                 )
 
                 break

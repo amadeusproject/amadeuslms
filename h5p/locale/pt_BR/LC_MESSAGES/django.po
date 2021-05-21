@@ -1,0 +1,349 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: h5p/forms.py:70
+msgid "Tags"
+msgstr "Tags"
+
+#: h5p/forms.py:105
+msgid "The uploaded file was not a valid h5p package."
+msgstr "O arquivo enviado não era um pacote h5p válido."
+
+#: h5p/forms.py:142
+msgid "This subject already has a h5p resource with this name"
+msgstr "Esse assunto já possui um recurso h5p com esse nome."
+
+#: h5p/forms.py:153 h5p/forms.py:183
+msgid "This input should be filled with a date equal or after today's date."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
+
+#: h5p/forms.py:161 h5p/forms.py:191
+#, python-format
+msgid ""
+"This input should be filled with a date equal or after the subject begin "
+"date.(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data de "
+"início do assunto.(\"%s\")"
+
+#: h5p/forms.py:170 h5p/forms.py:200
+#, python-format
+msgid ""
+"This input should be filled with a date equal or before the subject end date."
+"(\"%s\")"
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou anterior à data de "
+"final do assunto.(\"%s\")"
+
+#: h5p/forms.py:175 h5p/forms.py:213
+msgid "This field is required"
+msgstr "Esse campo é obrigatório."
+
+#: h5p/forms.py:209
+msgid ""
+"This input should be filled with a date equal or after the date stabilished "
+"for the init."
+msgstr ""
+"Esse campo deve ser preenchido com uma data igual ou posterior à data "
+"escolhida para o início."
+
+#: h5p/models.py:207
+msgid "H5P Package"
+msgstr "Pacote H5P"
+
+#: h5p/models.py:208
+msgid "Init Date"
+msgstr "Data de início"
+
+#: h5p/models.py:209
+msgid "End Date"
+msgstr "Data de encerramento"
+
+#: h5p/models.py:210
+msgid "H5P content"
+msgstr "Conteúdo H5P"
+
+#: h5p/models.py:213 h5p/views.py:611
+msgid "H5P"
+msgstr "H5P"
+
+#: h5p/models.py:214
+msgid "H5Ps"
+msgstr "H5Ps"
+
+#: h5p/models.py:238
+msgid "Are you sure you want delete this H5P component"
+msgstr "Você tem certeza que deseja deletar esse componente H5P"
+
+#: h5p/models.py:247
+msgid "H5P component"
+msgstr "Componente H5P"
+
+#: h5p/models.py:248 h5p/templates/h5p/relatorios.html:29
+#: h5p/templates/h5p/relatorios.html:49
+msgid "User"
+msgstr "Estudante"
+
+#: h5p/models.py:249
+msgid "Max Score"
+msgstr "Pontuação Máxima"
+
+#: h5p/models.py:250
+msgid "Student Score"
+msgstr "Pontuação do estudante"
+
+#: h5p/models.py:251
+msgid "Interaction Date"
+msgstr "Data da interação"
+
+#: h5p/templates/h5p/_form.html:46
+msgid "Choose your file..."
+msgstr "Escolha seu arquivo..."
+
+#: h5p/templates/h5p/_form.html:60
+msgid "Click or drop the file here"
+msgstr "Clique ou arraste o arquivo aqui."
+
+#: h5p/templates/h5p/_form.html:62
+msgid "The file could not exceed 10MB."
+msgstr "O arquivo não pode exceder 10MB."
+
+#: h5p/templates/h5p/_form.html:88
+msgid "The file is too large. It should have less than 10MB."
+msgstr "Esse arquivo é muito grande. Ele deve conter menos de 10MB."
+
+#: h5p/templates/h5p/_form.html:89
+msgid "File not supported."
+msgstr "Arquivo não suportado."
+
+#: h5p/templates/h5p/_form.html:138
+msgid "Common resources settings"
+msgstr "Configurações comuns à todos os recursos"
+
+#: h5p/templates/h5p/_form.html:189
+msgid "Students"
+msgstr "Estudantes"
+
+#: h5p/templates/h5p/_form.html:219
+msgid "Attribute students to H5P resource"
+msgstr "Atribua estudantes ao recurso H5P"
+
+#: h5p/templates/h5p/_form.html:239
+msgid "Attribute groups to H5P resoruce"
+msgstr "Atribua grupos ao recurso H5P"
+
+#: h5p/templates/h5p/_form.html:308
+msgid "Save"
+msgstr "Salvar"
+
+#: h5p/templates/h5p/_form.html:313
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: h5p/templates/h5p/_results.html:34
+msgid "Student"
+msgstr "Estudante"
+
+#: h5p/templates/h5p/_results.html:35
+msgid "Total questions"
+msgstr "Total de questões"
+
+#: h5p/templates/h5p/_results.html:36
+msgid "Total correct"
+msgstr "Questões corretas"
+
+#: h5p/templates/h5p/_results.html:37
+#, python-format
+msgid "%% Correct"
+msgstr "%% Acerto"
+
+#: h5p/templates/h5p/_results.html:88
+msgid "results(s)"
+msgstr "resultado(s)"
+
+#: h5p/templates/h5p/_results.html:100
+msgid "Download .xls file"
+msgstr "Download de arquivo .xls"
+
+#: h5p/templates/h5p/_results.html:111 h5p/templates/h5p/relatorios.html:274
+msgid "Filter: "
+msgstr "Filtro: "
+
+#: h5p/templates/h5p/create.html:33 h5p/views.py:217
+msgid "Create H5P"
+msgstr "Criar recurso H5P"
+
+#: h5p/templates/h5p/relatorios.html:29 h5p/templates/h5p/relatorios.html:49
+msgid "Group"
+msgstr "Grupo"
+
+#: h5p/templates/h5p/relatorios.html:29
+msgid "Action"
+msgstr "Ação"
+
+#: h5p/templates/h5p/relatorios.html:29
+msgid "Date of Action"
+msgstr "Data da ação"
+
+#: h5p/templates/h5p/relatorios.html:49
+msgid "Send message"
+msgstr "Enviar mensagem"
+
+#: h5p/templates/h5p/relatorios.html:49
+msgid "Action don't realized"
+msgstr "Ação não realizada"
+
+#: h5p/templates/h5p/relatorios.html:203 h5p/templates/h5p/relatorios.html:225
+#: h5p/templates/h5p/view.html:93
+msgid "Reports"
+msgstr "Relatórios"
+
+#: h5p/templates/h5p/relatorios.html:232
+msgid "Report of the resource "
+msgstr "Relatório do recurso"
+
+#: h5p/templates/h5p/relatorios.html:241
+msgid "Select the period: "
+msgstr "Selecione o período: "
+
+#: h5p/templates/h5p/relatorios.html:250
+msgid "Search"
+msgstr "Pesquisar"
+
+#: h5p/templates/h5p/relatorios.html:298 h5p/templates/h5p/relatorios.html:383
+msgid "record(s)"
+msgstr "linha(s)"
+
+#: h5p/templates/h5p/send_message.html:50
+msgid "Click or drop the picture here"
+msgstr "Clique ou solte uma imagem aqui"
+
+#: h5p/templates/h5p/send_message.html:52
+msgid "The picture could not exceed 5MB."
+msgstr "A imagem não pode exceder 5MB."
+
+#: h5p/templates/h5p/send_message.html:74
+msgid "Close"
+msgstr "Fechar"
+
+#: h5p/templates/h5p/send_message.html:75
+msgid "Send"
+msgstr "Enviar"
+
+#: h5p/templates/h5p/update.html:33
+msgid "Edit: "
+msgstr "Editar: "
+
+#: h5p/templates/h5p/view.html:91
+msgid "Edit"
+msgstr "Editar"
+
+#: h5p/templates/h5p/view.html:95
+msgid "Remove"
+msgstr "Remover"
+
+#: h5p/templates/h5p/view.html:99
+msgid "Resource Mural"
+msgstr "Mural do recurso"
+
+#: h5p/templates/h5p/view.html:114 h5p/templates/h5p/window_view.html:98
+msgid "Activity"
+msgstr "Atividade"
+
+#: h5p/templates/h5p/view.html:118 h5p/templates/h5p/window_view.html:102
+msgid "Class Results"
+msgstr "Resultado da classe"
+
+#: h5p/templates/h5p/view.html:187 h5p/templates/h5p/window_view.html:159
+msgid "Something went wrong. Please try again later"
+msgstr "Algo deu errado. Por favor, tente novamente mais tarde"
+
+#: h5p/views.py:228
+#, python-format
+msgid "The H5P %s was successfully created in the topic %s!"
+msgstr "O recurso H5P %s foi criado com sucessor no tópico %s!"
+
+#: h5p/views.py:325
+msgid "Update H5P"
+msgstr "Atualizar recurso H5P"
+
+#: h5p/views.py:336
+#, python-format
+msgid "The H5P %s of the topic %s was updated successfully!"
+msgstr "O recurso H5P %s do tópico %s foi atualizado com sucesso!"
+
+#: h5p/views.py:367
+#, python-format
+msgid "The H5P %s of the topic %s was removed successfully!"
+msgstr "O recurso H5P %s do tópico %s foi removido com sucesso!"
+
+#: h5p/views.py:443
+msgid "H5P Reports"
+msgstr "Relatórios H5P"
+
+#: h5p/views.py:481
+msgid "Realized"
+msgstr "Realizado"
+
+#: h5p/views.py:482
+msgid "Unrealized"
+msgstr "Não realizado"
+
+#: h5p/views.py:483
+msgid "Historic"
+msgstr "Histórico"
+
+#: h5p/views.py:542 h5p/views.py:607
+msgid "View"
+msgstr "Visualizar"
+
+#: h5p/views.py:567 h5p/views.py:608
+msgid "Start"
+msgstr "Iniciar"
+
+#: h5p/views.py:592 h5p/views.py:609
+msgid "Finish"
+msgstr "Finalizar"
+
+#: h5p/views.py:619
+msgid "Actions about resource"
+msgstr "Ações sobre o recurso"
+
+#: h5p/views.py:620
+msgid "Quantity"
+msgstr "Quantidade"
+
+#: h5p/views.py:674
+msgid "[Photo]"
+msgstr "[Foto]"
+
+#: h5p/views.py:690
+#, python-format
+msgid "Last message in %s"
+msgstr "Última mensagem em %s"
+
+#: h5p/views.py:706
+msgid "The message was successfull sent!"
+msgstr "A mensagem foi enviada com sucesso!"
+
+#: h5p/views.py:709
+msgid "No user selected!"
+msgstr "Nenhum usuário selecionado!"

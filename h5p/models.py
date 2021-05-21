@@ -204,7 +204,7 @@ class h5p_counters(models.Model):
         unique_together = (('type', 'library_name', 'library_version'))
 
 class H5P(Resource):
-    file = models.FileField(_('H5P Resource'), upload_to='h5p_resource/')
+    file = models.FileField(_('H5P Package'), upload_to='h5p_resource/')
     data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False)
     data_end = models.DateTimeField(_('End Date'), auto_now_add = False)
     h5p_resource = models.ForeignKey(h5p_contents, verbose_name = _("H5P content"), related_name = "h5p_actual_content", null = True)
