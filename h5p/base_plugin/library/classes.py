@@ -1784,7 +1784,7 @@ class H5PContentValidator:
                         "Invalid selected option in multi-select.")
                     del select[key]
                 else:
-                    select[key] = cgi.escape(value, True)
+                    select[key] = html.escape(value, True)
         else:
             # Single mode. If we get an array in here, we chop off the first
             # element and use that instead.
@@ -1796,7 +1796,7 @@ class H5PContentValidator:
                     "Invalid selected option in select.")
                 select = semantics[options[0]['value']]
 
-            select = cgi.escape(select, True)
+            select = html.escape(select, True)
 
     ##
     # Validate given list value against list semantics.
@@ -1826,9 +1826,9 @@ class H5PContentValidator:
             f['path'] = matches.group(4)
 
         # Make sure path and mime does not have any special chars
-        f['path'] = cgi.escape(f['path'], True)
+        f['path'] = html.escape(f['path'], True)
         if 'mime' in f:
-            f['mime'] = cgi.escape(f['mime'], True)
+            f['mime'] = html.escape(f['mime'], True)
 
         # Remove attributes that should not exist, they may contain JSON escape
         # code.
@@ -1845,7 +1845,7 @@ class H5PContentValidator:
             f['height'] = int(f['height'])
 
         if 'codecs' in f:
-            f['codecs'] = cgi.escape(f['codecs'], True)
+            f['codecs'] = html.escape(f['codecs'], True)
 
         if 'quality' in f:
             if not isinstance(f['quality'], object) or not 'level' in f['quality'] or not 'label' in f['quality']:
@@ -1853,7 +1853,7 @@ class H5PContentValidator:
             else:
                 self.filterParams(f['quality'], ["level", "label"])
                 f['quality']['level'] = int(f['quality']['level'])
-                f['quality']['label'] = cgi.escape(f['equality']['label'], True)
+                f['quality']['label'] = html.escape(f['equality']['label'], True)
 
         if 'copyright' in f:
             self.validateGroup(f['copyright'], self.getCopyrightSemantics())
