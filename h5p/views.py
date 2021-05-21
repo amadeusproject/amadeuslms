@@ -86,10 +86,10 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
             self.request.GET['contentId'] = str(self.object.h5p_resource.content_id)
             self.request.GET['embed_type'] = "div"
+            h5pLoad(self.request)
 
             self.request.GET._mutable = _mutable
 
-            h5pLoad(self.request)
             content = includeH5p(self.request)
             context["h5p_html"] = content["html"]
             context["data"] = content["data"]

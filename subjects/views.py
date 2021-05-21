@@ -93,6 +93,8 @@ from questionary.serializers import (
     CompleteQuestionarySerializer,
 )
 from questionary.models import Questionary
+from h5p.serializers import SimpleH5PSerializer, CompleteH5PSerializer
+from h5p.models import H5P
 
 from amadeus.permissions import (
     has_category_permissions,
@@ -1061,6 +1063,7 @@ def realize_backup(request, subject):
     goals = Goals.objects.filter(id__in=resources_ids)
     webconferences = Webconference.objects.filter(id__in=resources_ids)
     questionaries = Questionary.objects.filter(id__in=resources_ids)
+    h5p_resources = H5P.objects.filter(id__in=resources_ids)
 
     for filelink in filelinks:
         if bool(filelink.file_content):
@@ -1113,6 +1116,15 @@ def realize_backup(request, subject):
 
                     zf.write(alt.alt_img.path, zip_path)
 
+    for h5p_resource in h5p_resources:
+        if bool(h5p_resource.file):
+            if os.path.exists(h5p_resource.file.path):
+                file_directory, file_name = os.path.split(h5p_resource.file.path)
+
+                zip_path = os.path.join("h5p_resource", file_name)
+
+                zf.write(h5p_resource.file.path, zip_path)
+
     file = open("backup.json", "w")
 
     data_list = {}
@@ -1144,6 +1156,7 @@ def realize_backup(request, subject):
         serializer_g = CompleteGoalSerializer(goals, many=True)
         serializer_c = CompleteWebconferenceSerializer(webconferences, many=True)
         serializer_q = CompleteQuestionarySerializer(questionaries, many=True)
+        serializer_h = CompleteH5PSerializer(h5p_resources, many=True)
     else:
         serializer_b = SimpleBulletinSerializer(bulletins, many=True)
         serializer_w = SimpleWebpageSerializer(webpages, many=True)
@@ -1154,6 +1167,7 @@ def realize_backup(request, subject):
         serializer_g = SimpleGoalSerializer(goals, many=True)
         serializer_c = SimpleWebconferenceSerializer(webconferences, many=True)
         serializer_q = SimpleQuestionarySerializer(questionaries, many=True)
+        serializer_h = SimpleH5PSerializer(h5p_resources, many=True)
 
     if len(serializer_b.data) > 0:
         data_list["resources"].append(serializer_b.data)
@@ -1181,6 +1195,9 @@ def realize_backup(request, subject):
 
     if len(serializer_q.data) > 0:
         data_list["resources"].append(serializer_q.data)
+
+    if len(serializer_h.data) > 0:
+        data_list["resources"].append(serializer_h.data)
 
     json.dump(data_list, file)
 
@@ -1413,6 +1430,27 @@ def realize_restore(request, subject):
                                         data=line,
                                         many=True,
                                         context={"subject": subject.slug},
+                                    )
+                            elif line[0]["_my_subclass"] == "h5p":
+                                if "students" in line[0]:
+                                    serial = CompleteH5PSerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
+                                    )
+                                else:
+                                    serial = SimpleH5PSerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
                                     )
 
                             serial.is_valid()

@@ -159,7 +159,6 @@ class H5PDjango:
             libraryId = h5p_libraries.objects.filter(
                 machine_name=machineName).values('library_id')
         else:
-            print(machineName + " " + str(majorVersion) + " " + str(minorVersion))
             libraryId = h5p_libraries.objects.filter(
                 machine_name=machineName, major_version=majorVersion, minor_version=minorVersion).values('library_id')
 

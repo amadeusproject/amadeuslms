@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 20:35+0000\n"
+"POT-Creation-Date: 2021-05-21 21:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,7 +122,7 @@ msgid "Last Name"
 msgstr "Sobrenome"
 
 #: users/models.py:61 users/templates/users/list.html:69
-#: users/templates/users/profile.html:72 users/templates/users/search.html:60
+#: users/templates/users/profile.html:78 users/templates/users/search.html:60
 msgid "Description"
 msgstr "Descrição"
 
@@ -248,7 +248,7 @@ msgstr "Pesquisar..."
 msgid "Create User"
 msgstr "Criar Usuário"
 
-#: users/templates/users/list.html:71 users/templates/users/profile.html:75
+#: users/templates/users/list.html:71 users/templates/users/profile.html:81
 #: users/templates/users/search.html:62
 msgid "Not Informed"
 msgstr "Não Informado"
@@ -308,19 +308,19 @@ msgstr "Digite a nova senha"
 msgid "Reset"
 msgstr "Restaurar"
 
-#: users/templates/users/profile.html:52
+#: users/templates/users/profile.html:58
 msgid "System Admin"
 msgstr "Administrador do sistema"
 
-#: users/templates/users/profile.html:56
+#: users/templates/users/profile.html:62
 msgid "Coordinator in"
 msgstr "Coordenador em"
 
-#: users/templates/users/profile.html:60
+#: users/templates/users/profile.html:66
 msgid "Professor in"
 msgstr "Professor em"
 
-#: users/templates/users/profile.html:64
+#: users/templates/users/profile.html:70
 msgid "Student in"
 msgstr "Estudante em"
 

@@ -6330,40 +6330,40 @@
         $video = $('<iframe>')
             .attr('frameborder', 0)
             .attr('src', '//www.youtube.com/embed/' + youtubeId)
-            .attr('width', '640').attr('height', '360');
+            .attr('width', '280').attr('height', '150');
       } else if (igMatch && igMatch[0].length) {
         $video = $('<iframe>')
             .attr('frameborder', 0)
             .attr('src', 'https://instagram.com/p/' + igMatch[1] + '/embed/')
-            .attr('width', '612').attr('height', '710')
+            .attr('width', '306').attr('height', '355')
             .attr('scrolling', 'no')
             .attr('allowtransparency', 'true');
       } else if (vMatch && vMatch[0].length) {
         $video = $('<iframe>')
             .attr('frameborder', 0)
             .attr('src', vMatch[0] + '/embed/simple')
-            .attr('width', '600').attr('height', '600')
+            .attr('width', '280').attr('height', '280')
             .attr('class', 'vine-embed');
       } else if (vimMatch && vimMatch[3].length) {
         $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
             .attr('frameborder', 0)
             .attr('src', '//player.vimeo.com/video/' + vimMatch[3])
-            .attr('width', '640').attr('height', '360');
+            .attr('width', '280').attr('height', '150');
       } else if (dmMatch && dmMatch[2].length) {
         $video = $('<iframe>')
             .attr('frameborder', 0)
             .attr('src', '//www.dailymotion.com/embed/video/' + dmMatch[2])
-            .attr('width', '640').attr('height', '360');
+            .attr('width', '280').attr('height', '150');
       } else if (youkuMatch && youkuMatch[1].length) {
         $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
             .attr('frameborder', 0)
-            .attr('height', '498')
-            .attr('width', '510')
+            .attr('height', '249')
+            .attr('width', '255')
             .attr('src', '//player.youku.com/embed/' + youkuMatch[1]);
       } else if (mp4Match || oggMatch || webmMatch) {
         $video = $('<video controls>')
             .attr('src', url)
-            .attr('width', '640').attr('height', '360');
+            .attr('width', '280').attr('height', '150');
       } else {
         // this is not a known video link. Now what, Cat? Now what?
         return false;

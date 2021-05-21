@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 20:35+0000\n"
+"POT-Creation-Date: 2021-05-21 21:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,16 +170,16 @@ msgstr "Mandar Mensagem"
 
 #: mural/templates/mural/_view.html:64
 #: mural/templates/mural/_view_comment.html:64
-#: mural/templates/mural/list_category.html:70
-#: mural/templates/mural/list_subject.html:70
+#: mural/templates/mural/list_category.html:73
+#: mural/templates/mural/list_subject.html:73
 #: mural/templates/mural/subject_view.html:51
 msgid "Edit"
 msgstr "Editar"
 
 #: mural/templates/mural/_view.html:66
 #: mural/templates/mural/_view_comment.html:66
-#: mural/templates/mural/list_category.html:72
-#: mural/templates/mural/list_subject.html:72
+#: mural/templates/mural/list_category.html:75
+#: mural/templates/mural/list_subject.html:75
 #: mural/templates/mural/subject_view.html:54
 msgid "Remove"
 msgstr "Remover"
@@ -214,29 +214,29 @@ msgstr "Deletar"
 msgid "Mural: General"
 msgstr "Mural: Geral"
 
-#: mural/templates/mural/list.html:29
-#: mural/templates/mural/list_category.html:31
-#: mural/templates/mural/list_subject.html:31
+#: mural/templates/mural/list.html:30
+#: mural/templates/mural/list_category.html:32
+#: mural/templates/mural/list_subject.html:33
 msgid "General"
 msgstr "Geral"
 
-#: mural/templates/mural/list.html:30
-#: mural/templates/mural/list_category.html:32
-#: mural/templates/mural/list_subject.html:32
+#: mural/templates/mural/list.html:31
+#: mural/templates/mural/list_category.html:33
+#: mural/templates/mural/list_subject.html:34
 msgid "Per Category"
 msgstr "Por Categoria"
 
-#: mural/templates/mural/list.html:31
-#: mural/templates/mural/list_category.html:33
-#: mural/templates/mural/list_subject.html:33
+#: mural/templates/mural/list.html:33
+#: mural/templates/mural/list_category.html:35
+#: mural/templates/mural/list_subject.html:36
 msgid "Per Subject"
 msgstr "Por Assunto"
 
-#: mural/templates/mural/list.html:38 mural/templates/mural/list.html:84
-#: mural/templates/mural/list_category.html:86
-#: mural/templates/mural/list_category.html:135
-#: mural/templates/mural/list_subject.html:86
-#: mural/templates/mural/list_subject.html:135
+#: mural/templates/mural/list.html:41 mural/templates/mural/list.html:87
+#: mural/templates/mural/list_category.html:89
+#: mural/templates/mural/list_category.html:138
+#: mural/templates/mural/list_subject.html:89
+#: mural/templates/mural/list_subject.html:138
 #: mural/templates/mural/resource_view.html:50
 #: mural/templates/mural/resource_view.html:96
 #: mural/templates/mural/subject_view.html:65
@@ -244,11 +244,11 @@ msgstr "Por Assunto"
 msgid "Filter"
 msgstr "Filtrar"
 
-#: mural/templates/mural/list.html:43 mural/templates/mural/list.html:89
-#: mural/templates/mural/list_category.html:91
-#: mural/templates/mural/list_category.html:140
-#: mural/templates/mural/list_subject.html:91
-#: mural/templates/mural/list_subject.html:140
+#: mural/templates/mural/list.html:46 mural/templates/mural/list.html:92
+#: mural/templates/mural/list_category.html:94
+#: mural/templates/mural/list_category.html:143
+#: mural/templates/mural/list_subject.html:94
+#: mural/templates/mural/list_subject.html:143
 #: mural/templates/mural/resource_view.html:55
 #: mural/templates/mural/resource_view.html:101
 #: mural/templates/mural/subject_view.html:70
@@ -256,11 +256,11 @@ msgstr "Filtrar"
 msgid "Favorite posts"
 msgstr "Postagens favoritas"
 
-#: mural/templates/mural/list.html:48 mural/templates/mural/list.html:94
-#: mural/templates/mural/list_category.html:96
-#: mural/templates/mural/list_category.html:145
-#: mural/templates/mural/list_subject.html:96
-#: mural/templates/mural/list_subject.html:145
+#: mural/templates/mural/list.html:51 mural/templates/mural/list.html:97
+#: mural/templates/mural/list_category.html:99
+#: mural/templates/mural/list_category.html:148
+#: mural/templates/mural/list_subject.html:99
+#: mural/templates/mural/list_subject.html:148
 #: mural/templates/mural/resource_view.html:60
 #: mural/templates/mural/resource_view.html:106
 #: mural/templates/mural/subject_view.html:75
@@ -268,17 +268,17 @@ msgstr "Postagens favoritas"
 msgid "Only my posts"
 msgstr "Apenas minhas postagens"
 
-#: mural/templates/mural/list.html:62
-#: mural/templates/mural/list_category.html:110
-#: mural/templates/mural/list_subject.html:110
+#: mural/templates/mural/list.html:65
+#: mural/templates/mural/list_category.html:113
+#: mural/templates/mural/list_subject.html:113
 #: mural/templates/mural/resource_view.html:74
 #: mural/templates/mural/subject_view.html:89
 msgid "Wish to make a new post?"
 msgstr "Deseja fazer uma nova postagem?"
 
-#: mural/templates/mural/list.html:80
-#: mural/templates/mural/list_category.html:131
-#: mural/templates/mural/list_subject.html:131
+#: mural/templates/mural/list.html:83
+#: mural/templates/mural/list_category.html:134
+#: mural/templates/mural/list_subject.html:134
 #: mural/templates/mural/resource_view.html:92
 #: mural/templates/mural/subject_view.html:107
 msgid "There are no posts in this mural yet."
@@ -288,14 +288,14 @@ msgstr "Ainda não existe nenhuma postagem nesse mural."
 msgid "Mural: Per Category"
 msgstr "Mural: Por Categoria"
 
-#: mural/templates/mural/list_category.html:69
-#: mural/templates/mural/list_subject.html:68
+#: mural/templates/mural/list_category.html:72
+#: mural/templates/mural/list_subject.html:71
 #: mural/templates/mural/subject_view.html:49
 msgid "Replicate"
 msgstr "Replicar"
 
-#: mural/templates/mural/list_category.html:120
-#: mural/templates/mural/list_subject.html:120
+#: mural/templates/mural/list_category.html:123
+#: mural/templates/mural/list_subject.html:123
 msgid "See more posts"
 msgstr "Ver mais postagens"
 
@@ -303,7 +303,7 @@ msgstr "Ver mais postagens"
 msgid "Mural: Per Subject"
 msgstr "Mural: Por Assunto"
 
-#: mural/templates/mural/list_subject.html:71
+#: mural/templates/mural/list_subject.html:74
 #: mural/templates/mural/subject_view.html:52
 msgid "Groups"
 msgstr "Grupos"
