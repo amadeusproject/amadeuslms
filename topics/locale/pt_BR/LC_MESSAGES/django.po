@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 20:35+0000\n"
+"POT-Creation-Date: 2021-05-21 21:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,20 +126,21 @@ msgstr "Editar"
 #: topics/templates/resources/list.html:58
 #: topics/templates/resources/list.html:60
 #: topics/templates/resources/list.html:62
+#: topics/templates/resources/list.html:65
 msgid "Reports"
 msgstr "Relatórios"
 
-#: topics/templates/resources/list.html:64 topics/templates/topics/list.html:41
+#: topics/templates/resources/list.html:67 topics/templates/topics/list.html:41
 msgid "Remove"
 msgstr "Remover"
 
-#: topics/templates/resources/list.html:75
+#: topics/templates/resources/list.html:78
 #, fuzzy
 #| msgid "Last Update"
 msgid "Init date"
 msgstr "Última Atualização"
 
-#: topics/templates/resources/list.html:78
+#: topics/templates/resources/list.html:81
 msgid "End date"
 msgstr ""
 
@@ -184,8 +185,8 @@ msgid "YouTube Video"
 msgstr "Video do YouTube"
 
 #: topics/templates/topics/list.html:70
-msgid "Forum"
-msgstr "Fórum"
+msgid "H5P"
+msgstr ""
 
 #: topics/templates/topics/list.html:71
 msgid "File Link"
@@ -235,6 +236,9 @@ msgstr ""
 #, python-format
 msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
+
+#~ msgid "Forum"
+#~ msgstr "Fórum"
 
 #~ msgid "Video Embed"
 #~ msgstr "Embed de Vídeo"

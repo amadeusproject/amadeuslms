@@ -22,6 +22,8 @@ from .base_plugin.classes import H5PDjango
 from .base_plugin.module import h5pInsert, h5pGetContent
 from .base_plugin.editor.editormodule import createContent
 
+from file_resubmit.widgets import ResubmitFileWidget
+
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
 
@@ -40,10 +42,11 @@ def handleUploadedFile(files, filename):
     return {'folderPath': tmpdir, 'path': os.path.join(tmpdir, filename)}
 
 class H5PForm(forms.ModelForm):
+    MAX_UPLOAD_SIZE = 10 * 1024 * 1024
+
     subject = None
     control_subject = forms.CharField(widget=forms.HiddenInput())
     students = ParticipantsMultipleChoiceField(queryset=None, required=False)
-    h5p = forms.FileField(label=_('HTML 5 Package'), required=False)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
@@ -70,6 +73,7 @@ class H5PForm(forms.ModelForm):
         model = H5P
         fields = [
             "name",
+            "file",
             "data_ini",
             "data_end",
             "brief_description",
@@ -78,18 +82,18 @@ class H5PForm(forms.ModelForm):
             "groups",
             "show_window",
             "visible",
-            "h5p",
         ]
         widgets = {
             "brief_description": forms.Textarea,
             "students": forms.SelectMultiple,
             "groups": forms.SelectMultiple,
+            "file": ResubmitFileWidget(),
         }
 
     def clean(self):
         cleaned_data = super(H5PForm, self).clean()
 
-        h5pfile = cleaned_data.get('h5p')
+        h5pfile = cleaned_data.get('file')
         
         if h5pfile:
             interface = H5PDjango(self.request.user)
@@ -135,7 +139,7 @@ class H5PForm(forms.ModelForm):
 
             if same_name > 0:
                 self.add_error(
-                    "name", _("This subject already has a questionary with this name")
+                    "name", _("This subject already has a h5p resource with this name")
                 )
 
                 break

@@ -39,8 +39,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     </div>
 
     <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
-        <label for="{{ form.h5p.auto_id }}">{{ form.h5p.label }}</label>
-        {% render_field form.h5p class='file-selector' data-max_size="10" %}
+        <label for="{{ form.file.auto_id }}">{{ form.file.label }} <span>*</span></label>
+        {% render_field form.file class='file-selector' data-max_size="10" %}
         
         <div class="input-group common-file-input">
             <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
@@ -52,21 +52,27 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
         
         <div class="filedrag">
-            {% trans 'Click or drop the file here' %}<br />
-        
-            <small>{% trans 'The file could not exceed 10MB.' %}</small>
+            {% if resource %}
+                <i class="fa fa-file-archive-o"></i> <br />
+                
+                <small>{{ resource.filename }}</small>
+            {% else %}
+                {% trans 'Click or drop the file here' %}<br />
+            
+                <small>{% trans 'The file could not exceed 10MB.' %}</small>
+            {% endif %}
         </div>
         
-        <span id="helpBlock" class="help-block">{{ form.h5p.help_text }}</span>
+        <span id="helpBlock" class="help-block">{{ form.file.help_text }}</span>
     </div>
 
-    {% if form.h5p.errors %}
+    {% if form.file.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <ul>
-                {% for error in form.h5p.errors %}
+                {% for error in form.file.errors %}
                 <li>{{ error }}</li>
                 {% endfor %}
             </ul>

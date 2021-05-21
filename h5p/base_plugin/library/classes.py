@@ -1,6 +1,7 @@
 import os
 import re
 import cgi
+import html
 import json
 import glob
 import math
@@ -914,7 +915,7 @@ class H5PExport:
 class H5PCore:
     coreApi = {
         "majorVersion": 1,
-        "minorVersion": 12
+        "minorVersion": 19
     }
 
     styles = [
@@ -1032,8 +1033,9 @@ class H5PCore:
     # Filter content run parameters, rebuild content dependency cache and export file.
     ##
     def filterParameters(self, content):
-        if not empty(content["filtered"]) and (not self.exportEnabled or (content["slug"] and self.fs.hasExport(content["slug"] + "-" + content["id"] + ".h5p"))):
-            return content["filtered"]
+        print(str(content) + '\n')
+        #if not empty(content["filtered"]) and (not self.exportEnabled or (content["slug"] and self.fs.hasExport(content["slug"] + "-" + content["id"] + ".h5p"))):
+        #    return content["filtered"]
 
         # Validate and filter against main library semantics.
         validator = H5PContentValidator(self.h5pF, self)
@@ -1051,7 +1053,7 @@ class H5PCore:
 
         # Update content dependencies
         content["dependencies"] = validator.getDependencies()
-
+        print("Content dep: " + str(content["dependencies"]) + '\n')
         # Sometimes the parameters are filtered before content has been
         # created
         if content["id"]:
@@ -1101,6 +1103,7 @@ class H5PCore:
     ##
     def loadContentDependencies(self, pid, ptype=None):
         dependencies = self.h5pF.loadContentDependencies(pid, ptype)
+        
         if self.development_mode and H5PDevelopment.MODE_LIBRARY:
             developmentLibraries = self.h5pD.getLibraries()
 
@@ -1538,8 +1541,8 @@ class H5PCore:
 
         if not libString:
             libString = self.libraryToString(library)
-
-        if not libString in libraryIdMap:
+        
+        if not libString in libraryIdMap or libraryIdMap[libString] is None:
             libraryIdMap[libString] = self.h5pF.getLibraryId(
                 library["machineName"], library["majorVersion"], library["minorVersion"])
 
@@ -1682,7 +1685,7 @@ class H5PContentValidator:
 
             text = self.filterXss(text, tags, stylePatterns)
         else:
-            text = cgi.escape(text, True)
+            text = html.escape(text, True)
 
         if 'maxLength' in semantics:
             text = text[0:semantics['maxLength']]

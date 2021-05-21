@@ -9,6 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
+import os
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -203,6 +204,7 @@ class h5p_counters(models.Model):
         unique_together = (('type', 'library_name', 'library_version'))
 
 class H5P(Resource):
+    file = models.FileField(_('H5P Package'), upload_to='h5p_resource/')
     data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False)
     data_end = models.DateTimeField(_('End Date'), auto_now_add = False)
     h5p_resource = models.ForeignKey(h5p_contents, verbose_name = _("H5P content"), related_name = "h5p_actual_content", null = True)
@@ -210,6 +212,10 @@ class H5P(Resource):
     class Meta:
         verbose_name = _("H5P")
         verbose_name_plural = _("H5Ps")
+
+    @property
+    def filename(self):
+        return os.path.basename(self.file.name)
 
     def __str__(self):
         return self.name
