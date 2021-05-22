@@ -1,4 +1,5 @@
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,3 +25,12 @@ CHANNEL_LAYERS = {
         "ROUTING": "amadeus.routing.channel_routing",
     }
 }
+
+# for testing
+command_line = ",".join(sys.argv)
+if 'test' in command_line or 'test\_coverage' in command_line or 'pytest' in command_line:  # Covers regular testing and django-coverage
+    DATABASES = {
+        "default": {}
+    }
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = ':memory:'

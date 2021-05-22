@@ -11,12 +11,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 import os
+import sys
 
 import dj_database_url
-
 from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
-from django.utils.translation import ugettext_lazy as _
 from django.conf.urls import handler404, handler500, handler403, handler400
+from django.utils.translation import ugettext_lazy as _
 
 db_from_ev = dj_database_url.config(conn_max_age=500)
 
@@ -339,3 +339,5 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+
