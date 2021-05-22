@@ -11,14 +11,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 import re
-
 from os import path
-from django.db import models
-from django.core import validators
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core import validators
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from log.models import Log
 
@@ -38,7 +38,6 @@ def validate_img_extension(value):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-
     email = models.EmailField(
         _("Mail"),
         unique=True,
@@ -118,4 +117,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.is_staff:
             return _("Yes")
         return _("Is not an admin")
-

@@ -66,6 +66,7 @@ from oauth2_provider.contrib.rest_framework.permissions import (
     IsAuthenticatedOrTokenHasScope,
 )
 
+
 # ================ ADMIN =======================
 class UsersListView(
     braces_mixins.LoginRequiredMixin,
@@ -82,8 +83,8 @@ class UsersListView(
     def get_queryset(self):
         users = (
             User.objects.all()
-            .order_by("social_name", "username")
-            .exclude(email=self.request.user.email)
+                .order_by("social_name", "username")
+                .exclude(email=self.request.user.email)
         )
 
         return users
@@ -126,9 +127,9 @@ class SearchView(
                 | Q(social_name__icontains=search)
                 | Q(email__icontains=search)
             )
-            .distinct()
-            .order_by("social_name", "username")
-            .exclude(email=self.request.user.email)
+                .distinct()
+                .order_by("social_name", "username")
+                .exclude(email=self.request.user.email)
         )
 
         return users
@@ -782,4 +783,3 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     authentication_classes = [OAuth2Authentication]
     permissions_classes = (IsAuthenticatedOrTokenHasScope,)
-
