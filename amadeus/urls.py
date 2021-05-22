@@ -17,7 +17,7 @@ from django.contrib import admin
 
 from rest_framework.documentation import include_docs_urls
 
-from .views import index, handler404_view
+from .views import index, handler404_view, handler500_view, handler400_view, handler403_view
 
 urlpatterns = [
     url(r'^users/', include('users.urls', namespace='users')),
@@ -61,5 +61,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
 handler404 = handler404_view
+handler500 = handler500_view
+handler403 = handler403_view
+handler400 = handler400_view

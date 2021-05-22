@@ -24,3 +24,15 @@ def index(request):
 
 def handler404_view(request):
     return redirect(reverse_lazy("users:login"))
+
+
+def handler403_view(request):
+    return redirect(reverse_lazy("users:login"))
+
+
+def handler500_view(request):
+    return redirect(reverse_lazy("users:login"))
+
+
+def handler400_view(request):
+    return redirect(reverse_lazy("users:login"))
