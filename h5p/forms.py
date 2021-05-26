@@ -95,7 +95,7 @@ class H5PForm(forms.ModelForm):
 
         h5pfile = cleaned_data.get('file')
         
-        if h5pfile:
+        if "file" in self.request.FILES:
             interface = H5PDjango(self.request.user)
             paths = handleUploadedFile(h5pfile, h5pfile.name)
             validator = interface.h5pGetInstance(
