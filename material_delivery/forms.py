@@ -212,8 +212,6 @@ class SupportMaterialForm(forms.ModelForm):
         }
 
     def clean_file(self):
-        print("ahhahahahahaha")
-        print(self.cleaned_data)
         file = self.cleaned_data.get("file", False)
 
         if file:

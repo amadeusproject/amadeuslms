@@ -310,3 +310,143 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         success_url = reverse_lazy("material_delivery:view", kwargs={"slug": self.object.slug})
 
         return success_url
+
+class UpdateView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
+    log_component = "resources"
+    log_action = "update"
+    log_resource = "materialdelivery"
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "material_delivery/update.html"
+
+    model = MaterialDelivery
+    form_class = MaterialDeliveryForm
+
+    context_object_name = "material_delivery"
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get("topic_slug", "")
+        topic = get_object_or_404(Topic, slug=slug)
+
+        if not has_subject_permissions(request.user, topic.subject):
+            return redirect(reverse_lazy("subjects:home"))
+
+        return super(UpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        support_materials_form = InlineSupportMaterialFormset(instance=self.object)
+
+        return self.render_to_response(
+            self.get_context_data(form=form, support_materials_form=support_materials_form)
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        support_materials_form = InlineSupportMaterialFormset(request.POST, request.FILES, instance=self.object)
+
+        if form.is_valid() and support_materials_form.is_valid():
+            return self.form_valid(form, support_materials_form)
+        else:
+            return self.form_invalid(form, support_materials_form)
+
+    def form_invalid(self, form, support_materials_form):
+        return self.render_to_response(
+            self.get_context_data(form=form, support_materials_form=support_materials_form)
+        )
+
+    def form_valid(self, form, support_materials_form):
+        self.object = form.save(commit=False)
+
+        if self.object.students.count() <= 0:
+            self.object.all_students = True
+        else:
+            self.object.all_students = False
+
+        if not self.object.topic.visible and not self.object.topic.repository:
+            self.object.visible = False
+
+        self.object.save()
+
+        pendency = Pendencies.objects.filter(resource=self.object).first()
+
+        if not pendency is None:
+            pendency.begin_date = self.object.data_ini
+            pendency.end_date = self.object.data_end
+            pendency.limit_date = self.object.data_end
+        else:
+            pendency = Pendencies()
+            pendency.action = "submit"
+            pendency.begin_date = self.object.data_ini
+            pendency.end_date = self.object.data_end
+            pendency.limit_date = self.object.data_end
+            pendency.resource = self.object
+
+        pendency.save()
+
+        support_materials_form.instance = self.object
+        support_materials_form.save(commit=False)
+
+        for mform in support_materials_form.forms:
+            msform = mform.save(commit=True)
+
+            if msform.file is None:
+                msform.delete()
+        
+        for item in support_materials_form.deleted_objects:
+            item.delete()
+
+        self.log_context["category_id"] = self.object.topic.subject.category.id
+        self.log_context["category_name"] = self.object.topic.subject.category.name
+        self.log_context["category_slug"] = self.object.topic.subject.category.slug
+        self.log_context["subject_id"] = self.object.topic.subject.id
+        self.log_context["subject_name"] = self.object.topic.subject.name
+        self.log_context["subject_slug"] = self.object.topic.subject.slug
+        self.log_context["topic_id"] = self.object.topic.id
+        self.log_context["topic_name"] = self.object.topic.name
+        self.log_context["topic_slug"] = self.object.topic.slug
+        self.log_context["materialdelivery_id"] = self.object.id
+        self.log_context["materialdelivery_name"] = self.object.name
+        self.log_context["materialdelivery_slug"] = self.object.slug
+
+        super(UpdateView, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+
+        context["title"] = _("Update Material Delivery")
+
+        slug = self.kwargs.get("topic_slug", "")
+        topic = get_object_or_404(Topic, slug=slug)
+
+        context["topic"] = topic
+        context["subject"] = topic.subject
+        context["mimeTypes"] = valid_formats
+
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, _("The Material Delivery %s of the topic %s was updated successfully!") % (self.object.name, self.object.topic.name))
+
+        success_url = reverse_lazy("material_delivery:view", kwargs={"slug": self.object.slug})
+
+        return success_url
