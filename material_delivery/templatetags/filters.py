@@ -10,14 +10,22 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.conf.urls import url
-from django.contrib.auth import views as auth_views
+import random
+from datetime import datetime
+from django import template
+register = template.Library()
 
-from . import views
+@register.filter('enable_upload')
+def enable_upload(begin_date, end_date):
+    enable = False
 
-urlpatterns = [
-    url(r"^create/(?P<slug>[\w_-]+)/$", views.CreateView.as_view(), name="create"),
-    url(r"^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$", views.CreateView.as_view(), name="update"),
-    url(r"^delete/(?P<slug>[\w_-]+)/$", views.CreateView.as_view(), name="delete"),
-    url(r"^view/(?P<slug>[\w_-]+)/$", views.DetailView.as_view(), name="view"),
-]
+    today = datetime.today()
+
+    if begin_date.date() < today.date() < end_date.date():
+        enable = True
+    elif begin_date.date() == today.date() and begin_date.time() <= today.time():
+        enable = True
+    elif end_date.date() == today.date() and today.time() < end_date.time():
+        enable = True
+    
+    return enable

@@ -59,7 +59,7 @@ def validate_file_extension(value):
             raise ValidationError(_('File not supported, use PDF format instead.'))
 
 class MaterialDelivery(Resource):
-    presentation = models.TextField(_('Presentation'), blank = True)
+    presentation = models.TextField(_('Presentation'), blank = False)
     data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False)
     data_end = models.DateTimeField(_('End Date'), auto_now_add = False)
 
@@ -88,9 +88,12 @@ class MaterialDelivery(Resource):
     def get_data_end(self):
         return self.data_end
 
+def get_upload_support_path(instance, filename):
+    return os.path.join("material_delivery", ("deliver_%d" % instance.delivery.id), "support", filename)
+
 class SupportMaterial(models.Model):
     delivery = models.ForeignKey(MaterialDelivery, verbose_name = _('Material Delivery'), related_name = 'support_materials', null = True)
-    file = models.FileField(_('File'), upload_to=get_upload_path, validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to=get_upload_support_path, validators = [validate_file_extension])
 
     class Meta:
         verbose_name = "Support Material"
@@ -100,9 +103,6 @@ class SupportMaterial(models.Model):
     def filename(self):
         return os.path.basename(self.file.name)
 
-    def get_upload_path(instance, filename):
-        return os.path.join("material_delivery", ("deliver_%d" % instance.delivery.id), "support", filename)
-
 class StudentDeliver(models.Model):
     delivery = models.ForeignKey(MaterialDelivery, verbose_name = _('Material Delivery'), related_name = 'student_deliver', null = True)
     student = models.ForeignKey(User, verbose_name = _('User'), related_name = 'studentdeliver_user', null = True)
@@ -111,10 +111,13 @@ class StudentDeliver(models.Model):
         verbose_name = "Student Deliver"
         verbose_name_plural = "Students Deliver"
 
+def get_upload_student_path(instance, filename):
+    return os.path.join("material_delivery", "students_materials", ("user_%d" % instance.deliver.student.id), ("deliver_%d" % instance.deliver.id), filename)
+
 class StudentMaterial(models.Model):
     deliver = models.ForeignKey(StudentDeliver, verbose_name = _('Student Deliver'), related_name = 'material_deliver', null = True)
     commentary = models.TextField(_('Commentary'), blank = True)
-    file = models.FileField(_('File'), upload_to=get_upload_path, validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to=get_upload_student_path, validators = [validate_file_extension])
     upload_date = models.DateTimeField(_('Upload Date'), auto_now_add = True)
 
     class Meta:
@@ -125,14 +128,15 @@ class StudentMaterial(models.Model):
     def filename(self):
         return os.path.basename(self.file.name)
 
-    def get_upload_path(instance, filename):
-        return os.path.join("material_delivery", "students_materials", ("user_%d" % instance.deliver.student.id), ("deliver_%d" % instance.deliver.id), filename)
+def get_upload_teacher_path(instance, filename):
+    return os.path.join("material_delivery", "teacher_evaluations", ("user_%d" % instance.teacher.id), ("deliver_%d" % instance.deliver.id), filename)
 
 class TeacherEvaluation(models.Model):
-    deliver = models.ForeignKey(StudentDeliver, verbose_name = _('Student Deliver'), related_name = 'material_deliver', null = True)
+    deliver = models.ForeignKey(StudentDeliver, verbose_name = _('Student Deliver'), related_name = 'student_deliver', null = True)
+    evaluation = models.PositiveSmallIntegerField(_("Grade"), null = True)
     commentary = models.TextField(_('Commentary'), blank = True)
     teacher = models.ForeignKey(User, verbose_name = _('User'), related_name = 'teacherevaluation_user', null = True)
-    file = models.FileField(_('File'), upload_to=get_upload_path, validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to=get_upload_teacher_path, validators = [validate_file_extension])
     is_updated = models.BooleanField(_('Is updated?'), default = False)
     evaluation_date = models.DateTimeField(_('Evaluation Date'), auto_now_add = True)
 
@@ -143,7 +147,4 @@ class TeacherEvaluation(models.Model):
     @property
     def filename(self):
         return os.path.basename(self.file.name)
-
-    def get_upload_path(instance, filename):
-        return os.path.join("material_delivery", "teacher_evaluations", ("user_%d" % instance.teacher.id), ("deliver_%d" % instance.deliver.id), filename)
 
