@@ -67,6 +67,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 							  		<li><a href="{% url 'pdf_files:create' topic.slug %}"><i class="fa fa-file-pdf-o"></i> {% trans "PDF File" %}</a></li>
 									<li><a href="{% url 'bulletin:create' topic.slug %}"><i class="fa fa-check-square-o"></i> {% trans "Topic Bulletin" %}</a></li>
 							    	<li><a href="{% url 'youtube:create' topic.slug %}"><i class="fa fa-video-camera"></i> {% trans 'YouTube Video' %}</a></li>
+							    	<li><a href="{% url 'material_delivery:create' topic.slug %}"><i class="fa fa-upload"></i> {% trans 'Material Delivery' %}</a></li>
 							    	<li><a href="{% url 'h5p:create' topic.slug %}"><i class="fa fa-comments-o"></i> {% trans 'H5P' %}</a></li>
 							    	<li><a href="{% url 'file_links:create' topic.slug %}"><i class="fa fa-file-archive-o"></i> {% trans 'File Link' %}</a></li>
 							    	<li><a href="{% url 'links:create' topic.slug %}" > <i class="fa fa-globe"></i> {% trans "Link to Website" %}</a>

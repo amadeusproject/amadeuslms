@@ -1,0 +1,409 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<form id="bulletin" method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+        <label for="{{ form.name.auto_id }}">{{ form.name.label }} <span>*</span></label>
+        {% render_field form.name class='form-control' %}
+    
+        <span id="helpBlock" class="help-block">{{ form.name.help_text }}</span>
+    
+        {% if form.name.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <ul>
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+        <label for="{{ form.presentation.auto_id }}">{{ form.presentation.label }} <span>*</span></label>
+        {% render_field form.presentation class='form-control text_wysiwyg' %}
+    
+        <span id="helpBlock" class="help-block">{{ form.presentation.help_text }}</span>
+    
+        {% if form.presentation.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <ul>
+                {% for error in form.presentation.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="panel-group" id="professors_accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a data-parent="#professors_accordion" data-toggle="collapse" href="#support">
+                            <h4 class="panel-title">
+                                <button class="btn btn-default btn-xs text-center cat-selector"><i
+                                        class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button>
+                                <label>{% trans 'Support Materials' %}</label>
+                            </h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="support" class="panel-collapse collapse" style="text-align: center;">
+                {{ support_materials_form.management_form }}
+    
+                {% if support_materials_form.non_form_errors %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ support_materials_form.non_form_errors }}
+                    </div>
+                {% endif %}
+
+                {% for item in support_materials_form %}
+                    <div class="mats">
+                        <div style="text-align:left">
+                            {% render_field item.id %}
+                    
+                            {% if item.instance.pk %}{{ item.DELETE }}{% endif %}
+                        </div>
+
+                        <div class="form-group{% if item.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ item.file.auto_id }}">
+                            {% render_field item.file class='file-selector' data-max_size="30" data-mimetypes=mimeTypes %}
+                        
+                            <div class="input-group common-file-input">
+                                <input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
+                                <span class="input-group-btn input-group-sm">
+                                    <button type="button" class="btn btn-fab btn-fab-mini">
+                                        <i class="material-icons">attach_file</i>
+                                    </button>
+                                </span>
+                            </div>
+                        
+                            <div class="filedrag">
+                                {% if item.instance.file %}
+                                    <i class="fa fa-file-archive-o"></i> <br />
+                            
+                                    <small>{{ item.instance.filename }}</small>
+                                {% else %}
+                                    {% trans 'Click or drop the file here' %}<br />
+                            
+                                    <small>{% trans 'The file could not exceed 30MB.' %}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if item.file.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <ul>
+                                    {% for error in item.file.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible {{ item.file.auto_id }}-file-errors"
+                            style="display:none" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul>
+                                <li class="size" style="display:none">{% trans "The file is too large. It should have less than 30MB." %}</li>
+                                <li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <br clear="all" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                    <label for="{{ form.data_ini.auto_id }}">{{ form.data_ini.label }} <span>*</span></label>
+                    {% render_field form.data_ini class='form-control datetime-picker' %}
+        
+                    <span id="helpBlock" class="help-block">{{ form.data_ini.help_text }}</span>
+        
+                    {% if form.data_ini.errors %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <ul>
+                            {% for error in form.data_ini.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                    <label for="{{ form.data_end.auto_id }}">{{ form.data_end.label }} <span>*</span></label>
+                    {% render_field form.data_end class='form-control datetime-picker' %}
+        
+                    <span id="helpBlock" class="help-block">{{ form.data_end.help_text }}</span>
+        
+                    {% if form.data_end.errors %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <ul>
+                            {% for error in form.data_end.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <legend>{% trans 'Common resources settings' %}</legend>
+        
+        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+            <label for="{{ form.brief_description.auto_id }}">{{ form.brief_description.label }}</label>
+            {% render_field form.brief_description class='form-control text_wysiwyg' %}
+        
+            <span id="helpBlock" class="help-block">{{ form.brief_description.help_text }}</span>
+        
+            {% if form.brief_description.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    {% for error in form.brief_description.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+            <label for="{{ form.tags.auto_id }}">{{ form.tags.label }}</label>
+            {% render_field form.tags class='form-control' data-role="tagsinput" %}
+        
+            <span id="helpBlock" class="help-block">{{ form.tags.help_text }}</span>
+        
+            {% if form.tags.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    {% for error in form.tags.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a data-parent="#professors_accordion" data-toggle="collapse" href="#students">
+                            <h4 class="panel-title">
+                                <button class="btn btn-default btn-xs text-center cat-selector"><i
+                                        class="fa fa-angle-right fa-2x" aria-hidden="true"></i></button><label
+                                    for="{{ form.students.auto_id }}">{% trans 'Students' %}</label>
+                            </h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="students" class="panel-collapse collapse">
+                <div class="form-group{% if form.has_error %} has-error {% endif %}">
+                    <div class=" checkbox">
+                        <label for="{{ form.all_students.auto_id }}">
+                            {% render_field form.all_students %} {{ form.all_students.label }}
+                        </label>
+                    </div>
+        
+                    <span id="helpBlock" class="help-block">{{ form.all_students.help_text }}</span>
+        
+                    {% if form.all_students.errors %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <ul>
+                            {% for error in form.all_students.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+        
+                <p><em>{% trans 'Attribute students to Material Delivery' %}:</em></p>
+                {% render_field form.students class='form-control' %}
+        
+                <span id="helpBlock" class="help-block">{{ form.students.help_text }}</span>
+        
+                {% if form.students.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul>
+                        {% for error in form.students.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+        
+                <br clear="all" />
+        
+                <p><em>{% trans 'Attribute groups to Material Delivery' %}:</em></p>
+                {% render_field form.groups class='form-control' %}
+        
+                <span id="helpBlock" class="help-block">{{ form.groups.help_text }}</span>
+        
+                {% if form.groups.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul>
+                        {% for error in form.groups.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group{% if form.has_error %} has-error {% endif %}">
+        <div class=" checkbox">
+            <label for="{{ form.show_window.auto_id }}">
+                {% render_field form.show_window %} {{ form.show_window.label }}
+            </label>
+        </div>
+    
+        <span id="helpBlock" class="help-block">{{ form.show_window.help_text }}</span>
+    
+        {% if form.show_window.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    {% for error in form.show_window.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group{% if form.has_error %} has-error {% endif %}">
+        <div class=" checkbox">
+            <label for="{{ form.visible.auto_id }}">
+                {% render_field form.visible %} {{ form.visible.label }}
+            </label>
+        </div>
+    
+        <span id="helpBlock" class="help-block">{{ form.visible.help_text }}</span>
+    
+        {% if form.visible.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    {% for error in form.visible.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+            <input type="submit" value="{% trans 'Save' %}" class="btn btn-success btn-raised btn-block" />
+        </div>
+    
+        <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12 text-center">
+            <a href="{% url 'subjects:topic_view' slug=subject.slug topic_slug=topic.slug %}"
+                class="btn btn-default btn-raised btn-block">{% trans 'Cancel' %}</a>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function() {
+        $(".mats").formset({
+            addText: '<i class="fa fa-plus-circle"></i> {% trans "Add support material" %}',
+            deleteText: '<i class="fa fa-trash"></i>',
+            prefix: '{{ support_materials_form.prefix }}',
+            added: function(row) {
+                let $input = row.find("input[type=file]");
+                let $parent = row.find(".form-group");
+                let $inputGroup = $($parent).find("div.input-group");
+                let $filedrag = $($parent).find(".filedrag");
+                let $alert = row.find(".alert");
+                
+                let inputId = $($input).attr("id");
+                
+                $($parent).data("file_id", inputId);
+                $($alert).removeClass();
+                $($alert).addClass("col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible");
+                $($alert).addClass(`${inputId}-file-errors`);
+
+                $($filedrag).html("{% trans 'Click or drop the file here' %}<br /><small>{% trans 'The file could not exceed 30MB.' %}</small>");
+
+                let content = $($input).wrap("<p/>").parent().html();
+                content += $($inputGroup).wrap("<p/>").parent().html();
+                content += $($filedrag).wrap("<p/>").parent().html();
+                
+                $($parent).html(content);
+
+                Init();
+            }
+        });
+
+        {% if not support_materials_form.is_valid and support_materials_form.is_bound %}
+            $("#support").collapse('toggle');
+        {% endif %}
+    });
+</script>
+<script type="text/javascript" src="{% static 'js/resources.js' %}"></script>
