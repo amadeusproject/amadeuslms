@@ -23,6 +23,8 @@ urlpatterns = [
     url(r"^submit_material/(?P<deliver>[\w_-]+)/$", views.StudentMaterialCreate.as_view(), name="submit_material"),
     url(r"^evaluate/(?P<deliver>[\w_-]+)/$", views.TeacherEvaluate.as_view(), name="evaluate"),
     url(r"^evaluate_update/(?P<deliver>[\w_-]+)/(?P<pk>[\w_-]+)/$", views.TeacherUpdateEvaluation.as_view(), name="evaluate_update"),
+    url(r"^results/(?P<slug>[\w_-]+)/$", views.class_results, name="results"),
+    url(r"^download/(?P<slug>[\w_-]+)/$", views.results_sheet, name="results_sheet"),
     url(
         r"^chart/(?P<slug>[\w_-]+)/$", views.StatisticsView.as_view(), name="get_chart"
     ),

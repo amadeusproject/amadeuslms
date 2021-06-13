@@ -9,12 +9,13 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
-
+import os
 import time
 import json
 import xlwt
 import xlrd
 
+from django.conf import settings
 from django.utils import timezone
 from django.utils import formats
 
@@ -1058,3 +1059,101 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.FormView):
             MaterialDelivery, slug=self.kwargs.get("slug", "")
         )
         return context
+
+def class_results(request, slug):
+    material_delivery = get_object_or_404(MaterialDelivery, slug=slug)
+
+    if material_delivery.all_students:
+        students = User.objects.filter(
+            subject_student=material_delivery.topic.subject
+        ).order_by("username", "last_name")
+    else:
+        students = User.objects.filter(resource_students=material_delivery).order_by(
+            "username", "last_name"
+        )
+
+    data = []
+
+    for student in students:
+        line = {}
+
+        line["student"] = student.fullname
+
+        evaluation = TeacherEvaluation.objects.filter(deliver__student = student)
+        
+        if evaluation.exists():
+            line["grade"] = evaluation.first().evaluation
+        else:
+            line["grade"] = "-"
+    
+        data.append(line)
+    
+    html = render_to_string(
+        "material_delivery/_results.html", {"data": data, "material_delivery": material_delivery}
+    )
+    return JsonResponse({"result": html})
+
+
+def results_sheet(request, slug):
+    material_delivery = get_object_or_404(MaterialDelivery, slug=slug)
+
+    data = []
+        
+    workbook = xlwt.Workbook()
+    worksheet = workbook.add_sheet(u"Resultados do Recurso")
+    worksheet.write(0, 0, u"Estudante")
+    worksheet.write(0, 1, u"Nota")
+
+    line = 1
+    
+    if material_delivery.all_students:
+        students = User.objects.filter(
+            subject_student=material_delivery.topic.subject
+        ).order_by("username", "last_name")
+    else:
+        students = User.objects.filter(resource_students=material_delivery).order_by(
+            "username", "last_name"
+        )
+
+    for student in students:
+        worksheet.write(line, 0, student.fullname())
+
+        evaluation = TeacherEvaluation.objects.filter(deliver__student = student)
+
+        if evaluation.exists():
+            worksheet.write(line, 1, evaluation.first().evaluation)
+        else:
+            worksheet.write(line, 1, "-")
+
+        line = line + 1
+
+    path1 = os.path.join(settings.BASE_DIR, "material_delivery")
+    path2 = os.path.join(path1, "sheets")
+    path3 = os.path.join(path2, "xls")
+
+    filename = str(material_delivery.slug) + ".xls"
+    folder_path = os.path.join(path3, filename)
+
+    # check if the folder already exists
+    if not os.path.isdir(path3):
+        os.makedirs(path3)
+
+    workbook.save(folder_path)
+
+    filepath = os.path.join(
+        "material_delivery", os.path.join("sheets", os.path.join("xls", filename))
+    )
+
+    if not os.path.exists(filepath):
+        raise Http404()
+
+    response = HttpResponse(open(filepath, "rb").read())
+    response["Content-Type"] = "application/force-download"
+    response["Pragma"] = "public"
+    response["Expires"] = "0"
+    response["Cache-Control"] = "must-revalidate, post-check=0, pre-check=0"
+    response["Content-Disposition"] = "attachment; filename=%s" % (filename)
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = str(os.path.getsize(filepath))
+
+    return response

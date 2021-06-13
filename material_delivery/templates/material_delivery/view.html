@@ -91,7 +91,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             <a onclick="ShowTab($(this), '.single_student')" style="cursor: pointer">
                                 <li class="active">{% trans "Individual Result" %}</li>
                             </a>
-                            <a onclick="ShowTab($(this), '.all_students')" data-url=""
+                            <a onclick="ShowTab($(this), '.all_students')" data-url="{% url 'material_delivery:results' material_delivery.slug %}"
                                 style="cursor: pointer">
                                 <li>{% trans "Class Results" %}</li>
                             </a>
