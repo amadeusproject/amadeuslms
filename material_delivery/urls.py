@@ -18,6 +18,6 @@ from . import views
 urlpatterns = [
     url(r"^create/(?P<slug>[\w_-]+)/$", views.CreateView.as_view(), name="create"),
     url(r"^update/(?P<topic_slug>[\w_-]+)/(?P<slug>[\w_-]+)/$", views.UpdateView.as_view(), name="update"),
-    url(r"^delete/(?P<slug>[\w_-]+)/$", views.CreateView.as_view(), name="delete"),
+    url(r"^delete/(?P<slug>[\w_-]+)/$", views.DeleteView.as_view(), name="delete"),
     url(r"^view/(?P<slug>[\w_-]+)/$", views.DetailView.as_view(), name="view"),
 ]

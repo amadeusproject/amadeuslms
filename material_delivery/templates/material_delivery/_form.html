@@ -107,15 +107,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 {% if item.instance.file %}
                                     <i class="fa fa-file-archive-o"></i> <br />
                             
-                                    <small>{{ item.file.filename }}</small>
+                                    <small>{{ item.instance.filename }}</small>
                                 {% else %}
                                     {% trans 'Click or drop the file here' %}<br />
                             
                                     <small>{% trans 'The file could not exceed 30MB.' %}</small>
                                 {% endif %}
                             </div>
-                        
-                            <span id="helpBlock" class="help-block">{{ item.file.help_text }}</span>
                         </div>
 
                         {% if item.file.errors %}
@@ -378,18 +376,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             deleteText: '<i class="fa fa-trash"></i>',
             prefix: '{{ support_materials_form.prefix }}',
             added: function(row) {
-                Init();
-                
                 let $input = row.find("input[type=file]");
                 let $parent = row.find(".form-group");
+                let $inputGroup = $($parent).find("div.input-group");
+                let $filedrag = $($parent).find(".filedrag");
                 let $alert = row.find(".alert");
                 
                 let inputId = $($input).attr("id");
-
+                
                 $($parent).data("file_id", inputId);
                 $($alert).removeClass();
                 $($alert).addClass("col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible");
                 $($alert).addClass(`${inputId}-file-errors`);
+
+                $($filedrag).html("{% trans 'Click or drop the file here' %}<br /><small>{% trans 'The file could not exceed 30MB.' %}</small>");
+
+                let content = $($input).wrap("<p/>").parent().html();
+                content += $($inputGroup).wrap("<p/>").parent().html();
+                content += $($filedrag).wrap("<p/>").parent().html();
+                
+                $($parent).html(content);
+
+                Init();
             }
         });
 

@@ -450,3 +450,57 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
         success_url = reverse_lazy("material_delivery:view", kwargs={"slug": self.object.slug})
 
         return success_url
+
+class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
+    log_component = "resources"
+    log_action = "delete"
+    log_resource = "materialdelivery"
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "resources/delete.html"
+    model = MaterialDelivery
+    context_object_name = "resource"
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get("slug", "")
+        material_delivery = get_object_or_404(MaterialDelivery, slug=slug)
+
+        if not has_subject_permissions(request.user, material_delivery.topic.subject):
+            return redirect(reverse_lazy("subjects:home"))
+
+        return super(DeleteView, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.success(
+            self.request,
+            _("The material delivery %s of the topic %s was removed successfully!")
+            % (self.object.name, self.object.topic.name),
+        )
+
+        self.log_context["category_id"] = self.object.topic.subject.category.id
+        self.log_context["category_name"] = self.object.topic.subject.category.name
+        self.log_context["category_slug"] = self.object.topic.subject.category.slug
+        self.log_context["subject_id"] = self.object.topic.subject.id
+        self.log_context["subject_name"] = self.object.topic.subject.name
+        self.log_context["subject_slug"] = self.object.topic.subject.slug
+        self.log_context["topic_id"] = self.object.topic.id
+        self.log_context["topic_name"] = self.object.topic.name
+        self.log_context["topic_slug"] = self.object.topic.slug
+        self.log_context["materialdelivery_id"] = self.object.id
+        self.log_context["materialdelivery_name"] = self.object.name
+        self.log_context["materialdelivery_slug"] = self.object.slug
+
+        super(DeleteView, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
+        return reverse_lazy(
+            "subjects:view", kwargs={"slug": self.object.topic.subject.slug}
+        )
