@@ -68,6 +68,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
                                 <li><a href="{% url material_delivery.update_link topic.slug material_delivery.slug %}" class="edit"><i
                                             class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'material_delivery:get_chart' material_delivery.slug %}" class="edit"><i class="fa fa-line-chart fa-fw"
                                             aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
                                 <li><a href="javascript:delete_resource('{% url material_delivery.delete_link material_delivery.slug %}')" class="delete"><i
                                             class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
