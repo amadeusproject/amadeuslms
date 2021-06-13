@@ -140,7 +140,7 @@ class TeacherEvaluation(models.Model):
     teacher = models.ForeignKey(User, verbose_name = _('User'), related_name = 'teacherevaluation_user', null = True)
     file = models.FileField(_('File'), upload_to=get_upload_teacher_path, validators = [validate_file_extension])
     is_updated = models.BooleanField(_('Is updated?'), default = False)
-    evaluation_date = models.DateTimeField(_('Evaluation Date'), auto_now_add = True)
+    evaluation_date = models.DateTimeField(_('Evaluation Date'), auto_now = True)
 
     class Meta:
         verbose_name = "Teacher Evaluation"

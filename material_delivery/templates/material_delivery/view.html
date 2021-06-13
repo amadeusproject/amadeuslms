@@ -17,10 +17,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 {% block style %}
     {{block.super}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block javascript%}
     {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 {% endblock%}
 
@@ -128,19 +130,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     <h4><b>{% trans 'Deliver Materials' %}</b></h4>
                     
-                    <div id="student_materials">
-                        {% if not studentDeliver or studentDeliver.material_deliver.count == 0 %}
-                            {% if has_subject_permissions %}
-                                <div class="text-center bg-success well-sm">
-                                    <i class="fa fa-exclamation-triangle text-sm"></i>
-                                    <small>{% trans "The student hasn't uploaded any material yet." %}</small>
-                                </div>
+                    <div class="row">
+                        <div id="student_materials" class="col-lg-12">
+                            {% if not studentDeliver or studentDeliver.material_deliver.count == 0 %}
+                                {% if has_subject_permissions %}
+                                    <div class="text-center bg-success well-sm">
+                                        <i class="fa fa-exclamation-triangle text-sm"></i>
+                                        <small>{% trans "The student hasn't uploaded any material yet." %}</small>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% for material in studentDeliver.material_deliver.all %}
+                                    {% include 'material_delivery/_student_material_view.html' %}
+                                {% endfor %}
                             {% endif %}
-                        {% else %}
-                            {% for material in studentDeliver.material_deliver.all %}
-                                {% include 'material_delivery/_student_material_view.html' %}
-                            {% endfor %}
-                        {% endif %}
+                        </div>
                     </div>
                     
                     {% if not has_subject_permissions %}
@@ -161,11 +165,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     <hr />
 
-                    {% if studentDeliver.student_deliver.count > 0 %}
+                    {% if studentDeliver.student_deliver.exists %}
+                        <div class="row">
+                            <div id="teacherEval" class="col-lg-12">
+                                {% include 'material_delivery/_teacher_evaluation_view.html' with evaluation=studentDeliver.student_deliver.first deliver_pk=studentDeliver.pk user=request.user %}
+                            </div>
+                        </div>
                     {% else %}
                         {% if has_subject_permissions %}
-                            <div class="text-center">
-                                <a href="" class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
+                            <div id="eval_btn" class="text-center">
+                                <a href="javascript:evaluate('{% url 'material_delivery:evaluate' studentDeliver.pk %}')" class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
                             </div>
                         {% else %}
                             <div class="text-center text-muted">
@@ -195,6 +204,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     } else {
                         alertify.error(modal.message);
                     }
+                } else {
+                    $("#resource-panel").after(modal);
+
+                    $('.modal').modal('show');
+                }
+            });
+        }
+
+        function evaluate(url) {
+            $('.modal').remove();
+
+            $.get(url, function (modal) {
+                if (typeof (modal.status) !== "undefined") {
+                    alertify.error(modal.message);
                 } else {
                     $("#resource-panel").after(modal);
 

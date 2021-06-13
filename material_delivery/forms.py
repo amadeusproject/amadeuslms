@@ -21,7 +21,7 @@ from file_resubmit.widgets import ResubmitFileWidget
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
 
-from .models import MaterialDelivery, SupportMaterial, StudentMaterial, valid_formats
+from .models import MaterialDelivery, SupportMaterial, StudentMaterial, TeacherEvaluation, valid_formats
 
 class MaterialDeliveryForm(forms.ModelForm):
     subject = None
@@ -242,6 +242,43 @@ class StudentMaterialForm(forms.ModelForm):
             "commentary": _("Material Description"),
         }
         widgets = {
+            "commentary": forms.Textarea,
+            "file": ResubmitFileWidget(
+                attrs={
+                    "accept": ", ".join(valid_formats)
+                }
+            ),
+        }
+
+    def clean_file(self):
+        file = self.cleaned_data.get("file", False)
+
+        if file:
+            if hasattr(file, "_size"):
+                if file._size > self.MAX_UPLOAD_SIZE:
+                    self._errors["file"] = [
+                        _("The file is too large. It should have less than 30MB.")
+                    ]
+
+                    return ValueError
+
+        elif not self.instance.pk:
+            self._errors["file"] = [_("This field is required.")]
+
+            return ValueError
+
+        return file
+
+class TeacherEvaluationForm(forms.ModelForm):
+    MAX_UPLOAD_SIZE = 30 * 1024 * 1024
+
+    evaluation = forms.ChoiceField(choices=[(a, a) for a in range(0, 101)])
+
+    class Meta:
+        model = TeacherEvaluation
+        fields = ["evaluation", "commentary", "file"]
+        widgets = {
+            "evaluation": forms.Select,
             "commentary": forms.Textarea,
             "file": ResubmitFileWidget(
                 attrs={

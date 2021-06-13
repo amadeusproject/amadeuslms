@@ -40,9 +40,9 @@ from pendencies.models import Pendencies, PendencyDone
 from topics.models import Topic
 from users.models import User
 
-from .models import MaterialDelivery, StudentDeliver, valid_formats
+from .models import MaterialDelivery, StudentDeliver, TeacherEvaluation, valid_formats
 
-from .forms import MaterialDeliveryForm, StudentMaterialForm, InlineSupportMaterialFormset
+from .forms import MaterialDeliveryForm, StudentMaterialForm, TeacherEvaluationForm, InlineSupportMaterialFormset
 
 class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = "resources"
@@ -128,10 +128,13 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 ).order_by("username", "last_name")
 
             if not user is None:
-                deliver = StudentDeliver.objects.filter(student = user)
+                deliver = StudentDeliver.objects.filter(student__email = user)
 
                 if deliver.exists():
                     self.studentDeliver = deliver.first()
+                else:
+                    student = get_object_or_404(User, email=user)
+                    self.studentDeliver = StudentDeliver.objects.create(delivery=material_delivery, student=student)
 
         return self.render_to_response(self.get_context_data())
 
@@ -571,6 +574,7 @@ class StudentMaterialCreate(LoginRequiredMixin, LogMixin, generic.CreateView):
         self.log_context["materialdelivery_id"] = self.object.deliver.delivery.id
         self.log_context["materialdelivery_name"] = self.object.deliver.delivery.name
         self.log_context["materialdelivery_slug"] = self.object.deliver.delivery.slug
+        self.log_context["materialdelivery_deliver"] = self.object.deliver.id
         self.log_context["materialdelivery_material"] = self.object.id
 
         super(StudentMaterialCreate, self).createLog(
@@ -592,5 +596,167 @@ class StudentMaterialCreate(LoginRequiredMixin, LogMixin, generic.CreateView):
 
         context["deliver_pk"] = self.kwargs.get("deliver", 0)
         context["mimeTypes"] = valid_formats
+
+        return context
+
+class TeacherEvaluate(LoginRequiredMixin, LogMixin, generic.CreateView):
+    log_component = "resources"
+    log_action = "evaluate"
+    log_resource = "materialdelivery"
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "material_delivery/_teacher_form.html"
+    form_class = TeacherEvaluationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        if not has_resource_permissions(request.user, deliver.delivery):
+            return JsonResponse({"status": 403, "message": _("You don't have permission to evaluate this delivery")})
+
+        return super(TeacherEvaluate, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit = False)
+
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        self.object.deliver = deliver
+        self.object.teacher = self.request.user
+
+        self.object.save()
+
+        self.log_context["category_id"] = self.object.deliver.delivery.topic.subject.category.id
+        self.log_context["category_name"] = self.object.deliver.delivery.topic.subject.category.name
+        self.log_context["category_slug"] = self.object.deliver.delivery.topic.subject.category.slug
+        self.log_context["subject_id"] = self.object.deliver.delivery.topic.subject.id
+        self.log_context["subject_name"] = self.object.deliver.delivery.topic.subject.name
+        self.log_context["subject_slug"] = self.object.deliver.delivery.topic.subject.slug
+        self.log_context["topic_id"] = self.object.deliver.delivery.topic.id
+        self.log_context["topic_name"] = self.object.deliver.delivery.topic.name
+        self.log_context["topic_slug"] = self.object.deliver.delivery.topic.slug
+        self.log_context["materialdelivery_id"] = self.object.deliver.delivery.id
+        self.log_context["materialdelivery_name"] = self.object.deliver.delivery.name
+        self.log_context["materialdelivery_slug"] = self.object.deliver.delivery.slug
+        self.log_context["materialdelivery_deliver"] = self.object.deliver.id
+
+        super(TeacherEvaluate, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
+        newMaterial = render_to_string(
+                "material_delivery/_teacher_evaluation_view.html", {"evaluation": self.object}, self.request
+            )
+
+        return JsonResponse({"status": 200, "content": newMaterial, "message": _("Delivery evaluated successfully!")})
+
+    def get_context_data(self, **kwargs):
+        context = super(TeacherEvaluate, self).get_context_data(**kwargs)
+
+        context["deliver_pk"] = self.kwargs.get("deliver", 0)
+        context["mimeTypes"] = valid_formats
+        context["form_url"] = reverse_lazy("material_delivery:evaluate", kwargs={"deliver": context["deliver_pk"]})
+
+        return context
+
+class TeacherUpdateEvaluation(LoginRequiredMixin, LogMixin, generic.UpdateView):
+    log_component = "resources"
+    log_action = "evaluate_update"
+    log_resource = "materialdelivery"
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "material_delivery/_teacher_form.html"
+    form_class = TeacherEvaluationForm
+    model = TeacherEvaluation
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        if not has_resource_permissions(request.user, deliver.delivery):
+            return JsonResponse({"status": 403, "message": _("You don't have permission to evaluate this delivery")})
+
+        return super(TeacherUpdateEvaluation, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit = False)
+
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        self.object.deliver = deliver
+        self.object.teacher = self.request.user
+        self.object.is_updated = True
+
+        self.object.save()
+
+        self.log_context["category_id"] = self.object.deliver.delivery.topic.subject.category.id
+        self.log_context["category_name"] = self.object.deliver.delivery.topic.subject.category.name
+        self.log_context["category_slug"] = self.object.deliver.delivery.topic.subject.category.slug
+        self.log_context["subject_id"] = self.object.deliver.delivery.topic.subject.id
+        self.log_context["subject_name"] = self.object.deliver.delivery.topic.subject.name
+        self.log_context["subject_slug"] = self.object.deliver.delivery.topic.subject.slug
+        self.log_context["topic_id"] = self.object.deliver.delivery.topic.id
+        self.log_context["topic_name"] = self.object.deliver.delivery.topic.name
+        self.log_context["topic_slug"] = self.object.deliver.delivery.topic.slug
+        self.log_context["materialdelivery_id"] = self.object.deliver.delivery.id
+        self.log_context["materialdelivery_name"] = self.object.deliver.delivery.name
+        self.log_context["materialdelivery_slug"] = self.object.deliver.delivery.slug
+        self.log_context["materialdelivery_deliver"] = self.object.deliver.id
+
+        super(TeacherUpdateEvaluation, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
+        newMaterial = render_to_string(
+                "material_delivery/_teacher_evaluation_view.html", {"evaluation": self.object, "deliver_pk": pk, "user": self.object.teacher}, self.request
+            )
+
+        return JsonResponse({"status": 200, "content": newMaterial, "message": _("Evaluation updated successfully!")})
+
+    def get_context_data(self, **kwargs):
+        context = super(TeacherUpdateEvaluation, self).get_context_data(**kwargs)
+
+        context["deliver_pk"] = self.kwargs.get("deliver", 0)
+        context["mimeTypes"] = valid_formats
+        context["form_url"] = reverse_lazy("material_delivery:evaluate_update", kwargs={"deliver": context["deliver_pk"], "pk": self.object.pk})
 
         return context
