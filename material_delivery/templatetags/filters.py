@@ -13,19 +13,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 import random
 from datetime import datetime
 from django import template
+from django.utils import timezone
 register = template.Library()
 
 @register.filter('enable_upload')
 def enable_upload(begin_date, end_date):
     enable = False
 
-    today = datetime.today()
+    today = timezone.localtime(timezone.now())
 
-    if begin_date.date() < today.date() < end_date.date():
+    if timezone.localtime(begin_date).date() < today.date() < timezone.localtime(end_date).date():
         enable = True
-    elif begin_date.date() == today.date() and begin_date.time() <= today.time():
+    elif timezone.localtime(begin_date).date() == today.date() and timezone.localtime(begin_date).time() <= today.time():
         enable = True
-    elif end_date.date() == today.date() and today.time() < end_date.time():
+    elif timezone.localtime(end_date).date() == today.date() and today.time() < timezone.localtime(end_date).time():
         enable = True
     
     return enable

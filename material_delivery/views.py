@@ -15,6 +15,9 @@ import json
 import xlwt
 import xlrd
 
+from django.utils import timezone
+from django.utils import formats
+
 from django.db.models import Q
 from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404, redirect, render
@@ -39,7 +42,7 @@ from users.models import User
 
 from .models import MaterialDelivery, StudentDeliver, valid_formats
 
-from .forms import MaterialDeliveryForm, InlineSupportMaterialFormset
+from .forms import MaterialDeliveryForm, StudentMaterialForm, InlineSupportMaterialFormset
 
 class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
     log_component = "resources"
@@ -84,6 +87,8 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
 
             if deliver.exists():
                 self.studentDeliver = deliver.first()
+            else:
+                self.studentDeliver = StudentDeliver.objects.create(delivery=material_delivery, student=self.request.user)
 
         return material_delivery
 
@@ -504,3 +509,88 @@ class DeleteView(LoginRequiredMixin, LogMixin, generic.DeleteView):
         return reverse_lazy(
             "subjects:view", kwargs={"slug": self.object.topic.subject.slug}
         )
+
+class StudentMaterialCreate(LoginRequiredMixin, LogMixin, generic.CreateView):
+    log_component = "resources"
+    log_action = "submit"
+    log_resource = "materialdelivery"
+    log_context = {}
+
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    template_name = "material_delivery/_student_form.html"
+    form_class = StudentMaterialForm
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        if not has_resource_permissions(request.user, deliver.delivery):
+            return JsonResponse({"status": 403, "message": _("You don't have permission to submit files in this delivery")})
+
+        todaysDate = timezone.localtime(timezone.now())
+
+        if timezone.localtime(deliver.delivery.data_ini) > todaysDate:
+            return JsonResponse({"status": 500, "message": _("This resource can only be accessed after %s"%(formats.date_format(timezone.localtime(deliver.delivery.data_ini), "SHORT_DATETIME_FORMAT")))})
+        elif timezone.localtime(deliver.delivery.data_end) < todaysDate:
+            return JsonResponse({"status": 500, "message": _("The material could be delivered only until %s"%(formats.date_format(timezone.localtime(deliver.delivery.data_end), "SHORT_DATETIME_FORMAT")))})
+
+        return super(StudentMaterialCreate, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit = False)
+
+        pk = self.kwargs.get("deliver", 0)
+        deliver = get_object_or_404(StudentDeliver, pk=pk)
+
+        self.object.deliver = deliver
+
+        self.object.save()
+
+        self.log_context["category_id"] = self.object.deliver.delivery.topic.subject.category.id
+        self.log_context["category_name"] = self.object.deliver.delivery.topic.subject.category.name
+        self.log_context["category_slug"] = self.object.deliver.delivery.topic.subject.category.slug
+        self.log_context["subject_id"] = self.object.deliver.delivery.topic.subject.id
+        self.log_context["subject_name"] = self.object.deliver.delivery.topic.subject.name
+        self.log_context["subject_slug"] = self.object.deliver.delivery.topic.subject.slug
+        self.log_context["topic_id"] = self.object.deliver.delivery.topic.id
+        self.log_context["topic_name"] = self.object.deliver.delivery.topic.name
+        self.log_context["topic_slug"] = self.object.deliver.delivery.topic.slug
+        self.log_context["materialdelivery_id"] = self.object.deliver.delivery.id
+        self.log_context["materialdelivery_name"] = self.object.deliver.delivery.name
+        self.log_context["materialdelivery_slug"] = self.object.deliver.delivery.slug
+        self.log_context["materialdelivery_material"] = self.object.id
+
+        super(StudentMaterialCreate, self).createLog(
+            self.request.user,
+            self.log_component,
+            self.log_action,
+            self.log_resource,
+            self.log_context,
+        )
+
+        newMaterial = render_to_string(
+                "material_delivery/_student_material_view.html", {"material": self.object}, self.request
+            )
+
+        return JsonResponse({"status": 200, "content": newMaterial, "message": _("Material submited successfully!")})
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentMaterialCreate, self).get_context_data(**kwargs)
+
+        context["deliver_pk"] = self.kwargs.get("deliver", 0)
+        context["mimeTypes"] = valid_formats
+
+        return context

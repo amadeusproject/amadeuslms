@@ -9,7 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
-
+from django.utils import timezone
 from django import forms
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
@@ -21,7 +21,7 @@ from file_resubmit.widgets import ResubmitFileWidget
 from subjects.models import Tag
 from subjects.forms import ParticipantsMultipleChoiceField
 
-from .models import MaterialDelivery, SupportMaterial, valid_formats
+from .models import MaterialDelivery, SupportMaterial, StudentMaterial, valid_formats
 
 class MaterialDeliveryForm(forms.ModelForm):
     subject = None
@@ -98,9 +98,11 @@ class MaterialDeliveryForm(forms.ModelForm):
 
                 break
 
+        todaysDate = timezone.localtime(timezone.now()).date()
+
         if data_ini:
             if not data_ini == ValueError:
-                if not self.instance.id and data_ini.date() < datetime.today().date():
+                if not self.instance.id and data_ini.date() < todaysDate:
                     self.add_error(
                         "data_ini",
                         _(
@@ -130,7 +132,7 @@ class MaterialDeliveryForm(forms.ModelForm):
 
         if data_end:
             if not data_end == ValueError:
-                if not self.instance.id and data_end.date() < datetime.today().date():
+                if not self.instance.id and data_end.date() < todaysDate:
                     self.add_error(
                         "data_end",
                         _(
@@ -204,6 +206,43 @@ class SupportMaterialForm(forms.ModelForm):
         model = SupportMaterial
         fields = ["file"]
         widgets = {
+            "file": ResubmitFileWidget(
+                attrs={
+                    "accept": ", ".join(valid_formats)
+                }
+            ),
+        }
+
+    def clean_file(self):
+        file = self.cleaned_data.get("file", False)
+
+        if file:
+            if hasattr(file, "_size"):
+                if file._size > self.MAX_UPLOAD_SIZE:
+                    self._errors["file"] = [
+                        _("The file is too large. It should have less than 30MB.")
+                    ]
+
+                    return ValueError
+
+        elif not self.instance.pk:
+            self._errors["file"] = [_("This field is required.")]
+
+            return ValueError
+
+        return file
+
+class StudentMaterialForm(forms.ModelForm):
+    MAX_UPLOAD_SIZE = 30 * 1024 * 1024
+
+    class Meta:
+        model = StudentMaterial
+        fields = ["commentary", "file"]
+        labels = {
+            "commentary": _("Material Description"),
+        }
+        widgets = {
+            "commentary": forms.Textarea,
             "file": ResubmitFileWidget(
                 attrs={
                     "accept": ", ".join(valid_formats)

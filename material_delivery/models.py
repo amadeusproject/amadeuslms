@@ -116,13 +116,15 @@ def get_upload_student_path(instance, filename):
 
 class StudentMaterial(models.Model):
     deliver = models.ForeignKey(StudentDeliver, verbose_name = _('Student Deliver'), related_name = 'material_deliver', null = True)
-    commentary = models.TextField(_('Commentary'), blank = True)
+    commentary = models.TextField(_('Commentary'), blank = False)
     file = models.FileField(_('File'), upload_to=get_upload_student_path, validators = [validate_file_extension])
     upload_date = models.DateTimeField(_('Upload Date'), auto_now_add = True)
 
     class Meta:
         verbose_name = "Student Material"
         verbose_name_plural = "Student Materials"
+
+        ordering = ['upload_date']
 
     @property
     def filename(self):
