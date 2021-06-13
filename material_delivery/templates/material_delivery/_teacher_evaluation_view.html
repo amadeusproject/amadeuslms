@@ -1,0 +1,63 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n permissions_tags %}
+
+{% subject_permissions user evaluation.deliver.delivery.topic.subject as has_subject_permissions %}
+
+<div class="col-lg-11 col-lg-offset-1 bg-success well-sm post">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 comment-img">
+            <div>
+                <img src="{{ evaluation.teacher.image_url }}" class="img-responsive" />
+            </div>
+        </div>
+        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-body">
+            <h4 class="post-user">{{ evaluation.teacher.fullname }} <small class="text-muted" style="margin-left:1em"><i class="fa fa-check-square-o"></i> {% trans 'Evaluated' %}</small></h4>
+            <p class="text-muted"><i class="fa fa-clock-o"></i> {% trans 'At' %} {{ evaluation.evaluation_date|date:'SHORT_DATETIME_FORMAT' }} {% if evaluation.is_updated %}({% trans 'Updated' %}){% endif %}</p>
+            
+            <br clear="all" />
+            
+            <p><b>{% trans 'Grade' %}:</b> {{ evaluation.evaluation }}</p>
+            
+            <br clear="all" />
+            
+            {{ evaluation.commentary|safe }}
+            
+            <br clear="all" />
+            
+            <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a><br />
+        </div>
+    </div>
+</div>
+
+{% if has_subject_permissions %}
+    <div id="eval_update_btn" class="text-center">
+        <a href="javascript:updateEval('{% url 'material_delivery:evaluate_update' deliver_pk evaluation.pk %}')"
+            class="btn btn-success btn-raised btn-sm">{% trans 'Updadte evaluation' %}</a>
+    </div>
+{% endif %}
+
+<script type="text/javascript">
+    function updateEval(url) {
+        $('.modal').remove();
+
+        $.get(url, function (modal) {
+            if (typeof (modal.status) !== "undefined") {
+                alertify.error(modal.message);
+            } else {
+                $("#resource-panel").after(modal);
+
+                $('.modal').modal('show');
+            }
+        });
+    }
+</script>

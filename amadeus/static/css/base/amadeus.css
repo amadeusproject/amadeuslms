@@ -1830,3 +1830,11 @@ h5.one span {
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
 }
+
+#support .mats {
+  margin-bottom: 3em;
+}
+#support .delete-row {
+  display: table-cell;
+  float: none;
+}
