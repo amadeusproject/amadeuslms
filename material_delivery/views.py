@@ -81,12 +81,14 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                         resource_students=material_delivery
                     ).order_by("username", "last_name")
 
-                deliver = StudentDeliver.objects.filter(student = self.students.first())
+                deliver = StudentDeliver.objects.filter(student = self.students.first(), delivery=material_delivery)
 
                 if deliver.exists():
                     self.studentDeliver = deliver.first()
+                else:
+                    self.studentDeliver = StudentDeliver.objects.create(delivery=material_delivery, student=self.students.first())
         else:
-            deliver = StudentDeliver.objects.filter(student = self.request.user)
+            deliver = StudentDeliver.objects.filter(student = self.request.user, delivery=material_delivery)
 
             if deliver.exists():
                 self.studentDeliver = deliver.first()
@@ -131,7 +133,7 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 ).order_by("username", "last_name")
 
             if not user is None:
-                deliver = StudentDeliver.objects.filter(student__email = user)
+                deliver = StudentDeliver.objects.filter(student__email = user, delivery=material_delivery)
 
                 if deliver.exists():
                     self.studentDeliver = deliver.first()
@@ -262,10 +264,10 @@ class CreateView(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         support_materials_form.save(commit=False)
 
         for mform in support_materials_form.forms:
-            msform = mform.save(commit=True)
+            msform = mform.save(commit=False)
 
-            if msform.file is None:
-                msform.delete()
+            if not msform.file is None and str(msform.file) != "":
+                msform.save()
 
         self.log_context["category_id"] = self.object.topic.subject.category.id
         self.log_context["category_name"] = self.object.topic.subject.category.name
@@ -410,10 +412,12 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
         support_materials_form.save(commit=False)
 
         for mform in support_materials_form.forms:
-            msform = mform.save(commit=True)
+            msform = mform.save(commit=False)
 
-            if msform.file is None:
+            if msform.file is None or str(msform.file) == "":
                 msform.delete()
+            else:
+                msform.save()
         
         for item in support_materials_form.deleted_objects:
             item.delete()
