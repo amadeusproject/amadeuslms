@@ -113,16 +113,20 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     {% endif %}
 
                     {{ material_delivery.presentation|safe }}
-
-                    <div class="attachments bg-success well-sm">
-                        <h4 class="text-muted">{% trans 'Attachments' %}:</h4>
-                        <br />
-                        {% for attach in material_delivery.support_materials.all %}
-                            <a href="{{ attach.file.url }}" download><i class="fa fa-download"></i> {{ attach.filename }}</a><br />
-                        {% endfor %}
-                    </div>
                     
-                    <br clear="all" />
+                    {% if material_delivery.support_materials.exists %}
+                        <div class="attachments bg-success well-sm">
+                            <h4 class="text-muted">{% trans 'Attachments' %}:</h4>
+                            <br />
+                            {% for attach in material_delivery.support_materials.all %}
+                                {% if attach.file %}
+                                    <a href="{{ attach.file.url }}" download><i class="fa fa-download"></i> {{ attach.filename }}</a><br />
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <br clear="all" />
+                    {% endif %}
 
                     <span><b>{% trans "Init date" %}:</b> {{ material_delivery.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>
                     <span style="margin-left: 10px;"><b>{% trans "End date" %}:</b> {{ material_delivery.data_end|date:'SHORT_DATETIME_FORMAT' }}</span>

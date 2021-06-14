@@ -225,11 +225,6 @@ class SupportMaterialForm(forms.ModelForm):
 
                     return ValueError
 
-        elif not self.instance.pk:
-            self._errors["file"] = [_("This field is required.")]
-
-            return ValueError
-
         return file
 
 class StudentMaterialForm(forms.ModelForm):

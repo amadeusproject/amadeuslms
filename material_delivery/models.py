@@ -93,7 +93,7 @@ def get_upload_support_path(instance, filename):
 
 class SupportMaterial(models.Model):
     delivery = models.ForeignKey(MaterialDelivery, verbose_name = _('Material Delivery'), related_name = 'support_materials', null = True)
-    file = models.FileField(_('File'), upload_to=get_upload_support_path, validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to=get_upload_support_path, validators = [validate_file_extension], blank = True)
 
     class Meta:
         verbose_name = "Support Material"
