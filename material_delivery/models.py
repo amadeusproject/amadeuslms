@@ -57,7 +57,7 @@ valid_formats = [
 def validate_file_extension(value):
     if hasattr(value.file, 'content_type'):
         if not value.file.content_type in valid_formats:
-            raise ValidationError(_('File not supported, use PDF format instead.'))
+            raise ValidationError(_('File not supported.'))
 
 class MaterialDelivery(Resource):
     presentation = models.TextField(_('Presentation'), blank = False)

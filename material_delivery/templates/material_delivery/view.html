@@ -83,7 +83,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     </div>
                 </div>
             </div>
-            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content">
+            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content material_delivery_view">
                 <input type="hidden" id="teacherStudentView" value="{{studentView}}" />
                 {% if has_subject_permissions %}
                     <div id="core-subjects-options-div" {% if studentView %}style="display:none" {% endif %}>
@@ -115,15 +115,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     {% if material_delivery.support_materials.exists %}
                         <div class="attachments bg-success well-sm">
                             <h4 class="text-muted">{% trans 'Attachments' %}:</h4>
-                            <br />
                             {% for attach in material_delivery.support_materials.all %}
                                 {% if attach.file %}
-                                    <a href="{{ attach.file.url }}" download><i class="fa fa-download"></i> {{ attach.filename }}</a><br />
+                                    <a href="{{ attach.file.url }}" download><i class="fa fa-download"></i> {{ attach.filename }}</a>
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        
-                        <br clear="all" />
                     {% endif %}
 
                     <span><b>{% trans "Init date" %}:</b> {{ material_delivery.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>

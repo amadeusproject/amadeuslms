@@ -11,10 +11,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 -->
 {% load static i18n %}
 
-<div class="col-lg-12 bg-success well-sm" style="margin-bottom: 1em">
+<div class="col-lg-12 bg-success well-sm student_material_view">
     <small class="text-muted">{% trans 'Submit date:' %} {{ material.upload_date|date:'SHORT_DATETIME_FORMAT' }}</small>
-    <br clear="all" />
-    <br clear="all" />
 
     {{ material.commentary|safe }}
 
