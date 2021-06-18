@@ -267,7 +267,7 @@ class StudentMaterialForm(forms.ModelForm):
 class TeacherEvaluationForm(forms.ModelForm):
     MAX_UPLOAD_SIZE = 30 * 1024 * 1024
 
-    evaluation = forms.ChoiceField(choices=[(a, a) for a in range(0, 101)])
+    evaluation = forms.ChoiceField(choices=[(a, a) for a in range(100, -1, -1)])
 
     class Meta:
         model = TeacherEvaluation

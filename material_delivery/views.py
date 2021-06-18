@@ -878,7 +878,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 index = None
 
                 for dh in data_history:
-                    if log_al.user in dh:
+                    if log_al.user in dh and log_al.action in dh:
                         index = dh
                         break
 
