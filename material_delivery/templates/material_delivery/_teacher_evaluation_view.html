@@ -24,17 +24,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             <h4 class="post-user">{{ evaluation.teacher.fullname }} <small class="text-muted" style="margin-left:1em"><i class="fa fa-check-square-o"></i> {% trans 'Evaluated' %}</small></h4>
             <p class="text-muted"><i class="fa fa-clock-o"></i> {% trans 'At' %} {{ evaluation.evaluation_date|date:'SHORT_DATETIME_FORMAT' }} {% if evaluation.is_updated %}({% trans 'Updated' %}){% endif %}</p>
             
-            <br clear="all" />
-            
             <p><b>{% trans 'Grade' %}:</b> {{ evaluation.evaluation }}</p>
-            
-            <br clear="all" />
             
             {{ evaluation.commentary|safe }}
             
-            <br clear="all" />
-            
-            <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a><br />
+            <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a>
         </div>
     </div>
 </div>

@@ -14,6 +14,8 @@ import random
 from datetime import datetime
 from django import template
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 register = template.Library()
 
 @register.filter('enable_upload')
@@ -30,3 +32,29 @@ def enable_upload(begin_date, end_date):
         enable = True
     
     return enable
+
+@register.filter('students_select')
+def students_select(selected, students):
+    html = ""
+    groupLabel = -1
+    
+    for student in students:
+        if groupLabel == -1:
+            if student.has_delivered:
+                html += "<optgroup label=\"%s\">"%(_("Delivered material"))
+                groupLabel = 1
+            else:
+                html += "<optgroup label=\"%s\">"%(_("Didn't delivered material"))
+                groupLabel = 0
+        elif groupLabel == 1:
+            if not student.has_delivered:
+                html += "</optgroup>"
+                html += "<optgroup label=\"%s\">"%(_("Didn't delivered material"))
+
+                groupLabel = 0
+        
+        html += "<option value='%s' %s>%s</option>"%(student.email, "selected" if selected == student.email else "", student.fullname())
+        
+    html += "</optgroup>"
+
+    return mark_safe(html)

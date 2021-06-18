@@ -30,6 +30,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Exists, OuterRef
 
 from amadeus.permissions import has_subject_permissions, has_resource_permissions
 
@@ -43,7 +44,7 @@ from pendencies.models import Pendencies, PendencyDone
 from topics.models import Topic
 from users.models import User
 
-from .models import MaterialDelivery, StudentDeliver, TeacherEvaluation, valid_formats
+from .models import MaterialDelivery, StudentDeliver, StudentMaterial, TeacherEvaluation, valid_formats
 
 from .forms import MaterialDeliveryForm, StudentMaterialForm, TeacherEvaluationForm, InlineSupportMaterialFormset
 
@@ -75,11 +76,15 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 if material_delivery.all_students:
                     self.students = User.objects.filter(
                         subject_student=material_delivery.topic.subject
-                    ).order_by("username", "last_name")
+                    ) \
+                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                    .order_by("-has_delivered", "username", "last_name")
                 else:
                     self.students = User.objects.filter(
                         resource_students=material_delivery
-                    ).order_by("username", "last_name")
+                    ) \
+                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                    .order_by("-has_delivered","username", "last_name")
 
                 deliver = StudentDeliver.objects.filter(student = self.students.first(), delivery=material_delivery)
 
@@ -126,11 +131,15 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
             if material_delivery.all_students:
                 self.students = User.objects.filter(
                     subject_student=material_delivery.topic.subject
-                ).order_by("username", "last_name")
+                ) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                .order_by("-has_delivered","username", "last_name")
             else:
                 self.students = User.objects.filter(
                     resource_students=material_delivery
-                ).order_by("username", "last_name")
+                ) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                .order_by("-has_delivered","username", "last_name")
 
             if not user is None:
                 deliver = StudentDeliver.objects.filter(student__email = user, delivery=material_delivery)
@@ -869,7 +878,7 @@ class StatisticsView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 index = None
 
                 for dh in data_history:
-                    if log_al.user in dh:
+                    if log_al.user in dh and log_al.action in dh:
                         index = dh
                         break
 

@@ -1838,3 +1838,40 @@ h5.one span {
   display: table-cell;
   float: none;
 }
+
+.material_delivery_view .bg-success {
+  background-color: #f5f5f5;
+}
+.material_delivery_view hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 0.5px solid #777;
+}
+.material_delivery_view .single_student p {
+  margin: 0px;
+}
+.material_delivery_view .single_student a:not(:last-of-type) {
+  margin: 10px 0px;
+  display: block;
+}
+.material_delivery_view .attachments {
+  margin-bottom: 10px;
+}
+.material_delivery_view .student_material_view:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+.material_delivery_view .student_material_view small {
+  margin: 10px 0px;
+}
+.material_delivery_view .student_material_view p {
+  margin: 10px 0px;
+}
+.material_delivery_view .student_material_view a {
+  margin: 10px 0px;
+}
+.material_delivery_view .post .post-user {
+  margin-bottom: 10px;
+}
+.material_delivery_view .post p {
+  margin-bottom: 10px;
+}

@@ -34,6 +34,7 @@ valid_formats = [
     'video/x-mpeq2a',
     'audio/mpeg3',
     'audio/x-mpeg-3',
+    'video/mp4',
     'application/vnd.oasis.opendocument.presentation',
     'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.oasis.opendocument.text',
@@ -56,7 +57,7 @@ valid_formats = [
 def validate_file_extension(value):
     if hasattr(value.file, 'content_type'):
         if not value.file.content_type in valid_formats:
-            raise ValidationError(_('File not supported, use PDF format instead.'))
+            raise ValidationError(_('File not supported.'))
 
 class MaterialDelivery(Resource):
     presentation = models.TextField(_('Presentation'), blank = False)

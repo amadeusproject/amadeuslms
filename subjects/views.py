@@ -95,6 +95,8 @@ from questionary.serializers import (
 from questionary.models import Questionary
 from h5p.serializers import SimpleH5PSerializer, CompleteH5PSerializer
 from h5p.models import H5P
+from material_delivery.serializers import SimpleMaterialDeliverySerializer, CompleteMaterialDeliverySerializer
+from material_delivery.models import MaterialDelivery
 
 from amadeus.permissions import (
     has_category_permissions,
@@ -1064,6 +1066,7 @@ def realize_backup(request, subject):
     webconferences = Webconference.objects.filter(id__in=resources_ids)
     questionaries = Questionary.objects.filter(id__in=resources_ids)
     h5p_resources = H5P.objects.filter(id__in=resources_ids)
+    material_deliveries = MaterialDelivery.objects.filter(id__in=resources_ids)
 
     for filelink in filelinks:
         if bool(filelink.file_content):
@@ -1125,6 +1128,17 @@ def realize_backup(request, subject):
 
                 zf.write(h5p_resource.file.path, zip_path)
 
+    for delivery in material_deliveries:
+        if delivery.support_materials.exists():
+            for material in delivery.support_materials.all():
+                if bool(material.file):
+                    if os.path.exists(material.file.path):
+                        file_directory, file_name = os.path.split(material.file.path)
+
+                        zip_path = os.path.join("materials", file_name)
+
+                        zf.write(material.file.path, zip_path)
+
     file = open("backup.json", "w")
 
     data_list = {}
@@ -1157,6 +1171,7 @@ def realize_backup(request, subject):
         serializer_c = CompleteWebconferenceSerializer(webconferences, many=True)
         serializer_q = CompleteQuestionarySerializer(questionaries, many=True)
         serializer_h = CompleteH5PSerializer(h5p_resources, many=True)
+        serializer_m = CompleteMaterialDeliverySerializer(material_deliveries, many=True)
     else:
         serializer_b = SimpleBulletinSerializer(bulletins, many=True)
         serializer_w = SimpleWebpageSerializer(webpages, many=True)
@@ -1168,6 +1183,7 @@ def realize_backup(request, subject):
         serializer_c = SimpleWebconferenceSerializer(webconferences, many=True)
         serializer_q = SimpleQuestionarySerializer(questionaries, many=True)
         serializer_h = SimpleH5PSerializer(h5p_resources, many=True)
+        serializer_m = SimpleMaterialDeliverySerializer(material_deliveries, many=True)
 
     if len(serializer_b.data) > 0:
         data_list["resources"].append(serializer_b.data)
@@ -1198,6 +1214,9 @@ def realize_backup(request, subject):
 
     if len(serializer_h.data) > 0:
         data_list["resources"].append(serializer_h.data)
+
+    if len(serializer_m.data) > 0:
+        data_list["resources"].append(serializer_m.data)
 
     json.dump(data_list, file)
 
@@ -1444,6 +1463,27 @@ def realize_restore(request, subject):
                                     )
                                 else:
                                     serial = SimpleH5PSerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
+                                    )
+                            elif line[0]["_my_subclass"] == "materialdelivery":
+                                if "students" in line[0]:
+                                    serial = CompleteMaterialDeliverySerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
+                                    )
+                                else:
+                                    serial = SimpleMaterialDeliverySerializer(
                                         data=line,
                                         many=True,
                                         context={
