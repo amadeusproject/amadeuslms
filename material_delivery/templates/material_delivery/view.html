@@ -103,10 +103,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     {% if has_subject_permissions %}
                         <form id="student_quest" action="" method="POST" {% if studentView %}style="display:none"{% endif %}>
                             {% csrf_token %}
-                            <select name="selected_student" onchange="$('#student_quest').submit();">
-                                {% for stu in sub_students %}
-                                <option value="{{ stu.email }}" {% if stu.email == student %}selected{% endif %}>{{ stu.fullname }}</option>
-                                {% endfor %}
+                            <select id="select_student" name="selected_student" onchange="$('#student_quest').submit();">
+                                {{ student|students_select:sub_students }}
                             </select>
                         </form>
                         <br clear="all" />
@@ -197,6 +195,10 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         </div>
 
     <script type="text/javascript">
+        $(function() {
+            $("#select_student").select2();
+        });
+
         function attach_material(url) {
             $('.modal').remove();
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-13 07:50+0000\n"
+"POT-Creation-Date: 2021-06-18 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,82 +65,81 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data "
 "estabelecida para o início."
 
-#: material_delivery/forms.py:223 material_delivery/forms.py:260
-#: material_delivery/forms.py:297
+#: material_delivery/forms.py:223 material_delivery/forms.py:255
+#: material_delivery/forms.py:292
 #: material_delivery/templates/material_delivery/_form.html:138
 #: material_delivery/templates/material_delivery/_student_form.html:90
 #: material_delivery/templates/material_delivery/_teacher_form.html:112
 msgid "The file is too large. It should have less than 30MB."
 msgstr "Esse arquivo é muito grande. Ele deve conter menos de 30MB."
 
-#: material_delivery/forms.py:229 material_delivery/forms.py:266
-#: material_delivery/forms.py:303
-msgid "This field is required."
-msgstr "Esse campo é obrigatório."
-
-#: material_delivery/forms.py:242
+#: material_delivery/forms.py:237
 msgid "Material Description"
 msgstr "Descrição do Material"
 
-#: material_delivery/models.py:59
+#: material_delivery/forms.py:261 material_delivery/forms.py:298
+msgid "This field is required."
+msgstr "Esse campo é obrigatório."
+
+#: material_delivery/models.py:60
 msgid "File not supported, use PDF format instead."
 msgstr "Arquivo não suportado."
 
-#: material_delivery/models.py:62
+#: material_delivery/models.py:63
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: material_delivery/models.py:63
+#: material_delivery/models.py:64
 msgid "Init Date"
 msgstr "Data de início"
 
-#: material_delivery/models.py:64
+#: material_delivery/models.py:65
 msgid "End Date"
 msgstr "Data limite para entrega"
 
-#: material_delivery/models.py:83
+#: material_delivery/models.py:84
 msgid "Are you sure you want delete the Material Delivery"
 msgstr "Você tem certeza que deseja deletar a Entrega de Material"
 
-#: material_delivery/models.py:95 material_delivery/models.py:107
-#: material_delivery/views.py:956
+#: material_delivery/models.py:96 material_delivery/models.py:108
+#: material_delivery/views.py:969
 msgid "Material Delivery"
 msgstr "Entrega de Material"
 
-#: material_delivery/models.py:96 material_delivery/models.py:120
-#: material_delivery/models.py:141
+#: material_delivery/models.py:97 material_delivery/models.py:121
+#: material_delivery/models.py:142
 msgid "File"
 msgstr "Arquivo"
 
-#: material_delivery/models.py:108 material_delivery/models.py:140
+#: material_delivery/models.py:109 material_delivery/models.py:141
 #: material_delivery/templates/material_delivery/relatorios.html:30
 #: material_delivery/templates/material_delivery/relatorios.html:52
 msgid "User"
 msgstr "Usuário"
 
-#: material_delivery/models.py:118 material_delivery/models.py:137
+#: material_delivery/models.py:119 material_delivery/models.py:138
 msgid "Student Deliver"
 msgstr "Entrega do Estudante"
 
-#: material_delivery/models.py:119 material_delivery/models.py:139
+#: material_delivery/models.py:120 material_delivery/models.py:140
 msgid "Commentary"
 msgstr "Comentários"
 
-#: material_delivery/models.py:121
+#: material_delivery/models.py:122
 msgid "Upload Date"
 msgstr "Data de submissão"
 
-#: material_delivery/models.py:138
+#: material_delivery/models.py:139
 #: material_delivery/templates/material_delivery/_results.html:35
 #: material_delivery/templates/material_delivery/_teacher_evaluation_view.html:29
 msgid "Grade"
 msgstr "Nota"
 
-#: material_delivery/models.py:142
+#: material_delivery/models.py:143
 msgid "Is updated?"
 msgstr "Está atualizado?"
 
-#: material_delivery/models.py:143
+#: material_delivery/models.py:144
 msgid "Evaluation Date"
 msgstr "Data da avaliação"
 
@@ -244,7 +243,7 @@ msgid "Updadte evaluation"
 msgstr "Atualizar avaliação"
 
 #: material_delivery/templates/material_delivery/create.html:33
-#: material_delivery/views.py:307
+#: material_delivery/views.py:318
 msgid "Create Material Delivery"
 msgstr "Criar Entrega de Material"
 
@@ -331,144 +330,153 @@ msgstr "Resultado Individual"
 msgid "Class Results"
 msgstr "Resultado da Classe"
 
-#: material_delivery/templates/material_delivery/view.html:118
-#: material_delivery/templates/material_delivery/window_view.html:163
+#: material_delivery/templates/material_delivery/view.html:117
+#: material_delivery/templates/material_delivery/window_view.html:160
 msgid "Attachments"
 msgstr "Anexos"
 
-#: material_delivery/templates/material_delivery/view.html:127
-#: material_delivery/templates/material_delivery/window_view.html:173
+#: material_delivery/templates/material_delivery/view.html:129
+#: material_delivery/templates/material_delivery/window_view.html:170
 msgid "Init date"
 msgstr "Data de início"
 
-#: material_delivery/templates/material_delivery/view.html:128
-#: material_delivery/templates/material_delivery/window_view.html:175
+#: material_delivery/templates/material_delivery/view.html:130
+#: material_delivery/templates/material_delivery/window_view.html:172
 msgid "End date"
 msgstr "Data limite para entrega"
 
-#: material_delivery/templates/material_delivery/view.html:132
-#: material_delivery/templates/material_delivery/window_view.html:180
+#: material_delivery/templates/material_delivery/view.html:134
+#: material_delivery/templates/material_delivery/window_view.html:177
 msgid "Deliver Materials"
 msgstr "Entrega de Material"
 
-#: material_delivery/templates/material_delivery/view.html:140
-#: material_delivery/templates/material_delivery/window_view.html:188
+#: material_delivery/templates/material_delivery/view.html:142
+#: material_delivery/templates/material_delivery/window_view.html:185
 msgid "The student hasn't uploaded any material yet."
 msgstr "O estudante ainda não submeteu nenhum material."
 
-#: material_delivery/templates/material_delivery/view.html:162
+#: material_delivery/templates/material_delivery/view.html:164
 msgid "Add your material"
 msgstr "Adicionar o seu material"
 
-#: material_delivery/templates/material_delivery/view.html:178
-#: material_delivery/templates/material_delivery/window_view.html:231
+#: material_delivery/templates/material_delivery/view.html:180
+#: material_delivery/templates/material_delivery/window_view.html:228
 msgid "Evaluate material"
 msgstr "Avaliar material"
 
-#: material_delivery/templates/material_delivery/view.html:183
-#: material_delivery/templates/material_delivery/window_view.html:236
+#: material_delivery/templates/material_delivery/view.html:185
+#: material_delivery/templates/material_delivery/window_view.html:233
 msgid "The teacher will evaluate your material soon."
 msgstr "O professor vai avaliar o seu material em breve."
 
-#: material_delivery/templates/material_delivery/view.html:255
-#: material_delivery/templates/material_delivery/window_view.html:308
+#: material_delivery/templates/material_delivery/view.html:261
+#: material_delivery/templates/material_delivery/window_view.html:309
 msgid "Something went wrong. Please try again later"
 msgstr "Algo deu errado. Por favor, tente novamente mais tarde"
 
-#: material_delivery/views.py:319
+#: material_delivery/templatetags/filters.py:44
+msgid "Delivered material"
+msgstr "Enviou material"
+
+#: material_delivery/templatetags/filters.py:47
+#: material_delivery/templatetags/filters.py:52
+msgid "Didn't delivered material"
+msgstr "Não enviou material"
+
+#: material_delivery/views.py:330
 #, python-format
 msgid "The Material Delivery %s was successfully created in the topic %s!"
 msgstr "A Entrega de Material %s foi criada com sucesso no tópico %s!"
 
-#: material_delivery/views.py:447
+#: material_delivery/views.py:460
 msgid "Update Material Delivery"
 msgstr "Atualizar Entrega de Material"
 
-#: material_delivery/views.py:459
+#: material_delivery/views.py:472
 #, python-format
 msgid "The Material Delivery %s of the topic %s was updated successfully!"
 msgstr "A Entrega de Material %s do tópico %s foi atualizada com sucesso!"
 
-#: material_delivery/views.py:490
+#: material_delivery/views.py:503
 #, python-format
 msgid "The material delivery %s of the topic %s was removed successfully!"
 msgstr "A Entrega de Material %s do tópico %s foi removida com sucesso!"
 
-#: material_delivery/views.py:536
+#: material_delivery/views.py:549
 msgid "You don't have permission to submit files in this delivery"
 msgstr "Você não tem permissão para submeter arquivos nessa entrega"
 
-#: material_delivery/views.py:541
+#: material_delivery/views.py:554
 #, python-format
 msgid "This resource can only be accessed after %s"
 msgstr "Esse recurso só pode ser acessado depois de %s"
 
-#: material_delivery/views.py:543
+#: material_delivery/views.py:556
 #, python-format
 msgid "The material could be delivered only until %s"
 msgstr "O material só podia ser enviado até %s"
 
-#: material_delivery/views.py:595
+#: material_delivery/views.py:608
 msgid "Material submited successfully!"
 msgstr "Material entregue com sucesso!"
 
-#: material_delivery/views.py:622 material_delivery/views.py:703
+#: material_delivery/views.py:635 material_delivery/views.py:716
 msgid "You don't have permission to evaluate this delivery"
 msgstr "Você não tem permissão para avaliar essa entrega"
 
-#: material_delivery/views.py:674
+#: material_delivery/views.py:687
 msgid "Delivery evaluated successfully!"
 msgstr "Entrega avaliada com sucesso!"
 
-#: material_delivery/views.py:756
+#: material_delivery/views.py:769
 msgid "Evaluation updated successfully!"
 msgstr "Avaliação atualizada com sucesso!"
 
-#: material_delivery/views.py:814
+#: material_delivery/views.py:827
 msgid "Material Delivery Reports"
 msgstr "Relatórios da Entrega de Material"
 
-#: material_delivery/views.py:852
+#: material_delivery/views.py:865
 msgid "Realized"
 msgstr "Realizado"
 
-#: material_delivery/views.py:853
+#: material_delivery/views.py:866
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: material_delivery/views.py:854
+#: material_delivery/views.py:867
 msgid "Historic"
 msgstr "Histórico"
 
-#: material_delivery/views.py:913 material_delivery/views.py:953
+#: material_delivery/views.py:926 material_delivery/views.py:966
 msgid "View"
 msgstr "Visualizar"
 
-#: material_delivery/views.py:939 material_delivery/views.py:954
+#: material_delivery/views.py:952 material_delivery/views.py:967
 msgid "Submit"
 msgstr "Entregar"
 
-#: material_delivery/views.py:963
+#: material_delivery/views.py:976
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: material_delivery/views.py:964
+#: material_delivery/views.py:977
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: material_delivery/views.py:1017
+#: material_delivery/views.py:1030
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: material_delivery/views.py:1033
+#: material_delivery/views.py:1046
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: material_delivery/views.py:1049
+#: material_delivery/views.py:1062
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: material_delivery/views.py:1052
+#: material_delivery/views.py:1065
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"

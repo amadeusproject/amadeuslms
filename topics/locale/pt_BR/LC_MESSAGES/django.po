@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-13 07:50+0000\n"
+"POT-Creation-Date: 2021-06-18 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,20 +127,21 @@ msgstr "Editar"
 #: topics/templates/resources/list.html:60
 #: topics/templates/resources/list.html:62
 #: topics/templates/resources/list.html:65
+#: topics/templates/resources/list.html:68
 msgid "Reports"
 msgstr "Relatórios"
 
-#: topics/templates/resources/list.html:67 topics/templates/topics/list.html:41
+#: topics/templates/resources/list.html:70 topics/templates/topics/list.html:41
 msgid "Remove"
 msgstr "Remover"
 
-#: topics/templates/resources/list.html:78
+#: topics/templates/resources/list.html:81
 #, fuzzy
 #| msgid "Last Update"
 msgid "Init date"
 msgstr "Última Atualização"
 
-#: topics/templates/resources/list.html:81
+#: topics/templates/resources/list.html:84
 msgid "End date"
 msgstr ""
 
