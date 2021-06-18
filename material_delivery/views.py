@@ -77,13 +77,13 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                     self.students = User.objects.filter(
                         subject_student=material_delivery.topic.subject
                     ) \
-                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
                     .order_by("-has_delivered", "username", "last_name")
                 else:
                     self.students = User.objects.filter(
                         resource_students=material_delivery
                     ) \
-                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
                     .order_by("-has_delivered","username", "last_name")
 
                 deliver = StudentDeliver.objects.filter(student = self.students.first(), delivery=material_delivery)
@@ -132,13 +132,13 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
                 self.students = User.objects.filter(
                     subject_student=material_delivery.topic.subject
                 ) \
-                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
                 .order_by("-has_delivered","username", "last_name")
             else:
                 self.students = User.objects.filter(
                     resource_students=material_delivery
                 ) \
-                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__student=OuterRef("id")))) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
                 .order_by("-has_delivered","username", "last_name")
 
             if not user is None:
