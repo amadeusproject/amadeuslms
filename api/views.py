@@ -104,8 +104,12 @@ def getToken(request):
                             auth=auth,
                         )
                         """
-                        url_oauth_token="http://localhost:8000/o/token/"
-                        response = requests.post(url_oauth_token, data=data, auth=auth)
+                        uri = request.build_absolute_uri(
+                            reverse("oauth2_provider:token")
+                        ).replace("http://", "https://")
+                        response = requests.post(uri, data=data, auth=auth)
+                        #url_oauth_token="http://localhost:8000/o/token/"
+                        #response = requests.post(url_oauth_token, data=data, auth=auth)
 
                         json_r = json.loads(response.content.decode("utf-8"))
 
