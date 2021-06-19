@@ -20,6 +20,7 @@ from topics.models import Resource
 from users.models import User
 
 valid_formats = [
+    'video/x-msvideo',
     'image/bmp',
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -35,6 +36,9 @@ valid_formats = [
     'audio/mpeg3',
     'audio/x-mpeg-3',
     'video/mp4',
+    'video/x-m4v',
+    'video/x-matroska',
+    'video/quicktime',
     'application/vnd.oasis.opendocument.presentation',
     'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.oasis.opendocument.text',
@@ -51,7 +55,11 @@ valid_formats = [
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'audio/x-wav',
-    'audio/wav'
+    'audio/wav',
+    'video/webm',
+    'audio/webm',
+    'video/3gpp',
+    'video/x-ms-wmv'
 ]
 
 def validate_file_extension(value):
