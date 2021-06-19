@@ -43,8 +43,8 @@ msgid "Message"
 msgstr "Mensagem"
 
 #: webpage/forms.py:138
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Deve ser menor do que 5MB"
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Deve ser menor do que 10MB"
 
 #: webpage/models.py:20
 msgid "Webpage Content"
@@ -160,8 +160,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: webpage/templates/webpages/send_message.html:52
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: webpage/templates/webpages/send_message.html:74
 msgid "Close"

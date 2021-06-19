@@ -268,8 +268,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou solte uma imagem aqui"
 
 #: questionary/templates/questionary/send_message.html:52
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: questionary/templates/questionary/send_message.html:74
 msgid "Close"

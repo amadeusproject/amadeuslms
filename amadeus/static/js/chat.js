@@ -261,7 +261,7 @@ function setChatFormSubmit() {
     btn.prop('disabled', true);
 
     var formData = new FormData($(this)[0]), file = $('#id_image')[0].files[0],
-        max_filesize = 5 * 1024 * 1024;
+        max_filesize = 10 * 1024 * 1024;
 
     if (typeof (file) != 'undefined') {
       var image_container = $('#id_image').parent(),

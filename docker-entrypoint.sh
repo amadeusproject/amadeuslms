@@ -1,5 +1,6 @@
 #!/bin/bash
 
+service cron start
 python3 manage.py makemigrations
 python3 manage.py migrate users
 python3 manage.py migrate

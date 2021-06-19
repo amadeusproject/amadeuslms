@@ -166,8 +166,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou arraste a imagem aqui"
 
 #: pdf_file/templates/pdf_file/send_message.html:51
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: pdf_file/templates/pdf_file/send_message.html:73
 msgid "Close"

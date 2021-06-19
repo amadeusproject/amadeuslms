@@ -90,7 +90,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 				    <div class="filedrag">
 			    		{% trans 'Click or drop the picture here' %}<br />
 
-			      		<small>{% trans 'The picture could not exceed 5MB.' %}</small>
+			      		<small>{% trans 'The picture could not exceed 10MB.' %}</small>
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>
@@ -115,7 +115,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 							<span aria-hidden="true">&times;</span>
 						</button>
 					<ul>
-						<li class="size" style="display:none">{% trans "The image is too large. It should have less than 5MB." %}</li>
+						<li class="size" style="display:none">{% trans "The image is too large. It should have less than 10MB." %}</li>
 						<li class="format" style="display:none">{% trans 'File not supported.' %}</li>
 					</ul>
 				</div>
@@ -176,7 +176,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	function FileSelectHandler(e) {
 		var files = e.target.files || e.dataTransfer.files,
 			parent = $(e.target.offsetParent),
-			max_size = 5*1024*1024;
+			max_size = 10*1024*1024;
 
 		$(".client-file-errors").hide();
 		$(".size").hide();

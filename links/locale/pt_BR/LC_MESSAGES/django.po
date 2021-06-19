@@ -156,8 +156,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: links/templates/links/send_message.html:53
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: links/templates/links/send_message.html:76
 msgid "Send"
