@@ -34,8 +34,8 @@ msgstr "Esse campo é obrigatório."
 
 #: mural/forms.py:50 mural/forms.py:135 mural/templates/mural/_form.html:118
 #: mural/templates/mural/_form_comment.html:83
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Ela deve possuir 10MB ou menos."
 
 #: mural/forms.py:94
 msgid "Choose an especific resource"
@@ -118,8 +118,8 @@ msgstr "Clique ou solte a imagem aqui"
 
 #: mural/templates/mural/_form.html:93
 #: mural/templates/mural/_form_comment.html:59
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: mural/templates/mural/_form.html:126
 msgctxt "button"

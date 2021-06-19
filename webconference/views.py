@@ -145,7 +145,11 @@ class Conference(LoginRequiredMixin, LogMixin, generic.TemplateView):
         context["webconference"] = conference
         context["topic"] = conference.topic
         context["subject"] = conference.topic.subject
+        context["slug"] = kwargs.get("slug")
         context["name_room"] = kwargs.get("slug")
+
+        if conference.jitsi_slug:
+            context["name_room"] = conference.jitsi_slug
 
         context["user_image"] = self.request.build_absolute_uri(
             str(self.request.user.image_url)
@@ -206,8 +210,7 @@ def participating(request):
 
 @log_decorator("resources", "participate", "webconference")
 def finish(request):
-
-    webconference = get_object_or_404(Webconference, slug=request.GET["roomName"])
+    webconference = get_object_or_404(Webconference, slug=request.GET["slug"])
     log_context = {}
     log_context["category_id"] = webconference.topic.subject.category.id
     log_context["category_name"] = webconference.topic.subject.category.name
@@ -228,7 +231,7 @@ def finish(request):
     url = {
         "url": str(
             reverse_lazy(
-                "webconferences:view", kwargs={"slug": request.GET["roomName"]}
+                "webconferences:view", kwargs={"slug": request.GET["slug"]}
             )
         )
     }

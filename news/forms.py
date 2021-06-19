@@ -22,7 +22,7 @@ from amadeus import settings
 from django.utils.html import strip_tags
 
 class NewsForm(forms.ModelForm):
-    MAX_UPLOAD_SIZE = 5*1024*1024
+    MAX_UPLOAD_SIZE = 10*1024*1024
 
 	#Cropping image
     x = forms.FloatField(widget=forms.HiddenInput(),required=False)
@@ -83,7 +83,7 @@ class NewsForm(forms.ModelForm):
         if image:
             if hasattr(image, '_size'):
                 if image._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['image'] = [_("The image is too large. It should have less than 5MB.")]
+                    self._errors['image'] = [_("The image is too large. It should have less than 10MB.")]
                     return ValueError
         else:
             self._errors['image'] = [_("This field is required.")]

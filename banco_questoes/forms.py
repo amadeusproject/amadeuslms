@@ -23,7 +23,7 @@ from .models import Question, Alternative
 
 class QuestionForm(forms.ModelForm):
     subject = None
-    MAX_UPLOAD_SIZE = 5*1024*1024
+    MAX_UPLOAD_SIZE = 10*1024*1024
 
     def __init__(self, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
@@ -37,7 +37,7 @@ class QuestionForm(forms.ModelForm):
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['file'] = [_("The file is too large. It should have less than 5MB.")]
+                    self._errors['file'] = [_("The file is too large. It should have less than 10MB.")]
 
                     return ValueError
 
@@ -110,7 +110,7 @@ class AlternativeForm(forms.ModelForm):
         if file:
             if hasattr(file, '_size'):
                 if file._size > self.MAX_UPLOAD_SIZE:
-                    self._errors['file'] = [_("The file is too large. It should have less than 5MB.")]
+                    self._errors['file'] = [_("The file is too large. It should have less than 10MB.")]
 
                     return ValueError
 
