@@ -56,7 +56,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </div>
                     
                         <div class="filedrag">
-                            {% if form.instance.file %}
+                            {% if form.instance.file and form.instance.filename != "" %}
                                 <i class="fa fa-file-archive-o"></i> <br />
                         
                                 <small>{{ form.instance.filename }}</small>
@@ -68,14 +68,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </div>
                     </div>
                     
-                    {% if form.instance.file.errors %}
+                    {% if form.file.errors %}
                         <div class="alert alert-danger alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <ul>
-                                {% for error in form.instance.file.errors %}
-                                <li>{{ error }}</li>
+                                {% for error in form.file.errors %}
+                                    <li>{{ error }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -147,6 +147,21 @@ $(function() {
                     $("#submit_errors").show();
                 } else {
                     alertify.error(data.message);
+                }
+            },
+            error: function(data) {
+                let response = data.responseJSON;
+
+                if (response.status === 400) {
+                    $('.modal').on('hidden.bs.modal', function() {
+                        $('.modal').remove();
+    
+                        $("#modalArea").html(response.content);
+    
+                        $('.modal').modal('show');
+                    });
+
+                    $('.modal').modal('hide');
                 }
             },
             cache: false,

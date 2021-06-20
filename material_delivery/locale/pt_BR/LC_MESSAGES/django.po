@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 13:27+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,16 +26,21 @@ msgstr "Tags"
 msgid "Material Delivery Name"
 msgstr "Nome da Entrega de Material"
 
-#: material_delivery/forms.py:96
+#: material_delivery/forms.py:97
 msgid "This subject already has a material delivery with this name"
 msgstr "Esse assunto já possui uma Entrega de Material com esse nome"
 
-#: material_delivery/forms.py:109 material_delivery/forms.py:139
+#: material_delivery/forms.py:104 material_delivery/forms.py:258
+#: material_delivery/forms.py:277 material_delivery/forms.py:317
+msgid "This field is required."
+msgstr "Esse campo é obrigatório."
+
+#: material_delivery/forms.py:114 material_delivery/forms.py:144
 msgid "This input should be filled with a date equal or after today's date."
 msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data atual."
 
-#: material_delivery/forms.py:117 material_delivery/forms.py:147
+#: material_delivery/forms.py:122 material_delivery/forms.py:152
 #, python-format
 msgid ""
 "This input should be filled with a date equal or after the subject begin "
@@ -44,7 +49,7 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data de "
 "início do assunto(\"%s\")"
 
-#: material_delivery/forms.py:126 material_delivery/forms.py:156
+#: material_delivery/forms.py:131 material_delivery/forms.py:161
 #, python-format
 msgid ""
 "This input should be filled with a date equal or before the subject end date."
@@ -53,11 +58,11 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou anterior à data final "
 "do assunto.(\"%s\")"
 
-#: material_delivery/forms.py:131 material_delivery/forms.py:169
+#: material_delivery/forms.py:136 material_delivery/forms.py:174
 msgid "This field is required"
 msgstr "Esse campo é obrigatório"
 
-#: material_delivery/forms.py:165
+#: material_delivery/forms.py:170
 msgid ""
 "This input should be filled with a date equal or after the date stabilished "
 "for the init."
@@ -65,81 +70,81 @@ msgstr ""
 "Esse campo deve ser preenchido com uma data igual ou posterior à data "
 "estabelecida para o início."
 
-#: material_delivery/forms.py:223 material_delivery/forms.py:255
-#: material_delivery/forms.py:292
+#: material_delivery/forms.py:228 material_delivery/forms.py:271
+#: material_delivery/forms.py:311
 #: material_delivery/templates/material_delivery/_form.html:138
 #: material_delivery/templates/material_delivery/_student_form.html:90
 #: material_delivery/templates/material_delivery/_teacher_form.html:112
 msgid "The file is too large. It should have less than 30MB."
 msgstr "Esse arquivo é muito grande. Ele deve conter menos de 30MB."
 
-#: material_delivery/forms.py:237
+#: material_delivery/forms.py:242
 msgid "Material Description"
 msgstr "Descrição do Material"
 
-#: material_delivery/forms.py:261 material_delivery/forms.py:298
-msgid "This field is required."
-msgstr "Esse campo é obrigatório."
+#: material_delivery/forms.py:286 material_delivery/forms.py:292
+#: material_delivery/models.py:147
+#: material_delivery/templates/material_delivery/_results.html:35
+#: material_delivery/templates/material_delivery/_teacher_evaluation_view.html:27
+msgid "Grade"
+msgstr "Nota"
 
-#: material_delivery/models.py:60
-msgid "File not supported, use PDF format instead."
+#: material_delivery/models.py:68
+#: material_delivery/templates/material_delivery/_form.html:139
+#: material_delivery/templates/material_delivery/_student_form.html:91
+#: material_delivery/templates/material_delivery/_teacher_form.html:113
+msgid "File not supported."
 msgstr "Arquivo não suportado."
 
-#: material_delivery/models.py:63
+#: material_delivery/models.py:71
 msgid "Presentation"
 msgstr "Apresentação"
 
-#: material_delivery/models.py:64
+#: material_delivery/models.py:72
 msgid "Init Date"
 msgstr "Data de início"
 
-#: material_delivery/models.py:65
+#: material_delivery/models.py:73
 msgid "End Date"
 msgstr "Data limite para entrega"
 
-#: material_delivery/models.py:84
+#: material_delivery/models.py:92
 msgid "Are you sure you want delete the Material Delivery"
 msgstr "Você tem certeza que deseja deletar a Entrega de Material"
 
-#: material_delivery/models.py:96 material_delivery/models.py:108
-#: material_delivery/views.py:969
+#: material_delivery/models.py:104 material_delivery/models.py:116
+#: material_delivery/views.py:987
 msgid "Material Delivery"
 msgstr "Entrega de Material"
 
-#: material_delivery/models.py:97 material_delivery/models.py:121
-#: material_delivery/models.py:142
+#: material_delivery/models.py:105 material_delivery/models.py:129
+#: material_delivery/models.py:150
 msgid "File"
 msgstr "Arquivo"
 
-#: material_delivery/models.py:109 material_delivery/models.py:141
+#: material_delivery/models.py:117 material_delivery/models.py:149
 #: material_delivery/templates/material_delivery/relatorios.html:30
 #: material_delivery/templates/material_delivery/relatorios.html:52
 msgid "User"
 msgstr "Usuário"
 
-#: material_delivery/models.py:119 material_delivery/models.py:138
+#: material_delivery/models.py:127 material_delivery/models.py:146
 msgid "Student Deliver"
 msgstr "Entrega do Estudante"
 
-#: material_delivery/models.py:120 material_delivery/models.py:140
+#: material_delivery/models.py:128 material_delivery/models.py:148
 msgid "Commentary"
 msgstr "Comentários"
 
-#: material_delivery/models.py:122
+#: material_delivery/models.py:130
 msgid "Upload Date"
 msgstr "Data de submissão"
 
-#: material_delivery/models.py:139
-#: material_delivery/templates/material_delivery/_results.html:35
-#: material_delivery/templates/material_delivery/_teacher_evaluation_view.html:29
-msgid "Grade"
-msgstr "Nota"
-
-#: material_delivery/models.py:143
+#: material_delivery/models.py:151
 msgid "Is updated?"
 msgstr "Está atualizado?"
 
-#: material_delivery/models.py:144
+#: material_delivery/models.py:152
 msgid "Evaluation Date"
 msgstr "Data da avaliação"
 
@@ -166,12 +171,6 @@ msgstr "Clique ou arraste o arquivo aqui."
 #: material_delivery/templates/material_delivery/_teacher_form.html:88
 msgid "The file could not exceed 30MB."
 msgstr "O arquivo não pode exceder 30MB."
-
-#: material_delivery/templates/material_delivery/_form.html:139
-#: material_delivery/templates/material_delivery/_student_form.html:91
-#: material_delivery/templates/material_delivery/_teacher_form.html:113
-msgid "File not supported."
-msgstr "Arquivo não suportado."
 
 #: material_delivery/templates/material_delivery/_form.html:194
 msgid "Common resources settings"
@@ -238,7 +237,7 @@ msgstr "Em"
 msgid "Updated"
 msgstr "Atualizado"
 
-#: material_delivery/templates/material_delivery/_teacher_evaluation_view.html:45
+#: material_delivery/templates/material_delivery/_teacher_evaluation_view.html:39
 msgid "Updadte evaluation"
 msgstr "Atualizar avaliação"
 
@@ -271,6 +270,7 @@ msgstr "Ação não realizada"
 #: material_delivery/templates/material_delivery/relatorios.html:192
 #: material_delivery/templates/material_delivery/relatorios.html:214
 #: material_delivery/templates/material_delivery/view.html:72
+#: material_delivery/templates/material_delivery/window_view.html:110
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -308,69 +308,77 @@ msgid "Edit: "
 msgstr "Editar: "
 
 #: material_delivery/templates/material_delivery/view.html:70
+#: material_delivery/templates/material_delivery/window_view.html:108
 msgid "Edit"
 msgstr "Editar"
 
 #: material_delivery/templates/material_delivery/view.html:74
+#: material_delivery/templates/material_delivery/window_view.html:112
 msgid "Remove"
 msgstr "Remover"
 
 #: material_delivery/templates/material_delivery/view.html:78
-#: material_delivery/templates/material_delivery/window_view.html:120
+#: material_delivery/templates/material_delivery/window_view.html:117
 msgid "Resource Mural"
 msgstr "Mural do Recurso"
 
 #: material_delivery/templates/material_delivery/view.html:92
-#: material_delivery/templates/material_delivery/window_view.html:134
+#: material_delivery/templates/material_delivery/window_view.html:131
 msgid "Individual Result"
 msgstr "Resultado Individual"
 
 #: material_delivery/templates/material_delivery/view.html:96
-#: material_delivery/templates/material_delivery/window_view.html:139
+#: material_delivery/templates/material_delivery/window_view.html:136
 msgid "Class Results"
 msgstr "Resultado da Classe"
 
 #: material_delivery/templates/material_delivery/view.html:117
-#: material_delivery/templates/material_delivery/window_view.html:160
+#: material_delivery/templates/material_delivery/window_view.html:156
 msgid "Attachments"
 msgstr "Anexos"
 
-#: material_delivery/templates/material_delivery/view.html:129
-#: material_delivery/templates/material_delivery/window_view.html:170
+#: material_delivery/templates/material_delivery/view.html:126
+#: material_delivery/templates/material_delivery/window_view.html:164
 msgid "Init date"
 msgstr "Data de início"
 
-#: material_delivery/templates/material_delivery/view.html:130
-#: material_delivery/templates/material_delivery/window_view.html:172
+#: material_delivery/templates/material_delivery/view.html:127
+#: material_delivery/templates/material_delivery/window_view.html:165
 msgid "End date"
 msgstr "Data limite para entrega"
 
-#: material_delivery/templates/material_delivery/view.html:134
-#: material_delivery/templates/material_delivery/window_view.html:177
+#: material_delivery/templates/material_delivery/view.html:131
+#: material_delivery/templates/material_delivery/window_view.html:169
 msgid "Deliver Materials"
 msgstr "Entrega de Material"
 
-#: material_delivery/templates/material_delivery/view.html:142
-#: material_delivery/templates/material_delivery/window_view.html:185
-msgid "The student hasn't uploaded any material yet."
-msgstr "O estudante ainda não submeteu nenhum material."
-
-#: material_delivery/templates/material_delivery/view.html:164
+#: material_delivery/templates/material_delivery/view.html:144
+#: material_delivery/templates/material_delivery/window_view.html:182
 msgid "Add your material"
 msgstr "Adicionar o seu material"
 
-#: material_delivery/templates/material_delivery/view.html:180
-#: material_delivery/templates/material_delivery/window_view.html:228
+#: material_delivery/templates/material_delivery/view.html:149
+#: material_delivery/templates/material_delivery/window_view.html:187
+msgid "The material could be delivered only until"
+msgstr "O material só podia ser enviado até"
+
+#: material_delivery/templates/material_delivery/view.html:162
+#: material_delivery/templates/material_delivery/window_view.html:200
+msgid "The student hasn't uploaded any material yet."
+msgstr "O estudante ainda não submeteu nenhum material."
+
+#: material_delivery/templates/material_delivery/view.html:182
+#: material_delivery/templates/material_delivery/window_view.html:221
 msgid "Evaluate material"
 msgstr "Avaliar material"
 
-#: material_delivery/templates/material_delivery/view.html:185
-#: material_delivery/templates/material_delivery/window_view.html:233
+#: material_delivery/templates/material_delivery/view.html:187
+#: material_delivery/templates/material_delivery/window_view.html:226
 msgid "The teacher will evaluate your material soon."
 msgstr "O professor vai avaliar o seu material em breve."
 
-#: material_delivery/templates/material_delivery/view.html:261
-#: material_delivery/templates/material_delivery/window_view.html:309
+#: material_delivery/templates/material_delivery/view.html:267
+#: material_delivery/templates/material_delivery/window_view.html:306
 msgid "Something went wrong. Please try again later"
 msgstr "Algo deu errado. Por favor, tente novamente mais tarde"
 
@@ -416,67 +424,70 @@ msgstr "Esse recurso só pode ser acessado depois de %s"
 msgid "The material could be delivered only until %s"
 msgstr "O material só podia ser enviado até %s"
 
-#: material_delivery/views.py:608
+#: material_delivery/views.py:617
 msgid "Material submited successfully!"
 msgstr "Material entregue com sucesso!"
 
-#: material_delivery/views.py:635 material_delivery/views.py:716
+#: material_delivery/views.py:644 material_delivery/views.py:734
 msgid "You don't have permission to evaluate this delivery"
 msgstr "Você não tem permissão para avaliar essa entrega"
 
-#: material_delivery/views.py:687
+#: material_delivery/views.py:705
 msgid "Delivery evaluated successfully!"
 msgstr "Entrega avaliada com sucesso!"
 
-#: material_delivery/views.py:769
+#: material_delivery/views.py:787
 msgid "Evaluation updated successfully!"
 msgstr "Avaliação atualizada com sucesso!"
 
-#: material_delivery/views.py:827
+#: material_delivery/views.py:845
 msgid "Material Delivery Reports"
 msgstr "Relatórios da Entrega de Material"
 
-#: material_delivery/views.py:865
+#: material_delivery/views.py:883
 msgid "Realized"
 msgstr "Realizado"
 
-#: material_delivery/views.py:866
+#: material_delivery/views.py:884
 msgid "Unrealized"
 msgstr "Não Realizado"
 
-#: material_delivery/views.py:867
+#: material_delivery/views.py:885
 msgid "Historic"
 msgstr "Histórico"
 
-#: material_delivery/views.py:926 material_delivery/views.py:966
+#: material_delivery/views.py:944 material_delivery/views.py:984
 msgid "View"
 msgstr "Visualizar"
 
-#: material_delivery/views.py:952 material_delivery/views.py:967
+#: material_delivery/views.py:970 material_delivery/views.py:985
 msgid "Submit"
 msgstr "Entregar"
 
-#: material_delivery/views.py:976
+#: material_delivery/views.py:994
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: material_delivery/views.py:977
+#: material_delivery/views.py:995
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: material_delivery/views.py:1030
+#: material_delivery/views.py:1048
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: material_delivery/views.py:1046
+#: material_delivery/views.py:1064
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: material_delivery/views.py:1062
+#: material_delivery/views.py:1080
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: material_delivery/views.py:1065
+#: material_delivery/views.py:1083
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
+
+#~ msgid "File not supported, use PDF format instead."
+#~ msgstr "Arquivo não suportado."

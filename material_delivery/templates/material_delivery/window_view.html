@@ -168,6 +168,29 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     <h4><b>{% trans 'Deliver Materials' %}</b></h4>
 
+                    {% if not has_subject_permissions %}
+                        {% if material_delivery.data_ini|enable_upload:material_delivery.data_end and studentDeliver %}
+                            <div id="submit_errors" class="col-lg-12 alert alert-danger alert-dismissible" role="alert" style="display:none">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <p></p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <a href="javascript:attach_material('{% url 'material_delivery:submit_material' studentDeliver.pk %}')"
+                                    class="btn btn-success btn-raised btn-sm"><i class="fa fa-plus-circle"></i> {% trans 'Add your material' %}</a>
+                            </div>
+                        {% elif not studentDeliver or studentDeliver.material_deliver.count == 0 %}
+                            <div class="text-center text-muted">
+                                <i class="fa fa-exclamation-triangle text-sm"></i>
+                                <small>{% trans "The material could be delivered only until" %} {{ material_delivery.data_end|date:'SHORT_DATETIME_FORMAT' }}</small>
+                                <br clear="all" />
+                                <br clear="all" />
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
                     <div class="row">
                         <div id="student_materials" class="col-lg-12">
                             {% if not studentDeliver or studentDeliver.material_deliver.count == 0 %}
@@ -185,51 +208,36 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         </div>
                     </div>
 
-                    {% if not has_subject_permissions %}
-                    {% if material_delivery.data_ini|enable_upload:material_delivery.data_end and studentDeliver %}
-                    <div id="submit_errors" class="col-lg-12 alert alert-danger alert-dismissible" role="alert"
-                        style="display:none">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <p></p>
-                    </div>
-
-                    <div class="text-center">
-                        <a href="javascript:attach_material('{% url 'material_delivery:submit_material' studentDeliver.pk %}')"
-                            class="btn btn-success btn-raised btn-sm"><i class="fa fa-plus-circle"></i> {% trans 'Add your material' %}</a>
-                    </div>
-                    {% endif %}
-                    {% endif %}
-
                     <hr />
 
-                    {% if studentDeliver.student_deliver.exists %}
                     <div class="row">
                         <div id="teacherEval" class="col-lg-12">
-                            {% include 'material_delivery/_teacher_evaluation_view.html' with evaluation=studentDeliver.student_deliver.first deliver_pk=studentDeliver.pk user=request.user %}
+                            {% if studentDeliver.student_deliver.exists %}
+                                {% include 'material_delivery/_teacher_evaluation_view.html' with evaluation=studentDeliver.student_deliver.first deliver_pk=studentDeliver.pk user=request.user %}
+                            {% else %}
+                                {% if has_subject_permissions %}
+                                    <div id="eval_btn" class="text-center">
+                                        <a href="javascript:evaluate('{% url 'material_delivery:evaluate' studentDeliver.pk %}')"
+                                        class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center text-muted">
+                                        <i class="fa fa-exclamation-triangle text-sm"></i>
+                                        <small>{% trans "The teacher will evaluate your material soon." %}</small>
+                                        <br clear="all" />
+                                        <br clear="all" />
+                                    </div>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
-                    {% else %}
-                    {% if has_subject_permissions %}
-                    <div id="eval_btn" class="text-center">
-                        <a href="javascript:evaluate('{% url 'material_delivery:evaluate' studentDeliver.pk %}')"
-                            class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
-                    </div>
-                    {% else %}
-                    <div class="text-center text-muted">
-                        <i class="fa fa-exclamation-triangle text-sm"></i>
-                        <small>{% trans "The teacher will evaluate your material soon." %}</small>
-                        <br clear="all" />
-                        <br clear="all" />
-                    </div>
-                    {% endif %}
-                    {% endif %}
                 </div>
 
                 <div class="result_tab all_students" style="display:none"></div>
             </div>
         </div>
+
+        <div id="modalArea"></div>
 
         <script type="text/javascript">
             $(function () {
@@ -249,7 +257,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             alertify.error(modal.message);
                         }
                     } else {
-                        $("#resource-panel").after(modal);
+                        $("#modalArea").html(modal);
 
                         $('.modal').modal('show');
                     }
@@ -263,7 +271,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     if (typeof (modal.status) !== "undefined") {
                         alertify.error(modal.message);
                     } else {
-                        $("#resource-panel").after(modal);
+                        $("#modalArea").html(modal);
 
                         $('.modal').modal('show');
                     }

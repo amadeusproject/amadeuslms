@@ -568,6 +568,15 @@ class StudentMaterialCreate(LoginRequiredMixin, LogMixin, generic.CreateView):
         else:
             return self.form_invalid(form)
 
+    def form_invalid(self, form):
+        context = self.get_context_data()
+
+        errorForm = render_to_string(
+                "material_delivery/_student_form.html", context, self.request
+            )
+
+        return JsonResponse({"status": 400, "content": errorForm}, status = 400)
+
     def form_valid(self, form):
         self.object = form.save(commit = False)
 
@@ -647,6 +656,15 @@ class TeacherEvaluate(LoginRequiredMixin, LogMixin, generic.CreateView):
         else:
             return self.form_invalid(form)
 
+    def form_invalid(self, form):
+        context = self.get_context_data()
+
+        errorForm = render_to_string(
+                "material_delivery/_teacher_form.html", context, self.request
+            )
+
+        return JsonResponse({"status": 400, "content": errorForm}, status = 400)
+
     def form_valid(self, form):
         self.object = form.save(commit = False)
 
@@ -681,7 +699,7 @@ class TeacherEvaluate(LoginRequiredMixin, LogMixin, generic.CreateView):
         )
 
         newMaterial = render_to_string(
-                "material_delivery/_teacher_evaluation_view.html", {"evaluation": self.object}, self.request
+                "material_delivery/_teacher_evaluation_view.html", {"evaluation": self.object, "deliver_pk": pk}, self.request
             )
 
         return JsonResponse({"status": 200, "content": newMaterial, "message": _("Delivery evaluated successfully!")})
