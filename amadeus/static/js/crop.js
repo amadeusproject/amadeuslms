@@ -20,7 +20,7 @@ Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 $(function() {
   /* Script para abrir o modal com a imagem selecionada */
   $('#id_image').change(function() {
-    var max_size = 5 * 1024 * 1024;
+    var max_size = 10 * 1024 * 1024;
     var submit_btn = $('#user-form').find('input[type=\'submit\']');
     var errors = 0;
 

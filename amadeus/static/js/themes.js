@@ -47,7 +47,7 @@ function FileSelectHandler(e) {
 		parent = $(e.target.offsetParent),
 		file_id = parent.data('file_id'),
 		submit_btn = $("#theme-form").find("input[type='submit']"),
-		max_size = 2*1024*1024;
+		max_size = 10*1024*1024;
 
 	parent.removeClass('alert-file');
 

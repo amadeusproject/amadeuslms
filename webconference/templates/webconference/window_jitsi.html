@@ -67,7 +67,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         method: "GET",
         url: "{% url 'webconferences:exit' %}",
         dataType: 'json',
-        data: res,
+        data: {...res, slug: "{{slug}}"},
         success: function(response) {
           window.location.replace(response['url']);
           console.log(response);

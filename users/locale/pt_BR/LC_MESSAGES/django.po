@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid "You must insert an email address"
 msgstr "Você deve inserir um endereço de email"
 
 #: users/forms.py:57 users/templates/users/_form.html:106
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Ela deve conter menos de 5MB."
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Ela deve conter menos de 10MB."
 
 #: users/forms.py:71
 msgid "You must define a password."
@@ -187,8 +187,8 @@ msgid "Click or drop the file here"
 msgstr "Clique ou solte um arquivo aqui"
 
 #: users/templates/users/_form.html:46
-msgid "The photo could not exceed 5MB."
-msgstr "A imagem não pode exceder o tamanho de 5MB."
+msgid "The photo could not exceed 10MB."
+msgstr "A imagem não pode exceder o tamanho de 10MB."
 
 #: users/templates/users/_form.html:115 users/templates/users/support.html:82
 msgid "Save"

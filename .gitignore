@@ -57,6 +57,9 @@ links/static/images/
 h5p/sheets/xls/*
 !h5p/sheets/xls/.keep
 
+material_delivery/sheets/xls/*
+!material_delivery/sheets/xls/.keep
+
 questionary/sheets/xls/*
 !questionary/sheets/xls/.keep
 

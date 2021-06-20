@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Tags"
 msgid "Web Conference Title"
 msgstr "Titulo da Web Conferência"
 
-#: webconference/forms.py:54 webconference/models.py:20
+#: webconference/forms.py:54 webconference/models.py:34
 msgid "Presentation"
 msgstr "Apresentação"
 
@@ -63,7 +63,7 @@ msgid ""
 "(\"%s\")"
 msgstr ""
 
-#: webconference/forms.py:152 webconference/models.py:47
+#: webconference/forms.py:152 webconference/models.py:61
 msgid "Domain"
 msgstr "Dominio"
 
@@ -71,35 +71,39 @@ msgstr "Dominio"
 msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
-#: webconference/models.py:21
+#: webconference/models.py:33
+msgid "Jitsi Slug"
+msgstr ""
+
+#: webconference/models.py:35
 #: webconference/templates/webconference/view.html:80
 #: webconference/templates/webconference/window_view.html:44
 msgid "Start date/hour"
 msgstr "Data/hora de inicio"
 
-#: webconference/models.py:22
+#: webconference/models.py:36
 #: webconference/templates/webconference/view.html:83
 #: webconference/templates/webconference/window_view.html:47
 msgid "End date/hour"
 msgstr "Data/hora de termino"
 
-#: webconference/models.py:25
+#: webconference/models.py:39
 msgid "Web Conference"
 msgstr "Web Conferência"
 
-#: webconference/models.py:26
+#: webconference/models.py:40
 msgid "Web Conferences"
 msgstr "Web Conferências"
 
-#: webconference/models.py:44
+#: webconference/models.py:58
 msgid "Are you sure you want delete the web conference"
 msgstr "Tem certeza que deseja deletar a web conferência"
 
-#: webconference/models.py:50
+#: webconference/models.py:64
 msgid "Web Conference Setting"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/models.py:51
+#: webconference/models.py:65
 msgid "Web Conferences Setting"
 msgstr "Configurações das Web conferências"
 
@@ -133,7 +137,7 @@ msgid "Settings: Conference"
 msgstr "Configurações: Web Conferência"
 
 #: webconference/templates/webconference/create.html:33
-#: webconference/views.py:409
+#: webconference/views.py:412
 msgid "Create Web Conference"
 msgstr "Criar Web Conferência"
 
@@ -196,8 +200,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: webconference/templates/webconference/send_message.html:52
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB"
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB"
 
 #: webconference/templates/webconference/send_message.html:74
 msgid "Close"
@@ -225,7 +229,7 @@ msgstr "Mural do recurso"
 
 #: webconference/templates/webconference/view.html:91
 #: webconference/templates/webconference/window_view.html:55
-#: webconference/views.py:789
+#: webconference/views.py:792
 msgid "Participate"
 msgstr "Participar"
 
@@ -234,7 +238,7 @@ msgstr "Participar"
 msgid "%s - Web Conference"
 msgstr "%s - Web Conferência"
 
-#: webconference/views.py:423
+#: webconference/views.py:426
 #, python-format
 msgid ""
 "The Web conference \"%s\" was added to the Topic \"%s\" of the virtual "
@@ -243,16 +247,16 @@ msgstr ""
 "A web conferência '%s' foi adicionada ao tópico '%s' do ambiente virtual "
 "'%s' com sucesso!"
 
-#: webconference/views.py:555
+#: webconference/views.py:558
 msgid "Update Web Conference"
 msgstr "Atualizar a web conferência"
 
-#: webconference/views.py:571
+#: webconference/views.py:574
 #, python-format
 msgid "The Web conference \"%s\" was updated successfully!"
 msgstr "A web conferência '%s' foi atualizada com sucesso!"
 
-#: webconference/views.py:618
+#: webconference/views.py:621
 #, python-format
 msgid ""
 "The web conference \"%s\" was removed successfully from virtual environment "
@@ -260,64 +264,64 @@ msgid ""
 msgstr ""
 "A web conferência '%s' foi removida com sucesso do ambiente virtual '%s'!"
 
-#: webconference/views.py:668
+#: webconference/views.py:671
 msgid "Conference settings updated successfully!"
 msgstr "Configurações de segurança atualizadas com sucesso!"
 
-#: webconference/views.py:675
+#: webconference/views.py:678
 msgid "Web Conference Settings"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/views.py:724
+#: webconference/views.py:727
 msgid "Youtube Video Reports"
 msgstr "Relatórios do Video do Youtube"
 
-#: webconference/views.py:759
+#: webconference/views.py:762
 msgid "Realized"
 msgstr "Realizada"
 
-#: webconference/views.py:760
+#: webconference/views.py:763
 msgid "Unrealized"
 msgstr "Não Realizada"
 
-#: webconference/views.py:761
+#: webconference/views.py:764
 msgid "Historic"
 msgstr "Histórico"
 
-#: webconference/views.py:787
+#: webconference/views.py:790
 msgid "View"
 msgstr "Visualizar"
 
-#: webconference/views.py:788
+#: webconference/views.py:791
 msgid "Enter"
 msgstr "Entrar"
 
-#: webconference/views.py:881
+#: webconference/views.py:884
 msgid "Webconference"
 msgstr "Web Conferência"
 
-#: webconference/views.py:900
+#: webconference/views.py:903
 msgid "Actions about resource"
 msgstr "Ações sobre o recurso"
 
-#: webconference/views.py:901
+#: webconference/views.py:904
 msgid "Quantity"
 msgstr "Quantidade"
 
-#: webconference/views.py:956
+#: webconference/views.py:959
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: webconference/views.py:972
+#: webconference/views.py:975
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: webconference/views.py:988
+#: webconference/views.py:991
 msgid "The message was successfull sent!"
 msgstr "A mensagem foi enviada com sucesso!"
 
-#: webconference/views.py:990
+#: webconference/views.py:993
 msgid "No user selected!"
 msgstr "Nenhum usuário selecionado!"
 

@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 $(function () {
   /* Script para abrir o modal com a imagem selecionada */
   $("#id_image").change(function () {
-    var max_size = 5 * 1024 * 1024;
+    var max_size = 10 * 1024 * 1024;
     var submit_btn = $("#news-form").find("input[type='submit']");
     var mimeTypes = $(this).data("mimetypes");
     var errors = 0;
