@@ -39,13 +39,13 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 					{% endif %}
 				</div>
 
-				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-overlay="{% trans 'The image is too large. It should have less than 5MB.' %}" data-invalid="{% trans 'Select a valid file. The file must posses one of this extensions: .jpg, .png, .gif' %}">
+				<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-overlay="{% trans 'The image is too large. It should have less than 10MB.' %}" data-invalid="{% trans 'Select a valid file. The file must posses one of this extensions: .jpg, .png, .gif' %}">
 					{% render_field form.image %}
 
 				    <div class="filedrag">
 			    		{% trans 'Click or drop the image here' %}<br />
 
-			      		<small>{% trans 'The image could not exceed 5MB.' %}</small>
+			      		<small>{% trans 'The image could not exceed 10MB.' %}</small>
 			  		</div>
 
 					<span id="helpBlock" class="help-block">{{ form.image.help_text }}</span>

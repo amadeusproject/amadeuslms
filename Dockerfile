@@ -8,6 +8,7 @@ RUN apt-get update -y \
     libpq-dev \
     gcc \
     gettext \
+    cron \
     && pip install -r /code/requirement_files/development.txt
 
 ADD . .

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,8 +49,8 @@ msgid "Message"
 msgstr "Mensagem"
 
 #: bulletin/forms.py:163
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Ela deve ter menos que 10MB."
 
 #: bulletin/models.py:29
 msgid ""
@@ -197,8 +197,8 @@ msgid "Click or drop the picture here"
 msgstr "Selecione ou solte a imagem aqui"
 
 #: bulletin/templates/bulletin/send_message.html:51
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: bulletin/templates/bulletin/send_message.html:73
 #: bulletin/templates/bulletin/view.html:244

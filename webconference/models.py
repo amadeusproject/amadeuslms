@@ -13,10 +13,24 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
+from autoslug.fields import AutoSlugField
+import re
+import random
+import string
 
 from topics.models import Resource
 
+def slugify_jitsi(content):
+    regex=re.compile('^[a-zA-Z0-9]{6}-')
+    if re.match(regex, content):
+        # Necessário por que essa função é chamada várias vezes criando o mesmo objeto
+        return content
+
+    pre_name = ''.join(random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=6))
+    return f"{pre_name}-{content.replace(' ', '-').lower()}"
+
 class Webconference(Resource):
+    jitsi_slug = AutoSlugField(_("Jitsi Slug"), populate_from="name", slugify=slugify_jitsi, unique=True, null=True)
     presentation = models.TextField(_('Presentation'), blank = True)
     start = models.DateTimeField(_('Start date/hour'))
     end = models.DateTimeField(_('End date/hour'))

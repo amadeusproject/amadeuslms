@@ -23,7 +23,7 @@ from topics.models import Resource
 from .models import GeneralPost, CategoryPost, SubjectPost, Comment
 
 class Validation(forms.ModelForm):
-	MAX_UPLOAD_SIZE = 5*1024*1024
+	MAX_UPLOAD_SIZE = 10*1024*1024
 
 	def __init__(self, *args, **kwargs):
 		super(Validation, self).__init__(*args, **kwargs)
@@ -47,7 +47,7 @@ class Validation(forms.ModelForm):
 		if image:
 			if hasattr(image, '_size'):
 				if image._size > self.MAX_UPLOAD_SIZE:
-					self._errors['image'] = [_("The image is too large. It should have less than 5MB.")]
+					self._errors['image'] = [_("The image is too large. It should have less than 10MB.")]
 
 					return ValueError
 
@@ -113,7 +113,7 @@ class ResourcePostForm(Validation):
 		}
 
 class CommentForm(forms.ModelForm):
-	MAX_UPLOAD_SIZE = 5*1024*1024
+	MAX_UPLOAD_SIZE = 10*1024*1024
 
 	def clean_comment(self):
 		comment = self.cleaned_data.get('comment', '')
@@ -132,7 +132,7 @@ class CommentForm(forms.ModelForm):
 		if image:
 			if hasattr(image, '_size'):
 				if image._size > self.MAX_UPLOAD_SIZE:
-					self._errors['image'] = [_("The image is too large. It should have less than 5MB.")]
+					self._errors['image'] = [_("The image is too large. It should have less than 10MB.")]
 
 					return ValueError
 

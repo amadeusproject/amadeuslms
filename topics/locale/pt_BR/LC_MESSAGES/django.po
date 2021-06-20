@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,20 +127,21 @@ msgstr "Editar"
 #: topics/templates/resources/list.html:60
 #: topics/templates/resources/list.html:62
 #: topics/templates/resources/list.html:65
+#: topics/templates/resources/list.html:68
 msgid "Reports"
 msgstr "Relatórios"
 
-#: topics/templates/resources/list.html:67 topics/templates/topics/list.html:41
+#: topics/templates/resources/list.html:70 topics/templates/topics/list.html:41
 msgid "Remove"
 msgstr "Remover"
 
-#: topics/templates/resources/list.html:78
+#: topics/templates/resources/list.html:81
 #, fuzzy
 #| msgid "Last Update"
 msgid "Init date"
 msgstr "Última Atualização"
 
-#: topics/templates/resources/list.html:81
+#: topics/templates/resources/list.html:84
 msgid "End date"
 msgstr ""
 
@@ -185,30 +186,34 @@ msgid "YouTube Video"
 msgstr "Video do YouTube"
 
 #: topics/templates/topics/list.html:70
-msgid "H5P"
+msgid "Material Delivery"
 msgstr ""
 
 #: topics/templates/topics/list.html:71
+msgid "H5P"
+msgstr ""
+
+#: topics/templates/topics/list.html:72
 msgid "File Link"
 msgstr "Link para arquivo"
 
-#: topics/templates/topics/list.html:72
+#: topics/templates/topics/list.html:73
 msgid "Link to Website"
 msgstr "Link para Site"
 
-#: topics/templates/topics/list.html:73
+#: topics/templates/topics/list.html:74
 msgid "Topic Goals"
 msgstr "Metas do Tópico"
 
-#: topics/templates/topics/list.html:74
+#: topics/templates/topics/list.html:75
 msgid "Webpage"
 msgstr "Página Web"
 
-#: topics/templates/topics/list.html:75
+#: topics/templates/topics/list.html:76
 msgid "Questionary"
 msgstr "Questionário"
 
-#: topics/templates/topics/list.html:76
+#: topics/templates/topics/list.html:77
 msgid "Web Conference"
 msgstr "Conferência Web"
 
