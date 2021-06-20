@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 13:27+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: banco_questoes/forms.py:40 banco_questoes/forms.py:113
 #: banco_questoes/templates/banco_questoes/_form.html:80
-msgid "The file is too large. It should have less than 5MB."
+msgid "The file is too large. It should have less than 10MB."
 msgstr ""
 
 #: banco_questoes/forms.py:50 banco_questoes/forms.py:60
@@ -90,8 +90,8 @@ msgstr "Clique ou arraste o arquivo aqui"
 
 #: banco_questoes/templates/banco_questoes/_form.html:54
 #: banco_questoes/templates/banco_questoes/_form.html:168
-msgid "The file could not exceed 5MB."
-msgstr "O arquivo não pode exceder 5MB."
+msgid "The file could not exceed 10MB."
+msgstr "O arquivo não pode exceder 10MB."
 
 #: banco_questoes/templates/banco_questoes/_form.html:124
 #: banco_questoes/templates/banco_questoes/_view.html:54

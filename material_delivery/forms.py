@@ -76,6 +76,7 @@ class MaterialDeliveryForm(forms.ModelForm):
         data_ini = cleaned_data.get("data_ini", None)
         data_end = cleaned_data.get("data_end", None)
         name = cleaned_data.get("name", "")
+        presentation = self.cleaned_data.get('presentation', '')
 
         topics = self.subject.topic_subject.all()
 
@@ -97,6 +98,10 @@ class MaterialDeliveryForm(forms.ModelForm):
                 )
 
                 break
+
+        cleaned_content = strip_tags(presentation)
+        if cleaned_content == '':
+            self.add_error('presentation', _('This field is required.'))
 
         todaysDate = timezone.localtime(timezone.now()).date()
 
@@ -245,6 +250,17 @@ class StudentMaterialForm(forms.ModelForm):
             ),
         }
 
+    def clean_commentary(self):
+        commentary = self.cleaned_data.get("commentary", "")
+        cleaned_content = strip_tags(commentary)
+        
+        if cleaned_content == '':
+            self._errors['commentary'] = [_('This field is required.')]
+
+            return ValueError
+
+        return commentary
+
     def clean_file(self):
         file = self.cleaned_data.get("file", False)
 
@@ -267,11 +283,14 @@ class StudentMaterialForm(forms.ModelForm):
 class TeacherEvaluationForm(forms.ModelForm):
     MAX_UPLOAD_SIZE = 30 * 1024 * 1024
 
-    evaluation = forms.ChoiceField(choices=[(a, a) for a in range(100, -1, -1)])
+    evaluation = forms.ChoiceField(label = _("Grade"), choices=[(a, a) for a in range(100, -1, -1)])
 
     class Meta:
         model = TeacherEvaluation
         fields = ["evaluation", "commentary", "file"]
+        labels = {
+            "evaluation": _("Grade"),
+        }
         widgets = {
             "evaluation": forms.Select,
             "commentary": forms.Textarea,

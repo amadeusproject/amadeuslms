@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 13:27+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,8 +156,8 @@ msgid "Click or drop the picture here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: links/templates/links/send_message.html:53
-msgid "The picture could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The picture could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: links/templates/links/send_message.html:76
 msgid "Send"

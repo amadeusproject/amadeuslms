@@ -20,6 +20,7 @@ from topics.models import Resource
 from users.models import User
 
 valid_formats = [
+    'video/x-msvideo',
     'image/bmp',
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -35,6 +36,9 @@ valid_formats = [
     'audio/mpeg3',
     'audio/x-mpeg-3',
     'video/mp4',
+    'video/x-m4v',
+    'video/x-matroska',
+    'video/quicktime',
     'application/vnd.oasis.opendocument.presentation',
     'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.oasis.opendocument.text',
@@ -51,7 +55,11 @@ valid_formats = [
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'audio/x-wav',
-    'audio/wav'
+    'audio/wav',
+    'video/webm',
+    'audio/webm',
+    'video/3gpp',
+    'video/x-ms-wmv'
 ]
 
 def validate_file_extension(value):
@@ -60,9 +68,9 @@ def validate_file_extension(value):
             raise ValidationError(_('File not supported.'))
 
 class MaterialDelivery(Resource):
-    presentation = models.TextField(_('Presentation'), blank = False)
-    data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False)
-    data_end = models.DateTimeField(_('End Date'), auto_now_add = False)
+    presentation = models.TextField(_('Presentation'), blank = True)
+    data_ini = models.DateTimeField(_('Init Date'), auto_now_add = False, blank = True)
+    data_end = models.DateTimeField(_('End Date'), auto_now_add = False, blank = True)
 
     class Meta:
         verbose_name = "Material"
@@ -102,7 +110,7 @@ class SupportMaterial(models.Model):
 
     @property
     def filename(self):
-        return os.path.basename(self.file.name)
+        return os.path.basename(self.file.name) if not self.file == ValueError else ""
 
 class StudentDeliver(models.Model):
     delivery = models.ForeignKey(MaterialDelivery, verbose_name = _('Material Delivery'), related_name = 'student_deliver', null = True)
@@ -117,8 +125,8 @@ def get_upload_student_path(instance, filename):
 
 class StudentMaterial(models.Model):
     deliver = models.ForeignKey(StudentDeliver, verbose_name = _('Student Deliver'), related_name = 'material_deliver', null = True)
-    commentary = models.TextField(_('Commentary'), blank = False)
-    file = models.FileField(_('File'), upload_to=get_upload_student_path, validators = [validate_file_extension])
+    commentary = models.TextField(_('Commentary'), blank = True)
+    file = models.FileField(_('File'), upload_to=get_upload_student_path, validators = [validate_file_extension], blank = True)
     upload_date = models.DateTimeField(_('Upload Date'), auto_now_add = True)
 
     class Meta:
@@ -129,7 +137,7 @@ class StudentMaterial(models.Model):
 
     @property
     def filename(self):
-        return os.path.basename(self.file.name)
+        return os.path.basename(self.file.name) if not self.file == ValueError else ""
 
 def get_upload_teacher_path(instance, filename):
     return os.path.join("material_delivery", "teacher_evaluations", ("user_%d" % instance.teacher.id), ("deliver_%d" % instance.deliver.id), filename)
@@ -139,7 +147,7 @@ class TeacherEvaluation(models.Model):
     evaluation = models.PositiveSmallIntegerField(_("Grade"), null = True)
     commentary = models.TextField(_('Commentary'), blank = True)
     teacher = models.ForeignKey(User, verbose_name = _('User'), related_name = 'teacherevaluation_user', null = True)
-    file = models.FileField(_('File'), upload_to=get_upload_teacher_path, validators = [validate_file_extension])
+    file = models.FileField(_('File'), upload_to=get_upload_teacher_path, validators = [validate_file_extension], blank = True)
     is_updated = models.BooleanField(_('Is updated?'), default = False)
     evaluation_date = models.DateTimeField(_('Evaluation Date'), auto_now = True)
 
@@ -149,5 +157,5 @@ class TeacherEvaluation(models.Model):
 
     @property
     def filename(self):
-        return os.path.basename(self.file.name)
+        return os.path.basename(self.file.name) if not self.file == ValueError else ""
 

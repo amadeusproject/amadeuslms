@@ -290,7 +290,7 @@ OAUTH2_PROVIDER = {"SCOPES": {"read": "Read scope", "write": "Write scope"}}
 # API CONFIG ENDS
 
 # FILE UPLOAD
-MAX_UPLOAD_SIZE = 10485760
+MAX_UPLOAD_SIZE = 10*1024*1024
 
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode

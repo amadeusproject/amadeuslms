@@ -21,7 +21,7 @@ from file_resubmit.widgets import ResubmitFileWidget
 from .models import TalkMessages
 
 class Validation(forms.ModelForm):
-	MAX_UPLOAD_SIZE = 5*1024*1024
+	MAX_UPLOAD_SIZE = 10*1024*1024
 
 	def clean_text(self):
 		text = self.cleaned_data.get('text', '')
@@ -40,7 +40,7 @@ class Validation(forms.ModelForm):
 		if image:
 			if hasattr(image, '_size'):
 				if image._size > self.MAX_UPLOAD_SIZE:
-					self._errors['image'] = [_("The image is too large. It should have less than 5MB.")]
+					self._errors['image'] = [_("The image is too large. It should have less than 10MB.")]
 
 					return ValueError
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 13:27+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid "This field is required"
 msgstr "Este campo é obrigatório."
 
 #: news/forms.py:86 news/templates/news/_form.html:84
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Ela deve ter menos que 5MB."
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Ela deve ter menos que 10MB."
 
 #: news/forms.py:89 news/forms.py:99
 msgid "This field is required."
@@ -71,8 +71,8 @@ msgid "Click or drop the file here"
 msgstr "Clique ou solte o arquivo aqui."
 
 #: news/templates/news/_form.html:42
-msgid "The photo could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The photo could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: news/templates/news/_form.html:93
 msgid "Save"
