@@ -28,7 +28,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             
             {{ evaluation.commentary|safe }}
             
-            <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a>
+            {% if evaluation.file %}
+                <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a>
+            {% endif %}
         </div>
     </div>
 </div>
