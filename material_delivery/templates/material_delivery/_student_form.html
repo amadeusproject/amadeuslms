@@ -135,7 +135,7 @@ $(function() {
             dataType: 'json',
             async: true,
             success: function (data) {
-                $('.modal').modal('hide');
+                $('#modalArea .modal').modal('hide');
 
                 if (data.status == 200) {
                     $("#student_materials").append(data.content);
@@ -154,14 +154,12 @@ $(function() {
 
                 if (response.status === 400) {
                     $('.modal').on('hidden.bs.modal', function() {
-                        $('.modal').remove();
-    
                         $("#modalArea").html(response.content);
     
-                        $('.modal').modal('show');
+                        $('#modalArea .modal').modal('show');
                     });
 
-                    $('.modal').modal('hide');
+                    $('#modalArea .modal').modal('hide');
                 }
             },
             cache: false,
