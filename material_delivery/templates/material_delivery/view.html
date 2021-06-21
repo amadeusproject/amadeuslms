@@ -24,6 +24,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     {{ block.super }}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+    let filteredData = [];
+    let arrayData = [];
+    let percentage = null;
+    </script>
 {% endblock%}
 
 {% block breadcrumbs %}
@@ -261,7 +267,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             let url = $btn.data('url');
 
             if (typeof (url) !== 'undefined') {
-                if ($(target).html() === '') {
+                if (target === '.all_students' || $(target).html() === '') {
                     $.ajax({
                         method: 'GET',
                         url: url,
@@ -271,7 +277,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                         error: function (data) {
                             alertify.alert('{% trans "Something went wrong. Please try again later" %}');
                         }
-                    })
+                    });
                 }
             }
 
