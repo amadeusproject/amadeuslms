@@ -1110,7 +1110,7 @@ def class_results(request, slug):
 
         line["student"] = student.fullname
 
-        evaluation = TeacherEvaluation.objects.filter(deliver__student = student)
+        evaluation = TeacherEvaluation.objects.filter(deliver__student = student, deliver__delivery = material_delivery)
         
         if evaluation.exists():
             line["grade"] = evaluation.first().evaluation
@@ -1149,7 +1149,7 @@ def results_sheet(request, slug):
     for student in students:
         worksheet.write(line, 0, student.fullname())
 
-        evaluation = TeacherEvaluation.objects.filter(deliver__student = student)
+        evaluation = TeacherEvaluation.objects.filter(deliver__student = student, deliver__delivery = material_delivery)
 
         if evaluation.exists():
             worksheet.write(line, 1, evaluation.first().evaluation)
