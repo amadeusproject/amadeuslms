@@ -27,21 +27,21 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
     google.charts.load('current', { 'packages': ['corechart', "table"] });
     google.charts.setOnLoadCallback(drawTable);
 
-    let filteredData = [];
+    filteredData = [];
 
-    let arrayData = [
+    arrayData = [
         [
             { label: "{% trans 'Student' %}", id: 'student' },
             { label: "{% trans 'Grade' %}", id: 'grade', type: 'number' },
         ]
     ];
 
-    let percentage = null;
+    percentage = null;
 
     {% for json_data in data %}
         arrayData.push([
             { v: normalizeString("{{json_data.student}}").toLowerCase(), f: "{{json_data.student}}" },
-            { v: {% if json_data.grade != "-" %}{{json_data.grade}}{% else %}''{% endif %}, f: {% if json_data.grade != "-" %}{{json_data.grade}}{% else %}"{{ json_data.grade }}"{% endif %}}
+            { v: {% if json_data.grade != "-" %}{{json_data.grade}}{% else %}''{% endif %}, f: "{{ json_data.grade }}"}
         ]);
     {% endfor %}
 

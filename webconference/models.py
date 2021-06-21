@@ -27,6 +27,7 @@ def slugify_jitsi(content):
         return content
 
     pre_name = ''.join(random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=6))
+    content = re.sub(r'[^\w\s_]', '-', content)
     return f"{pre_name}-{content.replace(' ', '-').lower()}"
 
 class Webconference(Resource):

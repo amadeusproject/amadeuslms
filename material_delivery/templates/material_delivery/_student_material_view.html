@@ -16,5 +16,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
     {{ material.commentary|safe }}
 
-    <a href="{{ material.file.url }}" download><i class="fa fa-download"></i> {{ material.filename }}</a><br />
+    {% if material.file %}
+        <a href="{{ material.file.url }}" download><i class="fa fa-download"></i> {{ material.filename }}</a><br />
+    {% endif %}
 </div>

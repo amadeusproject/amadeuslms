@@ -67,6 +67,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             margin: 0;
         }
     </style>
+
+    <script type="text/javascript">
+        let filteredData = [];
+        let arrayData = [];
+        let percentage = null;
+    </script>
 </head>
 
 <body>
@@ -189,17 +195,22 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                                 <br clear="all" />
                             </div>
                         {% endif %}
+                    {% elif studentView %}
+                        <div class="text-center">
+                            <a href="#" class="btn btn-success btn-raised btn-sm"><i class="fa fa-plus-circle"></i> {% trans 'Add your material'
+                                %}</a>
+                        </div>
                     {% endif %}
 
                     <div class="row">
                         <div id="student_materials" class="col-lg-12">
                             {% if not studentDeliver or studentDeliver.material_deliver.count == 0 %}
-                            {% if has_subject_permissions %}
-                            <div class="text-center bg-success well-sm">
-                                <i class="fa fa-exclamation-triangle text-sm"></i>
-                                <small>{% trans "The student hasn't uploaded any material yet." %}</small>
-                            </div>
-                            {% endif %}
+                                {% if has_subject_permissions and not studentView %}
+                                    <div class="text-center bg-success well-sm">
+                                        <i class="fa fa-exclamation-triangle text-sm"></i>
+                                        <small>{% trans "The student hasn't uploaded any material yet." %}</small>
+                                    </div>
+                                {% endif %}
                             {% else %}
                             {% for material in studentDeliver.material_deliver.all %}
                             {% include 'material_delivery/_student_material_view.html' %}
@@ -215,7 +226,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                             {% if studentDeliver.student_deliver.exists %}
                                 {% include 'material_delivery/_teacher_evaluation_view.html' with evaluation=studentDeliver.student_deliver.first deliver_pk=studentDeliver.pk user=request.user %}
                             {% else %}
-                                {% if has_subject_permissions %}
+                                {% if has_subject_permissions and not studentView %}
                                     <div id="eval_btn" class="text-center">
                                         <a href="javascript:evaluate('{% url 'material_delivery:evaluate' studentDeliver.pk %}')"
                                         class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
@@ -239,14 +250,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         <div id="modalArea"></div>
 
+        <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+        
+        <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
         <script type="text/javascript">
             $(function () {
                 $("#select_student").select2();
             });
 
             function attach_material(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     if (typeof (modal.status) !== "undefined") {
                         if (modal.status == 500) {
@@ -259,32 +272,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     } else {
                         $("#modalArea").html(modal);
 
-                        $('.modal').modal('show');
+                        $('#modalArea .modal').modal('show');
                     }
                 });
             }
 
             function evaluate(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     if (typeof (modal.status) !== "undefined") {
                         alertify.error(modal.message);
                     } else {
                         $("#modalArea").html(modal);
 
-                        $('.modal').modal('show');
+                        $('#modalArea .modal').modal('show');
                     }
                 });
             }
 
             function delete_resource(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     $("#resource-panel").after(modal);
 
-                    $('.modal').modal('show');
+                    $('#topic').modal('show');
                 });
             }
 
@@ -313,7 +322,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 $(target).show();
             }
         </script>
-        
+
+        <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 
         <script type="text/javascript">
             sessionSecurity.confirmFormDiscard = undefined;
