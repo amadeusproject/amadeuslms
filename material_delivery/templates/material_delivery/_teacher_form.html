@@ -161,7 +161,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 dataType: 'json',
                 async: true,
                 success: function (data) {
-                    $('.modal').modal('hide');
+                    $('#modalArea .modal').modal('hide');
 
                     if (data.status == 200) {
                         $("#teacherEval").html(data.content);
@@ -178,14 +178,12 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
                     if (response.status === 400) {
                         $('.modal').on('hidden.bs.modal', function () {
-                            $('.modal').remove();
-
                             $("#modalArea").html(response.content);
 
-                            $('.modal').modal('show');
+                            $('#modalArea .modal').modal('show');
                         });
 
-                        $('.modal').modal('hide');
+                        $('#modalArea .modal').modal('hide');
                     }
                 },
                 cache: false,

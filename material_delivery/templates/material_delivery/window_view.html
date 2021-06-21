@@ -250,14 +250,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
         <div id="modalArea"></div>
 
+        <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+        
+        <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
         <script type="text/javascript">
             $(function () {
                 $("#select_student").select2();
             });
 
             function attach_material(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     if (typeof (modal.status) !== "undefined") {
                         if (modal.status == 500) {
@@ -270,32 +272,28 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                     } else {
                         $("#modalArea").html(modal);
 
-                        $('.modal').modal('show');
+                        $('#modalArea .modal').modal('show');
                     }
                 });
             }
 
             function evaluate(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     if (typeof (modal.status) !== "undefined") {
                         alertify.error(modal.message);
                     } else {
                         $("#modalArea").html(modal);
 
-                        $('.modal').modal('show');
+                        $('#modalArea .modal').modal('show');
                     }
                 });
             }
 
             function delete_resource(url) {
-                $('.modal').remove();
-
                 $.get(url, function (modal) {
                     $("#resource-panel").after(modal);
 
-                    $('.modal').modal('show');
+                    $('#topic').modal('show');
                 });
             }
 
@@ -324,7 +322,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
                 $(target).show();
             }
         </script>
-        
+
+        <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
 
         <script type="text/javascript">
             sessionSecurity.confirmFormDiscard = undefined;
