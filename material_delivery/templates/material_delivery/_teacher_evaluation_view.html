@@ -9,7 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 -->
-{% load static i18n permissions_tags %}
+{% load static i18n permissions_tags chat_tags %}
 
 {% subject_permissions user evaluation.deliver.delivery.topic.subject as has_subject_permissions %}
 
@@ -21,14 +21,56 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             </div>
         </div>
         <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 post-body">
-            <h4 class="post-user">{{ evaluation.teacher.fullname }} <small class="text-muted" style="margin-left:1em"><i class="fa fa-check-square-o"></i> {% trans 'Evaluated' %}</small></h4>
+            <h4 class="post-user">
+                {% if not evaluation.teacher == request.user %}
+                    {% is_online evaluation.teacher as status %}
+                
+                    <span data-toggle="popover" data-container="body" data-placement="right">
+                        {{ evaluation.teacher.fullname }} <small class="text-muted" style="margin-left:1em"><i class="fa fa-check-square-o"></i> {% trans 'Evaluated' %}</small>
+                    </span>
+                    
+                    <div class="popover">
+                        <div class="popover-content participant">
+                            <button type="button" class="close" aria-label="{% trans 'Close' %}"><span
+                                    aria-hidden="true">&times;</span></button>
+                    
+                            <br clear="all" />
+                    
+                            <div class="col-md-3 col-sm-3 col-xs-3 user-img">
+                                <img src="{{ evaluation.teacher.image_url }}" class="img-responsive" />
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-9 user-info">
+                                <h4><a class="status {{ status }}" data-toggle="tooltip" title="{{ status|status_text }}"></a> {{ evaluation.teacher }}</h4>
+                            </div>
+                        </div>
+                        <div class="popover-footer">
+                            <a href="#"
+                                onclick="getModalInfo($(this), '{{ evaluation.deliver.delivery.topic.subject.id }}', 'subject'); return false;"
+                                data-url='{% url "chat:profile" evaluation.teacher.email %}'
+                                class="btn btn-default btn-raised pull-left btn-popover-mobile">
+                                {% trans 'See Profile' %}
+                            </a>
+                            <a href="#"
+                                onclick="getModalInfo($(this), '{{ evaluation.deliver.delivery.topic.subject.id }}', 'subject'); return false;"
+                                data-url='{% url "chat:talk" evaluation.teacher.email %}'
+                                class="btn btn-success btn-raised pull-right btn-popover-mobile">
+                                {% trans 'Send Message' %}
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    {{ evaluation.teacher.fullname }} <small class="text-muted" style="margin-left:1em"><i class="fa fa-check-square-o"></i> {% trans 'Evaluated' %}</small>
+                {% endif %}
+            </h4>
             <p class="text-muted"><i class="fa fa-clock-o"></i> {% trans 'At' %} {{ evaluation.evaluation_date|date:'SHORT_DATETIME_FORMAT' }} {% if evaluation.is_updated %}({% trans 'Updated' %}){% endif %}</p>
             
             <p><b>{% trans 'Grade' %}:</b> {{ evaluation.evaluation }}</p>
             
             {{ evaluation.commentary|safe }}
             
-            <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a>
+            {% if evaluation.file %}
+                <a href="{{ evaluation.file.url }}" download><i class="fa fa-download"></i> {{ evaluation.filename }}</a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -54,4 +96,61 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
             }
         });
     }
+
+    $(function () {
+        $('[data-toggle="popover"]')
+            .popover({
+                html: true,
+                placement: function () {
+                    return window.innerWidth <= 768 ? "bottom" : "left";
+                },
+                content: function () {
+                    return $(this)
+                        .parent()
+                        .find(".popover")
+                        .html();
+                },
+            })
+            .on("show.bs.popover", function (e) {
+                $('[data-toggle="popover"]')
+                    .not(e.target)
+                    .popover("hide");
+            })
+            .on("shown.bs.popover", function (e) {
+                if ($(this).is(e.target)) {
+                    var popover = $(".popover.fade.in"),
+                        buttons = popover.parent().find("a"),
+                        close = popover.parent().find(".close:visible");
+
+                    popover.animate(
+                        {
+                            "max-width": "330px",
+                        },
+                        0,
+                    );
+
+                    popover.find(".popover-content").animate(
+                        {
+                            padding: "9px 5px",
+                        },
+                        0,
+                    );
+
+                    popover.find("h4").animate(
+                        {
+                            "font-size": "16px",
+                        },
+                        0,
+                    );
+
+                    close.on("click", function () {
+                        popover.popover("hide");
+                    });
+
+                    buttons.on("click", function () {
+                        popover.popover("hide");
+                    });
+                }
+            });
+    });
 </script>
