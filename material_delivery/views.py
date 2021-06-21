@@ -72,20 +72,20 @@ class DetailView(LoginRequiredMixin, LogMixin, generic.DetailView):
         if has_subject_permissions(self.request.user, material_delivery.topic.subject):
             viewAsStudent = self.request.session.get(material_delivery.topic.subject.slug, False)
 
-            if not viewAsStudent:
-                if material_delivery.all_students:
-                    self.students = User.objects.filter(
-                        subject_student=material_delivery.topic.subject
-                    ) \
-                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
-                    .order_by("-has_delivered", "username", "last_name")
-                else:
-                    self.students = User.objects.filter(
-                        resource_students=material_delivery
-                    ) \
-                    .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
-                    .order_by("-has_delivered","username", "last_name")
+            if material_delivery.all_students:
+                self.students = User.objects.filter(
+                    subject_student=material_delivery.topic.subject
+                ) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
+                .order_by("-has_delivered", "username", "last_name")
+            else:
+                self.students = User.objects.filter(
+                    resource_students=material_delivery
+                ) \
+                .annotate(has_delivered=Exists(StudentMaterial.objects.filter(deliver__delivery=material_delivery, deliver__student=OuterRef("id")))) \
+                .order_by("-has_delivered","username", "last_name")
 
+            if not viewAsStudent:
                 deliver = StudentDeliver.objects.filter(student = self.students.first(), delivery=material_delivery)
 
                 if deliver.exists():
