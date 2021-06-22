@@ -21,60 +21,60 @@ class UserTest(TestCase):
 
     def test_login_url_resolves(self):
         url = reverse('users:login')
-        self.assertEquals(resolve(url).func, login)
+        self.assertEqual(resolve(url).func, login)
 
     def test_logout_url_resolves(self):
         url = reverse("users:logout")
-        self.assertEquals(resolve(url).func, logout)
+        self.assertEqual(resolve(url).func, logout)
 
     def test_singup_url_resolves(self):
         url = reverse("users:signup")
-        self.assertEquals(resolve(url).func.view_class, RegisterUser)
+        self.assertEqual(resolve(url).func.view_class, RegisterUser)
 
     def test_forgot_password_url_resolves(self):
         url = reverse("users:forgot_pass")
-        self.assertEquals(resolve(url).func.view_class, ForgotPassword)
+        self.assertEqual(resolve(url).func.view_class, ForgotPassword)
 
     def test_reset_password_confirm_url_resolves(self):
-        url = reverse("users:reset_password_confirm")
-        self.assertEquals(resolve(url).func.view_class, PasswordResetConfirmView)
+        url = reverse("users:reset_password_confirm", kwargs={"uidb64": "4354", "token": "test_token"})
+        self.assertEqual(resolve(url).func.view_class, PasswordResetConfirmView)
 
     def test_manage_users_url_resolves(self):
         url = reverse("users:manage")
-        self.assertEquals(resolve(url).func.view_class, UsersListView)
+        self.assertEqual(resolve(url).func.view_class, UsersListView)
 
     def test_create_view_url_resolves(self):
         url = reverse("users:create")
-        self.assertEquals(resolve(url).func.view_class, CreateView)
+        self.assertEqual(resolve(url).func.view_class, CreateView)
 
     def test_update_view_url_resolves(self):
-        url = reverse("users:update")
-        self.assertEquals(resolve(url).func.view_class, UpdateView)
+        url = reverse("users:update", kwargs={"email": "test@amadeus.com"})
+        self.assertEqual(resolve(url).func.view_class, UpdateView)
 
     def test_delete_view_url_resolves(self):
-        url = reverse("users:delete")
-        self.assertEquals(resolve(url).func.view_class, DeleteView)
+        url = reverse("users:delete", kwargs={"email": "test@amadeus.com"})
+        self.assertEqual(resolve(url).func.view_class, DeleteView)
 
     def test_search_url_resolves(self):
         url = reverse("users:search")
-        self.assertEquals(resolve(url).func.view_class, SearchView)
+        self.assertEqual(resolve(url).func.view_class, SearchView)
 
     def test_profile_url_resolves(self):
         url = reverse("users:profile")
-        self.assertEquals(resolve(url).func.view_class, Profile)
+        self.assertEqual(resolve(url).func.view_class, Profile)
 
     def test_edit_profile_url_resolves(self):
         url = reverse("users:edit_profile")
-        self.assertEquals(resolve(url).func.view_class, UpdateProfile)
+        self.assertEqual(resolve(url).func.view_class, UpdateProfile)
 
     def test_change_pass_url_resolves(self):
         url = reverse("users:change_pass")
-        self.assertEquals(resolve(url).func.view_class, ChangePassView)
+        self.assertEqual(resolve(url).func.view_class, ChangePassView)
 
     def test_remove_account_url_resolves(self):
         url = reverse("users:remove_acc")
-        self.assertEquals(resolve(url).func.view_class, DeleteView)
+        self.assertEqual(resolve(url).func.view_class, DeleteView)
 
     def test_select_support_url_resolves(self):
         url = reverse("users:support_select")
-        self.assertEquals(resolve(url).func.view_class, SupportView)
+        self.assertEqual(resolve(url).func.view_class, SupportView)
