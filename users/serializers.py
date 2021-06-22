@@ -11,85 +11,83 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 import os
-import zipfile
 import time
-from django.db.models import Q
-from django.conf import settings
-from django.core.files import File
 
+from django.conf import settings
+from django.db.models import Q
 from rest_framework import serializers
 
-from log.serializers import LogSerializer
-from log.models import Log
-
 from chat.models import Conversation, ChatVisualizations
-
+from log.serializers import LogSerializer
 from .models import User
 
+
 class UserBackupSerializer(serializers.ModelSerializer):
-	log = LogSerializer(many = True, source = 'get_items')
-	image = serializers.CharField(required = False, allow_blank = True, max_length = 255)
+    log = LogSerializer(many=True, source='get_items')
+    image = serializers.CharField(required=False, allow_blank=True, max_length=255)
 
-	def validate(self, data):
-		user = User.objects.filter(email = data["email"])
-		
-		if user.exists():
-			log = data["get_items"]
-			data = user[0].__dict__
-			data["get_items"] = log
-		else:
-			data["id"] = ""
+    def validate(self, data):
+        user = User.objects.filter(email=data["email"])
 
-		files = self.context.get('files', None)
-		
-		if files:
-			if data["image"] in files.namelist(): 
-				file_path = os.path.join(settings.MEDIA_ROOT, data["image"])
+        if user.exists():
+            log = data["get_items"]
+            data = user[0].__dict__
+            data["get_items"] = log
+        else:
+            data["id"] = ""
 
-				if os.path.isfile(file_path):
-					dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
+        files = self.context.get('files', None)
 
-					path = files.extract(data["image"], dst_path)
+        if files:
+            if data["image"] in files.namelist():
+                file_path = os.path.join(settings.MEDIA_ROOT, data["image"])
 
-					new_name = os.path.join("users","img_" + str(time.time()) + os.path.splitext(data["image"])[1])
+                if os.path.isfile(file_path):
+                    dst_path = os.path.join(settings.MEDIA_ROOT, "tmp")
 
-					os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
-					
-					data["image"] = new_name
-				else:
-					path = files.extract(data["image"], settings.MEDIA_ROOT)
-			else:
-				data["image"] = None
+                    path = files.extract(data["image"], dst_path)
 
-		return data
+                    new_name = os.path.join("users", "img_" + str(time.time()) + os.path.splitext(data["image"])[1])
 
-	class Meta:
-		model = User
-		fields = '__all__'
-		extra_kwargs = {
-        	"email": {
-	            "validators": [],
-	        },
-	    }
-		validators = []
+                    os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
+
+                    data["image"] = new_name
+                else:
+                    path = files.extract(data["image"], settings.MEDIA_ROOT)
+            else:
+                data["image"] = None
+
+        return data
+
+    class Meta:
+        model = User
+        fields = '__all__'
+        extra_kwargs = {
+            "email": {
+                "validators": [],
+            },
+        }
+        validators = []
+
 
 class UserSerializer(serializers.ModelSerializer):
-	unseen_msgs = serializers.SerializerMethodField()
+    unseen_msgs = serializers.SerializerMethodField()
 
-	def get_unseen_msgs(self, user_to):
-		user = self.context.get('request_user', None)
+    def get_unseen_msgs(self, user_to):
+        user = self.context.get('request_user', None)
 
-		if not user is None:
-			chat = Conversation.objects.filter((Q(user_one__email = user) & Q(user_two = user_to)) | (Q(user_one = user_to) & Q(user_two__email = user)))
+        if user is not None:
+            chat = Conversation.objects.filter(
+                (Q(user_one__email=user) & Q(user_two=user_to)) | (Q(user_one=user_to) & Q(user_two__email=user)))
 
-			if chat.count() > 0:
-				chat = chat[0]
-				
-				return ChatVisualizations.objects.filter(message__talk = chat, user__email = user, viewed = False).count()
+            if chat.count() > 0:
+                chat = chat[0]
 
-		return 0
+                return ChatVisualizations.objects.filter(message__talk=chat, user__email=user, viewed=False).count()
 
-	class Meta:
-		model = User
-		fields = ('username','email','image_url','last_update','date_created','last_name','social_name',
-			'is_staff','is_active','unseen_msgs')
+        return 0
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'image_url', 'last_update', 'date_created', 'last_name', 'social_name',
+                  'is_staff', 'is_active', 'unseen_msgs')

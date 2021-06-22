@@ -11,12 +11,15 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 from django.contrib import admin
-from .models import User
+
 from .forms import UserForm
+from .models import User
+
 
 class UserAdmin(admin.ModelAdmin):
-	list_display = ['username', 'social_name', 'email', 'is_staff', 'is_active']
-	search_fields = ['username', 'social_name', 'email']
-	form = UserForm
+    list_display = ['username', 'social_name', 'email', 'is_staff', 'is_active']
+    search_fields = ['username', 'social_name', 'email']
+    form = UserForm
+
 
 admin.site.register(User, UserAdmin)

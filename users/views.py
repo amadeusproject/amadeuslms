@@ -10,26 +10,41 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views import generic
+import json
+import os
+
+from braces import views as braces_mixins
+# USER STATUS NOTIFICATION
+from channels import Group
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib.auth.mixins import LoginRequiredMixin
+# RECOVER PASS IMPORTS
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.core.mail.backends.smtp import EmailBackend
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template import loader
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import ugettext as _u
-from django.db.models import Q, Count
-
-from braces import views as braces_mixins
-
-from security.models import Security
+from django.utils.translation import ugettext_lazy as _
+from django.views import generic
+from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
+from oauth2_provider.contrib.rest_framework.permissions import (
+    IsAuthenticatedOrTokenHasScope,
+)
+# API IMPORTS
+from rest_framework import viewsets
 
 from log.decorators import log_decorator
 from log.mixins import LogMixin
-from log.models import Log
-from django.http import JsonResponse
-from .models import User
-from .utils import has_dependencies
+from mailsender.models import MailSender
+from security.models import Security
 from .forms import (
     RegisterUserForm,
     ProfileForm,
@@ -39,32 +54,9 @@ from .forms import (
     SetPasswordForm,
     SelectSupport,
 )
-
-# USER STATUS NOTIFICATION
-from channels import Group
-import json
-
-# RECOVER PASS IMPORTS
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from django.conf import settings
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template import loader
-from django.core.mail import EmailMessage
-from django.core.mail.backends.smtp import EmailBackend
-
-from mailsender.models import MailSender
-import os
-
-# API IMPORTS
-from rest_framework import viewsets
+from .models import User
 from .serializers import UserSerializer
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
-from oauth2_provider.contrib.rest_framework.permissions import (
-    IsAuthenticatedOrTokenHasScope,
-)
+from .utils import has_dependencies
 
 
 # ================ ADMIN =======================
@@ -82,9 +74,7 @@ class UsersListView(
 
     def get_queryset(self):
         users = (
-            User.objects.all()
-                .order_by("social_name", "username")
-                .exclude(email=self.request.user.email)
+            User.objects.all().order_by("social_name", "username").exclude(email=self.request.user.email)
         )
 
         return users
