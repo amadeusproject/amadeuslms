@@ -9,7 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 
 import json
 
@@ -244,6 +244,11 @@ class TestViews(TestCase):
         self.assertEquals(Log.objects.all().count(), logsCounter + 2)
 
     def test_topic_unable_delete(self):
+        topicName = self.topic.name
+
+        numberTopics = Topic.objects.all().count()
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.professor)
         response = self.client.delete(reverse("topics:delete", kwargs={"slug": self.invisibleTopic.slug}), follow=True)
 
@@ -254,6 +259,17 @@ class TestViews(TestCase):
 
         self.assertEquals(message.tags, "danger")
         self.assertEquals(message.message, _('Could not remove this topic. It has one or more resources attached.'))
+
+        #Test if database has changed
+        self.assertTrue(Topic.objects.filter(name=topicName).exists())
+        self.assertEquals(Topic.objects.all().count(), numberTopics)
+
+        #Test if log was created
+        log = Log.objects.first()
+        
+        self.assertFalse(Log.objects.filter(component="topic", action="delete", resource="topic", context__topic_name=topicName).exists())
+        self.assertTrue(Log.objects.filter(component="subject", action="access", resource="subject", context__subject_slug=self.invisibleSubject.slug).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
 
     def test_topic_view_open_404(self):
         self.client.force_login(self.student)
