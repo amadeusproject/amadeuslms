@@ -92,6 +92,9 @@ class TestViews(TestCase):
             "repository": False
         }
 
+        numberTopics = Topic.objects.all().count()
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.professor)
         response = self.client.post(reverse("topics:create", kwargs={"slug": self.subject.slug}), data, follow=True)
         
@@ -102,6 +105,15 @@ class TestViews(TestCase):
 
         self.assertEquals(message.tags, "success")
         self.assertIn(_('Topic "%s" was created on virtual enviroment "%s" successfully!')%(data["name"], self.subject.name), message.message)
+
+        #Test if database has changed
+        self.assertTrue(Topic.objects.filter(name="Topico test").exists())
+        self.assertEquals(Topic.objects.all().count(), numberTopics + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="topic", action="create", resource="topic", context__topic_name=data["name"]).exists())
+        self.assertTrue(Log.objects.filter(component="subject", action="access", resource="subject", context__subject_slug=self.subject.slug).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 2)
 
     def test_topic_create_make_invisible(self):
         data = {
@@ -145,6 +157,8 @@ class TestViews(TestCase):
             "repository": self.topic.repository
         }
 
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.professor)
         response = self.client.post(reverse("topics:update", kwargs={"sub_slug": self.subject.slug, "slug": self.topic.slug}), data, follow=True)
         
@@ -155,6 +169,17 @@ class TestViews(TestCase):
 
         self.assertEquals(message.tags, "success")
         self.assertIn(_('Topic "%s" was updated on virtual enviroment "%s" successfully!')%(self.topic.name, self.subject.name), message.message)
+
+        topic = Topic.objects.get(slug=self.topic.slug)
+
+        #Test if database has changed
+        self.assertEquals(topic.description, data['description'])
+        self.assertEquals(topic.visible, data['visible'])
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="topic", action="update", resource="topic", context__topic_name=data['name']).exists())
+        self.assertTrue(Log.objects.filter(component="subject", action="access", resource="subject", context__subject_slug=self.subject.slug).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 2)
 
     def test_topic_update_make_invisible(self):
         data = {
@@ -196,6 +221,9 @@ class TestViews(TestCase):
     def test_topic_delete(self):
         topicName = self.topic.name
 
+        numberTopics = Topic.objects.all().count()
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.professor)
         response = self.client.delete(reverse("topics:delete", kwargs={"slug": self.topic.slug}), follow=True)
 
@@ -206,6 +234,14 @@ class TestViews(TestCase):
 
         self.assertEquals(message.tags, "success")
         self.assertIn(_('Topic "%s" was removed from virtual enviroment "%s" successfully!')%(topicName, self.subject.name), message.message)
+
+        #Test if database has changed
+        self.assertEquals(Topic.objects.all().count(), numberTopics - 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="topic", action="delete", resource="topic", context__topic_name=topicName).exists())
+        self.assertTrue(Log.objects.filter(component="subject", action="access", resource="subject", context__subject_slug=self.subject.slug).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 2)
 
     def test_topic_unable_delete(self):
         self.client.force_login(self.professor)
@@ -226,17 +262,29 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 404)
 
     def test_topic_view_open(self):
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.student)
         response = self.client.get(reverse("topics:view_log", kwargs={"topic": self.invisibleTopic.id}), {"action": "open"}, follow=True)
 
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="topic", action="view", resource="topic", context__topic_id=self.invisibleTopic.id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+        
         log_id = Log.objects.latest("id").id
-
+        
         self.assertEquals(response.status_code, 200)
         self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok", 'log_id': log_id})
 
     def test_topic_view_close(self):
+        logsCounter = Log.objects.all().count()
+
         self.client.force_login(self.student)
         response = self.client.get(reverse("topics:view_log", kwargs={"topic": self.invisibleTopic.id}), {"action": "open"})
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="topic", action="view", resource="topic", context__topic_id=self.invisibleTopic.id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
 
         log_id = Log.objects.latest("id").id
 
@@ -244,6 +292,10 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
+
+        #Test if log was updated
+        log = Log.objects.get(id=log_id)
+        self.assertNotEqual(log.context["timestamp_end"], "-1")
     
     def test_topic_update_order_404(self):
         self.client.force_login(self.student)
@@ -278,6 +330,10 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
 
+        #Test if database has changed
+        topic = Topic.objects.get(id=self.invisibleTopic.id)
+        self.assertEquals(topic.order, 1)
+
     def test_topic_update_resource_order_404(self):
         self.client.force_login(self.student)
 
@@ -310,4 +366,8 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
+
+        #Test if database has changed
+        resource = Webpage.objects.get(id=self.resource.id)
+        self.assertEquals(resource.order, 1)
     
