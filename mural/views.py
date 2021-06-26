@@ -59,6 +59,7 @@ from .forms import (
 from .utils import getSpaceUsers, getSubjectPosts
 
 from amadeus.permissions import has_subject_view_permissions, has_resource_permissions
+from utils.image import image_resize
 
 """
 	Section for GeneralPost classes
@@ -254,6 +255,9 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = User.objects.all().exclude(id=self.request.user.id)
         entries = []
 
@@ -334,6 +338,9 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = User.objects.all().exclude(id=self.request.user.id)
 
@@ -669,6 +676,9 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
 
@@ -760,6 +770,9 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
 
@@ -1101,6 +1114,9 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
 
@@ -1225,6 +1241,9 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
 
@@ -1762,6 +1781,9 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
 
@@ -1931,6 +1953,9 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, post)
         entries = []
 
@@ -2057,6 +2082,9 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object.post)
 
