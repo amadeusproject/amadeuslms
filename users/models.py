@@ -33,11 +33,14 @@ def validate_img_extension(value):
     ]
 
     if hasattr(value.file, "content_type"):
-        if not value.file.content_type in valid_formats:
+        if value.file.content_type not in valid_formats:
             raise ValidationError(_("File not supported."))
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    def get_full_name(self):
+        return self.username + " " + self.last_name
+
     email = models.EmailField(
         _("Mail"),
         unique=True,
