@@ -12,7 +12,6 @@ def test_user() -> User:
         username="test_user",
         last_name="amadeus",
         email="test_user@amadeus.com",
-
     )
 
 
@@ -35,21 +34,19 @@ def test_user_model_with_valid_fields(test_user):
     assert isinstance(test_user.image, ImageFieldFile)
 
 
-def test_user_model_default_values():
-    pass
+@pytest.mark.django_db
+def test_user_model_social_name(test_user):
+    assert test_user.fullname() == test_user.username + " " + test_user.last_name
 
 
-def test_user_model_social_name():
-    pass
+@pytest.mark.django_db
+def test_user_get_items(test_user):
+    """
+    Testing that when a user is created, there is not logs associated with it.
+    """
+    assert test_user.get_items().exists() is False
 
 
-def test_user_model_without_social_name():
-    pass
-
-
-def test_user_get_items():
-    pass
-
-
-def test_user_get_short_name():
-    pytest.mark.xfail("not implemented")
+@pytest.mark.django_db
+def test_user_get_short_name(test_user):
+    assert test_user.get_short_name() == (test_user.social_name or (test_user.username + " " + test_user.last_name))
