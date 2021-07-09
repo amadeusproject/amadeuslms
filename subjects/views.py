@@ -46,7 +46,7 @@ from .models import Tag
 import time
 import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CreateSubjectForm, UpdateSubjectForm
+from .forms import SubjectForm
 from .utils import (
     has_student_profile,
     has_professor_profile,
@@ -363,7 +363,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
-    form_class = CreateSubjectForm
+    form_class = SubjectForm
 
     success_url = reverse_lazy("subject:index")
 
@@ -386,7 +386,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get("slug"):  # when the user creates a subject
-            initial["category"] = Category.objects.filter(slug=self.kwargs["slug"])
+            initial["category"] = get_object_or_404(Category, slug=kwargs.get("slug", ""))
 
         if self.kwargs.get("subject_slug"):  # when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs["subject_slug"])
@@ -503,7 +503,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     log_context = {}
 
     model = Subject
-    form_class = UpdateSubjectForm
+    form_class = SubjectForm
     template_name = "subjects/update.html"
 
     login_url = reverse_lazy("users:login")
