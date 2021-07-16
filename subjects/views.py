@@ -182,12 +182,6 @@ class IndexView(LoginRequiredMixin, ListView):
                     .order_by("name")
                 )
 
-        # if not self.request.user.is_staff:
-
-        # my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
-        # or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)]
-        # So I remove all categories that doesn't have the possibility for the user to be on
-
         return categories
 
     def paginate_queryset(self, queryset, page_size):
@@ -229,24 +223,6 @@ class IndexView(LoginRequiredMixin, ListView):
                 _("Invalid page (%(page_number)s): %(message)s")
                 % {"page_number": page_number, "message": str(e)}
             )
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_staff:
-            context["page_template"] = "categories/home_admin_content.html"
-        else:
-            context["page_template"] = "categories/home_teacher_student.html"
-
-        if self.request.is_ajax():
-            if self.request.user.is_staff:
-                self.template_name = "categories/home_admin_content.html"
-
-        return self.response_class(
-            request=self.request,
-            template=self.template_name,
-            context=context,
-            using=self.template_engine,
-            **response_kwargs
-        )
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
