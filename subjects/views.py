@@ -21,7 +21,6 @@ from django.views.generic import (
 )
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
-from rolepermissions.verifications import has_role
 from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
@@ -29,23 +28,18 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from random import shuffle
-from rolepermissions.mixins import HasRoleMixin
 from categories.forms import CategoryForm
-import operator
 from braces import views
 from subjects.models import Subject
 from django.contrib.auth.decorators import login_required
-from collections import namedtuple
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
-from itertools import chain
 from .models import Tag
 import time
 import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from .forms import SubjectForm
 from .utils import (
     has_student_profile,
@@ -61,7 +55,6 @@ import os
 import zipfile
 import json
 from io import BytesIO
-from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
