@@ -1293,6 +1293,7 @@ def functiontable(dataIni, dataEnd, categoryId = 0):
             "webconference": "Web conferência",
             "my_goals": "Metas do Tópico",
             "h5p": "H5P",
+            "materialdelivery": "Entrega de Material",
         }
 
         for i, resource in enumerate(resources):
