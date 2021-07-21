@@ -424,7 +424,8 @@ class UpdateView(LoginRequiredMixin, LogMixin, generic.edit.UpdateView):
             msform = mform.save(commit=False)
 
             if msform.file is None or str(msform.file) == "":
-                msform.delete()
+                if msform.id:
+                    msform.delete()
             else:
                 msform.save()
         
