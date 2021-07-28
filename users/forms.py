@@ -116,7 +116,7 @@ class RegisterUserForm(Validation):
 
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
 
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
@@ -125,7 +125,7 @@ class RegisterUserForm(Validation):
 
         if self.instance.image:
             image = Image.open(self.instance.image)
-            if not x is None:
+            if x is not None:
                 cropped_image = image.crop((x, y, w + x, h + y))
                 resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
 
@@ -135,15 +135,15 @@ class RegisterUserForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
         self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
@@ -204,7 +204,7 @@ class ProfileForm(Validation):
 
     def save(self, commit=True):
         super(ProfileForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
         w = self.cleaned_data.get("width")
@@ -222,13 +222,13 @@ class ProfileForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
@@ -279,7 +279,7 @@ class UserForm(Validation):
 
     def save(self, commit=True):
         super(UserForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
 
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
@@ -298,7 +298,7 @@ class UserForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
@@ -306,8 +306,8 @@ class UserForm(Validation):
             self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
