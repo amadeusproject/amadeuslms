@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -39,7 +39,7 @@ from log.models import Log
 from .models import Tag
 import time
 import datetime
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, InvalidPage
 from .forms import SubjectForm
 from .utils import (
     has_student_profile,
@@ -275,7 +275,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         context["categorySlug"] = slug
         context["hideCounters"] = True
 
-        if "all" in self.request.META.get("HTTP_REFERER"):
+        if "all" in self.request.META.get("HTTP_REFERER", []):
             context["all"] = True
 
         return context
@@ -320,7 +320,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         if self.kwargs.get("subject_slug"):  # when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs["subject_slug"])
             initial = initial.copy()
-            initial["category"] = Category.objects.filter(slug=subject.category.slug)
+            initial["category"] = Category.objects.get(slug=subject.category.slug)
             initial["description"] = subject.description
             initial["name"] = subject.name
             initial["visible"] = subject.visible
@@ -763,7 +763,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         tags = tags.split(" ")
 
         if tags[0] == "":
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse_lazy("subjects:home")))
 
         return super(SubjectSearchView, self).dispatch(request, *args, **kwargs)
 
