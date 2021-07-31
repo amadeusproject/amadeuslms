@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "session_security",
     "django_crontab",
     "django_cron",
-    #"channels",
+    "channels",
     "file_resubmit",  # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
     "fcm_django",
     "amadeus",
