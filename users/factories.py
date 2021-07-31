@@ -18,8 +18,11 @@ class RandomUserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
+    class Params:
+        email_seq = factory.Sequence(lambda n: "%3d" % n)
+
     username = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    email = factory.LazyAttribute(lambda a: '{}.{}@amadeus.com'.format(a.username, a.last_name).lower())
+    email = factory.LazyAttribute(lambda a: '{}.{}_{}@amadeus.com'.format(a.username, a.last_name, a.email_seq).lower())
     password = "amadeus"
     is_staff = False
