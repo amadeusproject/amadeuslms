@@ -9,6 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
+import debug_toolbar
 
 from django.conf import settings
 from django.conf.urls import include, url
@@ -58,6 +59,7 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'session_security/', include('session_security.urls')),
+    url(r'__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:
