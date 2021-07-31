@@ -44,27 +44,27 @@ def subject_count(category, user):
 @register.inclusion_tag("subjects/badge.html")
 def notifies_number(subject, user):
     context = {"number": Notification.objects.filter(
-		task__resource__topic__subject=subject,
-		creation_date=datetime.datetime.now(),
-		viewed=False,
-		user=user,
-	).count(), "custom_class": "pendencies_notify"}
+        task__resource__topic__subject=subject,
+        creation_date=datetime.datetime.now(),
+        viewed=False,
+        user=user,
+    ).count(), "custom_class": "pendencies_notify"}
 
-	return context
+    return context
 
 
 @register.inclusion_tag("subjects/badge.html")
 def mural_number(subject, user):
     context = {"number": MuralVisualizations.objects.filter(
-		Q(user=user)
-		& Q(viewed=False)
-		& (
-				Q(post__subjectpost__space=subject)
-				| Q(comment__post__subjectpost__space=subject)
-		)
-	).count(), "custom_class": "mural_notify"}
+        Q(user=user)
+        & Q(viewed=False)
+        & (
+                Q(post__subjectpost__space=subject)
+                | Q(comment__post__subjectpost__space=subject)
+        )
+    ).count(), "custom_class": "mural_notify"}
 
-	return context
+    return context
 
 
 @register.inclusion_tag("subjects/badge.html")
@@ -115,14 +115,14 @@ def after_today(date):
 @register.inclusion_tag("subjects/badge.html")
 def dashboard_view(subject, user):
     context = {"number": (
-		0
-		if Log.objects.filter(
-			user_id=user.id,
-			resource="analytics",
-			context__contains={"subject_slug": subject.slug},
-			datetime__date=datetime.datetime.now(),
-		).exists()
-		else 1
-	), "custom_class": "mural_notify"}
+        0
+        if Log.objects.filter(
+            user_id=user.id,
+            resource="analytics",
+            context__contains={"subject_slug": subject.slug},
+            datetime__date=datetime.datetime.now(),
+        ).exists()
+        else 1
+    ), "custom_class": "mural_notify"}
 
-	return context
+    return context

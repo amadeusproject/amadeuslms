@@ -107,10 +107,10 @@ class ChatVisualizations(models.Model):
     )
     date_viewed = models.DateTimeField(_("Date/Time Viewed"), null=True, blank=True, db_index=True)
 
-	class Meta:
-		indexes = [
-			models.Index(fields=["message", "user"])
-		]
+    class Meta:
+        indexes = [
+            models.Index(fields=["message", "user"])
+        ]
 
 
 class ChatFavorites(models.Model):
