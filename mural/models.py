@@ -212,7 +212,8 @@ class MuralVisualizations(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=["user", "post", "comment"])
+            models.Index(fields=["user", "post", "comment"]),
+            models.Index(fields=["user", "viewed"])
         ]
 
 
