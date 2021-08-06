@@ -110,3 +110,6 @@ plotly==4.9.0
 
 django-datatable-view==0.9.0
 nested-lookup==0.2.22
+
+django-debug-toolbar==1.11.0
+django-channels-panel==0.0.5
