@@ -56,9 +56,11 @@ from .forms import (
     ResourcePostForm,
     CommentForm,
 )
-from .utils import getSpaceUsers, getSubjectPosts
+from .utils import getSpaceUsers, getSubjectPosts, getUnseenCategoriesPostsCount, getUnseenSubjectsPostsCount
 
-from amadeus.permissions import has_subject_view_permissions, has_resource_permissions
+from utils.image import image_resize
+
+from amadeus.permissions import has_subject_view_permissions, has_resource_permissions, has_analytics_permissions
 
 """
 	Section for GeneralPost classes
@@ -133,55 +135,11 @@ class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
             ).distinct()
 
             self.totals["general"] = general_visualizations.count()
-            self.totals["category"] = (
-                MuralVisualizations.objects.filter(
-                    Q(user=user)
-                    & Q(viewed=False)
-                    & (
-                        (
-                            Q(user__is_staff=True)
-                            & (
-                                Q(post__categorypost__isnull=False)
-                                | Q(comment__post__categorypost__isnull=False)
-                            )
-                        )
-                        | Q(post__categorypost__space__coordinators=user)
-                        | Q(comment__post__categorypost__space__coordinators=user)
-                        | Q(post__categorypost__space__subject_category__students=user)
-                        | Q(
-                            comment__post__categorypost__space__subject_category__students=user
-                        )
-                        | Q(post__categorypost__space__subject_category__professor=user)
-                        | Q(
-                            comment__post__categorypost__space__subject_category__professor=user
-                        )
-                    )
-                )
-                .distinct()
-                .count()
-            )
-            self.totals["subject"] = (
-                MuralVisualizations.objects.filter(
-                    Q(user=user)
-                    & Q(viewed=False)
-                    & (
-                        (
-                            Q(user__is_staff=True)
-                            & (
-                                Q(post__subjectpost__isnull=False)
-                                | Q(comment__post__subjectpost__isnull=False)
-                            )
-                        )
-                        | Q(post__subjectpost__space__professor=user)
-                        | Q(comment__post__subjectpost__space__professor=user)
-                        | Q(post__subjectpost__space__students=user)
-                        | Q(comment__post__subjectpost__space__students=user)
-                    )
-                )
-                .distinct()
-                .count()
-            )
+            self.totals["category"] = getUnseenCategoriesPostsCount(user)
 
+            if has_analytics_permissions(user):
+                self.totals["subject"] = getUnseenSubjectsPostsCount(user)
+                    
             general_visualizations.update(viewed=True, date_viewed=timezone.now())
 
             MuralVisualizations.objects.filter(
@@ -253,6 +211,9 @@ class GeneralCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.object.user = self.request.user
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = User.objects.all().exclude(id=self.request.user.id)
         entries = []
@@ -334,6 +295,9 @@ class GeneralUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = User.objects.all().exclude(id=self.request.user.id)
 
@@ -579,54 +543,11 @@ class CategoryIndex(LoginRequiredMixin, generic.ListView):
             .distinct()
             .count()
         )
-        self.totals["category"] = (
-            MuralVisualizations.objects.filter(
-                Q(user=user)
-                & Q(viewed=False)
-                & (
-                    (
-                        Q(user__is_staff=True)
-                        & (
-                            Q(post__categorypost__isnull=False)
-                            | Q(comment__post__categorypost__isnull=False)
-                        )
-                    )
-                    | Q(post__categorypost__space__coordinators=user)
-                    | Q(comment__post__categorypost__space__coordinators=user)
-                    | Q(post__categorypost__space__subject_category__students=user)
-                    | Q(
-                        comment__post__categorypost__space__subject_category__students=user
-                    )
-                    | Q(post__categorypost__space__subject_category__professor=user)
-                    | Q(
-                        comment__post__categorypost__space__subject_category__professor=user
-                    )
-                )
-            )
-            .distinct()
-            .count()
-        )
-        self.totals["subject"] = (
-            MuralVisualizations.objects.filter(
-                Q(user=user)
-                & Q(viewed=False)
-                & (
-                    (
-                        Q(user__is_staff=True)
-                        & (
-                            Q(post__subjectpost__isnull=False)
-                            | Q(comment__post__subjectpost__isnull=False)
-                        )
-                    )
-                    | Q(post__subjectpost__space__professor=user)
-                    | Q(comment__post__subjectpost__space__professor=user)
-                    | Q(post__subjectpost__space__students=user)
-                    | Q(comment__post__subjectpost__space__students=user)
-                )
-            )
-            .distinct()
-            .count()
-        )
+        
+        self.totals["category"] = getUnseenCategoriesPostsCount(user)
+
+        if has_analytics_permissions(user):
+            self.totals["subject"] = getUnseenSubjectsPostsCount(user)
 
         return categories
 
@@ -668,6 +589,9 @@ class CategoryCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.object.user = self.request.user
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
@@ -760,6 +684,9 @@ class CategoryUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
 
@@ -1000,54 +927,11 @@ class SubjectIndex(LoginRequiredMixin, generic.ListView):
             .distinct()
             .count()
         )
-        self.totals["category"] = (
-            MuralVisualizations.objects.filter(
-                Q(user=user)
-                & Q(viewed=False)
-                & (
-                    (
-                        Q(user__is_staff=True)
-                        & (
-                            Q(post__categorypost__isnull=False)
-                            | Q(comment__post__categorypost__isnull=False)
-                        )
-                    )
-                    | Q(post__categorypost__space__coordinators=user)
-                    | Q(comment__post__categorypost__space__coordinators=user)
-                    | Q(post__categorypost__space__subject_category__students=user)
-                    | Q(
-                        comment__post__categorypost__space__subject_category__students=user
-                    )
-                    | Q(post__categorypost__space__subject_category__professor=user)
-                    | Q(
-                        comment__post__categorypost__space__subject_category__professor=user
-                    )
-                )
-            )
-            .distinct()
-            .count()
-        )
-        self.totals["subject"] = (
-            MuralVisualizations.objects.filter(
-                Q(user=user)
-                & Q(viewed=False)
-                & (
-                    (
-                        Q(user__is_staff=True)
-                        & (
-                            Q(post__subjectpost__isnull=False)
-                            | Q(comment__post__subjectpost__isnull=False)
-                        )
-                    )
-                    | Q(post__subjectpost__space__professor=user)
-                    | Q(comment__post__subjectpost__space__professor=user)
-                    | Q(post__subjectpost__space__students=user)
-                    | Q(comment__post__subjectpost__space__students=user)
-                )
-            )
-            .distinct()
-            .count()
-        )
+        
+        self.totals["category"] = getUnseenCategoriesPostsCount(user)
+
+        if has_analytics_permissions(user):
+            self.totals["subject"] = getUnseenSubjectsPostsCount(user)
 
         return subjects
 
@@ -1100,6 +984,9 @@ class SubjectCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         self.object.user = self.request.user
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
@@ -1225,6 +1112,9 @@ class SubjectUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object)
 
@@ -1762,6 +1652,9 @@ class ResourceCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, self.object)
         entries = []
 
@@ -1931,6 +1824,9 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         self.object.save()
 
+        if self.object.image:
+            image_resize(self.object.image.path)
+
         users = getSpaceUsers(self.request.user.id, post)
         entries = []
 
@@ -2057,6 +1953,9 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
         self.object.edited = True
 
         self.object.save()
+
+        if self.object.image:
+            image_resize(self.object.image.path)
 
         users = getSpaceUsers(self.request.user.id, self.object.post)
 

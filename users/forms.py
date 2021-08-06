@@ -25,6 +25,7 @@ import os
 from amadeus import settings
 
 from .models import User
+from utils.image import image_resize
 
 
 class Validation(forms.ModelForm):
@@ -139,6 +140,7 @@ class RegisterUserForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
@@ -226,6 +228,7 @@ class ProfileForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         self.instance.save()
         if self.deletepath:
             os.remove(self.deletepath)
@@ -302,6 +305,7 @@ class UserForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         if not self.is_edit or self.cleaned_data["new_password"] != "":
             self.instance.set_password(self.cleaned_data["new_password"])
 

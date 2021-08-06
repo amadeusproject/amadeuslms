@@ -1,13 +1,13 @@
 ARGS=web
 
 stop:
-	docker container stop $$(docker container ls -q)
+	docker container stop $$(docker container ls -q) | true
 
 stop-containers:
-	docker-compose stop $$ARGS
+	docker-compose stop $$ARGS | true
 
 remove-containers: stop-containers
-	docker-compose rm -f $$ARGS
+	docker-compose rm -f $$ARGS | true
 
 build:
 	docker-compose build

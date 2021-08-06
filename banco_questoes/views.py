@@ -13,6 +13,7 @@ from .models import Question, valid_formats
 from .forms import QuestionForm, AlternativeFormset
 
 from subjects.models import Subject
+from utils.image import image_resize
 
 class IndexView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
@@ -135,12 +136,18 @@ class QuestionCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
         self.object.save()
 
+        if self.object.question_img:
+            image_resize(self.object.question_img.path)
+
         alternatives = formset.save(commit = False)
 
         for alt in alternatives:
             alt.question = self.object
 
             alt.save()
+
+            if self.object.alt_img:
+                image_resize(self.object.alt_img.path)
 
         self.log_context['category_id'] = self.object.subject.category.id
         self.log_context['category_name'] = self.object.subject.category.name

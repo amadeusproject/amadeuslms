@@ -61,7 +61,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	<label for="{{ form.file_content.auto_id }}">{{ form.file_content.label }} <span>*</span></label>
 	<a href="{% url 'bulletin:download_file' file=goal_file %}"> {% trans "Click to download a xls file with the data of the goals" %}</a>
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ form.file_content.auto_id }}">
-		{% render_field form.file_content class='file-selector' data-max_size="1" data-mimetypes=mimeTypes %}
+		{% render_field form.file_content class='file-selector' data-max_size="10" data-mimetypes=mimeTypes %}
 
 		<div class="input-group common-file-input">
 					<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
@@ -115,7 +115,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 	<div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput" data-file_id="{{ form.indicators.auto_id }}">
 		<label for="{{ form.indicators.auto_id }}">{{ form.indicators.label }} <span>*</span></label>
-		{% render_field form.indicators class='file-selector' data-max_size="1" data-mimetypes=mimeTypes %}
+		{% render_field form.indicators class='file-selector' data-max_size="10" data-mimetypes=mimeTypes %}
 
 		<div class="input-group common-file-input">
 					<input type="text" readonly="" class="form-control" placeholder="{% trans 'Choose your file...' %}">
