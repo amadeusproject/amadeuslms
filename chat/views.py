@@ -44,6 +44,7 @@ from api.utils import sendChatPushNotification
 
 from .models import Conversation, TalkMessages, ChatVisualizations, ChatFavorites
 from .forms import ChatMessageForm
+from utils.image import image_resize
 
 
 class GeneralIndex(LoginRequiredMixin, LogMixin, generic.ListView):
@@ -490,6 +491,8 @@ class SendMessage(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
 
         if self.object.image:
             simple_notify += " ".join(_("[Photo]"))
+
+            image_resize(self.object.image.path)
 
         notification = {
             "type": "chat",
