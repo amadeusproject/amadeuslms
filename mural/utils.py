@@ -12,7 +12,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django.db.models import Q
 
-from .models import SubjectPost
+from .models import SubjectPost, MuralVisualizations
 
 from users.models import User
 
@@ -80,3 +80,67 @@ def getSubjectPosts(subject, user, favorites, mines):
 				posts = SubjectPost.objects.extra(select = {"most_recent": "greatest(mural_mural.last_update, (select max(mural_comment.last_update) from mural_comment where mural_comment.post_id = mural_subjectpost.mural_ptr_id))"}).filter(space__id = subject, favorites_post__isnull = False, favorites_post__user = user)
 
 	return posts
+
+def getUnseenCategoriesPostsCount(user):
+	if user.is_staff:
+		qtd = MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (Q(post__categorypost__isnull=False)
+                                | Q(comment__post__categorypost__isnull=False))).distinct().count()
+	else:
+		qtd = MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(post__categorypost__space__coordinators=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(comment__post__categorypost__space__coordinators=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(post__categorypost__space__subject_category__students=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(comment__post__categorypost__space__subject_category__students=user)).distinct().count()
+		
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(post__categorypost__space__subject_category__professor=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(comment__post__categorypost__space__subject_category__professor=user)).distinct().count()
+
+	return qtd
+
+def getUnseenSubjectsPostsCount(user):
+	if user.is_staff:
+		qtd = MuralVisualizations.objects.filter(Q(user=user) & Q(viewed=False) & (Q(post__subjectpost__isnull=False)
+                                | Q(comment__post__subjectpost__isnull=False))).distinct().count()
+	else:
+		qtd = MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(post__subjectpost__space__professor=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(comment__post__subjectpost__space__professor=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(post__subjectpost__space__students=user)).distinct().count()
+
+		qtd += MuralVisualizations.objects.filter(
+					Q(user=user)
+					& Q(viewed=False)
+					& Q(comment__post__subjectpost__space__students=user)).distinct().count()
+	
+	return qtd
