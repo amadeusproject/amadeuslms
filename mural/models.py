@@ -117,6 +117,11 @@ class CategoryPost(Mural):
         Category, verbose_name=("Category"), related_name="post_category", null=True
     )
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["mural_ptr_id", "space"])
+        ]
+
     def get_id(self):
         return self.id
 
@@ -144,6 +149,12 @@ class SubjectPost(Mural):
         null=True,
         blank=True,
     )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["mural_ptr_id", "space"]),
+            models.Index(fields=["mural_ptr_id", "resource", "space"])
+        ]
 
     def get_id(self):
         return self.id
@@ -179,6 +190,13 @@ class Comment(models.Model):
     create_date = models.DateTimeField(_("Create Date"), auto_now_add=True)
     last_update = models.DateTimeField(_("Last Update"), auto_now=True)
     edited = models.BooleanField(_("Edited"), default=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user", "post"]),
+            models.Index(fields=["user", "post", "last_update"]),
+            models.Index(fields=["user", "post", "create_date"]),
+        ]
 
     @property
     def image_url(self):

@@ -31,6 +31,12 @@ class Log(models.Model):
 		verbose_name = _('Log')
 		verbose_name_plural = _('Logs')
 
+		indexes = [
+            models.Index(fields=["component", "action", "resource", "user_id"]),
+            models.Index(fields=["user_id", "datetime"]),
+			models.Index(fields=["user_id"])
+        ]
+
 	def __str__(self):
 		return str(self.user) + ' / ' + self.component
 	
