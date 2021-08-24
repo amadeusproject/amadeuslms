@@ -59,7 +59,12 @@ valid_formats = [
     'video/webm',
     'audio/webm',
     'video/3gpp',
-    'video/x-ms-wmv'
+    'video/x-ms-wmv',
+    'application/x-rar-compressed', 
+    'application/octet-stream',
+    'application/zip', 
+    'application/x-zip-compressed', 
+    'multipart/x-zip'
 ]
 
 def validate_file_extension(value):
