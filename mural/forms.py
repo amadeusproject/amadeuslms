@@ -83,7 +83,7 @@ class SubjectPostForm(Validation):
 		user = kwargs['initial'].get('user', None)
 		subject = kwargs['initial'].get('subject', None)
 
-		if not kwargs['instance'] is None:
+		if "instance" in kwargs and not kwargs['instance'] is None:
 			subject = self.instance.space
 
 		if user.is_staff:
