@@ -10,7 +10,7 @@ import factory
 
 from .models import GeneralPost, CategoryPost, SubjectPost
 
-from subject.factories import RandomSubjectFactory
+from subjects.factories import RandomSubjectFactory
 from users.factories import RandomUserFactory
 
 class RandomGeneralPostFactory(factory.django.DjangoModelFactory):
