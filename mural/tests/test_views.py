@@ -17,6 +17,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from log.models import Log
+from subjects.models import Subject
 from mural.models import GeneralPost, CategoryPost, SubjectPost
 
 #Import factories
@@ -349,3 +350,192 @@ class TestViews(TestCase):
         self.assertTrue(Log.objects.filter(component="mural", action="edit_post", resource="category", context__post_id=postId).exists())
         self.assertEquals(Log.objects.all().count(), numberLogs + 1)
 
+    def test_category_delete_get(self):
+        self.client.force_login(self.professors[1])
+
+        response = self.client.get(reverse("mural:delete_category", kwargs={"pk": self.categoryPosts[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/delete.html")
+
+    def test_category_delete_post(self):
+        self.client.force_login(self.professors[1])
+
+        postId = self.categoryPosts[0].id
+
+        numberPosts = CategoryPost.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.delete(reverse("mural:delete_category", kwargs={"pk": postId}), follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:deleted_post"))
+
+        #Test if database changed
+        self.assertEquals(CategoryPost.objects.all().count(), numberPosts - 1)
+        self.assertFalse(CategoryPost.objects.filter(id=postId).exists())
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="delete_post", resource="category", context__post_id=postId).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+
+    def test_subject_index(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:manage_subject"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/list_subject.html")
+
+        subjectsList = [x.id for x in self.subjects if self.professors[2] in x.professor.all()]
+
+        self.assertEquals(response.context["subjects"].count(), len(subjectsList))
+        self.assertTrue(self.isListEqual(response.context["subjects"].values_list("id"), subjectsList))
+        self.assertFalse("subject" in response.context["totals"])
+
+    def test_subject_index_admin(self):
+        self.client.force_login(self.staff)
+
+        response = self.client.get(reverse("mural:manage_subject"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/list_subject.html")
+
+        self.assertEquals(response.context["subjects"].count(), 10)
+        self.assertTrue(self.isListEqual(response.context["subjects"].values_list("id"), [x.id for x in self.subjects][:10]))
+        self.assertTrue("subject" in response.context["totals"])
+
+    def test_subject_load_post(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:load_subject", args={self.subjects[12].id}))
+
+        self.assertEquals(response.status_code, 200)
+
+        content = json.loads(response.content.decode("utf-8"))
+
+        self.assertEquals(content["count"], len([x for x in self.subjectPosts if x.space.id == self.subjects[12].id]))
+
+
+    def test_subject_create_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:create_subject", kwargs={"slug": self.subjects[12].slug}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/_form.html")
+
+    def test_subject_create_form_invalid(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "post": "",
+            "action": "comment"
+        }
+
+        response = self.client.post(reverse("mural:create_subject", kwargs={"slug": self.subjects[12].slug}), data)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_subject_create(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "post": "Testing subject mural creation",
+            "action": "comment"
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.post(reverse("mural:create_subject", kwargs={"slug": self.subjects[12].slug}), data, follow=True)
+
+        newPost = SubjectPost.objects.latest("id")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:render_post", args=(newPost.id, "create", "sub",)))
+
+        #Test if database changed
+        self.assertTrue(SubjectPost.objects.filter(post=data['post']).exists())
+        self.assertEquals(SubjectPost.objects.all().count(), len(self.subjectPosts) + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="create_post", resource="subject", context__subject_id=self.subjects[12].id).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_subject_update_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:update_subject", kwargs={"pk": self.subjectPosts[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/_form.html")
+
+    def test_subject_update_form_invalid(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "post": "",
+            "action": "comment"
+        }
+
+        response = self.client.post(reverse("mural:update_subject", kwargs={"pk": self.subjectPosts[0].id}), data)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_subject_update(self):
+        self.client.force_login(self.professors[2])
+
+        postId = self.subjectPosts[0].id
+
+        data = {
+            "id": postId,
+            "post": "Testing subject mural update",
+            "action": "comment"
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.post(reverse("mural:update_subject", kwargs={"pk": postId}), data, follow=True)
+
+        newPost = SubjectPost.objects.latest("id")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:render_post", args=(postId, "update", "sub",)))
+
+        #Test if database changed
+        post = SubjectPost.objects.get(id = postId)
+        self.assertEquals(post.post, data["post"])
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="edit_post", resource="subject", context__post_id=postId).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_subject_delete_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:delete_subject", kwargs={"pk": self.subjectPosts[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/delete.html")
+
+    def test_subject_delete_post(self):
+        self.client.force_login(self.professors[2])
+
+        postId = self.subjectPosts[0].id
+
+        numberPosts = SubjectPost.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.delete(reverse("mural:delete_subject", kwargs={"pk": postId}), follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:deleted_post"))
+
+        #Test if database changed
+        self.assertEquals(SubjectPost.objects.all().count(), numberPosts - 1)
+        self.assertFalse(SubjectPost.objects.filter(id=postId).exists())
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="delete_post", resource="subject", context__post_id=postId).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
