@@ -17,13 +17,15 @@ from django.urls import reverse
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from log.models import Log
+from webpage.models import Webpage
 from subjects.models import Subject
-from mural.models import GeneralPost, CategoryPost, SubjectPost
+from mural.models import GeneralPost, CategoryPost, SubjectPost, Comment, MuralFavorites
 
 #Import factories
 from categories.factories import RandomCategoryFactory
 from subjects.factories import RandomSubjectFactory
 from mural.factories import RandomGeneralPostFactory, RandomCategoryPostFactory, RandomSubjectPostFactory
+from topics.factories import RandomTopicFactory
 from users.factories import RandomUserFactory
 
 class TestViews(TestCase):
@@ -35,15 +37,20 @@ class TestViews(TestCase):
     categories = None
     subjects = None
     topics = None
+    resources = []    
     generalPosts = None
     categoryPosts = None
     subjectPosts = None
+    comments = []
 
     def setUp(self):
         self.create_users()
         self.create_categories()
         self.create_subjects()
+        self.create_topics()
+        self.create_resources()
         self.create_posts()
+        self.create_comments()
 
     def create_users(self):
         self.staff = RandomUserFactory.create(is_staff=True)
@@ -58,6 +65,15 @@ class TestViews(TestCase):
         self.subjects += RandomSubjectFactory.create_batch(5, category=self.categories[1], professor=(self.professors[1],), students=(self.students[3:5]))
         self.subjects += RandomSubjectFactory.create_batch(5, category=self.categories[2], professor=(self.professors[2],), students=(self.students[6:8]))
 
+    def create_topics(self):
+        self.topics = RandomTopicFactory.create_batch(2, subject=self.subjects[12])
+        self.topics += RandomTopicFactory.create_batch(2, subject=self.subjects[6])
+
+    def create_resources(self):
+        self.resources = []
+        self.resources.append(Webpage.objects.create(name="Recurso Teste", content="teste", topic=self.topics[0], visible=True))
+        self.resources.append(Webpage.objects.create(name="Testing", content="teste", topic=self.topics[3], visible=True))
+
     def create_posts(self):
         self.generalPosts = RandomGeneralPostFactory.create_batch(5, user=self.professors[0])
         self.generalPosts += RandomGeneralPostFactory.create_batch(5, user=self.students[5])
@@ -67,6 +83,14 @@ class TestViews(TestCase):
         
         self.subjectPosts = RandomSubjectPostFactory.create_batch(5, space=self.subjects[12], user=self.professors[2])
         self.subjectPosts += RandomSubjectPostFactory.create_batch(5, space=self.subjects[6], user=self.students[3])
+        self.subjectPosts += RandomSubjectPostFactory.create_batch(2, space=self.subjects[12], user=self.professors[2], resource=self.resources[0])
+
+    def create_comments(self):
+        self.comments = []
+        self.comments.append(Comment.objects.create(comment="Comment test", post=self.subjectPosts[0], user=self.professors[2]))
+        self.comments.append(Comment.objects.create(comment="Comment test 2", post=self.subjectPosts[0], user=self.professors[2]))
+        self.comments.append(Comment.objects.create(comment="Comment test 3", post=self.subjectPosts[0], user=self.professors[2]))
+        self.comments.append(Comment.objects.create(comment="Comment test 4", post=self.subjectPosts[0], user=self.professors[2]))
 
     def isListEqual(self, a, b):
         intersec = list(set(a).intersection(b))
@@ -539,3 +563,331 @@ class TestViews(TestCase):
         #Test if log was created
         self.assertTrue(Log.objects.filter(component="mural", action="delete_post", resource="subject", context__post_id=postId).exists())
         self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_subject_view_302(self):
+        self.client.force_login(self.students[4])
+
+        response = self.client.get(reverse("mural:subject_view", kwargs={"slug": self.subjects[12].slug}))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:home"))
+
+    def test_subject_view_404(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:subject_view", kwargs={"slug": "test"}), follow=True)
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_subject_view(self):
+        self.client.force_login(self.professors[2])
+
+        logsCounter = Log.objects.all().count()
+
+        response = self.client.get(reverse("mural:subject_view", kwargs={"slug": self.subjects[12].slug}), follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/subject_view.html")
+        self.assertEquals(response.context["favorites"], "")
+        self.assertEquals(response.context["mines"], "")
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="subject", context__subject_name=self.subjects[12].name).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+
+    def test_resource_view_302(self):
+        self.client.force_login(self.students[4])
+
+        response = self.client.get(reverse("mural:resource_view", kwargs={"slug": self.resources[0].slug}))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:home"))
+
+    def test_resource_view_404(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:resource_view", kwargs={"slug": "test"}))
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_resource_view(self):
+        self.client.force_login(self.professors[2])
+
+        logsCounter = Log.objects.all().count()
+
+        response = self.client.get(reverse("mural:resource_view", kwargs={"slug": self.resources[0].slug}), follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/resource_view.html")
+        self.assertEquals(response.context["favorites"], "")
+        self.assertEquals(response.context["mines"], "")
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="subject", context__resource_name=self.resources[0].name).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+
+    def test_resource_create_form_invalid(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "post": "",
+            "action": "comment"
+        }
+
+        response = self.client.post(reverse("mural:create_resource", kwargs={"slug": self.subjects[12].slug, "rslug": self.resources[0].slug}), data)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_resource_create(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "post": "Testing resoruce mural creation",
+            "action": "comment"
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.post(reverse("mural:create_resource", kwargs={"slug": self.subjects[12].slug, "rslug": self.resources[0].slug}), data, follow=True)
+
+        newPost = SubjectPost.objects.latest("id")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:render_post", args=(newPost.id, "create", "sub",)))
+
+        #Test if database changed
+        self.assertTrue(SubjectPost.objects.filter(post=data['post']).exists())
+        self.assertEquals(SubjectPost.objects.all().count(), len(self.subjectPosts) + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="create_post", resource="subject", context__resource_id=self.resources[0].id).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+
+    def test_comment_create_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:create_comment", kwargs={"post": self.subjectPosts[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/_form_comment.html")
+
+    def test_comment_create_form_invalid(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "comment": ""
+        }
+
+        response = self.client.post(reverse("mural:create_comment", kwargs={"post": self.subjectPosts[0].id}), data)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_comment_create(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "comment": "Testing category mural creation"
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.post(reverse("mural:create_comment", kwargs={"post": self.subjectPosts[0].id}), data, follow=True)
+
+        newPost = Comment.objects.latest("id")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:render_comment", args=(newPost.id, "create",)))
+
+        #Test if database changed
+        self.assertTrue(Comment.objects.filter(comment=data['comment']).exists())
+        self.assertEquals(Comment.objects.all().count(), len(self.comments) + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="create_comment", resource="subject", context__subject_id=self.subjects[12].id).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    
+    def test_comment_update_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:update_comment", kwargs={"pk": self.comments[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/_form_comment.html")
+
+    def test_comment_update_form_invalid(self):
+        self.client.force_login(self.professors[2])
+
+        data = {
+            "comment": ""
+        }
+
+        response = self.client.post(reverse("mural:update_comment", kwargs={"pk": self.comments[0].id}), data)
+
+        self.assertEquals(response.status_code, 400)
+
+    def test_comment_update(self):
+        self.client.force_login(self.professors[2])
+
+        postId = self.comments[0].id
+
+        data = {
+            "id": postId,
+            "comment": "Testing comment mural update"
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.post(reverse("mural:update_comment", kwargs={"pk": postId}), data, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:render_comment", args=(postId, "update",)))
+
+        #Test if database changed
+        post = Comment.objects.get(id = postId)
+        self.assertEquals(post.comment, data["comment"])
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="edit_comment", resource="subject", context__comment_id=postId).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_comment_delete_get(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:delete_comment", kwargs={"pk": self.comments[0].id}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "mural/delete.html")
+
+    def test_comment_delete_post(self):
+        self.client.force_login(self.professors[2])
+
+        postId = self.comments[0].id
+
+        numberPosts = Comment.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        response = self.client.delete(reverse("mural:delete_comment", kwargs={"pk": postId}), follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("mural:deleted_comment"))
+
+        #Test if database changed
+        self.assertEquals(Comment.objects.all().count(), numberPosts - 1)
+        self.assertFalse(Comment.objects.filter(id=postId).exists())
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="delete_comment", resource="subject", context__comment_id=postId).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_comments_load(self):
+        self.client.force_login(self.professors[2])
+
+        response = self.client.get(reverse("mural:load_comments", args={self.subjectPosts[0].id, 0}))
+
+        self.assertEquals(response.status_code, 200)
+
+
+    def test_category_view_open(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professors[1])
+        response = self.client.get(reverse("mural:view_log_cat", kwargs={"category": self.categories[1].id}), {"action": "open"}, follow=True)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="category", context__category_id=self.categories[1].id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+        
+        log_id = Log.objects.latest("id").id
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok", 'log_id': log_id})
+
+    def test_category_view_close(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professors[1])
+        response = self.client.get(reverse("mural:view_log_cat", kwargs={"category": self.categories[1].id}), {"action": "open"})
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="category", context__category_id=self.categories[1].id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+
+        log_id = Log.objects.latest("id").id
+
+        response = self.client.get(reverse("mural:view_log_cat", kwargs={"category": self.categories[1].id}), {"action": "close", "log_id": log_id}, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
+
+        #Test if log was updated
+        log = Log.objects.get(id=log_id)
+        self.assertNotEqual(log.context["timestamp_end"], "-1")
+
+
+    def test_subject_view_open(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professors[2])
+        response = self.client.get(reverse("mural:view_log_sub", kwargs={"subject": self.subjects[12].id}), {"action": "open"}, follow=True)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="subject", context__subject_id=self.subjects[12].id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+        
+        log_id = Log.objects.latest("id").id
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok", 'log_id': log_id})
+
+    def test_subject_view_close(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professors[2])
+        response = self.client.get(reverse("mural:view_log_sub", kwargs={"subject": self.subjects[12].id}), {"action": "open"})
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="mural", action="view", resource="subject", context__subject_id=self.subjects[12].id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+
+        log_id = Log.objects.latest("id").id
+
+        response = self.client.get(reverse("mural:view_log_sub", kwargs={"subject": self.subjects[12].id}), {"action": "close", "log_id": log_id}, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
+
+        #Test if log was updated
+        log = Log.objects.get(id=log_id)
+        self.assertNotEqual(log.context["timestamp_end"], "-1")
+
+
+    def test_favorite_post(self):
+        self.client.force_login(self.professors[2])
+
+        numberFavorites = MuralFavorites.objects.all().count()
+
+        response = self.client.get(reverse("mural:favorite", args={self.subjectPosts[0].id}), {"action": "favorite"}, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"label": _("Unfavorite")})
+
+        #Test if database changed
+        self.assertEquals(MuralFavorites.objects.all().count(), numberFavorites + 1)
+        self.assertTrue(MuralFavorites.objects.filter(post=self.subjectPosts[0], user=self.professors[2]).exists())
+
+    def test_favorite_post(self):
+        self.client.force_login(self.professors[2])
+
+        numberFavorites = MuralFavorites.objects.all().count()
+
+        response = self.client.get(reverse("mural:favorite", args={self.subjectPosts[0].id}), {"action": "favorite"}, follow=True)
+
+        response = self.client.get(reverse("mural:favorite", args={self.subjectPosts[0].id}), {"action": "unfavorite"}, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+
+        #Test if database changed
+        self.assertEquals(MuralFavorites.objects.all().count(), numberFavorites)
+        self.assertFalse(MuralFavorites.objects.filter(post=self.subjectPosts[0], user=self.professors[2]).exists())
