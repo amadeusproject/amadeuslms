@@ -13,7 +13,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 
 from django.contrib import admin
 from .models import Subject, Tag
-from .forms import CreateSubjectForm, CreateTagForm
+from .forms import SubjectForm, CreateTagForm
 
 class SubjectAdmin(admin.ModelAdmin):
 	list_display = ['name', 'description_brief', 'description', 'init_date', 'end_date', 'visible', 'category']

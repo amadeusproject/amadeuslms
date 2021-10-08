@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse_lazy
 from rolepermissions.verifications import has_role
 from django.db.models import Q
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -27,6 +27,8 @@ from .forms import CategoryForm
 
 from braces import views
 from subjects.models import Subject
+
+from amadeus.permissions import has_category_permissions
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
@@ -39,8 +41,7 @@ from users.models import User
 from security.models import Security
 
 
-class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
-
+class IndexView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
     model = Category
@@ -54,18 +55,17 @@ class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
 
         return categories
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy("subjects:index"))
+
+        return super(IndexView, self).dispatch(request, *args, **kwargs)
+
     def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_staff:
-            context["page_template"] = "categories/home_admin_content.html"
-        else:
-            context["page_template"] = "categories/home_teacher_student.html"
+        context["page_template"] = "categories/home_admin_content.html"
 
         context["title"] = _("Categories")
-
-        if self.request.is_ajax():
-            if self.request.user.is_staff:
-                self.template_name = "categories/home_admin_content.html"
-
+        
         return self.response_class(
             request=self.request,
             template=self.template_name,
@@ -81,9 +81,8 @@ class IndexView(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
 
         return context
 
-
 class CreateCategory(
-    LoginRequiredMixin, views.StaffuserRequiredMixin, LogMixin, CreateView
+    LoginRequiredMixin, LogMixin, CreateView
 ):
     log_component = "category"
     log_action = "create"
@@ -96,6 +95,22 @@ class CreateCategory(
     form_class = CategoryForm
     template_name = "categories/create.html"
     success_url = reverse_lazy("categories:index")
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs.get("slug", None)
+
+        if slug is None:
+            if not request.user.is_staff:
+                return redirect(reverse_lazy('subjects:index'))
+        else:
+            category = get_object_or_404(Category, slug=slug)
+            security = Security.objects.get(id=1)
+
+            if not request.user.is_staff:
+                if security.deny_category_edition or not has_category_permissions(request.user, category):
+                    return redirect(reverse_lazy('subjects:index'))
+
+        return super(CreateCategory, self).dispatch(request, *args, **kwargs)
 
     def get_initial(self):
         initial = super(CreateCategory, self).get_initial()
@@ -234,7 +249,7 @@ class DeleteCategory(LoginRequiredMixin, LogMixin, DeleteView):
         return self.request.META.get("HTTP_REFERER")
 
 
-class UpdateCategory(LogMixin, UpdateView):
+class UpdateCategory(LoginRequiredMixin, LogMixin, UpdateView):
     log_component = "category"
     log_action = "update"
     log_resource = "category"
@@ -248,11 +263,11 @@ class UpdateCategory(LogMixin, UpdateView):
     redirect_field_name = "next"
 
     def dispatch(self, request, *args, **kwargs):
-        pk = request.user.pk
         security = Security.objects.get(id=1)
+        category = get_object_or_404(Category, slug=self.kwargs["slug"])
 
         if not request.user.is_staff:
-            if security.deny_category_edition:
+            if security.deny_category_edition or not has_category_permissions(request.user, category):
                 return redirect(reverse_lazy("subjects:index"))
 
         return super(UpdateCategory, self).dispatch(request, *args, **kwargs)
