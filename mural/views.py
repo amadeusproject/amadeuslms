@@ -1567,7 +1567,7 @@ class ResourceView(LoginRequiredMixin, LogMixin, generic.ListView):
                     Q(post__subjectpost__resource=resource)
                     | Q(comment__post__subjectpost__resource=resource)
                 )
-            ).update(viewed=True, date_viewed=datetime.now())
+            ).update(viewed=True, date_viewed=timezone.now())
 
         return posts.order_by("-most_recent")
 
@@ -1882,7 +1882,7 @@ class CommentCreate(LoginRequiredMixin, LogMixin, generic.edit.CreateView):
         MuralVisualizations.objects.bulk_create(entries)
 
         self.log_context = {}
-        self.log_context["post_id"] = str(post.id)
+        self.log_context["post_id"] = post.id
 
         if post._my_subclass == "categorypost":
             self.log_resource = "category"
@@ -1999,8 +1999,8 @@ class CommentUpdate(LoginRequiredMixin, LogMixin, generic.UpdateView):
             Group("user-%s" % user.id).send({"text": notification})
 
         self.log_context = {}
-        self.log_context["post_id"] = str(self.object.post.id)
-        self.log_context["comment_id"] = str(self.object.id)
+        self.log_context["post_id"] = self.object.post.id
+        self.log_context["comment_id"] = self.object.id
 
         if self.object.post._my_subclass == "categorypost":
             self.log_resource = "category"
@@ -2112,8 +2112,8 @@ class CommentDelete(LoginRequiredMixin, LogMixin, generic.DeleteView):
             Group("user-%s" % user.id).send({"text": notification})
 
         self.log_context = {}
-        self.log_context["post_id"] = str(self.object.post.id)
-        self.log_context["comment_id"] = str(self.object.id)
+        self.log_context["post_id"] = self.object.post.id
+        self.log_context["comment_id"] = self.object.id
 
         if self.object.post._my_subclass == "categorypost":
             self.log_resource = "category"
