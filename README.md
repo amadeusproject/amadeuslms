@@ -44,6 +44,7 @@ gunzip < dump.gz | docker exec -i amadeuslms_db_1 psql -U postgres
 To set automatic backup, run `crontab -e` on terminal and add the line below to the created file
 ```
 30 2 * * * cd /root/amadeuslms && bash ./backup.sh >> cron.log
+0 5 * * * cd /root/amadeuslms && bash ./jobs.sh >> cron.log
 ```
 
 # TODO

@@ -25,11 +25,12 @@ from file_resubmit.widgets import ResubmitFileWidget
 
 from amadeus import settings
 from .models import User
+from utils.image import image_resize
 
 
 class Validation(forms.ModelForm):
     MIN_PASS_LENGTH = 8
-    MAX_UPLOAD_SIZE = 5 * 1024 * 1024
+    MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 
     def clean_email(self):
         email = self.cleaned_data.get("email", "")
@@ -54,7 +55,7 @@ class Validation(forms.ModelForm):
             if hasattr(image, "_size"):
                 if image._size > self.MAX_UPLOAD_SIZE:
                     self._errors["image"] = [
-                        _("The image is too large. It should have less than 5MB.")
+                        _("The image is too large. It should have less than 10MB.")
                     ]
 
                     return ValueError
@@ -139,6 +140,7 @@ class RegisterUserForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
@@ -226,6 +228,7 @@ class ProfileForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         self.instance.save()
         if self.delete_path:
             os.remove(self.delete_path)
@@ -302,6 +305,7 @@ class UserForm(Validation):
 
                 resized_image.save(self.instance.image.path)
 
+            image_resize(self.instance.image.path)
         if not self.is_edit or self.cleaned_data["new_password"] != "":
             self.instance.set_password(self.cleaned_data["new_password"])
 

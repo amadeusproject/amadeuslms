@@ -9,6 +9,7 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
+import debug_toolbar
 
 from django.conf import settings
 from django.conf.urls import include, url
@@ -42,7 +43,8 @@ urlpatterns = [
     url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
     url(r'^questionary/', include('questionary.urls', namespace='questionary')),
     url(r'^h5p/', include('h5p.urls', namespace='h5p')),
-    url(r'^webconferences/', include('webconference.urls', namespace='webconferences')),
+    url(r'^material_delivery/', include('material_delivery.urls', namespace='material_delivery')),
+    url(r'^webconferences/', include('webconference.urls', namespace = 'webconferences')),
     url(r'^news/', include('news.urls', namespace='news')),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^analytics/', include('analytics.urls', namespace='analytics')),
@@ -56,6 +58,7 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'session_security/', include('session_security.urls')),
+    url(r'__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:

@@ -21,32 +21,26 @@ from django.views.generic import (
 )
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
-from rolepermissions.verifications import has_role
 from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from random import shuffle
-from rolepermissions.mixins import HasRoleMixin
 from categories.forms import CategoryForm
-import operator
 from braces import views
 from subjects.models import Subject
 from django.contrib.auth.decorators import login_required
-from collections import namedtuple
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
-from itertools import chain
 from .models import Tag
 import time
 import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CreateSubjectForm, UpdateSubjectForm
+from django.core.paginator import Paginator, InvalidPage
+from .forms import SubjectForm
 from .utils import (
     has_student_profile,
     has_professor_profile,
@@ -61,7 +55,6 @@ import os
 import zipfile
 import json
 from io import BytesIO
-from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -95,6 +88,8 @@ from questionary.serializers import (
 from questionary.models import Questionary
 from h5p.serializers import SimpleH5PSerializer, CompleteH5PSerializer
 from h5p.models import H5P
+from material_delivery.serializers import SimpleMaterialDeliverySerializer, CompleteMaterialDeliverySerializer
+from material_delivery.models import MaterialDelivery
 
 from amadeus.permissions import (
     has_category_permissions,
@@ -105,7 +100,6 @@ from amadeus.permissions import (
 )
 
 from log.search import user_last_interaction, multi_search
-
 
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
@@ -137,48 +131,9 @@ class HomeView(LoginRequiredMixin, ListView):
         context["show_buttons"] = True  # So it shows subscribe and access buttons
         context["news"] = News.objects.all()
 
-        # bringing users
-        tag_amount = 50
-        tags = Tag.objects.all()
-        tags_list = []
-        for tag in tags:
-            if len(tags_list) <= tag_amount:
-                if (
-                    Resource.objects.filter(
-                        tags__pk=tag.pk, students__pk=self.request.user.pk
-                    ).count()
-                    > 0
-                    or Subject.objects.filter(tags__pk=tag.pk).count() > 0
-                ):
-                    tags_list.append(
-                        (tag.name, Subject.objects.filter(tags__pk=tag.pk).count())
-                    )
-                    tags_list.sort(key=lambda x: x[1], reverse=True)  # sort by value
-
-            elif len(tags_list) > tag_amount:
-                count = Subject.objects.filter(tags__pk=tag.pk).count()
-                if count > tags_list[tag_amount][1]:
-                    tags_list[tag_amount - 1] = (tag.name, count)
-                    tags_list.sort(key=lambda x: x[1], reverse=True)
-
-        i = 0
-        tags = []
-
-        for item in tags_list:
-            if i < tag_amount / 10:
-                tags.append((item[0], 0))
-            elif i < tag_amount / 2:
-                tags.append((item[0], 1))
-            else:
-                tags.append((item[0], 2))
-            i += 1
-        shuffle(tags)
-
-        context["tags"] = tags
         context["total_subs"] = self.total
 
         return context
-
 
 class IndexView(LoginRequiredMixin, ListView):
     totals = {}
@@ -219,12 +174,6 @@ class IndexView(LoginRequiredMixin, ListView):
                     .distinct()
                     .order_by("name")
                 )
-
-        # if not self.request.user.is_staff:
-
-        # my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
-        # or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)]
-        # So I remove all categories that doesn't have the possibility for the user to be on
 
         return categories
 
@@ -267,24 +216,6 @@ class IndexView(LoginRequiredMixin, ListView):
                 _("Invalid page (%(page_number)s): %(message)s")
                 % {"page_number": page_number, "message": str(e)}
             )
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_staff:
-            context["page_template"] = "categories/home_admin_content.html"
-        else:
-            context["page_template"] = "categories/home_teacher_student.html"
-
-        if self.request.is_ajax():
-            if self.request.user.is_staff:
-                self.template_name = "categories/home_admin_content.html"
-
-        return self.response_class(
-            request=self.request,
-            template=self.template_name,
-            context=context,
-            using=self.template_engine,
-            **response_kwargs
-        )
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -344,7 +275,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         context["categorySlug"] = slug
         context["hideCounters"] = True
 
-        if "all" in self.request.META.get("HTTP_REFERER"):
+        if "all" in self.request.META.get("HTTP_REFERER", []):
             context["all"] = True
 
         return context
@@ -361,7 +292,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
-    form_class = CreateSubjectForm
+    form_class = SubjectForm
 
     success_url = reverse_lazy("subject:index")
 
@@ -384,12 +315,12 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get("slug"):  # when the user creates a subject
-            initial["category"] = Category.objects.filter(slug=self.kwargs["slug"])
+            initial["category"] = get_object_or_404(Category, slug=self.kwargs.get("slug", ""))
 
         if self.kwargs.get("subject_slug"):  # when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs["subject_slug"])
             initial = initial.copy()
-            initial["category"] = Category.objects.filter(slug=subject.category.slug)
+            initial["category"] = Category.objects.get(slug=subject.category.slug)
             initial["description"] = subject.description
             initial["name"] = subject.name
             initial["visible"] = subject.visible
@@ -501,7 +432,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     log_context = {}
 
     model = Subject
-    form_class = UpdateSubjectForm
+    form_class = SubjectForm
     template_name = "subjects/update.html"
 
     login_url = reverse_lazy("users:login")
@@ -832,7 +763,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         tags = tags.split(" ")
 
         if tags[0] == "":
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse_lazy("subjects:home")))
 
         return super(SubjectSearchView, self).dispatch(request, *args, **kwargs)
 
@@ -1064,6 +995,7 @@ def realize_backup(request, subject):
     webconferences = Webconference.objects.filter(id__in=resources_ids)
     questionaries = Questionary.objects.filter(id__in=resources_ids)
     h5p_resources = H5P.objects.filter(id__in=resources_ids)
+    material_deliveries = MaterialDelivery.objects.filter(id__in=resources_ids)
 
     for filelink in filelinks:
         if bool(filelink.file_content):
@@ -1125,6 +1057,17 @@ def realize_backup(request, subject):
 
                 zf.write(h5p_resource.file.path, zip_path)
 
+    for delivery in material_deliveries:
+        if delivery.support_materials.exists():
+            for material in delivery.support_materials.all():
+                if bool(material.file):
+                    if os.path.exists(material.file.path):
+                        file_directory, file_name = os.path.split(material.file.path)
+
+                        zip_path = os.path.join("materials", file_name)
+
+                        zf.write(material.file.path, zip_path)
+
     file = open("backup.json", "w")
 
     data_list = {}
@@ -1157,6 +1100,7 @@ def realize_backup(request, subject):
         serializer_c = CompleteWebconferenceSerializer(webconferences, many=True)
         serializer_q = CompleteQuestionarySerializer(questionaries, many=True)
         serializer_h = CompleteH5PSerializer(h5p_resources, many=True)
+        serializer_m = CompleteMaterialDeliverySerializer(material_deliveries, many=True)
     else:
         serializer_b = SimpleBulletinSerializer(bulletins, many=True)
         serializer_w = SimpleWebpageSerializer(webpages, many=True)
@@ -1168,6 +1112,7 @@ def realize_backup(request, subject):
         serializer_c = SimpleWebconferenceSerializer(webconferences, many=True)
         serializer_q = SimpleQuestionarySerializer(questionaries, many=True)
         serializer_h = SimpleH5PSerializer(h5p_resources, many=True)
+        serializer_m = SimpleMaterialDeliverySerializer(material_deliveries, many=True)
 
     if len(serializer_b.data) > 0:
         data_list["resources"].append(serializer_b.data)
@@ -1198,6 +1143,9 @@ def realize_backup(request, subject):
 
     if len(serializer_h.data) > 0:
         data_list["resources"].append(serializer_h.data)
+
+    if len(serializer_m.data) > 0:
+        data_list["resources"].append(serializer_m.data)
 
     json.dump(data_list, file)
 
@@ -1444,6 +1392,27 @@ def realize_restore(request, subject):
                                     )
                                 else:
                                     serial = SimpleH5PSerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
+                                    )
+                            elif line[0]["_my_subclass"] == "materialdelivery":
+                                if "students" in line[0]:
+                                    serial = CompleteMaterialDeliverySerializer(
+                                        data=line,
+                                        many=True,
+                                        context={
+                                            "subject": subject.slug,
+                                            "files": file,
+                                            "request": request
+                                        },
+                                    )
+                                else:
+                                    serial = SimpleMaterialDeliverySerializer(
                                         data=line,
                                         many=True,
                                         context={

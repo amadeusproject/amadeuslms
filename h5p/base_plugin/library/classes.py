@@ -1335,12 +1335,18 @@ class H5PCore:
             return False
 
         files = list(set(os.listdir(pdir)).difference([".", ".."]))
-
+        
+        removeDir = True
+        
         for f in files:
-            self.deleteFileTree(pdir + "/" + f) if os.path.isdir(pdir +
-                                                                "/" + f) else os.remove(pdir + "/" + f)
+            if not os.path.splitext(f)[1] == ".h5p":
+                self.deleteFileTree(pdir + "/" + f) if os.path.isdir(pdir +
+                                                                    "/" + f) else os.remove(pdir + "/" + f)
+            else:
+                removeDir = False
 
-        return os.rmdir(pdir)
+
+        return os.rmdir(pdir) if removeDir else False
 
     ##
     # Writes library data as string on the form {machineName} {majorVersion}.{minorVersion}

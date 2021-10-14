@@ -9,7 +9,30 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
  
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
-
 from django.test import TestCase
 
-# Create your tests here.
+from django.utils.translation import ugettext_lazy as _
+
+from categories.forms import CategoryForm
+
+from categories.models import Category
+
+class TestForm(TestCase):
+    def create_category(self):
+        return Category.objects.create(name="Categoria Teste")
+
+    def test_form_same_name(self):
+        category = self.create_category()
+
+        form_data = {"name": category.name}
+        form = CategoryForm(data=form_data)
+
+        self.assertEquals(form.errors["name"], [_('There is another category with this name, try another one.')])
+
+    def test_form_update_not_trigger_same_name(self):
+        category = self.create_category()
+
+        form_data = {"name": category.name, "description": "teste de descrição"}
+        form = CategoryForm(instance=category, data=form_data)
+
+        self.assertTrue(form.is_valid())

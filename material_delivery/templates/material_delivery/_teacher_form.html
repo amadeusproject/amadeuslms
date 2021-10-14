@@ -1,0 +1,256 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+{% load static i18n %}
+{% load widget_tweaks %}
+
+<!-- Modal (remember to change the ids!!!) -->
+<div class="modal fade" id="topic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Put ONLY your content here!!!  -->
+                <form id="evaluate_form" action="{{ form_url }}" method="post"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                        <label for="{{ form.evaluation.auto_id }}">{{ form.evaluation.label }} <span>*</span></label>
+                        {% render_field form.evaluation class='form-control grade' %}
+                    
+                        <span id="helpBlock" class="help-block">{{ form.evaluation.help_text }}</span>
+                    
+                        {% if form.evaluation.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul>
+                                {% for error in form.evaluation.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput">
+                        <label for="{{ form.commentary.auto_id }}">{{ form.commentary.label }}</label>
+                        {% render_field form.commentary class='form-control text_simple_wysiwyg' %}
+
+                        <span id="helpBlock" class="help-block">{{ form.commentary.help_text }}</span>
+
+                        {% if form.commentary.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <ul>
+                                    {% for error in form.commentary.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group{% if form.has_error %} has-error {% endif %} is-fileinput"
+                        data-file_id="{{ form.file.auto_id }}">
+                        {% render_field form.file class='file-selector' data-max_size="30" data-mimetypes=mimeTypes %}
+
+                        <div class="input-group common-file-input">
+                            <input type="text" readonly="" class="form-control"
+                                placeholder="{% trans 'Choose your file...' %}">
+                            <span class="input-group-btn input-group-sm">
+                                <button type="button" class="btn btn-fab btn-fab-mini">
+                                    <i class="material-icons">attach_file</i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="filedrag">
+                            {% if form.instance.file and form.instance.filename != "" %}
+                                <i class="fa fa-file-archive-o"></i> <br />
+
+                                <small>{{ form.instance.filename }}</small>
+                            {% else %}
+                                {% trans 'Click or drop the file here' %}<br />
+
+                                <small>{% trans 'The file could not exceed 30MB.' %}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if form.file.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul>
+                                {% for error in form.file.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 alert alert-danger alert-dismissible client-file-errors"
+                        style="display:none" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <ul>
+                            <li class="size" style="display:none">{% trans "The file is too large. It should have less than 30MB." %}</li>
+                            <li class="format" style="display:none">{% trans 'File not supported.' %}</li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!-- Modal Footer -->
+            <div id="delete-category-footer" class="modal-footer">
+                <!-- Don't remove that!!!  -->
+                <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{% trans "Cancel" %}</button>
+                <button type="submit" id="button" form="evaluate_form" class="btn btn-success btn-raised erase-button">{% trans "Save" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.text_simple_wysiwyg').summernote({
+            lang: new_lang,
+            dialogsInBody: true,
+            disableDragAndDrop: true,
+            height: 150,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline']],
+                ['color', ['color']],
+            ],
+        });
+
+        $(".grade").select2({
+            dropdownParent: $('#topic')
+        });
+
+        $.material.init();
+
+        let frm = $("#evaluate_form");
+
+        frm.submit(function (e) {
+            var btn = frm.parent().parent().parent().find('button[form=\'evaluate_form\']');
+
+            btn.prop('disable', true);
+            btn.prop('disabled', true);
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: formData,
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    $('#modalArea .modal').modal('hide');
+
+                    if (data.status == 200) {
+                        $("#teacherEval").html(data.content);
+
+                        $("#eval_btn").remove();
+
+                        alertify.success(data.message);
+                    }  else {
+                        alertify.error(data.message);
+                    }
+                },
+                error: function (data) {
+                    let response = data.responseJSON;
+
+                    if (response.status === 400) {
+                        $('.modal').on('hidden.bs.modal', function () {
+                            $("#modalArea").html(response.content);
+
+                            $('#modalArea .modal').modal('show');
+                        });
+
+                        $('#modalArea .modal').modal('hide');
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+            return false;
+        });
+
+        if (window.File && window.FileList && window.FileReader) {
+            Init();
+        }
+    });
+
+    function Init() {
+        var small = $('.file-selector'), filedrag = $('.filedrag'),
+            common = $('.common-file-input');
+
+        // file select
+        small.on('change', FileSelectHandler);
+
+        // is XHR2 available?
+        var xhr = new XMLHttpRequest();
+        if (xhr.upload) {
+            // file drop
+            filedrag.on('drop', FileSelectHandler);
+            filedrag.attr('style', 'display:block');
+            common.attr('style', 'display:none');
+        }
+    }
+
+    // file selection
+    function FileSelectHandler(e) {
+        var files = e.target.files || e.dataTransfer.files,
+            parent = $(e.target.offsetParent),
+            max_size = parseInt($(e.target).data('max_size')) * 1024 * 1024,
+            mimeTypes = $(e.target).data('mimetypes'),
+            file_id = parent.data('file_id');
+
+        $(".client-file-errors").hide();
+        $(".size").hide();
+        $(".format").hide();
+
+        $("#button").prop('disable', false);
+        $("#button").prop('disabled', false);
+
+        // process all File objects
+        for (var i = 0, f; f = files[i]; i++) {
+            if (f.size > max_size) {
+                $("#button").prop('disable', true);
+                $("#button").prop('disabled', true);
+
+                $(".client-file-errors").show();
+                $(".size").show();
+            }
+
+            if (typeof (mimeTypes) !== "undefined" && !mimeTypes.includes(f.type)) {
+                $("#button").prop('disable', true);
+                $("#button").prop('disabled', true);
+
+                $(".client-file-errors").show();
+                $(".format").show();
+            }
+
+            parent.find('.filedrag').html(f.name);
+        }
+    }
+
+</script>

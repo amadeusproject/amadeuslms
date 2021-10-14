@@ -54,6 +54,8 @@ class SimpleH5PSerializer(serializers.ModelSerializer):
         files = self.context.get('files', None)
 
         if files:
+            print(data["file"])
+            print(files.namelist())
             if data["file"] in files.namelist():
                 file_path = os.path.join(settings.MEDIA_ROOT, data["file"])
 
@@ -66,7 +68,7 @@ class SimpleH5PSerializer(serializers.ModelSerializer):
 
                     path = files.extract(data["file"], dst_path)
                     tmph5pfile = files.extract(data["file"], h5p_helper_path)
-
+                    print(tmph5pfile)
                     new_name = os.path.join("h5p_resource","file_" + str(time.time()) + os.path.splitext(data["file"])[1])
 
                     os.rename(os.path.join(dst_path, path), os.path.join(settings.MEDIA_ROOT, new_name))
@@ -75,9 +77,10 @@ class SimpleH5PSerializer(serializers.ModelSerializer):
                     data["tmph5pfile"] = os.path.join(h5p_helper_path, os.path.split(data["file"])[1])
                     data["folderpath"] = h5p_helper_path
                     data["file"] = new_name
-
+                                        
                     if os.path.exists(os.path.join(h5p_helper_path, "h5p_resource")):
                         os.rmdir(os.path.join(h5p_helper_path, "h5p_resource"))
+                    
                 else:
                     path = files.extract(data["file"], settings.MEDIA_ROOT)
             else:

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+
+{% load static i18n pagination permissions_tags subject_counter filters %}
+
+<html>
+    <title>{{ title }} | {{ theme.title }}</title>
+    
+    <!-- Mathjax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store" />
+    <link href="{{ theme.favicon_url }}" rel="shortcut icon" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome-4.6.3/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/alertify.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/alertifyjs/themes/bootstrap.css' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base/amadeus.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    
+    <style type="text/css" media="all">
+        {% for style in data.assets.css %}
+    
+            @import url("{% static style %}");
+    
+        {% endfor %}
+    
+        {% for style in data.filesAssets.css %}
+    
+            @import url("{{ style }}");
+    
+        {% endfor %}
+    </style>
+    
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
+    <script type="text/javascript">
+        let filteredData = [];
+        let arrayData = [];
+        let percentage = null;
+    </script>
+</head>
+
+<body>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <p>{{ message }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+{% resource_permissions request.user material_delivery as has_resource_permissions %}
+{% subject_permissions request.user material_delivery.topic.subject as has_subject_permissions %}
+
+{% if material_delivery.visible %}
+<div id="resource-panel" class="panel panel-info topic-panel">
+    <div class="panel-heading">
+        {% elif has_resource_permissions %}
+        <div id="resource-panel" class="panel panel-info topic-panel-invisible">
+            <div class="panel-heading panel-invisible">
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-12 category-header">
+                        <h4 class="panel-title" style="margin-top: 10px; margin-bottom: 8px">
+                            <span>{{ material_delivery }}</span>
+                        </h4>
+
+                        <div class="col-md-5 pull-right category-card-items">
+                            {% if has_subject_permissions %}
+                            <a href="" id="moreResources" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" {% if studentView %}style="display:none" {% endif %}>
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="moreResources">
+                                <li><a href="{% url material_delivery.update_link topic.slug material_delivery.slug %}"
+                                        class="edit"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>{% trans 'Edit' %}</a></li>
+                                <li><a href="{% url 'material_delivery:get_chart' material_delivery.slug %}"
+                                        class="edit"><i class="fa fa-line-chart fa-fw" aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+                                <li><a href="javascript:delete_resource('{% url material_delivery.delete_link material_delivery.slug %}')"
+                                        class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
+                            </ul>
+                            {% endif %}
+                            <a href="{% url 'mural:resource_view' material_delivery.slug %}"
+                                class="pull-right action_icon" data-toggle="tooltip" data-placement="bottom"
+                                title="{% trans 'Resource Mural' %}">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                {% resource_mural_number material_delivery request.user %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="{{subject.slug}}" class="panel-collapse in collapse category-panel-content material_delivery_view">
+                <input type="hidden" id="teacherStudentView" value="{{studentView}}" />
+                {% if has_subject_permissions %}
+                <div id="core-subjects-options-div" {% if studentView %}style="display:none" {% endif %}>
+                    <ul class="core-subjects-options mural-tabs">
+                        <a onclick="ShowTab($(this), '.single_student')" style="cursor: pointer">
+                            <li class="active">{% trans "Individual Result" %}</li>
+                        </a>
+                        <a onclick="ShowTab($(this), '.all_students')"
+                            data-url="{% url 'material_delivery:results' material_delivery.slug %}"
+                            style="cursor: pointer">
+                            <li>{% trans "Class Results" %}</li>
+                        </a>
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="result_tab single_student">
+                    {% if has_subject_permissions %}
+                    <form id="student_quest" action="" method="POST" {% if studentView %}style="display:none" {% endif %}>
+                        {% csrf_token %}
+                        <select name="selected_student" onchange="$('#student_quest').submit();">
+                            {{ student|students_select:sub_students }}
+                        </select>
+                    </form>
+                    <br clear="all" />
+                    {% endif %}
+
+                    {{ material_delivery.presentation|safe }}
+
+                    <div class="attachments bg-success well-sm">
+                        <h4 class="text-muted">{% trans 'Attachments' %}:</h4>
+                        {% for attach in material_delivery.support_materials.all %}
+                        <a href="{{ attach.file.url }}" download><i class="fa fa-download"></i> {{ attach.filename }}</a>
+                        {% endfor %}
+                    </div>
+
+                    <br clear="all" />
+
+                    <span><b>{% trans "Init date" %}:</b> {{ material_delivery.data_ini|date:'SHORT_DATETIME_FORMAT' }}</span>
+                    <span style="margin-left: 10px;"><b>{% trans "End date" %}:</b> {{ material_delivery.data_end|date:'SHORT_DATETIME_FORMAT' }}</span>
+
+                    <hr />
+
+                    <h4><b>{% trans 'Deliver Materials' %}</b></h4>
+
+                    {% if not has_subject_permissions %}
+                        {% if material_delivery.data_ini|enable_upload:material_delivery.data_end and studentDeliver %}
+                            <div id="submit_errors" class="col-lg-12 alert alert-danger alert-dismissible" role="alert" style="display:none">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <p></p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <a href="javascript:attach_material('{% url 'material_delivery:submit_material' studentDeliver.pk %}')"
+                                    class="btn btn-success btn-raised btn-sm"><i class="fa fa-plus-circle"></i> {% trans 'Add your material' %}</a>
+                            </div>
+                        {% elif not studentDeliver or studentDeliver.material_deliver.count == 0 %}
+                            <div class="text-center text-muted">
+                                <i class="fa fa-exclamation-triangle text-sm"></i>
+                                <small>{% trans "The material could be delivered only until" %} {{ material_delivery.data_end|date:'SHORT_DATETIME_FORMAT' }}</small>
+                                <br clear="all" />
+                                <br clear="all" />
+                            </div>
+                        {% endif %}
+                    {% elif studentView %}
+                        <div class="text-center">
+                            <a href="#" class="btn btn-success btn-raised btn-sm"><i class="fa fa-plus-circle"></i> {% trans 'Add your material'
+                                %}</a>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div id="student_materials" class="col-lg-12">
+                            {% if not studentDeliver or studentDeliver.material_deliver.count == 0 %}
+                                {% if has_subject_permissions and not studentView %}
+                                    <div class="text-center bg-success well-sm">
+                                        <i class="fa fa-exclamation-triangle text-sm"></i>
+                                        <small>{% trans "The student hasn't uploaded any material yet." %}</small>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                            {% for material in studentDeliver.material_deliver.all %}
+                            {% include 'material_delivery/_student_material_view.html' %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div id="teacherEval" class="col-lg-12">
+                            {% if studentDeliver.student_deliver.exists %}
+                                {% include 'material_delivery/_teacher_evaluation_view.html' with evaluation=studentDeliver.student_deliver.first deliver_pk=studentDeliver.pk user=request.user %}
+                            {% else %}
+                                {% if has_subject_permissions and not studentView %}
+                                    <div id="eval_btn" class="text-center">
+                                        <a href="javascript:evaluate('{% url 'material_delivery:evaluate' studentDeliver.pk %}')"
+                                        class="btn btn-success btn-raised btn-sm">{% trans 'Evaluate material' %}</a>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center text-muted">
+                                        <i class="fa fa-exclamation-triangle text-sm"></i>
+                                        <small>{% trans "The teacher will evaluate your material soon." %}</small>
+                                        <br clear="all" />
+                                        <br clear="all" />
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_tab all_students" style="display:none"></div>
+            </div>
+        </div>
+
+        <div id="modalArea"></div>
+
+        <div class="modal fade" id="chat-modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+        
+        <div class="modal fade" id="chat-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#select_student").select2();
+            });
+
+            function attach_material(url) {
+                $.get(url, function (modal) {
+                    if (typeof (modal.status) !== "undefined") {
+                        if (modal.status == 500) {
+                            $("#submit_errors").find("p").html(modal.message);
+
+                            $("#submit_errors").show();
+                        } else {
+                            alertify.error(modal.message);
+                        }
+                    } else {
+                        $("#modalArea").html(modal);
+
+                        $('#modalArea .modal').modal('show');
+                    }
+                });
+            }
+
+            function evaluate(url) {
+                $.get(url, function (modal) {
+                    if (typeof (modal.status) !== "undefined") {
+                        alertify.error(modal.message);
+                    } else {
+                        $("#modalArea").html(modal);
+
+                        $('#modalArea .modal').modal('show');
+                    }
+                });
+            }
+
+            function delete_resource(url) {
+                $.get(url, function (modal) {
+                    $("#resource-panel").after(modal);
+
+                    $('#topic').modal('show');
+                });
+            }
+
+            function ShowTab($btn, target) {
+                $btn.parent().find('li').removeClass('active');
+                $('.result_tab').hide();
+
+                let url = $btn.data('url');
+
+                if (typeof (url) !== 'undefined') {
+                    if ($(target).html() === '') {
+                        $.ajax({
+                            method: 'GET',
+                            url: url,
+                            success: function (response) {
+                                $(target).html(response.result)
+                            },
+                            error: function (data) {
+                                alertify.alert('{% trans "Something went wrong. Please try again later" %}');
+                            }
+                        })
+                    }
+                }
+
+                $btn.find('li').addClass('active');
+                $(target).show();
+            }
+        </script>
+
+        <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+
+        <script type="text/javascript">
+            sessionSecurity.confirmFormDiscard = undefined;
+        </script>
+</body>
+
+</html>

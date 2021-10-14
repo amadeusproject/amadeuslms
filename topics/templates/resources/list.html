@@ -63,6 +63,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 								{% elif resource|class_name == 'h5p' %}
 								<li><a href="{% url 'h5p:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw"
 											aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
+								{% elif resource|class_name == 'materialdelivery' %}
+								<li><a href="{% url 'material_delivery:get_chart' resource.slug %}" class="edit"><i class="fa fa-line-chart fa-fw"
+											aria-hidden="true"></i>{% trans 'Reports' %}</a></li>
 								{% endif %}
 			                    <li><a href="javascript:delete_resource('{% url resource.delete_link resource.slug %}')" class="delete"><i class="fa fa-trash fa-fw" aria-hidden="true"></i>{% trans 'Remove' %}</a></li>
 			                </ul>

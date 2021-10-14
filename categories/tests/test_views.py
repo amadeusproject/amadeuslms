@@ -10,86 +10,495 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
+
+from django.urls import reverse
+from django.utils.translation import ugettext, ugettext_lazy as _
+
+from datetime import datetime
+
+from categories.models import Category
+from log.models import Log
+from security.models import Security
+from subjects.models import Subject
+from topics.models import Topic
 from users.models import User
-from django.contrib.auth.models import AnonymousUser
-from .. import views
+from webpage.models import Webpage
 
-from ..models import Category
-from django.shortcuts import render
+class TestViews(TestCase):
+    testCategory = None
+    invisibleCategory = None
 
-class Index_Test(TestCase):
+    subject = None
+    topic = None
+    resource = None
 
-	def setUp(self):
+    staff = None
+    professor = None
+    coordinator = None
 
-		"""Set up all the variables we need for these test"""
-		self.factory = RequestFactory()
-		self.user = User.objects.create(username="felipe", email="felipe.bormann@gmail.com", password="teste")
-		self.admin  = User.objects.create_superuser('admin', email = 'admin@teste.com', password = 'teste')
-		self.coordinator = User.objects.create(username="coordinator", email="felipe@gmail.com", password="teste")
-		#self.category = Category.objects.create(name="test", coordinators=self.coordinator)
+    def setUp(self):
+        self.create_users()
+        self.create_categories()
+        self.create_subject()
+        self.create_topics()
+        self.create_resources()
 
-	def test_index_get_not_admin(self):
+    def create_users(self):
+        self.staff = User.objects.create(username = 'Admin', email = 'administrador@amadeus.br', password = 'amadeus', is_staff=True)
+        self.coordinator = User.objects.create(username = 'Coordenador', email = 'coordenador@amadeus.br', password = 'amadeus')
+        self.professor = User.objects.create(username = 'professor', email = 'professor@amadeus.br', password = 'amadeus')
 
-		"""Tests if an  user can get into 'manage categories' page and be redirected"""
-		request = self.factory.get('categories/')
+    def create_categories(self):
+        self.testCategory = Category.objects.create(name="Categoria 1")
+        self.testCategory.coordinators.add(self.coordinator)
+        self.testCategory.save()
 
-		request.user = self.user
+        self.invisibleCategory = Category.objects.create(name="Categoria 2")
+        self.invisibleCategory.coordinators.add(self.coordinator)
+        self.invisibleCategory.save()
 
-		response = views.IndexView.as_view()(request)
-		
-		self.assertEqual(response.status_code, 302)
+    def change_security_status(self, status):
+        security = Security.objects.get(id=1)
+        security.deny_category_edition = status
+        security.save()
+    
+    def create_subject(self):
+        if self.subject is None:
+            self.subject = Subject.objects.create(name="Subject", visible=True, init_date=datetime.now(), end_date=datetime.now(), subscribe_begin=datetime.now(), subscribe_end=datetime.now(), category=self.invisibleCategory)
+            self.subject.professor.add(self.professor)
 
-	def test_index_get_unauth(self):
+    def create_topics(self):
+        self.topic = Topic.objects.create(name="Tópico Teste", repository=False, visible=True, subject=self.subject)
 
-		"""Tests if an unauthenticated user can get into 'manage categories' page and be redirected"""
+    def create_resources(self):
+        self.resource = Webpage.objects.create(name="Recurso Teste", content="teste", topic=self.topic, visible=True)
 
-		request = self.factory.get('categories/')
+    def test_category_index_302(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:index"))
 
-		request.user = AnonymousUser()
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
 
-		response = views.IndexView.as_view()(request)
-		
-		self.assertEqual(response.status_code, 302) #Which means it is been redirected to login page
+    def test_category_index(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:index"))
 
-	def test_create_category(self):
-		"""Tests if an admin can access and the create_category page is displayed and rendered without errors"""
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/list.html")
 
-		request = self.factory.get('categories/create')
-		request.user = self.admin
+    def test_category_create_get_302(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:create"), HTTP_REFERER="")
 
-		response = views.CreateCategory.as_view()(request)
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
 
-		self.assertEqual(response.status_code, 200)
+    def test_category_create_get(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:create"), HTTP_REFERER="")
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/create.html")
 
-		
-		rendered = render(response, template_name = 'categories/create.html') #try to render the page, this one gives us more errors
-		
-			
-	def test_create_category_unauth(self):
-		"""Tests if an unauthenticated user can get into 'create categories' page and be redirected"""
-		request = self.factory.get('categories/create')
+        context = response.context
+        self.assertIn("subjects_menu_active", context)
+        self.assertEquals(context.get("template_extends"), "subjects/list.html")
 
-		request.user = AnonymousUser()
+    def test_category_create_get_with_referer(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:create"), HTTP_REFERER="categories")
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/create.html")
 
-		response = views.IndexView.as_view()(request)
-		
-		self.assertEqual(response.status_code, 302) #Which means it is been redirected to login page
+        context = response.context
+        self.assertIn("settings_menu_active", context)
+        self.assertEquals(context.get("template_extends"), "categories/list.html")
 
-	def test_create_category_not_admin(self):
-		"""Tests if a non-admin user can get into 'create categories' page and be redirected"""
-		request = self.factory.get('categories/create')
-		request.user = self.user
-		response = views.IndexView.as_view()(request)
-		
-		self.assertEqual(response.status_code, 302) #Which means it is been redirected to main page or login page
+    def test_category_create_post(self):
+        data = {
+            "name": "Categoria teste"
+        }
 
-	def test_update_category_not_coordinator(self):
+        numberCategories = Category.objects.all().count()
+        numberLogs = Log.objects.all().count()
 
-		request = self.factory.get('categories/create')
-		request.user = self.user
-		response = views.UpdateCategory.as_view()(request, self.category.slug)
-		
-		self.assertEqual(response.status_code, 302) #Which means it is been redirected to main page or login page
+        self.client.force_login(self.staff)
+        response = self.client.post(reverse("categories:create"), data, follow=True, HTTP_REFERER="")
 
-		
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse('categories:index'))
+
+        message = list(response.context.get("messages"))[0]
+
+        self.assertEquals(message.tags, "success")
+        self.assertIn(_('Category "%s" register successfully!')%(data["name"]), message.message)
+
+        #Test if database changed
+        self.assertTrue(Category.objects.filter(name=data['name']).exists())
+        self.assertEquals(Category.objects.all().count(), numberCategories + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="create", resource="category", context__category_name=data["name"]).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_replicate_get_404(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:replicate", kwargs={"slug": "teste"}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_category_replicate_get_302(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_replicate_security_block(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(True)
+        response = self.client.get(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_replicate_coordinator(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        response = self.client.get(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/create.html")
+
+        self.assertEquals(response.context["form"].initial["name"], self.testCategory.name)
+        self.assertEquals(response.context["form"].initial["description"], self.testCategory.description)
+        self.assertEquals(response.context["form"].initial["visible"], self.testCategory.visible)
+        self.assertIn(self.coordinator, response.context["form"].initial["coordinators"])
+
+    def test_category_replicate_staff(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/create.html")
+
+        self.assertEquals(response.context["form"].initial["name"], self.testCategory.name)
+        self.assertEquals(response.context["form"].initial["description"], self.testCategory.description)
+        self.assertEquals(response.context["form"].initial["visible"], self.testCategory.visible)
+        self.assertIn(self.coordinator, response.context["form"].initial["coordinators"])
+
+    def test_category_replicate_post_coordinator(self):
+        data = {
+            "name": "Categoria Replicada",
+            "description": self.testCategory.description,
+            "visible": self.testCategory.visible,
+            "coordinators": [self.coordinator.id],
+        }
+
+        numberCategories = Category.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        response = self.client.post(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), data, follow=True, HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse('subjects:index'))
+
+        message = list(response.context.get("messages"))[0]
+
+        self.assertEquals(message.tags, "success")
+        self.assertIn(_('Category "%s" register successfully!')%(data["name"]), message.message)
+
+        #Test if database changed
+        self.assertTrue(Category.objects.filter(name=data['name']).exists())
+        self.assertEquals(Category.objects.all().count(), numberCategories + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="replicate", resource="category", context__replicated_category_name=self.testCategory.name).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_replicate_post(self):
+        data = {
+            "name": "Categoria Staff",
+            "description": self.testCategory.description,
+            "visible": self.testCategory.visible,
+            "coordinators": [self.coordinator.id],
+        }
+
+        numberCategories = Category.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.staff)
+        response = self.client.post(reverse("categories:replicate", kwargs={"slug": self.testCategory.slug}), data, HTTP_REFERER="", follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse('categories:index'))
+
+        message = list(response.context.get("messages"))[0]
+
+        self.assertEquals(message.tags, "success")
+        self.assertIn(_('Category "%s" register successfully!')%(data["name"]), message.message)
+
+        #Test if database changed
+        self.assertTrue(Category.objects.filter(name=data['name']).exists())
+        self.assertEquals(Category.objects.all().count(), numberCategories + 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="replicate", resource="category", context__replicated_category_name=self.testCategory.name).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_update_get_404(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:update", kwargs={"slug": "teste"}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_category_update_get_302(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_update_security_block(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(True)
+        response = self.client.get(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_update_coordinator_with_referer(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        response = self.client.get(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER=reverse("categories:index"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/update.html")
+
+        context = response.context
+        self.assertIn("settings_menu_active", context)
+        self.assertEquals(context.get("template_extends"), "categories/list.html")
+
+    def test_category_update_get(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER="")
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/update.html")
+
+        context = response.context
+        self.assertIn("subjects_menu_active", context)
+        self.assertEquals(context.get("template_extends"), "subjects/list.html")
+
+    def test_category_update_coordinator(self):
+        data = {
+            "name": self.testCategory.name,
+            "description": "Testando update de categoria",
+            "visible": self.testCategory.visible,
+            "coordinators": [self.coordinator.id]
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        
+        #Making sure that the return_url is set:
+        self.client.get(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER=reverse("subjects:home"))
+        
+        response = self.client.post(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), data, follow=True, HTTP_REFERER=reverse("subjects:home"))
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("subjects:home"))
+
+        category = Category.objects.get(id=self.testCategory.id)
+
+        #Test if database changed
+        self.assertEquals(category.description, data["description"])
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="update", resource="category", context__category_id=self.testCategory.id).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_update(self):
+        data = {
+            "name": self.testCategory.name,
+            "description": "Testando update de categoria como staff",
+            "visible": self.testCategory.visible,
+            "coordinators": [self.coordinator.id]
+        }
+
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.staff)
+        response = self.client.post(reverse("categories:update", kwargs={"slug": self.testCategory.slug}), data, follow=True, HTTP_REFERER="")
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse("categories:index"))
+
+        category = Category.objects.get(id=self.testCategory.id)
+
+        #Test if database changed
+        self.assertEquals(category.description, data["description"])
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="update", resource="category", context__category_id=self.testCategory.id).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_update_invisible_propagation(self):
+        data = {
+            "name": self.invisibleCategory.name,
+            "description": "Testando update de categoria",
+            "visible": False,
+            "coordinators": [self.coordinator.id]
+        }
+
+        self.client.force_login(self.staff)
+        response = self.client.post(reverse("categories:update", kwargs={"slug": self.invisibleCategory.slug}), data, follow=True, HTTP_REFERER="")
+
+        self.assertFalse(Subject.objects.filter(category=self.invisibleCategory, visible=True).exists())
+        self.assertFalse(Topic.objects.filter(subject__category=self.invisibleCategory, visible=True).exists())
+        self.assertFalse(Webpage.objects.filter(topic__subject__category=self.invisibleCategory, visible=True).exists())
+
+    def test_category_delete_get_302(self):
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_delete_get_302_with_referer(self):
+        self.client.force_login(self.professor)
+        self.change_security_status(False)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}), HTTP_REFERER=reverse("subjects:home"))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:home"))
+
+    def test_category_delete_get_302_without_referer(self):
+        self.client.force_login(self.professor)
+        self.change_security_status(False)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_delete_method_not_allowed(self):
+        self.client.force_login(self.staff)
+        response = self.client.put(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 405)
+
+    def test_category_delete_coordinator_security_block(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(True)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("subjects:index"))
+
+    def test_category_delete_coordinator(self):
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/delete.html")
+
+    def test_category_delete_staff(self):
+        self.client.force_login(self.staff)
+        response = self.client.get(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "categories/delete.html")
+
+    def test_category_delete(self):
+        categoryName = self.testCategory.name
+
+        numberCategories = Category.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.coordinator)
+        self.change_security_status(False)
+        response = self.client.delete(reverse("categories:delete", kwargs={"slug": self.testCategory.slug}), follow=True, HTTP_REFERER=reverse("subjects:index"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse('subjects:index'))
+
+        message = list(response.context.get("messages"))[0]
+
+        self.assertEquals(message.tags, "success")
+        self.assertIn(_('Category "%s" removed successfully!')%(categoryName), message.message)
+
+        #Test if database has changed
+        self.assertEquals(Category.objects.all().count(), numberCategories - 1)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="delete", resource="category", context__category_name=categoryName).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs + 1)
+
+    def test_category_unable_delete(self):
+        categoryName = self.invisibleCategory.name
+
+        numberCategories = Category.objects.all().count()
+        numberLogs = Log.objects.all().count()
+
+        self.client.force_login(self.staff)
+        response = self.client.delete(reverse("categories:delete", kwargs={"slug": self.invisibleCategory.slug}), follow=True, HTTP_REFERER=reverse("categories:index"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertRedirects(response, reverse('categories:index'))
+
+        message = list(response.context.get("messages"))[0]
+
+        self.assertEquals(message.tags, "danger")
+        self.assertIn(ugettext("The category cannot be removed, it contains one or more virtual enviroments attach."), message.message)
+
+        #Test if database has changed
+        self.assertTrue(Category.objects.filter(name=categoryName).exists())
+        self.assertEquals(Category.objects.all().count(), numberCategories)
+
+        #Test if log was created
+        self.assertFalse(Log.objects.filter(component="category", action="delete", resource="category", context__category_name=categoryName).exists())
+        self.assertEquals(Log.objects.all().count(), numberLogs)
+
+    def test_category_view_open(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:view_log", kwargs={"category": self.invisibleCategory.id}), {"action": "open"}, follow=True)
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="view", resource="category", context__category_id=self.invisibleCategory.id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+        
+        log_id = Log.objects.latest("id").id
+        
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok", 'log_id': log_id})
+
+    def test_category_view_close(self):
+        logsCounter = Log.objects.all().count()
+
+        self.client.force_login(self.professor)
+        response = self.client.get(reverse("categories:view_log", kwargs={"category": self.invisibleCategory.id}), {"action": "open"})
+
+        #Test if log was created
+        self.assertTrue(Log.objects.filter(component="category", action="view", resource="category", context__category_id=self.invisibleCategory.id).exists())
+        self.assertEquals(Log.objects.all().count(), logsCounter + 1)
+
+        log_id = Log.objects.latest("id").id
+
+        response = self.client.get(reverse("categories:view_log", kwargs={"category": self.invisibleCategory.id}), {"action": "close", "log_id": log_id}, follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode("utf-8"), {"message": "ok"})
+
+        #Test if log was updated
+        log = Log.objects.get(id=log_id)
+        self.assertNotEqual(log.context["timestamp_end"], "-1")

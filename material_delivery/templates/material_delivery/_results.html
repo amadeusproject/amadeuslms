@@ -1,0 +1,137 @@
+<!-- 
+Copyright 2016, 2017 UFPE - Universidade Federal de Pernambuco
+ 
+Este arquivo é parte do programa Amadeus Sistema de Gestão de Aprendizagem, ou simplesmente Amadeus LMS
+ 
+O Amadeus LMS é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença.
+ 
+Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ 
+Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-->
+
+{% load static i18n %}
+
+<script type="text/javascript">
+    function normalizeString(string) {
+        return string.split('').map(function (letter) {
+            let i = this.accents.indexOf(letter)
+            return (i !== -1) ? this.out[i] : letter
+        }.bind({
+            accents: 'ÀÁÂÃÄÅĄàáâãäåąßÒÓÔÕÕÖØÓòóôõöøóÈÉÊËĘèéêëęðÇĆçćÐÌÍÎÏìíîïÙÚÛÜùúûüÑŃñńŠŚšśŸÿýŽŻŹžżź',
+            out: 'AAAAAAAaaaaaaaBOOOOOOOOoooooooEEEEEeeeeeeCCccDIIIIiiiiUUUUuuuuNNnnSSssYyyZZZzzz'
+        })
+        ).join('');
+    }
+
+    google.charts.load('current', { 'packages': ['corechart', "table"] });
+    google.charts.setOnLoadCallback(drawTable);
+
+    filteredData = [];
+
+    arrayData = [
+        [
+            { label: "{% trans 'Student' %}", id: 'student' },
+            { label: "{% trans 'Grade' %}", id: 'grade', type: 'number' },
+        ]
+    ];
+
+    percentage = null;
+
+    {% for json_data in data %}
+        arrayData.push([
+            { v: normalizeString("{{json_data.student}}").toLowerCase(), f: "{{json_data.student}}" },
+            { v: {% if json_data.grade != "-" %}{{json_data.grade}}{% else %}''{% endif %}, f: "{{ json_data.grade }}"}
+        ]);
+    {% endfor %}
+
+    filteredData = arrayData;
+
+    function drawTable(data = arrayData, paginated = false) {
+        let sortAscending = { 0: false, 1: false, 3: false, 4: false };
+        let tableData = google.visualization.arrayToDataTable(data);
+
+        let options = {
+            sort: "enable",
+            allowHtml: true,
+            cssClassNames: {
+                tableRow: 'text-center',
+                tableCell: 'text-center',
+                headerCell: 'text-center'
+            },
+            showRowNumber: true,
+            width: '100%',
+            height: '100%',
+            page: 'enable',
+            pageSize: 20
+        }
+
+        let table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(tableData, options);
+
+        $("#title-table").text((data.length - 1) + " {% trans 'results(s)' %}");
+    }
+</script>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="text-center">
+            <ul class="list-inline nav-justified">
+                <li>
+                    <ul class="list-inline text-left">
+                        <a href="{% url 'material_delivery:results_sheet' material_delivery.slug %}">
+                            <i class="fa fa-download"></i>
+                            {% trans 'Download .xls file' %}
+                        </a>
+                    </ul>
+                </li>
+                <li>
+                    <ul id="view-table" class="list-inline text-left">
+                        <li>
+                            <h3 id="title-table"></h3>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <ul class="list-inline text-right">
+                        <li>
+                            <p>{% trans "Filter: " %}</p>
+                        </li>
+                        <li><input id="search-input" class="form-control" type="text" name="search" value="" /></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <form id="google-chart-checkbox" action="" method="get">
+            <div id="table_div"></div>
+        </form>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center">
+            <ul class="pagination"></ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#search-input").on("keyup", function () {
+        filteredData = [];
+
+        let text = $("#search-input").val();
+
+        searcher(text.toLowerCase());
+    });
+
+    function searcher(text) {
+        filteredData.push(arrayData[0]);
+        
+        for (let i = 1; i < arrayData.length; i++) {
+            if (
+                arrayData[i][0]["f"].toLowerCase().includes(text) ||
+                arrayData[i][1]["f"].toString().includes(text)
+            ) {
+                filteredData.push(arrayData[i]);
+            }
+        }
+
+        drawTable(filteredData);
+    }
+</script>

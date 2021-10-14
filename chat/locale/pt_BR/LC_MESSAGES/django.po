@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid "This field is required."
 msgstr "Esse campo é obrigatório."
 
 #: chat/forms.py:43 chat/templates/chat/_form.html:42
-msgid "The image is too large. It should have less than 5MB."
-msgstr "A imagem é muito grande. Ela deve possuir 5MB ou menos."
+msgid "The image is too large. It should have less than 10MB."
+msgstr "A imagem é muito grande. Ela deve possuir 10MB ou menos."
 
 #: chat/models.py:31 chat/templates/chat/_form.html:42
 msgid ""
@@ -83,8 +83,8 @@ msgid "Click or drop the image here"
 msgstr "Clique ou solte a imagem aqui"
 
 #: chat/templates/chat/_form.html:48
-msgid "The image could not exceed 5MB."
-msgstr "A imagem não pode exceder 5MB."
+msgid "The image could not exceed 10MB."
+msgstr "A imagem não pode exceder 10MB."
 
 #: chat/templates/chat/_form.html:70
 msgid "Save"

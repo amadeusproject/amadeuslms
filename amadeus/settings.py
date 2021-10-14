@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     "banco_questoes",
     "questionary",
     "h5p",
+    "material_delivery",
     "elastic",
     "environment_creation",
     'datatableview',
@@ -285,7 +286,7 @@ OAUTH2_PROVIDER = {"SCOPES": {"read": "Read scope", "write": "Write scope"}}
 # API CONFIG ENDS
 
 # FILE UPLOAD
-MAX_UPLOAD_SIZE = 10485760
+MAX_UPLOAD_SIZE = 10*1024*1024
 
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode
@@ -333,6 +334,42 @@ SUMMERNOTE_CONFIG = {
     "attachment_require_authentication": True,
     # Set `upload_to` function for attachments.
     # 'attachment_upload_to': my_custom_upload_to_func(),
+}
+
+#Debug Toolbar Config
+INSTALLED_APPS += (
+    'channels_panel',
+    'debug_toolbar',
+)
+
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INTERNAL_IPS = ('127.0.0.1', 'localhost')
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'channels_panel.panel.ChannelsDebugPanel',
+]
+
+def show_toolbar(request):
+    return False
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
 }
 
 try:

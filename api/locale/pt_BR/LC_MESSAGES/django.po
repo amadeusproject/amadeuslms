@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:05+0000\n"
+"POT-Creation-Date: 2021-06-20 01:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,49 +26,49 @@ msgstr ""
 msgid "[Photo]"
 msgstr ""
 
-#: api/views.py:617
+#: api/views.py:620
 #, python-format
 msgid "Last message in %s"
 msgstr ""
 
-#: api/views.py:641
+#: api/views.py:644
 msgid "Message sent successfully!"
 msgstr ""
 
-#: api/views.py:655
+#: api/views.py:658
 msgid "Error while sending message!"
 msgstr ""
 
-#: api/views.py:662
+#: api/views.py:665
 msgid "No information received!"
 msgstr ""
 
-#: api/views.py:668
+#: api/views.py:671
 msgid "Amadeus"
 msgstr ""
 
-#: api/views.py:927
+#: api/views.py:930
 #, python-format
 msgid "%s has made a post in %s"
 msgstr ""
 
-#: api/views.py:969
+#: api/views.py:972
 msgid "Post created successfully!"
 msgstr ""
 
-#: api/views.py:981
+#: api/views.py:984
 msgid "Error while creating post!"
 msgstr ""
 
-#: api/views.py:1044
+#: api/views.py:1047
 #, python-format
 msgid "%s has commented in a post"
 msgstr ""
 
-#: api/views.py:1086
+#: api/views.py:1089
 msgid "Comment created successfully!"
 msgstr ""
 
-#: api/views.py:1098
+#: api/views.py:1101
 msgid "Error while creating comment!"
 msgstr ""
