@@ -11,7 +11,6 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 from django.conf.urls import url
-from django.contrib.auth import views as auth_views
 
 from . import views
 

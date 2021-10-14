@@ -11,14 +11,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 """
 
 import os
+import sys
 
 import dj_database_url
-
 from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from django.conf.urls import handler404, handler500, handler403, handler400
 from django.utils.translation import ugettext_lazy as _
 
 db_from_ev = dj_database_url.config(conn_max_age=500)
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,8 +31,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = "$=8)c!5)iha85a&8q4+kv1pyg0yl7_xe_x^z=2cn_1d7r0hny4"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 
 # Application definition
 
@@ -56,7 +55,8 @@ INSTALLED_APPS = [
     "django_crontab",
     "django_cron",
     "channels",
-    "file_resubmit",  # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
+    "file_resubmit",
+    # Utilizado para salvar arquivos na cache, para caso o formulario não seja preenchido corretamente o usuário não precise fazer o upload outra vez dos arquivos
     "fcm_django",
     "amadeus",
     "users",
@@ -134,9 +134,8 @@ TEMPLATES = [
     },
 ]
 
-
 CACHES = {
-    "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache",},
+    "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", },
     "file_resubmit": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
         "LOCATION": os.path.join(BASE_DIR, "data/cache/resubmit"),
@@ -155,7 +154,6 @@ DATABASES = {
     "default": db_from_ev,
 }
 
-
 # superuser: admin pass: amadeus2358
 
 # Password validation
@@ -165,11 +163,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -221,7 +218,6 @@ ALLOWED_HOSTS = ["*"]
 # Files
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "uploads")
 MEDIA_URL = "/uploads/"
-
 
 # Users
 LOGIN_REDIRECT_URL = "subjects:home"
@@ -308,7 +304,7 @@ SUMMERNOTE_CONFIG = {
     # Use proper language setting automatically (default)
     "lang": None,
     # Or, set editor language/locale forcely
-    "lang_matches": {"pt": "pt-BR",},
+    "lang_matches": {"pt": "pt-BR", },
     # Customize toolbar buttons
     "toolbar": [
         ["style", ["style"]],
@@ -337,7 +333,7 @@ SUMMERNOTE_CONFIG = {
     # Need authentication while uploading attachments.
     "attachment_require_authentication": True,
     # Set `upload_to` function for attachments.
-    #'attachment_upload_to': my_custom_upload_to_func(),
+    # 'attachment_upload_to': my_custom_upload_to_func(),
 }
 
 #Debug Toolbar Config
@@ -380,3 +376,5 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+

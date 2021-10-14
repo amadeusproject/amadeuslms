@@ -15,54 +15,55 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	Called before session_security package clears the session and log out the user
 """
 
+import json
 from datetime import datetime, timedelta
+
+from channels import Group
+from django.utils.translation import ugettext as _u
 from session_security.settings import EXPIRE_AFTER
-from session_security.utils import get_last_activity, set_last_activity
+from session_security.utils import get_last_activity
 
 from log.models import Log
-
 from .models import User
-from django.utils.translation import ugettext as _u
-from channels import Group
-import json
+
 
 class SessionExpireMiddleware(object):
 
-	def process_request(self, request):
-		if not request.user.is_authenticated():
-			return
+    def process_request(self, request):
+        if not request.user.is_authenticated():
+            return
 
-		now = datetime.now()
+        now = datetime.now()
 
-		if '_session_security' not in request.session:
-			return
-		
-		delta = now - get_last_activity(request.session)
-		expire_seconds = EXPIRE_AFTER
+        if '_session_security' not in request.session:
+            return
 
-		if delta >= timedelta(seconds = expire_seconds):
-			log = Log()
-			log.user = str(request.user)
-			log.user_id = request.user.id
-			log.user_email = request.user.email
-			log.context = {'condition': 'session_expire'}
-			log.component = "user"
-			log.action = "logout"
-			log.resource = "system"
+        delta = now - get_last_activity(request.session)
+        expire_seconds = EXPIRE_AFTER
 
-			log.save()
+        if delta >= timedelta(seconds=expire_seconds):
+            log = Log()
+            log.user = str(request.user)
+            log.user_id = request.user.id
+            log.user_email = request.user.email
+            log.context = {'condition': 'session_expire'}
+            log.component = "user"
+            log.action = "logout"
+            log.resource = "system"
 
-			users = User.objects.all().exclude(email = request.user.email)
+            log.save()
 
-			notification = {
-				"type": "user_status",
-				"user_id": str(request.user.id),
-				"status": _u("Offline"),
-				"status_class": "",
-				"remove_class": "away"
-			}
+            users = User.objects.all().exclude(email=request.user.email)
 
-			notification = json.dumps(notification)
+            notification = {
+                "type": "user_status",
+                "user_id": str(request.user.id),
+                "status": _u("Offline"),
+                "status_class": "",
+                "remove_class": "away"
+            }
 
-			for u in users:
-				Group("user-%s" % u.id).send({'text': notification})
+            notification = json.dumps(notification)
+
+            for u in users:
+                Group("user-%s" % u.id).send({'text': notification})
