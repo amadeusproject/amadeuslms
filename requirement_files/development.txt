@@ -14,7 +14,7 @@ constantly==15.1.0
 coreapi==2.3.3
 coreschema==0.0.4
 coverage==5.5
-cryptography==2.7
+cryptography==2.8
 daphne==1.0.2
 decorator==4.4.0
 dj-database-url==0.4.1
@@ -66,14 +66,14 @@ MarkupSafe==0.23
 msgpack-python==0.4.8
 mutagen==1.44.0
 nested-lookup==0.2.22
-numpy==1.18.5
+numpy==1.22.0
 oauth2==1.9.0.post1
 oauth2-provider==0.0
 oauthlib==2.0.1
 openapi-codec==1.3.2
 openpyxl==2.6.4
 packaging==16.8
-pandas==0.25.3
+pandas==1.3.0
 pathlib2==2.3.5
 Pillow==6.2.2
 plotly==4.9.0
