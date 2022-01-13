@@ -63,7 +63,7 @@ openapi-codec==1.3.2
 openpyxl==3.0.3
 packaging==16.8
 pandas==1.1.1
-Pillow==6.2.2
+Pillow==9.0.0
 psycopg2==2.8.5
 pycparser==2.19
 pycpfcnpj==1.0.2
