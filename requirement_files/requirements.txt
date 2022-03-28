@@ -92,7 +92,7 @@ Werkzeug==0.15.3
 whitenoise==3.2.2
 xlrd==1.0.0
 xlwt==1.2.0
-zope.interface==4.6.0
+zope.interface==5.1.0
 
 beautifulsoup4==4.9.3
 click==7.1.2
@@ -104,6 +104,8 @@ lml==0.0.9
 pyexcel-io==0.5.20
 pyexcel-xls==0.5.8
 pyexcel-xlsx==0.5.8
+
+plotly==4.9.0
 
 django-datatable-view==0.9.0
 nested-lookup==0.2.22
