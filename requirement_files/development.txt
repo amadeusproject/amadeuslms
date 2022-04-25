@@ -75,7 +75,7 @@ openpyxl==2.6.4
 packaging==16.8
 pandas==0.25.3
 pathlib2==2.3.5
-Pillow==6.2.2
+Pillow==9.0.1
 plotly==4.9.0
 pluggy==0.13.1
 psycopg2-binary==2.8.6
