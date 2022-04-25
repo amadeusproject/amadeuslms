@@ -10,20 +10,20 @@ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
 Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENSE", junto com este programa, se não, escreva para a Fundação do Software Livre (FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 """
 
+import os
 # coding=utf-8
 import re
-from django import forms
-from django.utils.translation import ugettext_lazy as _
-from rolepermissions.shortcuts import assign_role
-from django.contrib.auth import update_session_auth_hash
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from os.path import join
-from file_resubmit.widgets import ResubmitFileWidget
-from PIL import Image
-import os
-from amadeus import settings
 
+from PIL import Image
+from django import forms
+from django.contrib.auth import update_session_auth_hash
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.utils.translation import ugettext_lazy as _
+from file_resubmit.widgets import ResubmitFileWidget
+
+from amadeus import settings
 from .models import User
 from utils.image import image_resize
 
@@ -82,8 +82,8 @@ class Validation(forms.ModelForm):
         if self.is_edit and len(password) == 0:
             return password2
 
-        if not password is None and password != ValueError:
-            if not password2 is None and password != password2:
+        if password is not None and password != ValueError:
+            if password2 is not None and password != password2:
                 self._errors["password2"] = [
                     _("The confirmation password is incorrect.")
                 ]
@@ -117,7 +117,7 @@ class RegisterUserForm(Validation):
 
     def save(self, commit=True):
         super(RegisterUserForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
 
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
@@ -126,7 +126,7 @@ class RegisterUserForm(Validation):
 
         if self.instance.image:
             image = Image.open(self.instance.image)
-            if not x is None:
+            if x is not None:
                 cropped_image = image.crop((x, y, w + x, h + y))
                 resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
 
@@ -136,7 +136,7 @@ class RegisterUserForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
@@ -144,8 +144,8 @@ class RegisterUserForm(Validation):
         self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
@@ -206,7 +206,7 @@ class ProfileForm(Validation):
 
     def save(self, commit=True):
         super(ProfileForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
         w = self.cleaned_data.get("width")
@@ -214,7 +214,7 @@ class ProfileForm(Validation):
 
         if self.instance.image:
             image = Image.open(self.instance.image)
-            if not x is None:
+            if x is not None:
                 cropped_image = image.crop((x, y, w + x, h + y))
                 resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
 
@@ -224,14 +224,14 @@ class ProfileForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
             image_resize(self.instance.image.path)
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
@@ -282,7 +282,7 @@ class UserForm(Validation):
 
     def save(self, commit=True):
         super(UserForm, self).save(commit=False)
-        self.deletepath = ""
+        self.delete_path = ""
 
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
@@ -291,7 +291,7 @@ class UserForm(Validation):
 
         if self.instance.image:
             image = Image.open(self.instance.image)
-            if not x is None:
+            if x is not None:
                 cropped_image = image.crop((x, y, w + x, h + y))
                 resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
 
@@ -301,7 +301,7 @@ class UserForm(Validation):
                     os.makedirs(folder_path)
 
                 if "users" not in self.instance.image.path:
-                    self.deletepath = self.instance.image.path
+                    self.delete_path = self.instance.image.path
 
                 resized_image.save(self.instance.image.path)
 
@@ -310,8 +310,8 @@ class UserForm(Validation):
             self.instance.set_password(self.cleaned_data["new_password"])
 
         self.instance.save()
-        if self.deletepath:
-            os.remove(self.deletepath)
+        if self.delete_path:
+            os.remove(self.delete_path)
         return self.instance
 
     class Meta:
@@ -430,4 +430,3 @@ class SelectSupport(forms.Form):
     support = forms.ModelChoiceField(
         queryset=User.objects.all(), label=_("Support"), required=True
     )
-

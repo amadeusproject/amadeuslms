@@ -77,16 +77,16 @@ def get_pend_graph(user, subject):
     for pendency in pendencies:
         item = {}
         item["date"] = {}
-        item["date"]["start"] = formats.date_format(pendency.begin_date, "m/d/Y H:i")
-        item["date"]["startDate"] = pendency.begin_date
-        item["date"]["end"] = formats.date_format(pendency.end_date, "m/d/Y H:i")
-        item["date"]["endDate"] = pendency.end_date
+        item["date"]["start"] = formats.date_format(timezone.localtime(pendency.begin_date), "m/d/Y H:i")
+        item["date"]["startDate"] = timezone.localtime(pendency.begin_date)
+        item["date"]["end"] = formats.date_format(timezone.localtime(pendency.end_date), "m/d/Y H:i")
+        item["date"]["endDate"] = timezone.localtime(pendency.end_date)
         item["date"]["delay"] = (
-            formats.date_format(pendency.limit_date, "m/d/Y H:i")
+            formats.date_format(timezone.localtime(pendency.limit_date), "m/d/Y H:i")
             if pendency.limit_date
             else "infinity"
         )
-        item["date"]["delayDate"] = pendency.limit_date
+        item["date"]["delayDate"] = timezone.localtime(pendency.limit_date)
 
         item["action"] = pendency.get_action_display()
         item["name"] = pendency.resource.name

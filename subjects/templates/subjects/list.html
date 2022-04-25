@@ -209,7 +209,8 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         $(function (){
             var cat_slug = "{{ cat_slug }}_category"
 
-            if (cat_slug != "") {
+            if (cat_slug !== "_category") {
+                console.log(cat_slug);
                 $("#" + cat_slug).collapse('show');
 
                 $('html, body').animate({

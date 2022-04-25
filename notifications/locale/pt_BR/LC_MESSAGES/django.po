@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,45 +18,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: notifications/models.py:20
+#: notifications/models.py:21
 msgid "Meta"
 msgstr "Meta"
 
-#: notifications/models.py:21
+#: notifications/models.py:23
 #: notifications/templates/notifications/_ajax_history.html:45
 #: notifications/templates/notifications/_history.html:47
 msgid "Task"
 msgstr "Tarefa"
 
-#: notifications/models.py:22
+#: notifications/models.py:26
 msgid "User"
 msgstr "Usuário"
 
-#: notifications/models.py:23
+#: notifications/models.py:29
 msgid "Type"
 msgstr "Tipo"
 
-#: notifications/models.py:23
+#: notifications/models.py:31
 msgid "Type 1-A"
 msgstr "Tipo 1-A"
 
-#: notifications/models.py:23
+#: notifications/models.py:32
 msgid "Type 1-B"
 msgstr "Tipo 1-B"
 
-#: notifications/models.py:23
+#: notifications/models.py:33
 msgid "Type 2"
 msgstr "Tipo 2"
 
-#: notifications/models.py:23
+#: notifications/models.py:34
 msgid "Type 3"
 msgstr "Tipo 3"
 
-#: notifications/models.py:24
+#: notifications/models.py:37
 msgid "Visualized"
 msgstr "Visualizado"
 
-#: notifications/models.py:25
+#: notifications/models.py:38
 msgid "Creation Date"
 msgstr "Data de Criação"
 

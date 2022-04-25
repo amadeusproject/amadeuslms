@@ -13,23 +13,24 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 from categories.models import Category
 from subjects.models import Subject
 
+
 def has_dependencies(user):
-	if user.is_staff: #Check admin function
-		return True
+    if user.is_staff:  # Check admin function
+        return True
 
-	cats = Category.objects.filter(coordinators = user)
+    cats = Category.objects.filter(coordinators=user)
 
-	if len(cats) > 0: #Check coordinator function
-		return True
+    if len(cats) > 0:  # Check coordinator function
+        return True
 
-	subs = Subject.objects.filter(professor = user)
+    subs = Subject.objects.filter(professor=user)
 
-	if len(subs) > 0: #Check professor function
-		return True
+    if len(subs) > 0:  # Check professor function
+        return True
 
-	subs = Subject.objects.filter(students = user)
+    subs = Subject.objects.filter(students=user)
 
-	if len(subs) > 0: #Check student function
-		return True
+    if len(subs) > 0:  # Check student function
+        return True
 
-	return False
+    return False

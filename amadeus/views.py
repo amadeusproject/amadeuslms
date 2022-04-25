@@ -14,8 +14,25 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
+
 def index(request):
-	if request.user.is_authenticated:
-		return redirect(reverse_lazy("subjects:home"))
-	else:
-		return redirect('users:login')
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy("subjects:home"))
+    else:
+        return redirect('users:login')
+
+
+def handler404_view(request):
+    return redirect(reverse_lazy("users:login"))
+
+
+def handler403_view(request):
+    return redirect(reverse_lazy("users:login"))
+
+
+def handler500_view(request):
+    return redirect(reverse_lazy("users:login"))
+
+
+def handler400_view(request):
+    return redirect(reverse_lazy("users:login"))

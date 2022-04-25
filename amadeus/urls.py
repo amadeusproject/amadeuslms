@@ -18,28 +18,27 @@ from django.contrib import admin
 
 from rest_framework.documentation import include_docs_urls
 
-from .views import index
-
+from .views import index, handler404_view, handler500_view, handler400_view, handler403_view
 
 urlpatterns = [
-    url(r'^users/', include('users.urls', namespace = 'users')),
+    url(r'^users/', include('users.urls', namespace='users')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', index, name = 'home'),
-    url(r'^api/', include('api.urls', namespace = 'api')),
-    url(r'^categories/', include('categories.urls', namespace = 'categories')),
-    url(r'^subjects/', include('subjects.urls', namespace = 'subjects')),
-    url(r'^groups/', include('students_group.urls', namespace = 'groups')),
-    url(r'^topics/', include('topics.urls', namespace = 'topics')),
-    url(r'^chat/', include('chat.urls', namespace = 'chat')),
-    url(r'^mural/', include('mural.urls', namespace = 'mural')),
-    url(r'^webpages/', include('webpage.urls', namespace = 'webpages')),
-    url(r'^ytvideo/', include('youtube_video.urls', namespace = 'youtube')),
-    url(r'^file_links/', include('file_link.urls', namespace = 'file_links')),
-    url(r'^goals/', include('goals.urls', namespace = 'goals')),
-    url(r'^mailsender/', include('mailsender.urls', namespace = 'mailsender')),
-    url(r'^security/', include('security.urls', namespace = 'security')),
-    url(r'^themes/', include('themes.urls', namespace = 'themes')),
-    url(r'^pendencies/', include('notifications.urls', namespace = 'notifications')),
+    url(r'^$', index, name='home'),
+    url(r'^api/', include('api.urls', namespace='api')),
+    url(r'^categories/', include('categories.urls', namespace='categories')),
+    url(r'^subjects/', include('subjects.urls', namespace='subjects')),
+    url(r'^groups/', include('students_group.urls', namespace='groups')),
+    url(r'^topics/', include('topics.urls', namespace='topics')),
+    url(r'^chat/', include('chat.urls', namespace='chat')),
+    url(r'^mural/', include('mural.urls', namespace='mural')),
+    url(r'^webpages/', include('webpage.urls', namespace='webpages')),
+    url(r'^ytvideo/', include('youtube_video.urls', namespace='youtube')),
+    url(r'^file_links/', include('file_link.urls', namespace='file_links')),
+    url(r'^goals/', include('goals.urls', namespace='goals')),
+    url(r'^mailsender/', include('mailsender.urls', namespace='mailsender')),
+    url(r'^security/', include('security.urls', namespace='security')),
+    url(r'^themes/', include('themes.urls', namespace='themes')),
+    url(r'^pendencies/', include('notifications.urls', namespace='notifications')),
     url(r'^links/', include('links.urls', namespace='links')),
     url(r'^pdf_files/', include('pdf_file.urls', namespace='pdf_files')),
     url(r'^questionary/', include('questionary.urls', namespace='questionary')),
@@ -54,8 +53,8 @@ urlpatterns = [
     url(r'^questions_database/', include('banco_questoes.urls', namespace='questions_database')),
     url(r'^elastic/', include('elastic.urls', namespace='elastic')),
     url(r'^excel/', include('environment_creation.urls', namespace='excel')),
-    url(r'^api-docs/', include_docs_urls(title = 'REST Api Documentation')),
-    #API
+    url(r'^api-docs/', include_docs_urls(title='REST Api Documentation')),
+    # API
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'session_security/', include('session_security.urls')),
@@ -63,4 +62,9 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = handler404_view
+handler500 = handler500_view
+handler403 = handler403_view
+handler400 = handler400_view

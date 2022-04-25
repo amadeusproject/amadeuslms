@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: subjects/forms.py:55 subjects/forms.py:186
+#: subjects/forms.py:54
 msgid "Tags"
 msgstr "Tags"
 
-#: subjects/forms.py:124 subjects/forms.py:256
+#: subjects/forms.py:126 subjects/tests/test_form.py:63
 msgid "There is another subject with this name, try another one."
 msgstr "Já existe um assunto com esse nome, tente outro."
 
-#: subjects/forms.py:134
+#: subjects/forms.py:137 subjects/tests/test_form.py:78
 msgid "This date must be today or after"
 msgstr "Essa data deve ser hoje ou depois disso"
 
-#: subjects/forms.py:145 subjects/forms.py:276
+#: subjects/forms.py:148 subjects/tests/test_form.py:93
 msgid "This date must be equal subscribe begin or after"
 msgstr "Essa data deve ser igual ou depois de começarem as incrições"
 
-#: subjects/forms.py:155 subjects/forms.py:286
+#: subjects/forms.py:158 subjects/tests/test_form.py:108
 msgid "This date must be after subscribe end"
 msgstr "Essa data deve ser depois do fim das inscrições"
 
-#: subjects/forms.py:164 subjects/forms.py:295
+#: subjects/forms.py:167 subjects/tests/test_form.py:123
 msgid "This date must be equal init date or after"
 msgstr "Essa data deve ser igual ou depois da data de início"
 
@@ -100,6 +100,14 @@ msgstr "Tamanho máximo de upload"
 msgid "Display avatar to students?"
 msgstr "Mostrar avatar para os estudantes?"
 
+#: subjects/models.py:63
+msgid "Make available outside Amadeus?"
+msgstr "Deixar disponível fora do LMS?"
+
+#: subjects/models.py:64
+msgid "Price"
+msgstr "Preço"
+
 #: subjects/templates/subjects/_form.html:33
 msgid "Attribute students to subject"
 msgstr "Atribuir estudantes ao assunto"
@@ -112,24 +120,24 @@ msgstr "Professor"
 msgid "Attribute professors to subject"
 msgstr "Atribuir professores ao assunto"
 
-#: subjects/templates/subjects/_form.html:104
+#: subjects/templates/subjects/_form.html:109
 msgid "Save"
 msgstr "Salvar"
 
-#: subjects/templates/subjects/_form.html:108
+#: subjects/templates/subjects/_form.html:113
 #: subjects/templates/subjects/subscribe.html:30
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: subjects/templates/subjects/_form.html:115
-#: subjects/templates/subjects/_form.html:116
+#: subjects/templates/subjects/_form.html:121
+#: subjects/templates/subjects/_form.html:122
 #, fuzzy
 #| msgid "Search results"
 msgid "Search for professors"
 msgstr "Resultados da busca"
 
-#: subjects/templates/subjects/_form.html:161
-#: subjects/templates/subjects/_form.html:162
+#: subjects/templates/subjects/_form.html:167
+#: subjects/templates/subjects/_form.html:168
 #, fuzzy
 #| msgid "Search results"
 msgid "Search for students"
@@ -229,12 +237,12 @@ msgstr "Fechar"
 msgid "DELETE"
 msgstr "Deletar"
 
-#: subjects/templates/subjects/home.html:75
-#: subjects/templates/subjects/initial.html:89 subjects/views.py:295
+#: subjects/templates/subjects/home.html:66
+#: subjects/templates/subjects/initial.html:89 subjects/views.py:224
 msgid "My Subjects"
 msgstr "Meus assuntos"
 
-#: subjects/templates/subjects/home.html:88
+#: subjects/templates/subjects/home.html:79
 #: subjects/templates/subjects/initial.html:102
 #: subjects/templates/subjects/list.html:197
 msgid "You still do not posses any subject in our platform"
@@ -283,12 +291,12 @@ msgid " Any subjects or Resources were not found on the search for "
 msgstr " Nenhum assunto ou recursos foram encontrados na busca por "
 
 #: subjects/templates/subjects/list_search.html:59
-#: subjects/templates/subjects/list_search.html:62 subjects/views.py:888
+#: subjects/templates/subjects/list_search.html:62 subjects/views.py:817
 msgid "Subjects"
 msgstr "Assuntos"
 
 #: subjects/templates/subjects/list_search.html:60
-#: subjects/templates/subjects/list_search.html:63 subjects/views.py:896
+#: subjects/templates/subjects/list_search.html:63 subjects/views.py:825
 msgid "Resources"
 msgstr "Recursos"
 
@@ -409,52 +417,19 @@ msgstr "Criar novo tópico"
 msgid "Participants"
 msgstr "Participantes"
 
-#: subjects/views.py:138
-msgid "Home"
-msgstr "Início"
-
-#: subjects/views.py:261
-msgid "Page is not 'last', nor can it be converted to an int."
-msgstr ""
-"Página não é a 'última', e também não pode ser convertido para um inteiro"
-
-#: subjects/views.py:269
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr "Página inválida (%(page_number)s): %(message)s"
-
-#: subjects/views.py:302
-msgid "All Subjects"
-msgstr "Todos os assuntos"
-
-#: subjects/views.py:417
-msgid "Create Subject"
-msgstr "Criar Assunto"
-
-#: subjects/views.py:443
-msgid "Replicate Subject"
-msgstr "Replicar Assunto"
-
-#: subjects/views.py:493
+#: subjects/tests/test_views.py:224 subjects/tests/test_views.py:298
+#: subjects/views.py:422
 #, python-format
 msgid "The Subject \"%s\" was registered on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi registrado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:545
-msgid "Update Subject"
-msgstr "Atualizar Assunto"
-
-#: subjects/views.py:584
+#: subjects/tests/test_views.py:353 subjects/views.py:513
 #, python-format
 msgid "The Subject \"%s\" was updated on \"%s\" Category successfully!"
 msgstr "Assunto \"%s\" foi atualizado na categoria \"%s\" com sucesso!"
 
-#: subjects/views.py:636 subjects/views.py:702
-#, python-format
-msgid "Subject \"%s\" removed successfully!"
-msgstr "Assunto \"%s\" removido com sucesso!"
-
-#: subjects/views.py:648 subjects/views.py:659
+#: subjects/tests/test_views.py:411 subjects/tests/test_views.py:428
+#: subjects/views.py:577 subjects/views.py:588
 msgid ""
 "Subject can't be removed. The subject still possess students and learning "
 "objects associated"
@@ -462,24 +437,59 @@ msgstr ""
 "Assunto não pode ser removido. Ele ainda possui alunos e objetos de "
 "aprendizado associados"
 
-#: subjects/views.py:788
+#: subjects/tests/test_views.py:458 subjects/views.py:565 subjects/views.py:631
+#, python-format
+msgid "Subject \"%s\" removed successfully!"
+msgstr "Assunto \"%s\" removido com sucesso!"
+
+#: subjects/tests/test_views.py:537 subjects/views.py:717
 msgid "Subscription date is due!"
 msgstr "O período de inscrição está encerrado!"
 
-#: subjects/views.py:807
+#: subjects/tests/test_views.py:561 subjects/views.py:736
 msgid "Subscription was successfull!"
 msgstr "Inscrição feita com sucesso!"
 
-#: subjects/views.py:1039
+#: subjects/tests/test_views.py:766 subjects/views.py:1428
+msgid "Backup restored successfully!"
+msgstr "Backup restaurado com sucesso!"
+
+#: subjects/views.py:130
+msgid "Home"
+msgstr "Início"
+
+#: subjects/views.py:208
+msgid "Page is not 'last', nor can it be converted to an int."
+msgstr ""
+"Página não é a 'última', e também não pode ser convertido para um inteiro"
+
+#: subjects/views.py:216
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Página inválida (%(page_number)s): %(message)s"
+
+#: subjects/views.py:231
+msgid "All Subjects"
+msgstr "Todos os assuntos"
+
+#: subjects/views.py:346
+msgid "Create Subject"
+msgstr "Criar Assunto"
+
+#: subjects/views.py:372
+msgid "Replicate Subject"
+msgstr "Replicar Assunto"
+
+#: subjects/views.py:474
+msgid "Update Subject"
+msgstr "Atualizar Assunto"
+
+#: subjects/views.py:968
 #, python-format
 msgid "%s - Backup"
 msgstr "%s - Backup"
 
-#: subjects/views.py:1262
+#: subjects/views.py:1191
 #, python-format
 msgid "%s - Restore"
 msgstr "%s - Restaurar"
-
-#: subjects/views.py:1499
-msgid "Backup restored successfully!"
-msgstr "Backup restaurado com sucesso!"

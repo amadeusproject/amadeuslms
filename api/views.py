@@ -329,6 +329,49 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 
         return HttpResponse(response)
 
+    @action(detail=False, methods=["GET"], permission_classes=[AllowAny])
+    def list_subjects(self, request):
+        request_data = request.GET
+
+        subjects = Subject.objects.filter(external_access=True)
+
+        if "subscribe_init" in request_data and "subscribe_end" in request_data:
+            subjects = subjects.filter(
+                Q(subscribe_begin__gte=request_data["subscribe_init"], subscribe_begin__lte=request_data["subscribe_end"])
+                | Q(subscribe_end__lte=request_data["subscribe_end"], subscribe_end__gte=request_data["subscribe_init"])
+            )
+        else:
+            if "subscribe_init" in request_data:
+                subjects = subjects.filter(subscribe_begin__gte=request_data["subscribe_init"])
+
+            if "subscribe_end" in request_data:
+                subjects = subjects.filter(subscribe_end__lte=request_data["subscribe_end"])
+        
+        subects = subjects.order_by("name")
+
+        serializer = SubjectSerializer(
+                subjects, many=True, context={}
+            )
+
+        json_r = json.dumps(serializer.data)
+        json_r = json.loads(json_r)
+
+        sub_info = {}
+
+        sub_info["data"] = {}
+        sub_info["data"]["subjects"] = json_r
+
+        sub_info["message"] = ""
+        sub_info["type"] = ""
+        sub_info["title"] = ""
+        sub_info["success"] = True
+        sub_info["number"] = 1
+        sub_info["extra"] = 0
+
+        response = json.dumps(sub_info)
+
+        return HttpResponse(response)
+
 
 class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
     """

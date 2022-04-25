@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Tags"
 msgid "Web Conference Title"
 msgstr "Titulo da Web Conferência"
 
-#: webconference/forms.py:54 webconference/models.py:34
+#: webconference/forms.py:54 webconference/models.py:35
 msgid "Presentation"
 msgstr "Apresentação"
 
@@ -63,7 +63,7 @@ msgid ""
 "(\"%s\")"
 msgstr ""
 
-#: webconference/forms.py:152 webconference/models.py:61
+#: webconference/forms.py:152 webconference/models.py:62
 msgid "Domain"
 msgstr "Dominio"
 
@@ -71,39 +71,39 @@ msgstr "Dominio"
 msgid "The domain of the jitsi server, e.g. meet.jit.si"
 msgstr "O dominio do servidor do jitsi, ex: meet.jit.si"
 
-#: webconference/models.py:33
+#: webconference/models.py:34
 msgid "Jitsi Slug"
 msgstr ""
 
-#: webconference/models.py:35
+#: webconference/models.py:36
 #: webconference/templates/webconference/view.html:80
 #: webconference/templates/webconference/window_view.html:44
 msgid "Start date/hour"
 msgstr "Data/hora de inicio"
 
-#: webconference/models.py:36
+#: webconference/models.py:37
 #: webconference/templates/webconference/view.html:83
 #: webconference/templates/webconference/window_view.html:47
 msgid "End date/hour"
 msgstr "Data/hora de termino"
 
-#: webconference/models.py:39
+#: webconference/models.py:40
 msgid "Web Conference"
 msgstr "Web Conferência"
 
-#: webconference/models.py:40
+#: webconference/models.py:41
 msgid "Web Conferences"
 msgstr "Web Conferências"
 
-#: webconference/models.py:58
+#: webconference/models.py:59
 msgid "Are you sure you want delete the web conference"
 msgstr "Tem certeza que deseja deletar a web conferência"
 
-#: webconference/models.py:64
+#: webconference/models.py:65
 msgid "Web Conference Setting"
 msgstr "Configurações da Web Conferência"
 
-#: webconference/models.py:65
+#: webconference/models.py:66
 msgid "Web Conferences Setting"
 msgstr "Configurações das Web conferências"
 

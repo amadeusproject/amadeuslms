@@ -59,6 +59,9 @@ class Subject(models.Model):
     max_upload_size = models.IntegerField(_("Maximum upload size"), default=1024, null=True)
 
     display_avatar = models.BooleanField(_("Display avatar to students?"), default=False)
+
+    external_access = models.BooleanField(_("Make available outside Amadeus?"), default=False)
+    price = models.TextField(_("Price"), default=0.00, blank=True)
     
     class Meta:
         verbose_name = "Subject"

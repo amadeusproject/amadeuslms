@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,13 +128,13 @@ msgstr "Alternativas"
 
 #: banco_questoes/templates/banco_questoes/create.html:30
 #: banco_questoes/templates/banco_questoes/index.html:25
-#: banco_questoes/views.py:56
+#: banco_questoes/views.py:57
 msgid "Questions Database"
 msgstr "Banco de Questões"
 
 #: banco_questoes/templates/banco_questoes/create.html:33
 #: banco_questoes/templates/banco_questoes/index.html:57
-#: banco_questoes/views.py:164
+#: banco_questoes/views.py:171
 msgid "Create Question"
 msgstr "Criar Questão"
 
@@ -158,20 +158,20 @@ msgstr "Pesquisar por categoria..."
 msgid "Number of registered questions: "
 msgstr "Número de questões registradas: "
 
-#: banco_questoes/views.py:171
+#: banco_questoes/views.py:178
 #, python-format
 msgid "The Question was added to the virtual environment \"%s\" successfully!"
 msgstr "A Questão foi adicionada ao ambiente virtual \"%s\" com sucesso!"
 
-#: banco_questoes/views.py:259
+#: banco_questoes/views.py:266
 msgid "Edit Question"
 msgstr "Editar Questão"
 
-#: banco_questoes/views.py:266
+#: banco_questoes/views.py:273
 msgid "The Question was updated successfully!"
 msgstr "A Questão foi atualizada com sucesso!"
 
-#: banco_questoes/views.py:291
+#: banco_questoes/views.py:298
 #, python-format
 msgid "The question was removed successfully from virtual environment \"%s\"!"
 msgstr "A Questão foi removida com sucesso do ambiente virtual \"%s\"!"

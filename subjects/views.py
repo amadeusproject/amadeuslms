@@ -21,32 +21,26 @@ from django.views.generic import (
 )
 from categories.models import Category
 from django.core.urlresolvers import reverse_lazy
-from rolepermissions.verifications import has_role
 from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from random import shuffle
-from rolepermissions.mixins import HasRoleMixin
 from categories.forms import CategoryForm
-import operator
 from braces import views
 from subjects.models import Subject
 from django.contrib.auth.decorators import login_required
-from collections import namedtuple
 
 from log.mixins import LogMixin
 from log.decorators import log_decorator_ajax
 from log.models import Log
-from itertools import chain
 from .models import Tag
 import time
 import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CreateSubjectForm, UpdateSubjectForm
+from django.core.paginator import Paginator, InvalidPage
+from .forms import SubjectForm
 from .utils import (
     has_student_profile,
     has_professor_profile,
@@ -61,7 +55,6 @@ import os
 import zipfile
 import json
 from io import BytesIO
-from itertools import chain
 from django.core import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -108,7 +101,6 @@ from amadeus.permissions import (
 
 from log.search import user_last_interaction, multi_search
 
-
 class HomeView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
@@ -142,7 +134,6 @@ class HomeView(LoginRequiredMixin, ListView):
         context["total_subs"] = self.total
 
         return context
-
 
 class IndexView(LoginRequiredMixin, ListView):
     totals = {}
@@ -183,12 +174,6 @@ class IndexView(LoginRequiredMixin, ListView):
                     .distinct()
                     .order_by("name")
                 )
-
-        # if not self.request.user.is_staff:
-
-        # my_categories = [category for category in categories if self.request.user in category.coordinators.all() \
-        # or has_professor_profile(self.request.user, category) or has_student_profile(self.request.user, category)]
-        # So I remove all categories that doesn't have the possibility for the user to be on
 
         return categories
 
@@ -231,24 +216,6 @@ class IndexView(LoginRequiredMixin, ListView):
                 _("Invalid page (%(page_number)s): %(message)s")
                 % {"page_number": page_number, "message": str(e)}
             )
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_staff:
-            context["page_template"] = "categories/home_admin_content.html"
-        else:
-            context["page_template"] = "categories/home_teacher_student.html"
-
-        if self.request.is_ajax():
-            if self.request.user.is_staff:
-                self.template_name = "categories/home_admin_content.html"
-
-        return self.response_class(
-            request=self.request,
-            template=self.template_name,
-            context=context,
-            using=self.template_engine,
-            **response_kwargs
-        )
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -308,7 +275,7 @@ class GetSubjectList(LoginRequiredMixin, ListView):
         context["categorySlug"] = slug
         context["hideCounters"] = True
 
-        if "all" in self.request.META.get("HTTP_REFERER"):
+        if "all" in self.request.META.get("HTTP_REFERER", []):
             context["all"] = True
 
         return context
@@ -325,7 +292,7 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
     login_url = reverse_lazy("users:login")
     redirect_field_name = "next"
-    form_class = CreateSubjectForm
+    form_class = SubjectForm
 
     success_url = reverse_lazy("subject:index")
 
@@ -348,12 +315,12 @@ class SubjectCreateView(LoginRequiredMixin, LogMixin, CreateView):
         initial = super(SubjectCreateView, self).get_initial()
 
         if self.kwargs.get("slug"):  # when the user creates a subject
-            initial["category"] = Category.objects.filter(slug=self.kwargs["slug"])
+            initial["category"] = get_object_or_404(Category, slug=self.kwargs.get("slug", ""))
 
         if self.kwargs.get("subject_slug"):  # when the user replicate a subject
             subject = get_object_or_404(Subject, slug=self.kwargs["subject_slug"])
             initial = initial.copy()
-            initial["category"] = Category.objects.filter(slug=subject.category.slug)
+            initial["category"] = Category.objects.get(slug=subject.category.slug)
             initial["description"] = subject.description
             initial["name"] = subject.name
             initial["visible"] = subject.visible
@@ -465,7 +432,7 @@ class SubjectUpdateView(LoginRequiredMixin, LogMixin, UpdateView):
     log_context = {}
 
     model = Subject
-    form_class = UpdateSubjectForm
+    form_class = SubjectForm
     template_name = "subjects/update.html"
 
     login_url = reverse_lazy("users:login")
@@ -796,7 +763,7 @@ class SubjectSearchView(LoginRequiredMixin, LogMixin, ListView):
         tags = tags.split(" ")
 
         if tags[0] == "":
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse_lazy("subjects:home")))
 
         return super(SubjectSearchView, self).dispatch(request, *args, **kwargs)
 

@@ -60,14 +60,14 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 			{% render_field field class='form-control' data-role="tagsinput" %}
 		{% else %}
 			<div class="form-group {% if form.has_error %} has-error {% endif %} is-fileinput">
-				{% if field.auto_id != 'id_visible' and field.auto_id != 'id_display_avatar' %}
+				{% if field.auto_id != 'id_visible' and field.auto_id != 'id_display_avatar' and field.auto_id != 'id_external_access' %}
 							{% if field.field.required %}
 						<label for="{{ field.auto_id }}">{{ field.label }} <span>*</span></label>
 							{% else %}
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{% endif %}
 				{% endif %}
-				{% if field.auto_id == 'id_visible' or field.auto_id == 'id_display_avatar' %}
+				{% if field.auto_id == 'id_visible' or field.auto_id == 'id_display_avatar' or field.auto_id == 'id_external_access' %}
 					<div class="checkbox" {% if field.auto_id == 'id_display_avatar' %}style="display:none"{% endif %}>
 						<label for="{{ field.auto_id }}">
 	      					{% render_field field %} {{field.label}}
@@ -75,6 +75,11 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 					</div>
 				{% elif field.auto_id == 'id_description' or field.auto_id == 'id_description_brief' %}
 					{% render_field field class='form-control text_wysiwyg' %}
+				{% elif field.auto_id == 'id_price' %}
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						{% render_field field class='form-control price' %}
+					</div>
 				{% elif field.auto_id == 'id_init_date' or field.auto_id == 'id_end_date' or field.auto_id == 'id_subscribe_begin' or field.auto_id == 'id_subscribe_end' %}
 					{% render_field field class='form-control date-picker' %}
 				{% else %}
@@ -110,6 +115,7 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 	</div>
 </form>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 	$('#id_professor').multiSelect({
 	  selectableHeader: "<input type='text' class='search-input category-search-users' autocomplete='off' placeholder='{% trans 'Search for professors' %} '>",
@@ -225,4 +231,24 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
         	btn.switchClass("fa-angle-down", "fa-angle-right", 250, "easeInOutQuad");
         }
     });
+
+	$(function () {
+		$(".price").maskMoney({
+			prefix: "",
+			decimal: ",",
+			thousands: "."
+		});
+
+		$("#id_external_access").on("change", function() {
+			if ($(this).is(':checked')) {
+				$(".price").parent().parent().show();
+			} else {
+				$(".price").parent().parent().hide();
+			}
+		});
+
+		if (!$("#id_external_access").is(":checked")) {
+			$(".price").parent().parent().hide();
+		}
+	});
 </script>
