@@ -68,6 +68,8 @@ class SubjectForm(forms.ModelForm):
             "professor",
             "students",
             "display_avatar",
+            "external_access",
+            "price"
         )
 
         widgets = {
@@ -75,10 +77,11 @@ class SubjectForm(forms.ModelForm):
             "description": forms.Textarea,
             "professor": forms.SelectMultiple,
             "students": forms.SelectMultiple,
+            "price": forms.TextInput,
         }
 
     def save(self, commit=True):
-        super(SubjectForm, self).save(commit=True)
+        super(SubjectForm, self).save(commit=False)
 
         self.instance.save()
 
@@ -164,6 +167,15 @@ class SubjectForm(forms.ModelForm):
             self._errors["end_date"] = [_("This date must be equal init date or after")]
             return ValueError
         return end_date
+
+    def clean_price(self):
+        price = self.cleaned_data["price"]
+
+        if not price is ValueError:
+            if price.count('.') > 1:
+                price = price.replace('.', '').replace(',', '.')
+
+        return price
 
 class CreateTagForm(forms.ModelForm):
     class Meta:

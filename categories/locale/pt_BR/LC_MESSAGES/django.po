@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: categories/forms.py:35
+#: categories/forms.py:35 categories/tests/test_form.py:30
 msgid "There is another category with this name, try another one."
 msgstr "Existe outra categoria com este nome, tente outro nome."
 
@@ -50,7 +50,7 @@ msgstr "Data de modificação"
 msgid "Category"
 msgstr "Categoria"
 
-#: categories/models.py:32 categories/views.py:63
+#: categories/models.py:32 categories/views.py:67
 msgid "Categories"
 msgstr "Categorias"
 
@@ -122,7 +122,7 @@ msgstr "Deletar"
 msgid "categories"
 msgstr "Categorias"
 
-#: categories/templates/categories/list.html:43 categories/views.py:128
+#: categories/templates/categories/list.html:43 categories/views.py:143
 msgid "Create Category"
 msgstr "Criar Categoria"
 
@@ -156,16 +156,18 @@ msgstr "atras"
 msgid "Update: "
 msgstr "Editar: "
 
-#: categories/views.py:126
-msgid "Replicate Category"
-msgstr "Replicar Categoria"
-
-#: categories/views.py:160
+#: categories/tests/test_views.py:137 categories/tests/test_views.py:214
+#: categories/tests/test_views.py:244 categories/views.py:175
 #, python-format
 msgid "Category \"%s\" register successfully!"
 msgstr "Categoria \"%s\" foi registrada com sucesso!"
 
-#: categories/views.py:209
+#: categories/tests/test_views.py:436 categories/views.py:246
+#, python-format
+msgid "Category \"%s\" removed successfully!"
+msgstr "Categoria \"%s\" removida com sucesso!"
+
+#: categories/tests/test_views.py:460 categories/views.py:224
 msgid ""
 "The category cannot be removed, it contains one or more virtual enviroments "
 "attach."
@@ -173,16 +175,15 @@ msgstr ""
 "A categoria não pode ser removida, ela contém um ou mais ambientes virtuais "
 "vinculados."
 
-#: categories/views.py:231
-#, python-format
-msgid "Category \"%s\" removed successfully!"
-msgstr "Categoria \"%s\" removida com sucesso!"
+#: categories/views.py:141
+msgid "Replicate Category"
+msgstr "Replicar Categoria"
 
-#: categories/views.py:278
+#: categories/views.py:293
 #, python-format
 msgid "Category \"%s\" updated successfully!"
 msgstr "Categoria \"%s\" atualizada com sucesso!"
 
-#: categories/views.py:299
+#: categories/views.py:314
 msgid "Update Category"
 msgstr "Atualizar Categoria"

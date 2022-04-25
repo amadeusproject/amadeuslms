@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: topics/forms.py:42 topics/forms.py:59
+#: topics/forms.py:42 topics/forms.py:59 topics/tests/test_form.py:65
+#: topics/tests/test_form.py:81
 msgid "This subject already has a repository"
 msgstr "Esse assunto já possui um repositório"
 
-#: topics/forms.py:61
+#: topics/forms.py:61 topics/tests/test_form.py:89
 msgid "This subject already has a topic with this name"
 msgstr "Esse assunto já possui um tópico com esse nome"
 
@@ -221,26 +222,26 @@ msgstr "Conferência Web"
 msgid "Update Topic"
 msgstr "Atualizar Tópico"
 
-#: topics/views.py:109
+#: topics/tests/test_views.py:107 topics/views.py:109
 #, python-format
 msgid "Topic \"%s\" was created on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi criado no ambiente virtual \"%s\" com sucesso!"
 
-#: topics/views.py:165
+#: topics/tests/test_views.py:171 topics/views.py:165
 #, python-format
 msgid "Topic \"%s\" was updated on virtual enviroment \"%s\" successfully!"
 msgstr "Tópico \"%s\" foi atualizado no ambiente virtual \"%s\" com sucesso!"
 
-#: topics/views.py:207
+#: topics/tests/test_views.py:236 topics/views.py:216
+#, python-format
+msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
+msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
+
+#: topics/tests/test_views.py:261 topics/views.py:207
 msgid "Could not remove this topic. It has one or more resources attached."
 msgstr ""
 "Não é possível remover esse tópico. Ele possui um ou mais recursos "
 "vinculados."
-
-#: topics/views.py:216
-#, python-format
-msgid "Topic \"%s\" was removed from virtual enviroment \"%s\" successfully!"
-msgstr "Tópico \"%s\" foi removido do ambiente virtual \"%s\" com sucesso!"
 
 #~ msgid "Forum"
 #~ msgstr "Fórum"

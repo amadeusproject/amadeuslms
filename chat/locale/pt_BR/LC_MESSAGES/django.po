@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-20 01:35+0000\n"
+"POT-Creation-Date: 2022-04-25 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Esse campo é obrigatório."
 msgid "The image is too large. It should have less than 10MB."
 msgstr "A imagem é muito grande. Ela deve possuir 10MB ou menos."
 
-#: chat/models.py:31 chat/templates/chat/_form.html:42
+#: chat/models.py:41 chat/templates/chat/_form.html:42
 msgid ""
 "Select a valid file. The file must posses one of this extensions: .jpg, ."
 "png, .gif"
@@ -34,43 +34,43 @@ msgstr ""
 "Selecione um arquivo válido. O arquivo deve possuir uma das extensões a "
 "seguir: .jpg, .png, .gif"
 
-#: chat/models.py:40
+#: chat/models.py:55
 msgid "User One"
 msgstr "Usuário Um"
 
-#: chat/models.py:41
+#: chat/models.py:58
 msgid "User Two"
 msgstr "Usuário Dois"
 
-#: chat/models.py:44 chat/models.py:64 chat/models.py:69
+#: chat/models.py:63 chat/models.py:101 chat/models.py:119
 msgid "Message"
 msgstr "Mensagem"
 
-#: chat/models.py:45
+#: chat/models.py:65
 msgid "Image"
 msgstr "Imagem"
 
-#: chat/models.py:46
+#: chat/models.py:73
 msgid "Conversation"
 msgstr "Conversa"
 
-#: chat/models.py:47 chat/models.py:65 chat/models.py:70
+#: chat/models.py:78 chat/models.py:106 chat/models.py:124
 msgid "User"
 msgstr "Usuário"
 
-#: chat/models.py:48
+#: chat/models.py:81
 msgid "Subject"
 msgstr "Assunto"
 
-#: chat/models.py:49
+#: chat/models.py:83
 msgid "Create Date"
 msgstr "Data de Criação"
 
-#: chat/models.py:63
+#: chat/models.py:98
 msgid "Viewed"
 msgstr "Visualizado"
 
-#: chat/models.py:66
+#: chat/models.py:108
 msgid "Date/Time Viewed"
 msgstr "Data/Hora da visualização"
 
@@ -149,7 +149,7 @@ msgstr "Ver Perfil"
 #: chat/templates/chat/subject_view.html:21
 #: chat/templates/chat/subject_view.html:39
 #: chat/templates/chat/subject_view_participants.html:21
-#: chat/templates/chat/subject_view_participants.html:43 chat/views.py:94
+#: chat/templates/chat/subject_view_participants.html:43 chat/views.py:95
 msgid "Messages"
 msgstr "Mensagens"
 
@@ -274,42 +274,42 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: chat/templatetags/chat_tags.py:84 chat/views.py:610
+#: chat/templatetags/chat_tags.py:84 chat/views.py:613
 msgid "Unfavorite"
 msgstr "Desfavoritar"
 
-#: chat/templatetags/chat_tags.py:86 chat/views.py:614
+#: chat/templatetags/chat_tags.py:86 chat/views.py:617
 msgid "Favorite"
 msgstr "Favoritar"
 
-#: chat/views.py:150
+#: chat/views.py:151
 msgid "Messages - Participants"
 msgstr "Mensagems - Participantes"
 
-#: chat/views.py:230
+#: chat/views.py:231
 #, python-format
 msgid "%s - Participants"
 msgstr "%s - Participantes"
 
-#: chat/views.py:317
+#: chat/views.py:318
 #, python-format
 msgid "%s - Messages"
 msgstr "%s - Mensagens"
 
-#: chat/views.py:492
+#: chat/views.py:493
 msgid "[Photo]"
 msgstr "[Foto]"
 
-#: chat/views.py:506 chat/views.py:743
+#: chat/views.py:509 chat/views.py:746
 #, python-format
 msgid "Last message in %s"
 msgstr "Última mensagem em %s"
 
-#: chat/views.py:721
+#: chat/views.py:724
 msgid "## Support request"
 msgstr "## Solicitação de suporte"
 
-#: chat/views.py:768
+#: chat/views.py:771
 msgid ""
 "Your message was sent to our team of support e sould be responded within 48 "
 "hours."

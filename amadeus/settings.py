@@ -271,6 +271,7 @@ REST_FRAMEWORK = {
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.AllowAny",
         "rest_framework.permissions.IsAuthenticated",
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
     ),
