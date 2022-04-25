@@ -51,7 +51,7 @@ fcm-django==0.2.11
 gTTS==2.1.1
 gTTS-token==1.1.4
 gunicorn==19.6.0
-httplib2==0.18.0
+httplib2==0.19.0
 hyperlink==19.0.0
 idna==2.10
 importlib-metadata==2.1.1
