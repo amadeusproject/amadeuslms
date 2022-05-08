@@ -81,7 +81,7 @@ class SubjectForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
-        super(SubjectForm, self).save(commit=False)
+        super(SubjectForm, self).save(commit=True)
 
         self.instance.save()
 
