@@ -104,6 +104,8 @@ pyexcel-io==0.5.20
 pyexcel-xls==0.5.8
 pyexcel-xlsx==0.5.8
 
+plotly==4.9.0
+
 django-datatable-view==0.9.0
 nested-lookup==0.2.22
 
