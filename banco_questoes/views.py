@@ -146,8 +146,8 @@ class QuestionCreateView(LoginRequiredMixin, LogMixin, CreateView):
 
             alt.save()
 
-            if self.object.alt_img:
-                image_resize(self.object.alt_img.path)
+            if alt.alt_img:
+                image_resize(alt.alt_img.path)
 
         self.log_context['category_id'] = self.object.subject.category.id
         self.log_context['category_name'] = self.object.subject.category.name
