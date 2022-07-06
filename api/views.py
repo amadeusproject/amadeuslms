@@ -50,6 +50,7 @@ from subjects.serializers import SubjectSerializer
 from subjects.models import Subject
 
 from users.serializers import UserSerializer
+from users.forms import RegisterUserForm
 from users.models import User
 
 from mural.serializers import MuralSerializer, CommentsSerializer
@@ -60,7 +61,7 @@ from notifications.models import Notification
 
 from oauth2_provider.views.generic import ProtectedResourceView
 from oauth2_provider.models import Application
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from fcm_django.models import FCMDevice
 
@@ -82,7 +83,7 @@ def getToken(request):
             password = json_data["password"]
 
             user = authenticate(username=username, password=password)
-
+            print(user)
             if user is not None:
                 if not security.maintence or user.is_staff:
                     if oauth.count() > 0:
@@ -110,7 +111,7 @@ def getToken(request):
                         ).replace("http://", "https://")
                         response = requests.post(uri, data=data, auth=auth)
                         """
-                        url_oauth_token="http://localhost:8000/o/token/"
+                        url_oauth_token="http://localhost:8008/o/token/"
                         response = requests.post(url_oauth_token, data=data, auth=auth)
 
                         json_r = json.loads(response.content.decode("utf-8"))
@@ -186,6 +187,43 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
             )
 
         return HttpResponse(response)
+
+    @csrf_exempt
+    @action(detail=False, methods=["POST"], permission_classes=[AllowAny])
+    def register(self, request):
+        json_data = (
+            request.data if request.data else json.loads(request.body.decode("utf-8"))
+        )
+
+        form = RegisterUserForm(json_data)
+        response = ""
+
+        if form.is_valid():
+            form.save()
+
+            user = self.queryset.filter(email=json_data['email']).first()
+
+            if not user is None:
+                serializer = UserSerializer(user)
+
+                json_r = json.dumps(serializer.data)
+                json_r = json.loads(json_r)
+
+                user_info = {}
+                user_info["data"] = json_r
+
+                user_info["message"] = ""
+                user_info["type"] = ""
+                user_info["title"] = ""
+                user_info["success"] = True
+                user_info["number"] = 1
+                user_info["extra"] = 0
+                
+                response = json.dumps(user_info)
+        else:
+            response = { "status": "error", "errors": dict(form.errors.items()) }
+
+        return JsonResponse(response)
 
     @csrf_exempt
     @action(detail=False, methods=["POST"], permission_classes=[IsAuthenticated])
