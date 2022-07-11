@@ -410,6 +410,37 @@ class SubjectViewset(viewsets.ReadOnlyModelViewSet):
 
         return HttpResponse(response)
 
+    @action(detail=False, methods=["POST"], permission_classes=[IsAuthenticated])
+    def subscribe(self, request):
+        json_data = (
+            request.data if request.data else json.loads(request.body.decode("utf-8"))
+        )
+
+        username = json_data["email"]
+        subject_slug = json_data["subject_slug"]
+
+        user = User.objects.get(email=username)
+        subject = Subject.objects.get(slug=subject_slug)
+
+        response = ""
+
+        if user and subject:
+            subject.students.add(user)
+
+            info = {}
+
+            info["data"] = {}
+            
+            info["message"] = "ok"
+            info["type"] = ""
+            info["title"] = ""
+            info["success"] = True
+            info["number"] = 1
+            info["extra"] = 0
+
+            response = json.dumps(info)
+
+        return HttpResponse(response)
 
 class ParticipantsViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
     """
