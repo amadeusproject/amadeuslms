@@ -223,7 +223,7 @@ class LoginViewset(viewsets.ReadOnlyModelViewSet, LogMixin):
         else:
             response = { "status": "error", "errors": dict(form.errors.items()) }
 
-        return JsonResponse(response)
+        return HttpResponse(response)
 
     @csrf_exempt
     @action(detail=False, methods=["POST"], permission_classes=[IsAuthenticated])
