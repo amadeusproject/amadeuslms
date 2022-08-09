@@ -20,8 +20,8 @@ class ExternalLoginMiddleware(object):
         self.get_response = get_response
 
     def process_request(self, request):
-        if 'HTTP_AUTHORIZATION' in request.META and str(auth.get_user(request)) == 'AnonymousUser':
-            token = request.META["HTTP_AUTHORIZATION"]
+        if request.GET and str(auth.get_user(request)) == 'AnonymousUser':
+            token = request.GET.get("token", "")
 
             oauth_user = AccessToken.objects.filter(token=token).last()
 
