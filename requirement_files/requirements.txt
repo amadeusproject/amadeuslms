@@ -80,7 +80,7 @@ simplejson==3.11.1
 six==1.15.0
 slugify==0.0.1
 sqlparse==0.3.0
-Twisted==20.3.0
+Twisted==22.10.0
 txaio==18.8.1
 Unidecode==0.4.19
 uritemplate==3.0.0
