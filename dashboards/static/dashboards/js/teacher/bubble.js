@@ -253,36 +253,41 @@ class BubbleChart {
       .attr("stop-color", d => d.stop_color)
       .attr("stop-opacity", d => d.stop_opacity);
 
-    this.svg
-      .select("defs")
-      .selectAll("pattern")
+      this.svg.select('defs')
+      .selectAll('pattern')
       .data(a.nodes)
       .enter()
-      .append("pattern")
-      .attr("id", (d, i) => d.user)
-      .attr("width", d => d.r)
-      .attr("height", d => d.r)
-      .append("image")
-      .attr("xlink:href", (d, i) => d.image)
-      .attr("width", d => 2 * d.r)
-      .attr("height", d => 2 * d.r)
-      .attr("x", 0)
-      .attr("y", 0);
+      .append('pattern')
+      .attr('id', (d, i) => d.user)
+      .attr('width', d => d.r)
+      .attr('height', d => d.r)
+      .append('image')
+      .attr('xlink:href', (d, i) => d.image)
+      .attr('width', d => 2 * d.r)
+      .attr('height', d => 2 * d.r)
+      .attr('x', 0)
+      .attr('y', 0);
 
-    this.bubbles
-      .append("circle")
-      .attr("class", "img")
-      .attr("r", d => d.r)
-      .attr("stroke", "url(#svgGradient")
-      .attr("fill", "#007991")
-      .attr("stroke-width", 1)
-      .attr("opacity", 1);
-
-    this.bubbles
-      .select(".img")
+    const clipPaths = this.bubbles
+      .append('clipPath')
+      .attr('id', (d, i) => `clip-circle-${i}`)
+      .append('circle')
+      .attr('r', d => d.r);
+  
+      this.bubbles.append('image')
+      .attr('class', 'img')
+      .attr('xlink:href', d => d.image)
+      .attr('x', d => -d.r)
+      .attr('y', d => -d.r)
+      .attr('width', d => d.r * 2)
+      .attr('height', d => d.r * 2)
+      .attr('clip-path', (d, i) => `url(#clip-circle-${i})`)
+      .attr('opacity', 1);
+    
+    this.bubbles.select('image')
       .transition()
       .delay((d, i) => 900 * Math.sqrt(i))
-      .attr("fill", d => `url(#${d.user})`);
+      .attr('fill', d => `url(#${d.user})`);
 
     this.bubbles
       .select(".temp")
