@@ -268,7 +268,7 @@ class BubbleChart {
                 a.chartConfig.dimensions.height / 2})`)
         .attr('id', 'bubbleChart');
 
-    this.svg.append('defs')
+        this.svg.append('defs')
         .append('linearGradient')
         .attr('id', 'svgGradient')
         .attr('x1', '0%')
@@ -277,18 +277,18 @@ class BubbleChart {
         .attr('y2', '100%')
         .selectAll('stop')
         .data([
-          {
-            class: 'start',
-            offset: '0%',
-            stop_color: '#007991',
-            stop_opacity: '1',
-          },
-          {
-            class: 'end',
-            offset: '100%',
-            stop_color: '#78ffd6',
-            stop_opacity: '1',
-          },
+            {
+                class: 'start',
+                offset: '0%',
+                stop_color: '#007991',
+                stop_opacity: '1',
+            },
+            {
+                class: 'end',
+                offset: '100%',
+                stop_color: '#78ffd6',
+                stop_opacity: '1',
+            },
         ])
         .enter()
         .append('stop')
@@ -296,7 +296,7 @@ class BubbleChart {
         .attr('offset', d => d.offset)
         .attr('stop-color', d => d.stop_color)
         .attr('stop-opacity', d => d.stop_opacity);
-
+    
     this.svg.select('defs')
         .selectAll('pattern')
         .data(a.nodes)
@@ -312,15 +312,23 @@ class BubbleChart {
         .attr('x', 0)
         .attr('y', 0);
 
-    this.bubbles.append('circle')
+      const clipPaths = this.bubbles
+        .append('clipPath')
+        .attr('id', (d, i) => `clip-circle-${i}`)
+        .append('circle')
+        .attr('r', d => d.r);
+    
+        this.bubbles.append('image')
         .attr('class', 'img')
-        .attr('r', d => d.r)
-        .attr('stroke', 'url(#svgGradient')
-        .attr('fill', '#007991')
-        .attr('stroke-width', 1)
+        .attr('xlink:href', d => d.image)
+        .attr('x', d => -d.r)
+        .attr('y', d => -d.r)
+        .attr('width', d => d.r * 2)
+        .attr('height', d => d.r * 2)
+        .attr('clip-path', (d, i) => `url(#clip-circle-${i})`)
         .attr('opacity', 1);
-
-    this.bubbles.select('.img')
+      
+      this.bubbles.select('image')
         .transition()
         .delay((d, i) => 900 * Math.sqrt(i))
         .attr('fill', d => `url(#${d.user})`);
