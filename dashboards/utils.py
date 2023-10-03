@@ -456,7 +456,10 @@ def getOtherIndicators(subject, user):
     for entry in resources_access.filter(user_id__in=s).all():
         resource_name = "goals" if entry.resource == "my_goals" else entry.resource
 
-        students_sets[entry.user_id].add(entry.context["%s_id" % (resource_name)])
+        res_key = "%s_id" % resource_name
+
+        if res_key in entry.context:
+            students_sets[entry.user_id].add(entry.context[res_key])
 
     students_accessess = [len(students_sets[x]) for x in students_sets]
 
