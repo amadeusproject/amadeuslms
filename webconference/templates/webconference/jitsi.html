@@ -38,6 +38,9 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
 {% endblock %}
 
 {% block content %}
+    {% resource_permissions request.user webconference as has_resource_permissions %}
+    {% subject_permissions request.user topic.subject as has_subject_permissions %}
+
     {% if webconference.visible %}
 		       <div id="resource-panel" class="panel panel-info topic-panel">
         	     <div class="panel-heading">
