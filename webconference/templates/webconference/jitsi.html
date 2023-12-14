@@ -129,6 +129,16 @@ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
       });
     }, 20*60*1000);
   }
+	
+function delete_resource(url) {
+            $('.modal').remove();
+
+            $.get(url, function (modal) {
+                $("#resource-panel").after(modal);
+
+                $('.modal').modal('show');
+            });
+        }
 </script>
 
 {% endblock %}
