@@ -38,7 +38,7 @@ django-unixdatetimefield==0.1.6
 django-widget-tweaks==1.4.1
 django-wysiwyg==0.8.0
 djangoajax==2.3.6
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 elasticsearch==7.0.4
 elasticsearch-dsl==7.0.0
 entrypoints==0.2.2
