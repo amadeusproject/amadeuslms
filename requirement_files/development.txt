@@ -66,7 +66,7 @@ MarkupSafe==0.23
 msgpack-python==0.4.8
 mutagen==1.44.0
 nested-lookup==0.2.22
-numpy==1.18.5
+numpy==1.22.0
 oauth2==1.9.0.post1
 oauth2-provider==0.0
 oauthlib==2.0.1
