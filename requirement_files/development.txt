@@ -105,7 +105,7 @@ slugify==0.0.1
 soupsieve==2.0.1
 sqlparse==0.3.0
 toml==0.10.2
-Twisted==20.3.0
+Twisted==22.10.0
 txaio==18.8.1
 Unidecode==0.4.19
 uritemplate==3.0.0
