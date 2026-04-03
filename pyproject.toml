@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 88
+indent-width = 2
+select = ["E", "F", "I", "B"]
+ignore = []
+
+target-version = "py312"
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "apps"]
+
+[tool.ruff.format]
+quote-style = "double"

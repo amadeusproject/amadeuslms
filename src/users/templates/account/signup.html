@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-2 offset-5">
+        <img src="{% static 'img/logo_grande_amadeus.png' %}" alt="Logo" class="img-fluid">
+      </div>
+    </div>
+    <div class="row signup-form-card shadow bg-body-tertiary rounded">
+      <div id="signup-form" class="col-md-6 offset-md-3">
+        {% include 'account/partials/_form_signup.html' %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+h2.title {
+  color: var(--text-color-title);
+  font-weight: 600;
+}
+
+.signup-form-card {
+  background: var(--cards-background);
+  padding: 1rem 0;
+}
+
+a.btn-link {
+  color: var(--text-color-title);
+  text-decoration: none
+}
+
+a.btn-link:hover {
+  color: var(--text-color-title);
+  text-decoration: underline;
+}

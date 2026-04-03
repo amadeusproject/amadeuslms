@@ -1,0 +1,19 @@
+* {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--page-background);
+}
+
+.htmx-request .htmx-hide {
+  display: none !important;
+}
+
+.htmx-visible {
+  display: none !important;
+}
+
+.htmx-request .htmx-visible {
+  display: inline-block !important;
+}

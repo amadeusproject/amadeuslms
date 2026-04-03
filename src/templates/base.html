@@ -1,0 +1,87 @@
+{% load static django_htmx i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | {{ site_name }}</title>
+    
+    {% htmx_script %}
+
+    <style>
+        :root {
+          --primary-color: #66BB6A;
+          --primary-color-variant-1: #26A69A;
+          --primary-color-variant-2: #00695C;
+
+          --secondary-color: #4FC3F7;
+          --secondary-color-variant-1: #039BE5;
+          --secondary-color-variant-2: #0277BD;
+
+          --page-background: #EEEEEE;
+          --cards-background: #FFFFFF;
+
+          --text-color: #333333;
+          --text-color-bold: #212121;
+          --text-color-light: #616161;
+          --text-color-soft: #DBDBDB;
+          --text-color-title: #43A251;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+    {% block header_js %}
+    {% endblock %}
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <div id="alerts-container" class="position-fixed min-vh-100 min-vw-100">
+    <section id="system-messages" aria-live="polite" aria-atomic="true" class="position-relative min-vh-100">
+      <div class="toast-container bottom-0 end-0 p-3">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="toast text-bg-{{ message.tags }} align-items-center border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="d-flex">
+                <div class="toast-body">
+                  {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  <header>
+    {% block navbar %}
+    {% endblock %}
+  </header>
+
+  <nav>
+    {% block menu %}
+    {% endblock %}
+  </nav>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer>
+    {% block footer %}
+    {% endblock %}
+  </footer>
+</body>
+</html>

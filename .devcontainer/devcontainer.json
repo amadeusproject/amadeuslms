@@ -1,0 +1,21 @@
+{
+  "name": "AmadeusLMS Dev Environment",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "web",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "batisteo.vscode-django",
+        "tht13.python-pylint",
+        "charliermarsh.ruff",
+        "vscode-ext-color-highlight.color-highlight"
+      ]
+    }
+  },
+  "remoteUser": "root"
+}

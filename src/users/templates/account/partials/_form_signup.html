@@ -1,0 +1,73 @@
+{% load i18n widget_tweaks %}
+
+<h2 class="title text-center">{% trans "Crie sua conta" %}</h2>
+<form 
+  hx-post="{% url 'account:signup' %}" 
+  hx-target="#signup-form" 
+  hx-swap="innerHTML" 
+  hx-disabled-elt="find button[type='submit']"
+  novalidate
+>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <div class="form-floating mb-3">
+    {% trans "E-mail" as email_label %}
+    {% url 'account:validate_email' as validate_email_url %}
+    {% render_field form.email hx-post=validate_email_url hx-target="#email-error" hx-trigger="blur, change delay:500ms" autocomplete="new-password" %}
+    <label for="{{ form.email.id_for_label }}">{{ email_label }}</label>
+    <span id="email-error" class="text-danger">{{ form.email.errors }}</span>
+  </div>
+
+  <div class="form-floating mb-3">
+    {% trans "Nome" as firstname_label %}
+    {% render_field form.firstname  autocomplete="new-password" %}
+    <label for="{{ form.firstname.id_for_label }}">{{ firstname_label }}</label>
+    <span class="text-danger">{{ form.firstname.errors }}</span>
+  </div>
+
+  <div class="form-floating mb-3">
+    {% trans "Sobrenome" as lastname_label %}
+    {% render_field form.lastname  autocomplete="new-password" %}
+    <label for="{{ form.lastname.id_for_label }}">{{ lastname_label }}</label>
+    <span class="text-danger">{{ form.lastname.errors }}</span>
+  </div>
+
+  <div class="form-floating mb-3">
+    {% trans "Senha" as password_label %}
+    {% render_field form.password1 %}
+    <label for="{{ form.password1.id_for_label }}">{{ password_label }}</label>
+    <span class="text-danger">{{ form.password1.errors }}</span>
+  </div>
+
+  <div class="form-floating mb-3">
+    {% trans "Confirmar senha" as password2_label %}
+    {% render_field form.password2 %}
+    <label for="{{ form.password2.id_for_label }}">{{ password2_label }}</label>
+    <span class="text-danger">{{ form.password2.errors }}</span>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-xs-12">
+      <button type="submit" class="btn btn-success w-100">
+        <span class="htmx-hide">{% trans "Criar conta agora" %}</span>
+        <span class="htmx-visible">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span class="ms-1">{% trans "Cadastrando..." %}</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 d-flex justify-content-center">
+    <div class="d-grid gap-2 col-md-6 mx-auto">
+      <a href="{% url 'auth:login' %}" class="btn btn-link">{% trans "Voltar para login" %}</a>
+    </div>
+  </div>
+
+</form>

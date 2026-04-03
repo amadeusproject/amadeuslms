@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<p>{% trans "Olá" %}{{ user.first_name }},</p>
+<p>{% trans "Clique no link abaixo para confirmar seu cadastro:" %}</p>
+
+<a href="{{ protocol }}://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}">
+  {% trans "Confirmar cadastro" %}
+</a>

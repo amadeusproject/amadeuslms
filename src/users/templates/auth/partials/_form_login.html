@@ -1,0 +1,42 @@
+{% load i18n widget_tweaks %}
+
+<h2 class="title text-center">{% trans "Entre com a sua conta" %}</h2>
+<form class="" hx-post="{% url 'auth:login' %}" hx-target="#login-form" hx-swap="innerHTML" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+  
+  <div class="form-floating mb-3">
+    {% trans "E-mail" as email_label %}
+    {% url 'auth:validate_email' as validate_email_url %}
+    {% render_field form.username hx-post=validate_email_url hx-target="#email-error" hx-trigger="blur, change delay:500ms" autocomplete="email" %}
+    <label for="{{ form.username.id_for_label }}">{{ email_label }}</label>
+    <span id="email-error" class="text-danger">{{ form.username.errors }}</span>
+  </div>
+
+  <div class="form-floating mb-3">
+    {% trans "Senha" as password_label %}
+    {% render_field form.password %}
+    <label for="{{ form.password.id_for_label }}">{{ password_label }}</label>
+    <span class="text-danger">{{ form.password.errors }}</span>
+  </div>
+  
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-xs-12 mb-2 mb-sm-0">
+      <button type="submit" class="btn btn-success w-100">{% trans "Entrar" %}</button>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <a href="{% url 'account:signup' %}" class="btn btn-secondary w-100">{% trans "Criar conta" %}</a>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 d-flex justify-content-center">
+    <div class="d-grid gap-2 col-md-6 mx-auto">
+      <a href="{% url 'auth:password_reset' %}" class="btn btn-link">{% trans "Esqueceu sua senha?" %}</a>
+    </div>
+  </div>
+</form>
