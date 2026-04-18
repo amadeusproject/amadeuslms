@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<span class="d-block small fw-bold">
+  {{ role.name }}
+
+  <button 
+    hx-get="{% url 'hrbac:role-permissions' %}"
+    hx-vals='{"edit_role_id": {{ role.id }}}'
+    hx-target="closest .role-header-container"
+    hx-swap="innerHTML"
+    class="btn btn-sm btn-success p-0 shadow-none"
+    title="{% trans 'Editar Perfil' %}"
+  >
+    <i class="fa-solid fa-pencil"></i>
+  </button>
+  <button 
+    hx-delete="{% url 'hrbac:role-permissions' %}" 
+    hx-vals='{"role_id": {{ role.id }}}'
+    hx-confirm="{% trans 'Tem certeza que deseja excluir este perfil?' %}"
+    class="btn btn-sm btn-danger p-0 shadow-none"
+    title="{% trans 'Excluir Perfil' %}"
+    {% if not role.is_removable %}
+      disabled
+    {% endif %}
+  >
+    <i class="fa-regular fa-trash-can"></i>
+  </button>
+</span>

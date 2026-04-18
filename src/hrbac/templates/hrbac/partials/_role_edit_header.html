@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<div class="p-1 input-group">
+  <input 
+    type="text" 
+    name="role_name" 
+    value="{{ role.name }}" 
+    class="form-control form-control-sm"
+    id="input-{{ role.id }}"
+    aria-describedby="edit-role-{{ role.id }}-btn"
+  >
+  <button 
+    class="btn btn-outline-secondary" 
+    type="button" 
+    id="edit-role-{{ role.id }}-btn"
+    hx-patch="{% url 'hrbac:role-permissions' %}"
+    hx-vals='{"role_id": {{ role.id }}}'
+    hx-include="#input-{{ role.id }}"
+    hx-target="closest .role-header-container"
+    hx-swap="innerHTML"
+    aria-label="{% trans 'Salvar alterações' %}"
+  >
+    <i class="fa-regular fa-circle-check"></i>
+  </button>
+  <button 
+    class="btn btn-outline-danger" 
+    type="button" 
+    id="cancel-role-{{ role.id }}-btn"
+    hx-get="{% url 'hrbac:role-permissions' %}"
+    hx-vals='{"action": "cancel_edit", "edit_role_id": {{ role.id }}}'
+    hx-target="closest .role-header-container"
+    hx-swap="innerHTML"
+    aria-label="{% trans 'Cancelar edição' %}"
+  >
+    <i class="fa-solid fa-ban"></i>
+  </button>
+</div>

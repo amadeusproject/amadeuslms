@@ -17,3 +17,22 @@ body {
 .htmx-request .htmx-visible {
   display: inline-block !important;
 }
+
+.elements-bg-body-primary {
+  background-color: var(--primary-color-variant-2);
+  color: var(--text-color-bright) !important;
+}
+
+.elements-bg-body-primary .navbar-brand {
+  color: var(--text-color-bright);
+}
+
+.breadcrumb {
+  background-color: var(--breadcrumb-background);
+  font-style: italic;
+}
+
+.breadcrumb-item a {
+  cursor: pointer;
+  color: var(--primary-color-variant-2);
+}

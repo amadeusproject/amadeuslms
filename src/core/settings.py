@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import environ
 import os
 from pathlib import Path
 
+import environ
 from django.utils.translation import gettext_lazy as _
 
 env = environ.Env(DEBUG=(bool, False))
@@ -54,7 +54,9 @@ INSTALLED_APPS = [
   "rest_framework",
   "rest_framework_simplejwt",
   # Local apps
+  "core",
   "users",
+  "hrbac",
 ]
 
 MIDDLEWARE = [

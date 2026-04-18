@@ -1,5 +1,5 @@
-from django.contrib.auth.views import LoginView
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 

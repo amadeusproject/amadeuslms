@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="userMenu" aria-labelledby="userMenuLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="userMenuLabel">{% trans "Olá, Usuário!" %}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#">{% trans "Perfil" %}</a>
+      <a class="nav-link" href="#">{% trans "Editar Perfil" %}</a>
+      <a class="nav-link" href="#">{% trans "Alterar Senha" %}</a>
+      <a class="nav-link" href="#">{% trans "Remover Conta" %}</a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#configuracoes" role="button" aria-expanded="false" aria-controls="configuracoes">{% trans "Configurações" %}</a>
+      <div class="collapse" id="configuracoes">
+        <nav class="nav flex-column"> 
+          <a class="nav-link" href="#">{% trans "Designar Suporte" %}</a>
+          <a class="nav-link" href="#">{% trans "Gerenciar Usuários" %}</a>
+          <a class="nav-link" href="#">{% trans "Gerenciar Categorias" %}</a>
+          <a class="nav-link" href="{% url 'hrbac:role-permissions' %}">{% trans "Gerenciar Permissões" %}</a>
+          <a class="nav-link" href="#">{% trans "Gerenciar Notícias" %}</a>
+          <a class="nav-link" href="#">{% trans "Sistema" %}</a>
+        </nav>
+      </div>
+      <a class="nav-link" href="#">{% trans "Sair" %}</a>
+    </nav>
+  </div>
+</div>

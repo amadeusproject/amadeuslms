@@ -2,48 +2,118 @@
 
 import django.core.validators
 import django.db.models.deletion
-import users.defs
-import users.validators
 from django.conf import settings
 from django.db import migrations, models
 
+import users.defs
+import users.validators
+
 
 class Migration(migrations.Migration):
+  initial = True
 
-    initial = True
+  dependencies = []
 
-    dependencies = [
-    ]
-
-    operations = [
-        migrations.CreateModel(
-            name='Account',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('email', models.EmailField(help_text='Seu endereço de email para acesso à plataforma', max_length=254, unique=True, validators=[django.core.validators.EmailValidator(message='Informe um e-mail válido.')], verbose_name='Endereço de email')),
-                ('firstname', models.CharField(max_length=255, verbose_name='Nome')),
-                ('lastname', models.CharField(max_length=255, verbose_name='Sobrenome')),
-                ('is_support', models.BooleanField(default=False, verbose_name='Suporte')),
-                ('is_staff', models.BooleanField(default=False, verbose_name='Administrador')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Ativo')),
-            ],
-            options={
-                'abstract': False,
-            },
+  operations = [
+    migrations.CreateModel(
+      name="Account",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
         ),
-        migrations.CreateModel(
-            name='User',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('socialname', models.CharField(blank=True, max_length=255, null=True, verbose_name='Nome social')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Biografia')),
-                ('avatar', models.ImageField(blank=True, null=True, upload_to=users.defs.user_directory_path, validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'], message='Somente imagens são permitidas.'), users.validators.validate_file_size], verbose_name='Imagem de perfil')),
-                ('show_email', models.IntegerField(choices=[(0, 'Permitir todos a verem meu email'), (1, 'Apenas meus colegas de classe podem ver meu email'), (2, 'Ninguém pode ver meu email')], default=0, verbose_name='Mostrar email?')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Data de criação')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Data de atualização')),
-                ('account', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
-            ],
+        ("password", models.CharField(max_length=128, verbose_name="password")),
+        (
+          "last_login",
+          models.DateTimeField(blank=True, null=True, verbose_name="last login"),
         ),
-    ]
+        (
+          "email",
+          models.EmailField(
+            help_text="Seu endereço de email para acesso à plataforma",
+            max_length=254,
+            unique=True,
+            validators=[
+              django.core.validators.EmailValidator(message="Informe um e-mail válido.")
+            ],
+            verbose_name="Endereço de email",
+          ),
+        ),
+        ("firstname", models.CharField(max_length=255, verbose_name="Nome")),
+        ("lastname", models.CharField(max_length=255, verbose_name="Sobrenome")),
+        ("is_support", models.BooleanField(default=False, verbose_name="Suporte")),
+        ("is_staff", models.BooleanField(default=False, verbose_name="Administrador")),
+        ("is_active", models.BooleanField(default=True, verbose_name="Ativo")),
+      ],
+      options={
+        "abstract": False,
+      },
+    ),
+    migrations.CreateModel(
+      name="User",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
+        ),
+        (
+          "socialname",
+          models.CharField(
+            blank=True, max_length=255, null=True, verbose_name="Nome social"
+          ),
+        ),
+        (
+          "description",
+          models.TextField(blank=True, null=True, verbose_name="Biografia"),
+        ),
+        (
+          "avatar",
+          models.ImageField(
+            blank=True,
+            null=True,
+            upload_to=users.defs.user_directory_path,
+            validators=[
+              django.core.validators.FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png"],
+                message="Somente imagens são permitidas.",
+              ),
+              users.validators.validate_file_size,
+            ],
+            verbose_name="Imagem de perfil",
+          ),
+        ),
+        (
+          "show_email",
+          models.IntegerField(
+            choices=[
+              (0, "Permitir todos a verem meu email"),
+              (1, "Apenas meus colegas de classe podem ver meu email"),
+              (2, "Ninguém pode ver meu email"),
+            ],
+            default=0,
+            verbose_name="Mostrar email?",
+          ),
+        ),
+        (
+          "created_at",
+          models.DateTimeField(auto_now_add=True, verbose_name="Data de criação"),
+        ),
+        (
+          "updated_at",
+          models.DateTimeField(auto_now=True, verbose_name="Data de atualização"),
+        ),
+        (
+          "account",
+          models.OneToOneField(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="user",
+            to=settings.AUTH_USER_MODEL,
+          ),
+        ),
+      ],
+    ),
+  ]

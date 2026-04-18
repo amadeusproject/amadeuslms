@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load breadcrumbs %}
+
+{% block navbar %}
+  {% include "partials/_header.html" %}
+{% endblock %}
+
+{% block content %}
+  <main class="container-fluid">
+    <div class="row">
+      {% include "partials/_menu.html" %}
+
+      <div class="col me-lg-4 me-3 overflow-x-auto">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb p-2 mt-3">
+            {% block breadcrumb %}
+              {% render_breadcrumbs "Home" "home" %}
+            {% endblock %}
+          </ol>
+        </nav>
+
+        {% block app_content %}
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'app.html' %}
+
+{% load static i18n breadcrumbs getattr %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/roles.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/bulkOperations.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+  {{ block.super }}
+
+  {% trans "Matriz de Permissões" as title %}
+  {% render_breadcrumbs title %}
+{% endblock %}
+
+{% block app_content %}
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <div class="min-width-wrapper">
+        <div class="row g-0 sticky-top border-bottom shadow-sm">
+          <div class="col-3 ps-4 fw-bold sticky-start">{% trans "Módulo / Permissão" %}</div>
+          <div class="col-9">
+            <div class="row g-0 text-center">
+              {% for role in roles %}
+                <div class="col py-2 position-relative border-start border-secondary role-header-container">
+                  {% include 'hrbac/partials/_role_header.html' with role=role %}
+                </div>
+              {% endfor %}
+              
+              <div class="col border-start py-2">
+                <form hx-post=".">
+                  {% csrf_token %}
+                  <div class="input-group">
+                    <input 
+                      type="text" 
+                      name="role_name" 
+                      placeholder="{% trans 'Nome do Perfil' %}" 
+                      class="form-control form-control-sm"
+                      aria-describedby="add-role-btn"
+                    >
+                    <button type="submit" class="btn btn-sm btn-success" id="add-role-btn">
+                      <i class="fa-regular fa-plus"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion accordion-flush" id="permissionsAccordion">
+          {% for model, data in permissions_by_model.items %}
+            <div class="accordion-item">
+              <div class="row g-0 align-items-center accordion-header border-bottom">
+                <div class="col-3 ps-4 sticky-start">
+                  <button class="accordion-button p-0 bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ data.ct_id }}" aria-expanded="true" aria-controls="collapse-{{ data.ct_id }}">
+                    <strong class="text-primary">{{ model }}</strong>
+                  </button>
+                </div>
+
+                <div class="col-9">
+                  <div class="row g-0 text-center">
+                    {% for role in roles %}
+                      <div class="col position-relative border-start border-secondary">
+                        <input 
+                          type="checkbox" 
+                          class="form-check-input"
+                          {% with attr_name="all_checked_"|add:data.ct_id|stringformat:"s" %}
+                            {% if role|get_attr:attr_name %}
+                              checked
+                            {% endif %}
+                          {% endwith %} 
+                          hx-patch="."
+                          hx-vals='{"role_id": {{ role.id }}, "content_type_id": {{ data.ct_id }}}'
+                          onchange="sendBulk(this)"
+                        />
+                      </div>
+                    {% endfor %}
+                    <div class="col border-start bg-primary bg-opacity-10"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="collapse-{{ data.ct_id }}" class="accordion-collapse collapse show">
+                {% for perm in data.perms %}
+                  <div class="row g-0 align-items-center">
+                    <div class="col-3 ps-4 sticky-start">
+                      <span class="text-muted small text-uppercase fw-semibold">{{ perm.name }}</span>
+                    </div>
+                    <div class="col-9">
+                      <div class="row g-0 text-center">
+                        {% for role in roles %}
+                          <div class="col border-start border-secondary">
+                            <input 
+                              type="checkbox" 
+                              class="form-check-input role-{{ role.id }}-ct-{{ data.ct_id }}" 
+                              {% if perm in role.permissions.all %}
+                                checked
+                              {% endif %}
+                              {% if role.is_editable %}
+                                hx-patch="." 
+                                hx-vals='{"role_id": {{ role.id }}, "perm_id": {{ perm.id }}}' 
+                              {% else %}
+                                disabled
+                              {% endif %}
+                            />
+                          </div>
+                        {% endfor %}
+                        <div class="col border-start bg-primary bg-opacity-10"></div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

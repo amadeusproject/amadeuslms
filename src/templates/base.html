@@ -20,10 +20,12 @@
 
           --page-background: #EEEEEE;
           --cards-background: #FFFFFF;
+          --breadcrumb-background: #F5F5F5;
 
           --text-color: #333333;
           --text-color-bold: #212121;
           --text-color-light: #616161;
+          --text-color-bright: #FFFFFF;
           --text-color-soft: #DBDBDB;
           --text-color-title: #43A251;
         }
@@ -37,6 +39,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/core.css' %}">
+
+    <script src="https://kit.fontawesome.com/6150230278.js" crossorigin="anonymous"></script>
 
     {% block extra_css %}
     {% endblock %}
@@ -69,15 +73,8 @@
     {% endblock %}
   </header>
 
-  <nav>
-    {% block menu %}
-    {% endblock %}
-  </nav>
-
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+  {% block content %}
+  {% endblock %}
 
   <footer>
     {% block footer %}

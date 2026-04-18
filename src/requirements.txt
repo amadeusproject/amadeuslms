@@ -1,6 +1,7 @@
 asgiref==3.11.1
 attrs==26.1.0
 Django==5.2.12
+django-autoslug==1.9.9
 django-cleanup==9.0.0
 django-debug-toolbar==6.3.0
 django-environ==0.13.0

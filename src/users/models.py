@@ -31,6 +31,10 @@ class Account(AbstractBaseUser):
 
   objects = UserManager()
 
+  class Meta:
+    verbose_name = _("Conta do usuário")
+    verbose_name_plural = _("Contas dos usuários")
+
   def email_user(self, subject, message, from_email=None, **kwargs):
     send_mail(subject, message, from_email, [self.email], **kwargs)
 
@@ -54,3 +58,7 @@ class User(models.Model):
   )
   created_at = models.DateTimeField(_("Data de criação"), auto_now_add=True)
   updated_at = models.DateTimeField(_("Data de atualização"), auto_now=True)
+
+  class Meta:
+    verbose_name = _("Perfil do usuário")
+    verbose_name_plural = _("Perfis dos usuários")
