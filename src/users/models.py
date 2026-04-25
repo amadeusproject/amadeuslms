@@ -38,6 +38,16 @@ class Account(AbstractBaseUser):
   def email_user(self, subject, message, from_email=None, **kwargs):
     send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    from logger.service import entry_log
+
+    entry_log(
+      None,
+      "send_mail",
+      self,
+      {"subject": subject, "message": message},
+      from_system=True,
+    )
+
 
 class User(models.Model):
   account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="user")

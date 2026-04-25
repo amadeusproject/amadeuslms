@@ -1,33 +1,48 @@
-from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
-from .gatekeeper import has_resource_permission
+from .gatekeeper import has_global_permission, has_resource_permission
 
 
-class ModulePermissionMixin:
-  module_method_perms = {}
-  module_perm_required = None
-  module_model = ContentType
-
-  def get_module_object(self):
-    module_id = self.kwargs.get("pk") or self.kwargs.get("module_id")
-    return get_object_or_404(self.module_model, pk=module_id)
+class GlobalPermissionMixin:
+  method_permissions = {}
 
   def dispatch(self, request, *args, **kwargs):
-    module = self.get_module_object()
-    method = self.request.method.lower()
-
-    perms = self.module_method_perms.get(method, [])
-
-    if perms is None:
-      perms = self.module_perm_required
+    method = request.method.lower()
+    perms = self.method_permissions.get(method, [])
 
     if isinstance(perms, str):
       perms = [perms]
 
-    if not has_resource_permission(request.user, module, *perms):
+    if not has_global_permission(request.user, *perms):
       raise PermissionDenied
 
-    self.module = module
+    return super().dispatch(request, *args, **kwargs)
+
+
+class ModulePermissionMixin:
+  module_method_perms = {}
+
+  def get_permission_object(self):
+    if hasattr(self, "get_object"):
+      return self.get_object()
+
+    model_class = getattr(self, "model", None)
+
+    pk = self.kwargs.get("pk") or self.kwargs.get(f"{model_class._meta.model_name}_id")
+    return get_object_or_404(model_class, pk=pk)
+
+  def dispatch(self, request, *args, **kwargs):
+    module_object = self.get_permission_object()
+    method = request.method.lower()
+
+    perms = self.module_method_perms.get(method, [])
+
+    if isinstance(perms, str):
+      perms = [perms]
+
+    if not has_resource_permission(request.user, module_object, *perms):
+      raise PermissionDenied
+
+    self.permission_object = module_object
     return super().dispatch(request, *args, **kwargs)

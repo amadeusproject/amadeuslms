@@ -1,6 +1,7 @@
 from autoslug import AutoSlugField
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -28,10 +29,25 @@ class UserModuleRole(models.Model):
   user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
   role = models.ForeignKey(Role, on_delete=models.CASCADE)
   module = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+  object_id = models.PositiveIntegerField()
+  module_object = GenericForeignKey("module", "object_id")
 
   class Meta:
     verbose_name = _("Papel de usuário")
     verbose_name_plural = _("Papeis de usuário")
 
+    unique_together = ("user", "module", "object_id")
+
   def __str__(self):
     return f"{self.user} - {self.role} - {self.module}"
+
+
+class UserGlobalRole(models.Model):
+  user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+  role = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+  class Meta:
+    verbose_name = _("Papel global de usuário")
+    verbose_name_plural = _("Papeis globais de usuário")
+
+    unique_together = ("user", "role")

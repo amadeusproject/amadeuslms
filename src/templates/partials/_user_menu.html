@@ -22,7 +22,12 @@
           <a class="nav-link" href="#">{% trans "Sistema" %}</a>
         </nav>
       </div>
-      <a class="nav-link" href="#">{% trans "Sair" %}</a>
+      <button 
+        class="nav-link btn btn-link text-danger" 
+        hx-post="{% url 'auth:logout' %}"
+        hx-target="body"
+        hx-push-url="true"
+      >{% trans "Sair" %}</button>
     </nav>
   </div>
 </div>

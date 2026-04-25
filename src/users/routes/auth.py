@@ -6,6 +6,7 @@ from ..views import auth as auth_views
 app_name = "auth"
 urlpatterns = [
   path("login/", auth_views.AmadeusAuthView.as_view(), name="login"),
+  path("logout/", auth_views.AmadeusLogoutView.as_view(), name="logout"),
   path("auth/validate-email/", auth_views.validate_email_view, name="validate_email"),
   path(
     "recuperar-senha/",
